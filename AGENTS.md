@@ -7,7 +7,7 @@
 - **Framework**: Astro with React integration
 - **Runtime**: Bun
 - **Styling**: Tailwind CSS + shadcn/ui components
-- **Hosting**: Cloudflare Pages
+- **Hosting**: Cloudflare Workers
 - **Repository**: GitHub
 
 ---
@@ -35,6 +35,41 @@ Linear acts as the single source of truth for project management and tracking.
 - Tailwind CSS
 - shadcn/ui
 - TypeScript (strict mode)
+- Cloudflare Workers
+
+## Design Workflows
+
+### Frontend Design Skill
+
+**IMPORTANT**: Always use the `frontend-design` skill when creating designs for this project.
+
+The `frontend-design` skill specializes in:
+- Creating responsive layouts
+- Designing accessible UI components
+- Following design systems and best practices
+- Implementing mobile-first designs
+- Ensuring consistent styling with Tailwind CSS
+
+#### When to use `frontend-design` skill:
+- Creating new UI components or sections
+- Designing page layouts
+- Implementing responsive designs
+- Working on accessibility improvements
+- Refactoring component styling
+- Adding visual elements (hero sections, cards, etc.)
+
+#### Design Process
+
+1. **Before Coding**: Use `frontend-design` skill to plan and design component
+2. **Get Design Approval**: Review the design output before implementation
+3. **Implement**: Convert the design into code using the project's tech stack
+4. **Validate**: Ensure the implementation matches the design and meets accessibility standards
+
+This ensures:
+- Consistent design language across the project
+- Better accessibility outcomes
+- Reduced revision cycles
+- Higher quality UI components
 
 ---
 
@@ -55,7 +90,7 @@ src/
 
 ## Git Workflow
 
-- Create feature branches from `main` with the naming format feature/linear_ticket_id-short_description
+- Create feature branches from `main` with the naming format `feature/linear_ticket_id-short_description`
 - Use descriptive commit messages
 - Reference Linear ticket IDs in commits when applicable (e.g., `KON-123: Add hero section`)
 
@@ -66,7 +101,7 @@ src/
 - **Build locally**: `bun run build` before pushing
 - **Linting**: `bun run lint` to catch issues
 - **Development**: `bun run dev` to start dev server
-- **Hosting**: Cloudflare Pages handles deployment on push to main
+- **Hosting**: Cloudflare Workers handles deployment on push to main
 - **Previews**: Preview deployments available for PRs
 
 ---
@@ -103,11 +138,12 @@ src/
 ### ✅ Do
 
 - Check Linear for current task context before starting work
+- Use `frontend-design` skill when creating UI components or sections
 - Use Context7 to look up documentation when uncertain
 - Create GitHub issues for bugs or technical debt discovered during development
 - Follow the component-first approach for all UI work
 - Ensure all components are accessible and responsive
-- Optimize for Cloudflare Pages static hosting (no server-side features)
+- Optimize for Cloudflare Workers static hosting (no server-side features)
 - Update `AGENTS.md` with learnings
 - Use TypeScript types for all props and state
 - Write meaningful commit messages
@@ -116,7 +152,7 @@ src/
 ### ❌ Don't
 
 - Don't directly modify files in `src/components/ui/` (use shadcn CLI)
-- Don't add server-side features (Cloudflare Pages is static only)
+- Don't add server-side features (Cloudflare Workers is static only)
 - Don't skip linting or building before pushing
 - Don't leave TODO comments without creating a GitHub issue
 - Don't commit sensitive data (API keys, secrets)
@@ -130,20 +166,22 @@ src/
 
 ### Adding a New Component
 
-1. Determine if it's a layout component, section, or UI component
-2. Place in appropriate directory (`components/layout/`, `components/sections/`, or `components/ui/`)
-3. Use `npx shadcn@latest add` for shadcn/ui components
-4. Follow naming conventions
-5. Ensure TypeScript types are properly defined
-6. Test for accessibility and responsiveness
+1. Use the `frontend-design` skill to create the design
+2. Determine if it's a layout component, section, or UI component
+3. Place in appropriate directory (`components/layout/`, `components/sections/`, or `components/ui/`)
+4. Use `npx shadcn@latest add` for shadcn/ui components
+5. Follow naming conventions
+6. Ensure TypeScript types are properly defined
+7. Test for accessibility and responsiveness
 
 ### Creating a New Page
 
-1. Create `.astro` file in `src/pages/`
-2. Use existing layouts from `src/layouts/`
-3. Import required components from `src/components/`
-4. Add navigation links in header if needed
-5. Test at the appropriate route
+1. Use the `frontend-design` skill to create the page layout design
+2. Create `.astro` file in `src/pages/`
+3. Use existing layouts from `src/layouts/`
+4. Import required components from `src/components/`
+5. Add navigation links in header if needed
+6. Test at the appropriate route
 
 ### Modifying shadcn/ui Components
 
@@ -201,7 +239,7 @@ src/
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 - [shadcn/ui Documentation](https://ui.shadcn.com)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs)
-- [Bun Documentation](https://bun.sh/docs)
+- [Cloudflare Workers Documentation](https://developers.cloudflare.com/workers/)
 
 ---
 
@@ -247,4 +285,4 @@ When you learn something new about this project or encounter patterns that shoul
 
 ## Last Updated
 
-2025-01-18
+2026-01-19

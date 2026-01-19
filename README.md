@@ -8,7 +8,7 @@ Static landing page for concert information at Petruskirche, built with modern w
 - **Framework**: Astro with React integration
 - **Runtime**: Bun
 - **Styling**: Tailwind CSS + shadcn/ui components
-- **Hosting**: Cloudflare Pages
+- **Hosting**: Cloudflare Workers
 - **Repository**: [GitHub](https://github.com/your-org/web-konzerte)
 
 ## 🛠️ Tech Stack
@@ -19,6 +19,7 @@ Static landing page for concert information at Petruskirche, built with modern w
 - **Tailwind CSS** - Utility-first CSS framework
 - **shadcn/ui** - Reusable component library
 - **TypeScript** - Strict mode enabled
+- **Cloudflare Workers** - Edge computing platform for static hosting
 
 ## 📁 Project Structure
 
@@ -115,10 +116,18 @@ npx shadcn@latest add button
 
 ## 🚢 Deployment
 
-- **Hosting**: Cloudflare Pages handles deployment on push to main
+- **Hosting**: Cloudflare Workers handles deployment on push to main
 - **Previews**: Preview deployments available for PRs
 - **Build Command**: `bun run build`
 - **Output Directory**: `dist`
+
+### Cloudflare Workers Configuration
+
+The project is configured to deploy to Cloudflare Workers, which provides:
+- Edge deployment for global performance
+- Automatic HTTPS
+- DDoS protection
+- Zero-cost static site hosting
 
 ## ✅ Do's and Don'ts
 
@@ -129,7 +138,7 @@ npx shadcn@latest add button
 - Create GitHub issues for bugs or technical debt discovered during development
 - Follow the component-first approach for all UI work
 - Ensure all components are accessible and responsive
-- Optimize for Cloudflare Pages static hosting (no server-side features)
+- Optimize for Cloudflare Workers static hosting (no server-side features)
 - Use TypeScript types for all props and state
 - Write meaningful commit messages
 - Add comments for complex logic only
@@ -137,7 +146,7 @@ npx shadcn@latest add button
 ### ❌ Don't
 
 - Don't directly modify files in `src/components/ui/` (use shadcn CLI)
-- Don't add server-side features (Cloudflare Pages is static only)
+- Don't add server-side features (Cloudflare Workers is static only)
 - Don't skip linting or building before pushing
 - Don't leave TODO comments without creating a GitHub issue
 - Don't commit sensitive data (API keys, secrets)
@@ -152,6 +161,7 @@ npx shadcn@latest add button
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 - [shadcn/ui Documentation](https://ui.shadcn.com)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs)
+- [Cloudflare Workers Documentation](https://developers.cloudflare.com/workers/)
 - [Bun Documentation](https://bun.sh/docs)
 
 ## 📋 Project Management
