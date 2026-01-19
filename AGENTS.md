@@ -39,16 +39,23 @@ Linear acts as the single source of truth for project management and tracking.
 3. **Update Linear ticket status**:
    - Change from `Todo` to `In Progress` when you start working
    - Update ticket with progress notes if needed
-   - Change to `Done` when all acceptance criteria are met
+   - **IMPORTANT**: Create GitHub PR before marking as Done (see step 6)
 
 4. **Reference Linear in commits**:
    - Format: `AKG-XXX: commit message`
    - Example: `AKG-5: Initialize Astro project with React`
 
 5. **Link PRs to Linear**:
-   - Create PR from feature branch
+   - **ALWAYS create a GitHub PR before marking ticket as Done**
+   - Create PR from feature branch to main
    - Reference Linear ticket ID in PR description
+   - Wait for review and merge
    - Update Linear ticket with PR link
+
+6. **Finalize Linear ticket**:
+   - After PR is created, update Linear ticket status to `In Review`
+   - Change to `Done` only after PR is approved and merged
+   - Add PR link to Linear ticket description/comments
 
 ---
 
