@@ -1,0 +1,29 @@
+# Default code owner for the entire repository
+# This user/team will be the default reviewer for all PRs
+* @zepi2509
+
+# Layout components
+src/components/layout/ @zepi2509
+
+# Section components
+src/components/sections/ @zepi2509
+
+# UI components (shadcn/ui)
+src/components/ui/ @zepi2509
+
+# Pages
+src/pages/ @zepi2509
+
+# Styles
+src/styles/ @zepi2509
+
+# Configuration files
+*.config.* @zepi2509
+astro.config.* @zepi2509
+tsconfig.json @zepi2509
+
+# GitHub workflows
+.github/workflows/ @zepi2509
+
+# Documentation
+*.md @zepi2509
