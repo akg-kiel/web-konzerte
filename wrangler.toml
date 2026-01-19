@@ -10,7 +10,7 @@ compatibility_date = "2026-01-19"
 directory = "./dist"
 
 # Custom headers for caching static assets
-# [[assets.headers]]
-# pattern = "/_astro/*"
-# [assets.headers.headers]
-# cache-control = "public, max-age=31536000, immutable"
+[[headers]]
+include = "/_astro/*"
+name = "cache-control"
+value = "public, max-age=31536000, immutable"
