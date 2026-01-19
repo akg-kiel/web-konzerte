@@ -56,4 +56,4 @@ temp/
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
-bun.lock
+# Note: bun.lock should be committed for reproducible builds
