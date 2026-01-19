@@ -12,36 +12,29 @@
 
 ---
 
-## Tech Stack
+## Linear
 
-- Astro (static site generator)
-- React (UI components via Astro islands)
-- Tailwind CSS (utility-first styling)
-- shadcn/ui (accessible component library)
-- TypeScript (strict mode)
+Linear acts as the single source of truth for project management and tracking.
+
+- Workspace: AKG Kiel
+- Project: Website Konzerte
+
+- **Usage**: Create/manage issues, milestones, and project tracking
+  - Use **README.md** for documentation (technical specs, guidelines, etc.)
+  - Use Linear Issues for task management and bug tracking
+
+- **Integration**: CodeRabbit has access to Linear for PR context
 
 ---
 
-## MCP Servers
+## Tech Stack
 
-The following MCP servers are configured for this project:
-
-### Linear
-
-- **Purpose**: Single source of truth for project management
-- **Usage**: Track tasks, sprints, and project progress
-- **Integration**: CodeRabbit has access to Linear for PR context
-
-### GitHub
-
-- **Purpose**: Issues management and code collaboration
-- **Usage**: Create/manage issues, PRs, and repository operations
-- **Note**: CodeRabbit runs on this repository for automated code review
-
-### Context7
-
-- **Purpose**: Documentation lookup
-- **Usage**: Query Astro, React, Tailwind, and shadcn/ui documentation
+- Bun (DO NOT USE npm, pnpm or yarn!)
+- Astro
+- React
+- Tailwind CSS
+- shadcn/ui
+- TypeScript (strict mode)
 
 ---
 
@@ -60,19 +53,9 @@ src/
 
 ---
 
-## Getting Started
-
-- [ ] Run `bun install` to install dependencies
-- [ ] Run `bun run dev` to start development server
-- [ ] Run `bun run lint` and fix any issues
-- [ ] Run `bun run build` to ensure production build succeeds
-- [ ] Verify no console errors in browser
-
----
-
 ## Git Workflow
 
-- Create feature branches from `main`
+- Create feature branches from `main` with the naming format feature/linear_ticket_id-short_description
 - Use descriptive commit messages
 - Reference Linear ticket IDs in commits when applicable (e.g., `KON-123: Add hero section`)
 
@@ -248,6 +231,7 @@ npx shadcn@latest update           # Update shadcn components
 - Check Linear before starting new tasks
 - Reference Linear IDs in commits: `KON-XXX: message`
 - Link GitHub PRs to Linear tickets when applicable
+- Update Linear if necessary
 
 ---
 
