@@ -25,6 +25,38 @@ Linear acts as the single source of truth for project management and tracking.
 
 - **Integration**: CodeRabbit has access to Linear for PR context
 
+### Linear Workflow for Tickets
+
+1. **Before starting work**:
+   - Read the ticket details from Linear
+   - Understand acceptance criteria and tasks
+   - Create a plan based on the ticket requirements
+
+2. **Create feature branch**:
+   - Use format: `feature/linear_ticket_id-short_description`
+   - Example: `feature/AKG-5-initialize-astro-project`
+
+3. **Update Linear ticket status**:
+   - Change from `Todo` to `In Progress` when you start working
+   - Update ticket with progress notes if needed
+   - **IMPORTANT**: Create GitHub PR before marking as Done (see step 6)
+
+4. **Reference Linear in commits**:
+   - Format: `AKG-XXX: commit message`
+   - Example: `AKG-5: Initialize Astro project with React`
+
+5. **Link PRs to Linear**:
+   - **ALWAYS create a GitHub PR before marking ticket as Done**
+   - Create PR from feature branch to main
+   - Reference Linear ticket ID in PR description
+   - Wait for review and merge
+   - Update Linear ticket with PR link
+
+6. **Finalize Linear ticket**:
+   - After PR is created, update Linear ticket status to `In Review`
+   - Change to `Done` only after PR is approved and merged
+   - Add PR link to Linear ticket description/comments
+
 ---
 
 ## Tech Stack
