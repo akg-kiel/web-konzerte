@@ -14,7 +14,7 @@ This document outlines the comprehensive site architecture for the "Konzerte in 
 Primary users looking for:
 - Upcoming concert information
 - Ticket purchasing options
-- Venue details and accessibility
+- Venue basics and accessibility
 - Artist information
 - Event history
 
@@ -34,18 +34,19 @@ Secondary users interested in:
 graph TD
     A[Home] --> B[Programm & Tickets]
     A --> C[Über uns]
-    A --> D[Die Kirche]
+    A --> D[Für Veranstalter]
     A --> E[Kontakt]
     B --> F[Aktuelle Konzerte]
     B --> G[Archiv]
     C --> H[Organisation]
     C --> I[Team]
-    D --> J[Räumlichkeiten]
-    D --> K[Technische Ausstattung]
-    D --> L[Anmietung]
-    E --> M[Kontaktformular]
-    E --> N[Anreise]
-    A --> O[Impressum & Datenschutz]
+    D --> J[Technische Ausstattung]
+    D --> K[Anmietung]
+    E --> L[Kontaktformular]
+    E --> M[Anreise]
+    A --> N[Impressum & Datenschutz]
+    A --> O[Die Petruskirche]
+    O --> P[Externe Website]
 ```
 
 ### User Flow: Buying Tickets
@@ -65,7 +66,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    Start[Home Page] --> Navigate[Die Kirche]
+    Start[Home Page] --> Navigate[Für Veranstalter]
     Navigate --> Anmieting[Anmietung]
     Anmieting --> Review[Review Technical Specs]
     Review --> Check[Check Availability]
@@ -83,6 +84,7 @@ flowchart TD
 - Latest announcements
 - Upcoming concerts preview (3-4)
 - Brief about section
+- Link to external church website (footer or secondary section)
 - Contact CTA
 - Footer with navigation
 
@@ -91,6 +93,7 @@ flowchart TD
 - Clear call-to-action for tickets
 - Responsive concert cards with date, artist, and venue info
 - Sticky navigation on scroll
+- Link to external church website
 
 ### 2. Programme & Tickets (`/programm`)
 
@@ -105,6 +108,7 @@ flowchart TD
 - Pricing information
 - Ticket purchase links/buttons
 - Accessibility information for each venue
+- Brief venue location info
 
 ### 3. About Us (`/ueber-uns`)
 
@@ -115,25 +119,18 @@ flowchart TD
 - History of concert series
 - Partners and supporters
 
-### 4. The Church (`/die-kirche`)
+### 4. For Event Hosts (`/fuer-veranstalter`)
 
 **Sub-sections:**
 
-#### a) Venue Information (`/die-kirche/raumlichkeiten`)
-- Photo gallery of church interior
-- Seating capacity and layout
-- Accessibility features
-- Acoustics information
-- Location details
-
-#### b) Technical Specifications (`/die-kirche/technik`)
+#### a) Technical Specifications (`/fuer-veranstalter/technik`)
 - Sound system details
 - Lighting capabilities
 - Stage dimensions
 - Equipment rental policies
 - Load-in/load-out procedures
 
-#### c) Venue Rental (`/die-kirche/anmietung`)
+#### b) Venue Rental (`/fuer-veranstalter/anmietung`)
 - Rental pricing
 - Availability calendar
 - Rental terms and conditions
@@ -150,7 +147,13 @@ flowchart TD
 - Parking information
 - Accessibility directions
 
-### 6. Legal Pages
+### 6. External Link: The Petruskirche
+
+**Navigation Item:**
+- External link to separate church website
+- Opens in new tab with appropriate rel attributes
+
+### 7. Legal Pages
 
 #### Impressum (`/impressum`)
 - Legal information as required by German law
@@ -171,10 +174,9 @@ flowchart TD
 - `/programm/archiv` - Past concerts archive
 - `/ueber-uns` - About organization
 - `/ueber-uns/team` - Team members
-- `/die-kirche` - Venue overview
-- `/die-kirche/raumlichkeiten` - Venue details
-- `/die-kirche/technik` - Technical specifications
-- `/die-kirche/anmietung` - Venue rental
+- `/fuer-veranstalter` - For event hosts overview
+- `/fuer-veranstalter/technik` - Technical specifications
+- `/fuer-veranstalter/anmietung` - Venue rental
 - `/kontakt` - Contact form
 - `/impressum` - Legal notice
 - `/datenschutz` - Privacy policy
@@ -185,7 +187,7 @@ flowchart TD
 - Home
 - Programm
 - Über uns
-- Die Kirche
+- Für Veranstalter
 - Kontakt
 
 ### Mobile Considerations
@@ -208,6 +210,7 @@ flowchart TD
 
 4. **Footer**: Collapsible on mobile
    - Essential links visible
+   - External church link prominent
    - Legal links accessible via expand
 
 ## Content Hierarchy & IA Principles
@@ -229,13 +232,13 @@ flowchart TD
 
 2. **Medium Priority** (One click away):
    - Artist information
-   - Venue details
    - Organization info
+   - Event host information (Für Veranstalter)
 
 3. **Low Priority** (Footer/secondary navigation):
    - Legal pages
    - Archive
-   - Detailed technical specs
+   - External church link
 
 ## Technical Considerations
 
@@ -262,12 +265,17 @@ flowchart TD
 - Color contrast compliance
 - Focus indicators
 
+### External Links
+
+- Church website link with `rel="noopener noreferrer"`
+- Opens in new tab
+- Clear visual indication of external link
+
 ## Next Steps
 
 1. **Phase 1 - MVP**: Home, Programme, Contact
-2. **Phase 2 - Expansion**: About, Venue information
-3. **Phase 3 - Rental**: Venue rental functionality
-4. **Phase 4 - Enhancement**: Archive, advanced features
+2. **Phase 2 - Expansion**: About, Für Veranstalter
+3. **Phase 3 - Enhancement**: Archive, advanced features
 
 ## Related Tickets
 
