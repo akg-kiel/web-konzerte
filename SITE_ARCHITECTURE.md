@@ -56,9 +56,9 @@ flowchart TD
     Start[Home Page] --> Browse[Browse Concert Programme]
     Browse --> Select[Select Concert]
     Select --> Details[View Concert Details]
-    Details -->{Ticket Available}
-    Details -->|Yes| Purchase[Purchase Ticket]
-    Details -->|No| Waitlist[Join Waitlist / Contact]
+    Details -->Available{Ticket Available}
+    Available -->|Yes| Purchase[Purchase Ticket]
+    Available -->|No| Waitlist[Join Waitlist / Contact]
     Purchase --> Confirmation[Ticket Confirmation]
 ```
 
