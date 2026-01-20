@@ -12,6 +12,12 @@
 
 ---
 
+## Site Architecture
+
+The site architecture is documented in a [Linear File](https://linear.app/akg-kiel/document/site-architecture-concert-landing-page-92dab011d41b)
+
+---
+
 ## Linear
 
 Linear acts as the single source of truth for project management and tracking.
@@ -76,13 +82,15 @@ Linear acts as the single source of truth for project management and tracking.
 **IMPORTANT**: Always use the `frontend-design` skill when creating designs for this project.
 
 The `frontend-design` skill specializes in:
+
 - Creating responsive layouts
 - Designing accessible UI components
 - Following design systems and best practices
 - Implementing mobile-first designs
 - Ensuring consistent styling with Tailwind CSS
 
-#### When to use `frontend-design` skill:
+#### When to use `frontend-design` skill
+
 - Creating new UI components or sections
 - Designing page layouts
 - Implementing responsive designs
@@ -98,6 +106,7 @@ The `frontend-design` skill specializes in:
 4. **Validate**: Ensure the implementation matches the design and meets accessibility standards
 
 This ensures:
+
 - Consistent design language across the project
 - Better accessibility outcomes
 - Reduced revision cycles
@@ -124,7 +133,7 @@ src/
 
 - Create feature branches from `main` with the naming format `feature/linear_ticket_id-short_description`
 - Use descriptive commit messages
-- Reference Linear ticket IDs in commits when applicable (e.g., `KON-123: Add hero section`)
+- Reference Linear ticket IDs in commits when applicable (e.g., `AKG-123: Add hero section`)
 
 ---
 
@@ -180,6 +189,8 @@ src/
 - Use TypeScript types for all props and state
 - Write meaningful commit messages
 - Add comments for complex logic only
+- Spin up Subagents if you think it could be helpful
+- If you can run tasks in parallel use the subagents to do so
 
 ### ❌ Don't
 
@@ -295,13 +306,6 @@ bun remove [package]     # Remove a package
 npx shadcn@latest add [component]  # Add a shadcn component
 npx shadcn@latest update           # Update shadcn components
 ```
-
-### Linear Integration
-
-- Check Linear before starting new tasks
-- Reference Linear IDs in commits: `KON-XXX: message`
-- Link GitHub PRs to Linear tickets when applicable
-- Update Linear if necessary
 
 ---
 
