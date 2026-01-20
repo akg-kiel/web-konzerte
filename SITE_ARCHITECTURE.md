@@ -1,0 +1,279 @@
+# Site Architecture: Konzerte in der Petruskirche
+
+> **Status**: Completed (AKG-16)
+> **Date**: January 20, 2026
+> **Document**: [Site Architecture in Linear](https://linear.app/akg-kiel/document/site-architecture-concert-landing-page-92dab011d41b)
+
+## Overview
+
+This document outlines the comprehensive site architecture for the "Konzerte in der Petruskirche" landing page, addressing the needs of both concert attendees and event hosts.
+
+## Target Audiences
+
+### 1. Concert Attendees
+Primary users looking for:
+- Upcoming concert information
+- Ticket purchasing options
+- Venue details and accessibility
+- Artist information
+- Event history
+
+### 2. Event Hosts
+Secondary users interested in:
+- Venue rental information
+- Technical specifications
+- Rental pricing and availability
+- Contact and booking process
+- Capacity and amenities
+
+## Site Structure
+
+### Navigation Hierarchy
+
+```mermaid
+graph TD
+    A[Home] --> B[Programm & Tickets]
+    A --> C[Über uns]
+    A --> D[Die Kirche]
+    A --> E[Kontakt]
+    B --> F[Aktuelle Konzerte]
+    B --> G[Archiv]
+    C --> H[Organisation]
+    C --> I[Team]
+    D --> J[Räumlichkeiten]
+    D --> K[Technische Ausstattung]
+    D --> L[Anmietung]
+    E --> M[Kontaktformular]
+    E --> N[Anreise]
+    A --> O[Impressum & Datenschutz]
+```
+
+### User Flow: Buying Tickets
+
+```mermaid
+flowchart TD
+    Start[Home Page] --> Browse[Browse Concert Programme]
+    Browse --> Select[Select Concert]
+    Select --> Details[View Concert Details]
+    Details -->{Ticket Available}
+    Details -->|Yes| Purchase[Purchase Ticket]
+    Details -->|No| Waitlist[Join Waitlist / Contact]
+    Purchase --> Confirmation[Ticket Confirmation]
+```
+
+### User Flow: Venue Rental Inquiry
+
+```mermaid
+flowchart TD
+    Start[Home Page] --> Navigate[Die Kirche]
+    Navigate --> Anmieting[Anmietung]
+    Anmieting --> Review[Review Technical Specs]
+    Review --> Check[Check Availability]
+    Check --> Contact[Submit Rental Inquiry]
+    Contact --> Response[Receive Response]
+```
+
+## Page Content Structure
+
+### 1. Home Page (`/`)
+
+**Sections:**
+- Hero with current/upcoming concert highlight
+- Quick access to ticket purchase
+- Latest announcements
+- Upcoming concerts preview (3-4)
+- Brief about section
+- Contact CTA
+- Footer with navigation
+
+**Key Elements:**
+- Mobile-optimized hero with high-impact imagery
+- Clear call-to-action for tickets
+- Responsive concert cards with date, artist, and venue info
+- Sticky navigation on scroll
+
+### 2. Programme & Tickets (`/programm`)
+
+**Sub-sections:**
+- Current/Upcoming concerts
+- Concert archive
+- Season overview
+
+**Content:**
+- Full concert schedule with dates, times, and programs
+- Artist bios and program notes
+- Pricing information
+- Ticket purchase links/buttons
+- Accessibility information for each venue
+
+### 3. About Us (`/ueber-uns`)
+
+**Content Sections:**
+- Organization overview
+- Mission and values
+- Team members
+- History of concert series
+- Partners and supporters
+
+### 4. The Church (`/die-kirche`)
+
+**Sub-sections:**
+
+#### a) Venue Information (`/die-kirche/raumlichkeiten`)
+- Photo gallery of church interior
+- Seating capacity and layout
+- Accessibility features
+- Acoustics information
+- Location details
+
+#### b) Technical Specifications (`/die-kirche/technik`)
+- Sound system details
+- Lighting capabilities
+- Stage dimensions
+- Equipment rental policies
+- Load-in/load-out procedures
+
+#### c) Venue Rental (`/die-kirche/anmietung`)
+- Rental pricing
+- Availability calendar
+- Rental terms and conditions
+- Technical requirements
+- Insurance requirements
+
+### 5. Contact (`/kontakt`)
+
+**Content:**
+- Contact form
+- Contact information (phone, email, address)
+- Map integration
+- Directions and public transport
+- Parking information
+- Accessibility directions
+
+### 6. Legal Pages
+
+#### Impressum (`/impressum`)
+- Legal information as required by German law
+- Contact details
+- VAT information
+- Publisher information
+
+#### Privacy Policy (`/datenschutz`)
+- Data collection and processing
+- Cookie policy
+- User rights under GDPR
+- Contact for privacy concerns
+
+## URL Structure (SEO-Friendly)
+
+- `/` - Home
+- `/programm` - Current concert programme
+- `/programm/archiv` - Past concerts archive
+- `/ueber-uns` - About organization
+- `/ueber-uns/team` - Team members
+- `/die-kirche` - Venue overview
+- `/die-kirche/raumlichkeiten` - Venue details
+- `/die-kirche/technik` - Technical specifications
+- `/die-kirche/anmietung` - Venue rental
+- `/kontakt` - Contact form
+- `/impressum` - Legal notice
+- `/datenschutz` - Privacy policy
+
+## Mobile Navigation Strategy
+
+### Primary Navigation (All Screens)
+- Home
+- Programm
+- Über uns
+- Die Kirche
+- Kontakt
+
+### Mobile Considerations
+
+1. **Hamburger Menu**: For screens < 768px
+   - Full-screen overlay menu
+   - Clear visual hierarchy
+   - Easy tap targets (min 44px height)
+
+2. **Sticky Header**: Always visible
+   - Logo on left
+   - Hamburger on right
+   - Quick access to "Tickets" button
+
+3. **Bottom Navigation Bar** (Optional): For quick access
+   - Home icon
+   - Programme icon
+   - Ticket purchase button (highlighted)
+   - Contact icon
+
+4. **Footer**: Collapsible on mobile
+   - Essential links visible
+   - Legal links accessible via expand
+
+## Content Hierarchy & IA Principles
+
+### Information Architecture Principles
+
+1. **Task-Based Navigation**: Primary tasks first (find concerts, buy tickets)
+2. **Audience Segmentation**: Clear paths for different user types
+3. **Progressive Disclosure**: Detailed information only when needed
+4. **Consistent Navigation**: Predictable menu structure across pages
+5. **Visual Hierarchy**: Clear distinction between primary and secondary content
+
+### Content Priority
+
+1. **High Priority** (Always visible/accessible):
+   - Upcoming concerts
+   - Ticket purchase
+   - Contact information
+
+2. **Medium Priority** (One click away):
+   - Artist information
+   - Venue details
+   - Organization info
+
+3. **Low Priority** (Footer/secondary navigation):
+   - Legal pages
+   - Archive
+   - Detailed technical specs
+
+## Technical Considerations
+
+### Static Site Architecture (Astro)
+
+- All pages as static `.astro` files
+- No dynamic routing in initial phase
+- Content managed through component props or JSON
+- Optimized for Cloudflare Workers static hosting
+
+### Performance Optimization
+
+- Lazy load images below fold
+- Minimal JavaScript (only for interactive components)
+- CSS bundling for optimal delivery
+- Responsive images with proper sizing
+
+### Accessibility (WCAG AA Compliance)
+
+- Semantic HTML structure
+- ARIA labels for interactive elements
+- Keyboard navigation support
+- Screen reader optimization
+- Color contrast compliance
+- Focus indicators
+
+## Next Steps
+
+1. **Phase 1 - MVP**: Home, Programme, Contact
+2. **Phase 2 - Expansion**: About, Venue information
+3. **Phase 3 - Rental**: Venue rental functionality
+4. **Phase 4 - Enhancement**: Archive, advanced features
+
+## Related Tickets
+
+- [AKG-16](https://linear.app/akg-kiel/issue/AKG-16) - Plan Site Architecture
+- Future tickets for each page implementation
+
+---
+
+*Last Updated: January 20, 2026*
