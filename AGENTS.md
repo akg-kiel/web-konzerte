@@ -202,6 +202,7 @@ src/
 - Don't use `any` type in TypeScript
 - Don't ignore TypeScript errors
 - Don't mix concerns in single components
+- Don't add `.vscode/` folder (team uses Vim or WebStorm)
 
 ---
 

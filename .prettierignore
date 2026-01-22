@@ -1,0 +1,22 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+
+# Astro
+.astro
+
+# Cache
+.git
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.*
+
+# Other
+.bun-version
+bun.lock

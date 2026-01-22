@@ -10,19 +10,19 @@ parameters:
     description: Linear Ticket that should be refined
 
 extensions:
-- type: stdio
-  name: Linear
-  description: Access Linear.
-  cmd: npx
-  args:
-  - -y
-  - mcp-remote
-  - https://mcp.linear.app/mcp
-  envs: {}
-  env_keys: []
-  timeout: 300
-  bundled: null
-  available_tools: []
+  - type: stdio
+    name: Linear
+    description: Access Linear.
+    cmd: npx
+    args:
+      - -y
+      - mcp-remote
+      - https://mcp.linear.app/mcp
+    envs: {}
+    env_keys: []
+    timeout: 300
+    bundled: null
+    available_tools: []
 
 settings:
   goose_provider: openrouter
@@ -30,10 +30,10 @@ settings:
   temperature: 0.0
 
 activities:
-- Refine vague ticket
-- Structure ticket description
-- Add acceptance criteria
-- Update ticket labels
+  - Refine vague ticket
+  - Structure ticket description
+  - Add acceptance criteria
+  - Update ticket labels
 
 author:
   contact: zepi

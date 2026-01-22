@@ -8,6 +8,6 @@ export default defineConfig({
   integrations: [react()],
   output: 'static',
   build: {
-    inlineStylesheets: 'auto',
-  },
+    inlineStylesheets: 'auto'
+  }
 });
