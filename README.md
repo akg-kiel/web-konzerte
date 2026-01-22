@@ -124,6 +124,7 @@ npx shadcn@latest add button
 ### Cloudflare Workers Configuration
 
 The project is configured to deploy to Cloudflare Workers, which provides:
+
 - Edge deployment for global performance
 - Automatic HTTPS
 - DDoS protection
