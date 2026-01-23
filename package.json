@@ -9,6 +9,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "lint": "eslint .",
+    "lint:fix": "exlint . --fix",
     "format": "prettier --write .",
     "prepare": "husky"
   },
