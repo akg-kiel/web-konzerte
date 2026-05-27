@@ -1,22 +1,79 @@
 ---
 import '../styles/globals.css';
+
 interface Props {
   title?: string;
+  description?: string;
+  ogImage?: string;
+  canonicalUrl?: string;
 }
 
-const { title = 'Konzerte in der Petruskirche' } = Astro.props;
+const {
+  title = 'Kieler Konzertkirche · Konzerte in der Petruskirche',
+  description = 'Konzerte in der Petruskirche Kiel: klassische Musik, Raumklang und besondere Programme in architektonischer Atmosphäre.',
+  ogImage = '/og-image.jpg',
+  canonicalUrl
+} = Astro.props;
+
+const siteName = 'Kieler Konzertkirche';
+const siteUrl = Astro.site ?? Astro.url;
+const currentUrl = new URL(Astro.url.pathname, siteUrl);
+const canonicalHref = canonicalUrl ?? currentUrl.href;
+const ogImageUrl = new URL(ogImage, siteUrl).href;
+const fontStylesheetUrl =
+  'https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Hanken+Grotesk:wght@300..900&display=swap';
 ---
 
-<html lang="de">
+<!doctype html>
+<html lang="de" dir="ltr">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="description" content="Konzerte in der Petruskirche" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="author" content={siteName} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalHref} />
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#020617" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="stylesheet" href={fontStylesheetUrl} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalHref} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:locale" content="de_DE" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
     <title>{title}</title>
+
+    <script is:inline type="application/ld+json">
+      {JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: siteName,
+        url: siteUrl.href,
+        description,
+        inLanguage: 'de'
+      })}
+    </script>
   </head>
   <body>
-    <slot />
+    <a href="#page-content" class="skip-link">Direkt zum Inhalt springen</a>
+    <div id="page-content" class="page-content" tabindex="-1">
+      <slot />
+    </div>
   </body>
 </html>

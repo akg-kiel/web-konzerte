@@ -1,26 +1,24 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Counter from '../components/ui/Counter';
 ---
 
 <Layout title="Konzerte in der Petruskirche">
-  <main
-    class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100"
-  >
-    <div class="text-center p-8 space-y-8">
-      <div>
-        <h1 class="text-4xl font-bold text-gray-900 mb-4">Konzerte in der Petruskirche</h1>
-        <p class="text-xl text-gray-700">Willkommen auf der Konzertseite der Petruskirche</p>
-        <p class="mt-4 text-sm text-gray-500">
-          Astro + React + Tailwind CSS erfolgreich konfiguriert! 🎉
+  <main class="min-h-screen bg-midnight text-on-surface">
+    <section class="site-container grid min-h-screen place-items-center py-section-sm">
+      <div class="surface-panel max-w-4xl rounded-4xl px-6 py-12 text-center sm:px-10 lg:px-16 lg:py-20">
+        <p class="editorial-label uppercase">Kieler Konzertkirche</p>
+        <h1 class="mx-auto mt-5 max-w-3xl font-display text-display text-champagne">
+          Konzerte in der Petruskirche
+        </h1>
+        <p class="mx-auto mt-6 max-w-2xl text-lead text-on-surface/85">
+          Ein dunkles, ruhiges Gestaltungsfundament für klassische Musik, Raumklang und besondere
+          Programme in architektonischer Atmosphäre.
+        </p>
+        <p class="mx-auto mt-8 max-w-xl text-sm leading-6 text-on-surface/65">
+          Die vollständige Startseite folgt in AKG-17. AKG-10 stellt dafür Typografie,
+          Farbklima, Abstände und barrierearme Basiszustände bereit.
         </p>
       </div>
-
-      <div class="flex justify-center">
-        <Counter client:load />
-      </div>
-
-      <p class="text-xs text-gray-400">React Counter Component mit client:load Direktive</p>
-    </div>
+    </section>
   </main>
 </Layout>
