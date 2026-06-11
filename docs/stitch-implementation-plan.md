@@ -1,210 +1,164 @@
-# Stitch Implementation Plan — Website Konzerte
+# Stitch Implementation Plan — Kieler Konzertkirche
 
-**Project:** Linear `Website Konzerte` (`03e54a9b-442c-4b00-bba0-fff36b06466e`)  
-**Active delivery issue:** `AKG-17` — Build Home page (`/`) with hero and concert preview  
-**Design source of truth:** Stitch project `6221185249843486689` — **Kieler Konzertkirche** / theme **Nordic Resonance**  
-**Repo source of truth:** Astro + React + Tailwind + Bun static site in `/home/zepi/Projects/web-konzerte`  
-**Last updated:** 2026-06-11
+**Last updated:** 2026-06-11  
+**Purpose:** Move quickly from the Stitch design to an implemented Astro site without losing Linear traceability or delivery discipline.
 
-## 1. Goal
+## 1. Sources of truth
 
-Implement the Stitch-made Konzertkirche design quickly enough for visual iteration, while keeping Linear as the project-management source of truth and preserving a coherent milestone plan.
+| Source                  | Current state                                                                                                                                                 | How the plan uses it                                                                                                    |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Linear project          | `Website Konzerte` is in progress; Phase 1 MVP is 35%; `AKG-17` is active for the homepage.                                                                   | Linear remains the project-management source of truth. Implementation waves map back to existing issues and milestones. |
+| Linear architecture doc | `Site Architecture: Concert Landing Page` defines Home, Programm, Über uns, Für Veranstalter, Kontakt, legal pages, mobile navigation, and Phase 1 MVP scope. | Preserve the information architecture, but adapt the execution order to the Stitch screens.                             |
+| Current repo            | Astro 5, React 19, Tailwind, TypeScript, Bun, Cloudflare Workers. `src/pages/index.astro` is still a scaffold.                                                | Start with shared tokens/layout and a homepage vertical slice before broad page implementation.                         |
+| Stitch project          | `Kieler Konzertkirche` (`6221185249843486689`) with local exports in `stitch-exports/kieler-konzertkirche/`.                                                  | Treat exported screens and the dark `Nordic Resonance` design system as visual source of truth.                         |
+| Concept prototypes      | `concepts/website-mvps/` contains earlier Mobbin-inspired experiments.                                                                                        | Use only as reference for interaction ideas; Stitch supersedes it for production direction.                             |
 
-The delivery strategy is **vertical-slice first**:
+## 2. Stitch design baseline
 
-1. establish design tokens and shared page shell,
-2. ship a homepage slice that exercises real navigation, hero, and concert-card patterns,
-3. validate visually and technically,
-4. then expand the same system to programme, detail, visit/contact/legal, event-host, and accessibility work.
+**Visual direction:** sophisticated, architectural, serene, sacred-modern, dark editorial design with glassmorphic tonal layers.
 
-This plan is intentionally a planning artifact only. It does not change production source code.
+**Core tokens to implement first:**
 
-## 2. Source mapping: repo × Linear × Stitch
+- Colors: `#020617` midnight deep, `#1E293B` slate mist, `#F3E5AB` champagne glow, `#B8860B` brass accent, `#121414` surface, `#e3e2e2` on-surface, `#e9c349` secondary.
+- Typography: EB Garamond for display/headlines; Hanken Grotesk for body and UI labels.
+- Layout: 1280px desktop container, 64px desktop margins, 20px mobile margins, 8px spacing unit, large section rhythm.
+- Components: glass top navigation, gold CTA, ghost buttons, concert cards with image/gradient overlay, chips, minimal form inputs, ticket CTA states.
 
-| Source               | Current facts                                                                                                                                                                                                  | Implementation implication                                                                                                                                                   |
-| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Repo                 | Astro 5, React 19, Tailwind CSS 4, TypeScript, Bun, Cloudflare Workers static assets. `src/pages/index.astro` is still a scaffold with a React Counter island. `src/styles/globals.css` only imports Tailwind. | Start with low-risk static Astro components and Tailwind tokens. Use React islands only if interactivity is required.                                                        |
-| Repo structure       | Expected structure: `src/components/layout`, `src/components/sections`, `src/components/ui`, `src/layouts`, `src/pages`, `src/styles`.                                                                         | Keep generated shadcn/ui in `src/components/ui`; build bespoke layout/section components outside that folder.                                                                |
-| Repo workflow        | Bun is the required runtime/package manager. Normal gates: `bun run lint`, `bunx tsc --noEmit`, `bun run build`, `bun run preview`.                                                                            | Every implementation slice should stay buildable; quality gates can be tiered so visual iteration is not blocked by non-critical polish.                                     |
-| Linear project       | `Website Konzerte`, status `In Progress`, target date `2026-07-05`. Milestones: Phase 1 MVP (35%), Phase 2 Expansion (0%), Phase 3 Enhancement (0%).                                                           | Linear remains the planning source of truth. Work should map to AKG issues and milestone phases.                                                                             |
-| Linear active issue  | `AKG-17` is In Progress for homepage with dependencies `AKG-6`, `AKG-7`, `AKG-8`, `AKG-9`.                                                                                                                     | Treat AKG-17 as the first integration issue; complete its dependency surface through the first vertical slice.                                                               |
-| Linear architecture  | Linear document “Site Architecture: Concert Landing Page” defines `/`, `/programm`, `/kontakt`, legal pages, later `/ueber-uns` and `/fuer-veranstalter`.                                                      | Preserve existing IA unless a deliberate Linear update changes it. Stitch navigation labels can be implemented as routes or anchors after route confirmation.                |
-| Stitch project       | `6221185249843486689`, title `Kieler Konzertkirche`, desktop design, updated 2026-06-11.                                                                                                                       | Use Stitch as visual/design source of truth for layout, hierarchy, colors, typography, cards, nav, CTAs, and page rhythm.                                                    |
-| Stitch design system | Dark-mode editorial “Nordic Resonance”: EB Garamond headings, Hanken Grotesk body/UI, `#020617` midnight, `#1E293B` slate, `#e9c349` gold, glassmorphism, 12-column desktop grid, 4-column mobile grid.        | First coding task should translate tokens into CSS custom properties/Tailwind utilities before page sections are built.                                                      |
-| Stitch local exports | Expected path: `stitch-exports/kieler-konzertkirche/` with HTML/image exports for five screens.                                                                                                                | Implementation should reference local exports for copy/layout extraction and screenshot comparison. If a worktree lacks the exports, restore them before coding from Stitch. |
+**Exported screens to preserve:**
 
-## 3. Stitch screen mapping to implementation scope
+1. `01-startseite` → Home: hero, next concerts, quote, architecture/room sound, visit/event CTAs.
+2. `02-programm` → Programme: filters and concert listing.
+3. `03-konzert-detail-die-passion-2026` → Concert detail template.
+4. `04-besuch-planen` → Visit planning: directions, parking, access, café.
+5. `05-raum-anfragen` → Event-host inquiry: technical basics, equipment, booking form.
 
-| Stitch screen                                                  | Target route/component                                                            | Linear issue(s)                                        | Priority                       | Notes                                                                                                          |
-| -------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------ | ------------------------------ | -------------------------------------------------------------------------------------------------------------- |
-| `01-startseite` — Startseite / Konzertkirche Petruskirche Kiel | `/`, shared nav/footer, hero, upcoming concerts, location/story, visit/event CTAs | `AKG-17`, `AKG-6`, `AKG-7`, `AKG-8`, `AKG-9`, `AKG-10` | Phase 1 / first vertical slice | Primary fidelity target. Must satisfy AKG-17 acceptance criteria.                                              |
-| `02-programm` — Programm & Tickets                             | `/programm` and reusable concert-list/card patterns                               | `AKG-18`, reuse `AKG-9`, `AKG-10`                      | Phase 1 after homepage slice   | Build after homepage card and token patterns settle.                                                           |
-| `03-konzert-detail-die-passion-2026`                           | Static detail page or programme detail section                                    | `AKG-18` plus likely follow-up subtask                 | Phase 1.5                      | Use as prototype for future per-concert detail pages; avoid dynamic routing initially unless approved.         |
-| `04-besuch-planen` — Besuch planen                             | Visit-planning section/page; reconcile with `/kontakt` IA                         | `AKG-21`, maybe AKG-17 homepage CTA                    | Phase 1                        | Open route decision: either dedicated `/besuch-planen` or folded into `/kontakt`. Do not block homepage slice. |
-| `05-raum-anfragen` — Raum anfragen                             | `/fuer-veranstalter` or `/fuer-veranstalter/anmietung`                            | `AKG-20`                                               | Phase 2                        | Keep as expansion after attendee MVP is stable.                                                                |
+## 3. Fast iteration loop
 
-## 4. Scope boundaries
+Use short loops that always leave the repo in a buildable state.
 
-### In scope for the first implementation wave
+1. **Extract tokens, not pixels:** add design tokens to Tailwind/global CSS, then implement components against tokens.
+2. **Build a thin vertical slice:** header, footer, homepage hero, one concert card, one CTA path. Do this before implementing all pages.
+3. **Compare visually against Stitch:** run local dev server, compare desktop first, then mobile reflow.
+4. **Tighten accessibility and responsiveness:** semantic landmarks, keyboard focus, contrast, reduced-motion safety, mobile tap targets.
+5. **Commit/sync by Linear slice:** each implementation PR references the relevant AKG issue(s) and updates status/comments.
 
-- Translate the Stitch design system into project tokens and base styles (`AKG-10`).
-- Implement shared static layout shell: header/nav, ticket CTA, footer (`AKG-6`, `AKG-7`).
-- Implement homepage vertical slice from `01-startseite` (`AKG-17`, `AKG-8`, `AKG-9`).
-- Keep content static and local, with simple typed data objects if helpful.
-- Preserve WCAG AA basics: semantic landmarks, accessible link/button names, visible focus, contrast checks, alt text strategy.
-- Keep deployment-compatible static output for Cloudflare Workers.
+Recommended design review cadence for early implementation:
 
-### Out of scope for the first implementation wave
+- First review after tokens + layout shell.
+- Second review after homepage vertical slice.
+- Third review after programme/detail pages share real components.
+- Final MVP review after visit/contact/legal coverage and quality gates pass.
 
-- CMS/data backend, live ticketing integration, dynamic routing, authentication, payments, or forms with server-side submission.
-- Full pixel-perfect implementation of every Stitch page before the homepage feedback loop proves the system.
-- Production deployment changes.
-- Legal text finalization beyond placeholder page structure unless approved by the project owner.
+## 4. Implementation waves mapped to Linear
 
-## 5. Fast iteration model
+### Wave 0 — Planning and alignment
 
-### Loop cadence
+**Goal:** Make the repo and Linear plan reflect the Stitch-first implementation direction.
 
-Use short implementation loops that keep the site runnable after every slice:
+- Update this plan.
+- Sync the plan to Linear as a project document/comment on `AKG-17`.
+- Do not edit production source in this planning-only run.
 
-1. **Pick one visual slice** from this plan and link it to a Linear issue.
-2. **Implement the smallest useful version** in Astro/Tailwind.
-3. **Run light checks**: route loads, responsive spot-check, no obvious accessibility regressions.
-4. **Capture feedback**: screenshot/manual notes against the relevant Stitch export.
-5. **Patch immediately** for high-impact design mismatches.
-6. **Run hard gates** before marking a Linear issue ready for review.
-7. **Update Linear** with the delta, screenshots/manual notes, and next slice.
+**Linear:** `AKG-17`, project document.
 
-### Quality gates by speed tier
+### Wave 1 — Design foundation and layout shell
 
-| Tier         | When                            | Required checks                                                                                                               | Purpose                                                            |
-| ------------ | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| Preview gate | During visual experimentation   | `bun run dev`, browser spot-check at mobile/tablet/desktop, compare against Stitch export, note obvious contrast/focus issues | Keeps iteration fast and visual.                                   |
-| Slice gate   | Before asking for design review | `bun run lint`, `bunx tsc --noEmit`, responsive manual notes, key keyboard navigation checks                                  | Catches code and accessibility regressions without over-polishing. |
-| Merge gate   | Before PR/review completion     | `bun run build`, Cloudflare static output sanity, WCAG AA checklist for touched routes, all links functional                  | Protects production quality and AKG acceptance.                    |
+**Goal:** Establish reusable visual foundation while still shipping no broad page rewrite.
 
-### Visual feedback protocol
+- Implement Tailwind/global tokens from Stitch (`AKG-10`).
+- Create shared layout components: `Header`, `Footer`, nav state, CTA styles (`AKG-6`, `AKG-7`).
+- Add content/data scaffolding for concerts and navigation.
+- Keep header/footer usable on mobile and desktop.
 
-- Use the Stitch screen name in every review note, e.g. `01-startseite`.
-- Track fidelity in three passes:
-  - **Pass A — structure:** page sections, IA, content hierarchy, responsive stack.
-  - **Pass B — style:** colors, typography, spacing, glass layers, card treatment.
-  - **Pass C — polish:** hover/focus states, imagery crop, microcopy, final spacing.
-- Do not let Pass C block another route from reaching Pass A/B unless it affects accessibility, brand perception, or a Linear acceptance criterion.
+**Quality gates:** `bun run lint`, `bunx tsc --noEmit`, `bun run build`; manual contrast/focus check for tokens and navigation.
 
-## 6. Dependency order and milestone plan
+### Wave 2 — Homepage vertical slice
 
-### Phase 0 — Planning and design handoff readiness
+**Goal:** Replace the scaffold with a production homepage that visibly follows Stitch.
 
-| Order | Work                                                                                                      | Linear target                       | Done when                                                                                                             |
-| ----- | --------------------------------------------------------------------------------------------------------- | ----------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| 0.1   | Confirm Stitch exports/design system are present in the implementation worktree or re-export from Stitch. | Project note / AKG-17 comment       | `stitch-exports/kieler-konzertkirche/` (or equivalent export bundle) is available for implementation and screenshots. |
-| 0.2   | Keep this plan linked from Linear.                                                                        | Project document + `AKG-17` comment | Linear has a synced plan document and AKG-17 points to it.                                                            |
+- Implement home route sections from `01-startseite`: hero, next concerts preview, quote, architecture/room sound, visit and room CTAs (`AKG-17`, `AKG-8`, `AKG-9`).
+- Show 3-4 concert cards and clear ticket CTA.
+- Preserve sticky/glass nav behavior where practical without heavy client JS.
 
-### Phase 1 — MVP for concert attendees
+**Definition of done:** `AKG-17` acceptance criteria covered for the homepage, responsive at mobile/tablet/desktop, accessible landmarks/headings, build passes.
 
-| Order | Work                                                                                                                                           | Linear target                | Dependencies      | Done when                                                                                       |
-| ----- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- | ----------------- | ----------------------------------------------------------------------------------------------- |
-| 1.1   | Design tokens and global base styles from Stitch (`EB Garamond`, `Hanken Grotesk`, midnight/slate/gold palette, spacing rhythm, focus styles). | `AKG-10`                     | Phase 0           | Tokens are documented in code and used by the first page shell.                                 |
-| 1.2   | Header/navigation with Stitch glassmorphic top bar, ticket CTA, responsive menu strategy.                                                      | `AKG-6`                      | `AKG-10`          | Nav supports Stitch labels and existing IA, is keyboard accessible, and works on mobile.        |
-| 1.3   | Footer with navigation, legal links, external Petruskirche link, contact basics.                                                               | `AKG-7`                      | `AKG-10`          | Footer satisfies AKG-7 basics and does not fight the dark editorial design.                     |
-| 1.4   | Homepage hero from `01-startseite`: headline, subcopy, primary/secondary CTAs, imagery treatment.                                              | `AKG-8`, `AKG-17`            | `AKG-6`, `AKG-10` | Hero passes AKG-17 CTA and responsive acceptance criteria.                                      |
-| 1.5   | Upcoming concerts section/card pattern from `01-startseite`, ready to reuse for `/programm`.                                                   | `AKG-9`, `AKG-17`            | `AKG-10`          | 3–4 concerts display with date/time/title/price/ticket/detail states.                           |
-| 1.6   | Integrate homepage sections: brief architecture/room-sound story, visit/event CTAs, sticky nav behavior if chosen.                             | `AKG-17`                     | `AKG-6`–`AKG-10`  | AKG-17 acceptance criteria are met; page is ready for review.                                   |
-| 1.7   | Programme page from `02-programm`, reusing concert data/cards.                                                                                 | `AKG-18`                     | `AKG-9`, `AKG-10` | `/programm` shows schedule, filters/categories if static, ticket CTAs, and archive placeholder. |
-| 1.8   | Contact/visit/legal foundation.                                                                                                                | `AKG-21`, `AKG-22`, `AKG-23` | Shared layout     | Required user paths and German legal routes exist before public launch.                         |
+### Wave 3 — Programme and concert detail reuse
 
-### Phase 2 — Expansion for organization and event hosts
+**Goal:** Reuse the homepage components/data to expand without duplicating layout logic.
 
-| Order | Work                                                          | Linear target | Dependencies                    | Done when                                                               |
-| ----- | ------------------------------------------------------------- | ------------- | ------------------------------- | ----------------------------------------------------------------------- |
-| 2.1   | About/organization page based on IA and available content.    | `AKG-19`      | Shared layout, content approval | `/ueber-uns` communicates mission, history, partners/team placeholders. |
-| 2.2   | Event-host/venue inquiry page from Stitch `05-raum-anfragen`. | `AKG-20`      | Shared layout, route decision   | Venue specs, inquiry CTA, and rental path are coherent and static.      |
+- Create `/programm` from `02-programm` (`AKG-18`).
+- Create a first static concert detail route/template from `03-konzert-detail-die-passion-2026`.
+- Keep filters/tabs static or progressively enhanced only if needed.
 
-### Phase 3 — Enhancement and hardening
+**Quality gates:** build, responsive review, keyboard/focus review, link sanity.
 
-| Order | Work                                                    | Linear target         | Dependencies   | Done when                                                                                       |
-| ----- | ------------------------------------------------------- | --------------------- | -------------- | ----------------------------------------------------------------------------------------------- |
-| 3.1   | Accessibility audit/remediation across delivered pages. | `AKG-11`              | Phase 1 pages  | WCAG AA checklist passes for semantics, keyboard, focus, contrast, images.                      |
-| 3.2   | Performance/SEO polish.                                 | `AKG-11` or follow-up | Stable pages   | Build output is small, static, and Cloudflare-ready; metadata is complete.                      |
-| 3.3   | Archive/detail page expansion.                          | `AKG-18` follow-up    | Programme page | Detail and archive patterns are implemented without introducing unnecessary dynamic complexity. |
+### Wave 4 — Visit/contact/legal MVP completion
 
-## 7. AKG-17 acceptance coverage
+**Goal:** Close Phase 1 MVP user needs beyond the homepage.
 
-| AKG-17 acceptance criterion                      | Planned evidence                                                                                       |
-| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
-| Home page displays correctly with all sections   | Screenshot/manual comparison to `01-startseite` after Pass B.                                          |
-| Hero has concert highlight with clear ticket CTA | `AKG-8` slice includes hero CTA and prominent next-event context.                                      |
-| Upcoming concerts preview shows 3–4 concerts     | `AKG-9` cards rendered on `/` and reused for `/programm`.                                              |
-| Sticky navigation works on scroll                | Confirm expected behavior during `AKG-6`; implement if still desired after responsive review.          |
-| All links are functional                         | Slice/merge gate checks nav, CTAs, legal, external link `rel="noopener noreferrer"`.                   |
-| Page is fully responsive                         | Manual notes at mobile, tablet, desktop; no horizontal overflow.                                       |
-| Accessibility standards met (WCAG AA)            | Semantic landmarks, keyboard navigation, focus states, contrast notes; later hardening under `AKG-11`. |
-| Performance optimized for Cloudflare Workers     | Static Astro output, lazy images below fold, minimal React islands, `bun run build`.                   |
+- Implement visit/contact content using `04-besuch-planen` and existing `AKG-21` scope.
+- Add `Impressum` and `Datenschutz` pages (`AKG-22`, `AKG-23`) with placeholder-safe legal content only if source content is missing.
+- Ensure footer links and external Petruskirche link behavior.
 
-## 8. Implementation notes for the first vertical slice
+### Wave 5 — Expansion for event hosts and organization
 
-- Prefer Astro components for static sections:
-  - `src/components/layout/Header.astro`
-  - `src/components/layout/Footer.astro`
-  - `src/components/sections/Hero.astro`
-  - `src/components/sections/ConcertPreview.astro`
-- Use React only for genuinely interactive elements (e.g. mobile menu if Astro-only behavior is insufficient).
-- Consider a static data file for concerts once multiple pages share content, e.g. `src/data/concerts.ts`, with strict TypeScript types.
-- Keep image handling explicit: choose source assets, define alt text, and document crop choices against Stitch screenshots.
-- Keep design tokens close to existing Tailwind v4 setup: CSS variables in `src/styles/globals.css` first; only expand Tailwind config if needed.
-- Route decision checkpoint before coding visit/event-host pages:
-  - Stitch nav uses `Besuch planen`, `Die Petruskirche`, `Raum anfragen`, `Kontakt`.
-  - Linear architecture uses `/kontakt`, `/ueber-uns`, `/fuer-veranstalter` plus legal pages.
-  - Recommendation: do not block homepage; resolve route labels during `AKG-21`/`AKG-20` planning and document the final mapping in Linear.
+**Goal:** Move into Phase 2 without destabilizing the MVP.
 
-## 9. Risk register
+- Implement `05-raum-anfragen` as `/fuer-veranstalter` or `/raum-anfragen`, then reconcile URL with Linear architecture (`AKG-20`).
+- Implement organization/about pages (`AKG-19`).
+- Add deeper accessibility audit (`AKG-11`).
 
-| Risk                                                               | Impact                                            | Mitigation                                                                                                |
-| ------------------------------------------------------------------ | ------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| Stitch exports are missing from a local worktree                   | Implementation loses reliable visual reference    | Phase 0 preflight: restore `stitch-exports/kieler-konzertkirche/` or re-export from Stitch before coding. |
-| Visual experimentation bypasses Linear                             | Project plan drifts and tickets become inaccurate | Every slice links to an AKG issue and receives a Linear comment with shipped delta, gates, and next step. |
-| Trying to pixel-perfect all screens before homepage feedback       | Slow delivery and large rework                    | Vertical-slice model: homepage first, Pass A/B before Pass C polish across all pages.                     |
-| Stitch IA and Linear IA diverge (`Besuch planen`, `Raum anfragen`) | Route churn and broken navigation                 | Explicit route decision checkpoint before `AKG-21`/`AKG-20`; keep homepage CTAs resilient.                |
-| Dark glassmorphism harms contrast/readability                      | Accessibility failures                            | Contrast checks at slice and merge gates; gold accents used sparingly; visible focus styles.              |
-| Image assets/crops are not production-ready                        | Design fidelity and performance issues            | Select/crop images in the first slice; document alt text and responsive sizes; lazy-load below fold.      |
-| Placeholder legal/contact content ships unnoticed                  | Compliance risk                                   | Track `AKG-22` and `AKG-23` as Phase 1 launch blockers unless owner explicitly scopes launch otherwise.   |
+## 5. Dependency order
 
-## 10. Linear sync payload
+1. `AKG-10` tokens and global typography.
+2. `AKG-6` header and `AKG-7` footer.
+3. `AKG-8` hero and `AKG-9` concert cards.
+4. `AKG-17` homepage integration.
+5. `AKG-18` programme/detail expansion.
+6. `AKG-21`, `AKG-22`, `AKG-23` to complete Phase 1 support/legal flows.
+7. `AKG-19`, `AKG-20`, `AKG-11` for Phase 2/3 expansion and hardening.
+
+## 6. Acceptance criteria for the first implementation PR
+
+- Stitch tokens are represented in reusable CSS/Tailwind configuration or global CSS custom properties.
+- Header/footer and homepage sections use the dark editorial visual language from Stitch.
+- Homepage covers `AKG-17` essentials: hero, ticket CTA, 3-4 concerts, about/venue teaser, contact/visit CTA, sticky or persistent navigation, mobile responsiveness.
+- No production dependency changes without explicit reason.
+- `bun run lint`, `bunx tsc --noEmit`, and `bun run build` pass.
+- Manual checks documented: mobile layout, keyboard focus, contrast, image alt text, external link behavior.
+
+## 7. Risks and mitigations
+
+| Risk                                                 | Mitigation                                                                                                            |
+| ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Stitch HTML is generated and not production-quality. | Use it as visual/content reference, not as copy-paste source. Rebuild with Astro components.                          |
+| Fast visual iteration could bypass Linear.           | Keep each wave mapped to AKG issues; comment on `AKG-17` after major plan/design decisions.                           |
+| Full multi-page scope is too large for one PR.       | Ship Wave 1 + Wave 2 first; expand with shared components afterward.                                                  |
+| German legal/privacy content may be incomplete.      | Add legal pages only with verified source text or explicit placeholders requiring owner review.                       |
+| Dark palette contrast/focus regressions.             | Make WCAG AA checks part of every visual review, not only final hardening.                                            |
+| Asset pipeline uncertainty.                          | Decide early which `assets/` images move into `public/` or `src/assets/`; document chosen paths in implementation PR. |
+
+## 8. Linear sync payload
 
 ### Suggested Linear document title
 
-`Stitch Implementation Plan — Website Konzerte`
+`Stitch Implementation Plan — Kieler Konzertkirche`
 
 ### Suggested AKG-17 comment
 
-```markdown
-Plan update for fast Stitch implementation:
+Plan update from Stitch/repo/Linear review:
 
-- Design source of truth: Stitch project `6221185249843486689` / `Kieler Konzertkirche`, local exports under `stitch-exports/kieler-konzertkirche/`.
-- First vertical slice: `AKG-10` design tokens → `AKG-6` header → `AKG-7` footer → `AKG-8` hero → `AKG-9` concert cards → integrate in `AKG-17` homepage.
-- Fast loop: implement one visual slice, preview at mobile/tablet/desktop, compare with `01-startseite`, patch high-impact mismatches, then run `bun run lint`, `bunx tsc --noEmit`, and `bun run build` before review/merge.
-- Phase 1 keeps `/`, `/programm`, contact/visit/legal launch basics; Phase 2 expands `AKG-19` and `AKG-20`; Phase 3 hardens accessibility/performance under `AKG-11`.
-- Main open decision before later pages: reconcile Stitch nav labels (`Besuch planen`, `Raum anfragen`) with the existing Linear IA routes.
+- Stitch project `6221185249843486689` is now treated as visual source of truth for the implementation.
+- Recommended first implementation slice: design tokens (`AKG-10`) + shared header/footer (`AKG-6`, `AKG-7`) + homepage vertical slice (`AKG-17`, `AKG-8`, `AKG-9`).
+- Broader pages follow after shared components are stable: programme/detail (`AKG-18`), visit/contact/legal (`AKG-21`, `AKG-22`, `AKG-23`), then event-host/about/accessibility expansion (`AKG-20`, `AKG-19`, `AKG-11`).
+- Quality gates remain Bun lint/type/build plus responsive and WCAG AA manual review.
 
-See project document: “Stitch Implementation Plan — Website Konzerte”.
-```
+Local plan: `docs/stitch-implementation-plan.md`
 
-### Suggested Linear document body
+## 9. Immediate next actions
 
-Use this Markdown document as the Linear project document body so the repo and Linear plan stay aligned. After each slice, append a short dated Linear comment with:
-
-- issue ID,
-- Stitch screen/pass targeted,
-- files changed,
-- gates run,
-- manual screenshot/responsive notes,
-- next slice.
-
-## 11. Next actions
-
-1. Sync this plan to Linear as a project document and link it from `AKG-17`.
-2. Before coding, restore/verify `stitch-exports/kieler-konzertkirche/` in the implementation worktree if absent.
-3. Start Phase 1.1 with `AKG-10` design tokens and base styles.
-4. Implement `AKG-6`/`AKG-7` shared shell, then `AKG-8`/`AKG-9` homepage sections.
-5. Complete `AKG-17` with responsive/accessibility/manual Stitch comparison notes and Bun quality gates.
+1. Sync this plan to Linear if approved.
+2. Start a focused implementation branch for Wave 1 + Wave 2.
+3. Convert Stitch design tokens into project-level CSS/Tailwind primitives.
+4. Replace the homepage scaffold with the Stitch-aligned vertical slice.
+5. Run Bun quality gates and document manual design/accessibility checks in the PR.
