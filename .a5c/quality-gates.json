@@ -1,0 +1,33 @@
+{
+  "qualityThreshold": "${BABYSITTER_QUALITY_THRESHOLD:-80}",
+  "testCoverage": {
+    "minimum": 0,
+    "target": 60,
+    "note": "No test framework currently configured; use lint/type/build until tests are added."
+  },
+  "linting": {
+    "tools": ["ESLint", "Astro Check"],
+    "commands": ["bun run lint", "bunx tsc --noEmit"]
+  },
+  "formatting": {
+    "tools": ["Prettier", "prettier-plugin-tailwindcss", "prettier-plugin-astro"],
+    "commands": ["bun run format:check"]
+  },
+  "build": {
+    "commands": ["bun run build"],
+    "output": "dist"
+  },
+  "commitChecks": ["bun run lint", "bunx tsc --noEmit", "bun run build"],
+  "deployGates": [
+    "lint passes",
+    "type-check passes",
+    "build succeeds",
+    "manual responsive/accessibility review for UI changes",
+    "Cloudflare static asset assumptions preserved"
+  ],
+  "cicdIntegration": {
+    "provider": "GitHub Actions",
+    "workflow": ".github/workflows/babysitter.yml",
+    "events": ["pull_request", "workflow_dispatch"]
+  }
+}

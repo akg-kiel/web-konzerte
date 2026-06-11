@@ -1,0 +1,601 @@
+{
+  "projectName": "Konzerte in der Petruskirche / Kieler Konzertkirche",
+  "description": "Static Astro/React/Bun landing page for concerts at Petruskirche Kiel, deployed as Cloudflare Workers static assets. Current implementation is a scaffold with rich design references in concepts/ and Stitch exports to guide a polished Konzertkirche website.",
+  "goals": [
+    {
+      "id": "goal-delivery-1",
+      "description": "Implement a polished multi-page Konzertkirche website from Stitch exports and existing concept prototypes.",
+      "category": "delivery",
+      "priority": "high",
+      "status": "active"
+    },
+    {
+      "id": "goal-quality-1",
+      "description": "Keep the site static, fast, accessible, responsive, and verified through Bun lint/type/build plus manual responsive/accessibility review.",
+      "category": "quality",
+      "priority": "high",
+      "status": "active"
+    },
+    {
+      "id": "goal-workflow-1",
+      "description": "Maintain Linear/GitHub workflow with feature branches, PR review, and Cloudflare-ready build artifacts.",
+      "category": "workflow",
+      "priority": "medium",
+      "status": "active"
+    }
+  ],
+  "techStack": {
+    "languages": [
+      "TypeScript",
+      "Astro",
+      "TSX/JSX",
+      "JavaScript ES modules",
+      "CSS",
+      "TOML",
+      "YAML",
+      "JSON",
+      "Markdown"
+    ],
+    "frameworks": [
+      "Astro 5",
+      "React 19",
+      "Tailwind CSS 4",
+      "shadcn/ui conventions",
+      "Cloudflare Workers static assets"
+    ],
+    "databases": [],
+    "buildTools": [
+      "Astro CLI",
+      "@astrojs/check",
+      "TypeScript strict via astro/tsconfigs/strict",
+      "ESLint 9 flat config",
+      "Prettier 3 with prettier-plugin-tailwindcss and prettier-plugin-astro",
+      "PostCSS with @tailwindcss/postcss",
+      "Husky",
+      "lint-staged",
+      "Wrangler configuration for deployment",
+      "Devbox for development environment"
+    ],
+    "packageManagers": [
+      "Bun is the required package manager/runtime; README and agent docs explicitly prohibit npm, pnpm, and yarn for normal project usage.",
+      "bun.lock is committed for reproducible installs.",
+      "npx is documented only for shadcn CLI usage and Goose recipe MCP execution."
+    ],
+    "infrastructure": [
+      "Cloudflare Workers static assets configured by wrangler.toml with dist as asset directory.",
+      "GitHub Actions CI on pull requests to main runs lint, type-check, and build jobs using setup-bun.",
+      "Devcontainer based on jetpackio/devbox with Bun installed through devbox.",
+      "Husky pre-commit runs bunx lint-staged.",
+      "Linear is the project-management source of truth per AGENTS.md and .agents/linear-workflow.md."
+    ]
+  },
+  "architecture": {
+    "pattern": "Static Astro landing page using file-based routing, a shared Astro layout, Tailwind CSS global styling, and optional React islands for client-side interactivity. The current production source is a minimal scaffold/prototype rather than a full multi-section implementation.",
+    "modules": [
+      {
+        "name": "pages",
+        "path": "src/pages",
+        "summary": "Astro file-based routes. Currently only src/pages/index.astro defines the homepage."
+      },
+      {
+        "name": "layouts",
+        "path": "src/layouts",
+        "summary": "Base HTML document wrapper. Layout.astro imports global CSS, sets German language metadata, viewport, description, favicon, generator, and title."
+      },
+      {
+        "name": "components/ui",
+        "path": "src/components/ui",
+        "summary": "Reusable UI/island components. Currently contains a sample React Counter.tsx component hydrated with client:load. Project instructions say shadcn/ui generated files belong here and should not be edited directly."
+      },
+      {
+        "name": "lib",
+        "path": "src/lib",
+        "summary": "Shared utilities. utils.ts exports cn(), combining clsx and tailwind-merge for conditional Tailwind class names."
+      },
+      {
+        "name": "styles",
+        "path": "src/styles",
+        "summary": "Global CSS. globals.css imports Tailwind CSS v4."
+      },
+      {
+        "name": "concepts",
+        "path": "concepts/website-mvps",
+        "summary": "Standalone HTML/CSS/JS concept prototypes and assets based on Mobbin references. These are not wired into the Astro app."
+      },
+      {
+        "name": "stitch exports",
+        "path": "stitch-exports/kieler-konzertkirche",
+        "summary": "Exported design/reference screens and HTML for Kieler Konzertkirche pages, with manifest metadata. Not wired into runtime source."
+      },
+      {
+        "name": "assets",
+        "path": "assets",
+        "summary": "Large source media library for Petruskirche interior and exterior imagery, outside Astro src/public asset pipeline in current code."
+      }
+    ],
+    "entryPoints": {
+      "application": "src/pages/index.astro",
+      "documentLayout": "src/layouts/Layout.astro",
+      "globalStyles": "src/styles/globals.css",
+      "interactiveIsland": "src/components/ui/Counter.tsx",
+      "astroConfig": "astro.config.mjs",
+      "cloudflareConfig": "wrangler.toml",
+      "ci": ".github/workflows/ci.yml"
+    },
+    "dataFlow": [
+      "Astro resolves file-based routes from src/pages; / maps to src/pages/index.astro.",
+      "index.astro imports Layout.astro and Counter.tsx, renders static markup for the landing page, and requests client-side hydration for Counter via client:load.",
+      "Layout.astro imports src/styles/globals.css once and wraps page content through <slot /> while injecting metadata and title props.",
+      "Tailwind CSS utilities are authored directly in Astro/TSX markup; globals.css imports Tailwind v4.",
+      "Counter.tsx owns local React state only; there is no remote data fetching, persistence, API layer, CMS, or server-side runtime state.",
+      "Build flow is astro check followed by astro build, outputting static assets to dist for Cloudflare Workers static asset serving."
+    ]
+  },
+  "team": [
+    {
+      "name": "Noah Zepner",
+      "role": "owner/developer",
+      "responsibilities": [
+        "Product/design implementation",
+        "Frontend development",
+        "Deployment and workflow ownership"
+      ]
+    }
+  ],
+  "workflows": [
+    {
+      "name": "GitHub Actions CI",
+      "description": "Pull request validation workflow for linting, type checking, and production build verification.",
+      "steps": [
+        "Checkout repository with actions/checkout@v4",
+        "Install Bun with oven-sh/setup-bun@v2",
+        "Install dependencies with bun install",
+        "Run lint job with bun run lint",
+        "Run type-check job with bunx tsc --noEmit",
+        "Run build job with bun run build"
+      ],
+      "triggers": ["pull_request targeting main"]
+    },
+    {
+      "name": "Local development workflow",
+      "description": "Install dependencies and run Astro development/preview commands locally with Bun.",
+      "steps": [
+        "Install dependencies with bun install",
+        "Start local development server with bun run dev or bun run start",
+        "Build production output with bun run build",
+        "Preview production build with bun run preview"
+      ],
+      "triggers": ["manual developer command"]
+    },
+    {
+      "name": "Pre-commit quality gate",
+      "description": "Husky executes lint-staged before commits to auto-fix lint and formatting issues on staged files.",
+      "steps": [
+        "Husky pre-commit runs bunx lint-staged",
+        "lint-staged runs eslint --fix and prettier --write for JS/TS/Astro files",
+        "lint-staged runs prettier --write for JSON, Markdown, MDX, CSS, and HTML files"
+      ],
+      "triggers": ["git pre-commit hook"]
+    },
+    {
+      "name": "Cloudflare static deployment",
+      "description": "Documented deployment path for static Astro output to Cloudflare Workers assets using wrangler.toml.",
+      "steps": [
+        "Build the static site with bun run build to produce dist",
+        "Use wrangler.toml assets.directory ./dist for Cloudflare Workers static assets",
+        "Serve immutable cached assets under /_astro/* via configured cache-control header"
+      ],
+      "triggers": [
+        "documented push to main deployment outside repository CI",
+        "manual or external Cloudflare deployment integration"
+      ]
+    },
+    {
+      "name": "Dev container setup",
+      "description": "VS Code/devcontainer workflow based on Jetpack Devbox.",
+      "steps": [
+        "Build .devcontainer/Dockerfile from jetpackio/devbox:latest",
+        "Copy devbox.json and devbox.lock into the image",
+        "Run devbox installation",
+        "Execute postCreateCommand devbox install"
+      ],
+      "triggers": ["opening project in a devcontainer-compatible environment"]
+    }
+  ],
+  "processes": [
+    {
+      "id": "cradle/project-install",
+      "description": "Project onboarding/profile generation process used to install Babysitter project metadata."
+    }
+  ],
+  "tools": {
+    "linting": [
+      {
+        "name": "ESLint",
+        "command": "bun run lint",
+        "configuration": "eslint.config.mjs",
+        "scope": "Astro, JavaScript, TypeScript, JSX/TSX, React hooks, React refresh, jsx-a11y",
+        "notes": "The build script also runs astro check before astro build. package.json contains lint:fix as 'exlint . --fix', which appears to be a typo or missing tool because eslint is installed but exlint is not."
+      },
+      {
+        "name": "Astro Check",
+        "command": "astro check",
+        "configuration": "astro.config.mjs and tsconfig.json",
+        "scope": "Astro and TypeScript diagnostics",
+        "notes": "Executed as part of bun run build. CI separately runs bunx tsc --noEmit for TypeScript checking."
+      },
+      {
+        "name": "lint-staged",
+        "command": "bunx lint-staged",
+        "configuration": "lint-staged.config.mjs",
+        "scope": "Pre-commit staged file linting and formatting",
+        "notes": "Triggered by Husky pre-commit hook. Runs eslint --fix and prettier --write for JS/TS/Astro files and prettier for JSON/Markdown/CSS/HTML."
+      }
+    ],
+    "testing": [
+      {
+        "name": "TypeScript type check",
+        "command": "bunx tsc --noEmit",
+        "configuration": "tsconfig.json extends astro/tsconfigs/strict",
+        "scope": "Static type validation",
+        "notes": "Configured in GitHub Actions CI."
+      },
+      {
+        "name": "Astro build verification",
+        "command": "bun run build",
+        "configuration": "package.json and astro.config.mjs",
+        "scope": "Production build validation",
+        "notes": "Runs astro check && astro build. No unit, integration, or end-to-end test framework/configuration was found. devbox.json has a placeholder test script that exits with failure."
+      }
+    ],
+    "formatting": [
+      {
+        "name": "Prettier",
+        "command": "bun run format",
+        "configuration": ".prettierrc",
+        "scope": "Repository formatting",
+        "notes": "Uses prettier-plugin-tailwindcss and prettier-plugin-astro with semicolons, single quotes, tabWidth 2, no trailing commas, printWidth 100."
+      },
+      {
+        "name": "Prettier via lint-staged",
+        "command": "prettier --write",
+        "configuration": "lint-staged.config.mjs",
+        "scope": "Staged JS/TS/Astro/JSON/Markdown/CSS/HTML files",
+        "notes": "Runs during Husky pre-commit."
+      }
+    ],
+    "packageManager": {
+      "name": "Bun",
+      "lockfile": "bun.lock",
+      "policy": "Project docs state not to use npm, pnpm, or yarn."
+    },
+    "development": [
+      {
+        "name": "Astro dev server",
+        "commands": ["bun run dev", "bun run start"],
+        "notes": "Both commands run astro dev."
+      },
+      {
+        "name": "Astro preview",
+        "command": "bun run preview",
+        "notes": "Runs astro preview for built output."
+      },
+      {
+        "name": "Devbox",
+        "configuration": "devbox.json",
+        "notes": "Provides bun@latest and a devbox shell."
+      },
+      {
+        "name": "shadcn/ui CLI",
+        "configuration": "components.json",
+        "notes": "Configured with default style, TSX, Tailwind CSS, lucide icon library, and @/* aliases. README examples use npx shadcn@latest add, although project package policy otherwise prefers Bun."
+      }
+    ]
+  },
+  "services": [
+    {
+      "name": "Cloudflare Workers",
+      "type": "hosting/edge static assets",
+      "configuration": "wrangler.toml",
+      "details": {
+        "workerName": "web-konzerte",
+        "compatibilityDate": "2026-01-19",
+        "assetsDirectory": "./dist",
+        "staticAssetCaching": "cache-control public, max-age=31536000, immutable for /_astro/*"
+      }
+    },
+    {
+      "name": "GitHub",
+      "type": "source control and CI",
+      "configuration": ".github/workflows/ci.yml, CODEOWNERS, issue templates, pull request template",
+      "details": {
+        "ciProvider": "GitHub Actions",
+        "workflowTrigger": "pull_request to main"
+      }
+    },
+    {
+      "name": "Linear",
+      "type": "project management/documentation",
+      "configuration": "README.md and .agents/tech-stack.md references",
+      "details": {
+        "workspace": "AKG Kiel",
+        "project": "Website Konzerte",
+        "architectureDoc": "Referenced in .agents/tech-stack.md"
+      }
+    }
+  ],
+  "externalIntegrations": [
+    {
+      "name": "Astro",
+      "purpose": "Static site generation and development server",
+      "configuration": "astro.config.mjs",
+      "notes": "Configured for static output with React integration and no Cloudflare SSR adapter."
+    },
+    {
+      "name": "React",
+      "purpose": "Interactive UI components",
+      "configuration": "@astrojs/react integration"
+    },
+    {
+      "name": "Tailwind CSS",
+      "purpose": "Utility-first styling",
+      "configuration": "postcss.config.mjs, tailwind.config.js, components.json",
+      "notes": "postcss.config.mjs points @tailwindcss/postcss at ./config/tailwind.config.js, while the repository also has root tailwind.config.js and components.json references tailwind.config.js."
+    },
+    {
+      "name": "shadcn/ui",
+      "purpose": "Reusable UI component scaffolding",
+      "configuration": "components.json",
+      "notes": "Configured for TSX, non-RSC usage, slate base color, lucide icons, and @/* path aliases."
+    },
+    {
+      "name": "Lucide React",
+      "purpose": "Icon library",
+      "configuration": "package.json dependency and components.json iconLibrary"
+    },
+    {
+      "name": "Cloudflare Workers/Wrangler",
+      "purpose": "Static asset hosting on Cloudflare edge",
+      "configuration": "wrangler.toml",
+      "notes": "wrangler.toml exists, but wrangler is not listed in package.json dependencies/devDependencies and no wrangler deploy workflow was found."
+    },
+    {
+      "name": "Bun",
+      "purpose": "Runtime, package manager, script runner, lockfile management",
+      "configuration": "package.json scripts, bun.lock, devbox.json"
+    },
+    {
+      "name": "Husky",
+      "purpose": "Git hook management",
+      "configuration": ".husky/pre-commit and package.json prepare script"
+    },
+    {
+      "name": "Devbox",
+      "purpose": "Reproducible development shell and devcontainer base setup",
+      "configuration": "devbox.json, devbox.lock, .devcontainer/Dockerfile, .devcontainer/devcontainer.json"
+    }
+  ],
+  "cicd": {
+    "provider": "GitHub Actions",
+    "workflowFiles": [".github/workflows/ci.yml"],
+    "jobs": [
+      {
+        "name": "lint",
+        "runner": "ubuntu-latest",
+        "commands": ["bun install", "bun run lint"]
+      },
+      {
+        "name": "type-check",
+        "runner": "ubuntu-latest",
+        "commands": ["bun install", "bunx tsc --noEmit"]
+      },
+      {
+        "name": "build",
+        "runner": "ubuntu-latest",
+        "commands": ["bun install", "bun run build"]
+      }
+    ],
+    "triggers": ["pull_request to main"],
+    "deploymentAutomationFound": false,
+    "notes": [
+      "No GitHub Actions deployment job was found.",
+      "README states Cloudflare Workers handles deployment on push to main and PR previews are available, but this repository only contains CI for pull requests.",
+      "No repository workflow references Cloudflare credentials, Wrangler commands, or deployment secrets."
+    ],
+    "babysitterIntegration": {
+      "enabled": true,
+      "triggerOn": ["pull_request"],
+      "processIds": [
+        "gsd/plan",
+        "gsd/execute",
+        "gsd/verify",
+        "gsd/iterative-convergence",
+        "methodologies/tdd-quality-convergence"
+      ],
+      "workflowPath": ".github/workflows/babysitter.yml",
+      "optionalFullOrchestrationGate": "vars.BABYSITTER_CI_ENABLED == 'true'"
+    }
+  },
+  "painPoints": [
+    {
+      "id": "tests-missing",
+      "description": "No dedicated unit/e2e test suite detected; quality gates rely on lint/type/build plus manual checks",
+      "severity": "medium",
+      "category": "quality",
+      "discoveredVia": "repo analysis"
+    },
+    {
+      "id": "design-implementation-gap",
+      "description": "Production src is still a minimal scaffold while rich design concepts/Stitch exports exist separately",
+      "severity": "high",
+      "category": "delivery",
+      "discoveredVia": "repo and history context"
+    },
+    {
+      "id": "untracked-assets",
+      "description": "Large assets, concepts, stitch-exports, and .a5c are untracked; repo hygiene decisions needed",
+      "severity": "medium",
+      "category": "workflow",
+      "discoveredVia": "git status"
+    }
+  ],
+  "bottlenecks": [
+    {
+      "id": "churn-1",
+      "description": "High-change file seen in 8 recent commits",
+      "impact": "Medium; coordinate edits and run quality gates when touching this area",
+      "location": "package.json",
+      "frequency": "8"
+    },
+    {
+      "id": "churn-2",
+      "description": "High-change file seen in 8 recent commits",
+      "impact": "Medium; coordinate edits and run quality gates when touching this area",
+      "location": "AGENTS.md",
+      "frequency": "8"
+    },
+    {
+      "id": "churn-3",
+      "description": "High-change file seen in 4 recent commits",
+      "impact": "Medium; coordinate edits and run quality gates when touching this area",
+      "location": "postcss.config.mjs",
+      "frequency": "4"
+    },
+    {
+      "id": "churn-4",
+      "description": "High-change file seen in 4 recent commits",
+      "impact": "Medium; coordinate edits and run quality gates when touching this area",
+      "location": "tailwind.config.js",
+      "frequency": "4"
+    },
+    {
+      "id": "churn-5",
+      "description": "High-change file seen in 4 recent commits",
+      "impact": "Medium; coordinate edits and run quality gates when touching this area",
+      "location": "bun.lock",
+      "frequency": "4"
+    },
+    {
+      "id": "churn-6",
+      "description": "High-change file seen in 4 recent commits",
+      "impact": "Medium; coordinate edits and run quality gates when touching this area",
+      "location": "eslint.config.mjs",
+      "frequency": "4"
+    },
+    {
+      "id": "churn-7",
+      "description": "High-change file seen in 4 recent commits",
+      "impact": "Medium; coordinate edits and run quality gates when touching this area",
+      "location": "SITE_ARCHITECTURE.md",
+      "frequency": "4"
+    },
+    {
+      "id": "churn-8",
+      "description": "High-change file seen in 3 recent commits",
+      "impact": "Medium; coordinate edits and run quality gates when touching this area",
+      "location": ".prettierrc",
+      "frequency": "3"
+    },
+    {
+      "id": "script-lint-fix-typo",
+      "description": "package.json lint:fix script appears to use exlint instead of eslint",
+      "impact": "Low/Medium; automated fix command may fail until corrected",
+      "location": "package.json",
+      "frequency": "current config"
+    }
+  ],
+  "conventions": {
+    "naming": {
+      "components": "PascalCase.tsx or PascalCase.astro",
+      "utilities": "camelCase.ts",
+      "styles": "kebab-case.css or kebab-case.scss",
+      "pages": "Astro file-based route names such as index.astro and about.astro",
+      "branches": "feature/linear_ticket_id-short_description, for example feature/AKG-5-init"
+    },
+    "git": {
+      "branching": "Create feature branches from main using Linear ticket IDs.",
+      "commits": "Reference ticket IDs in commit messages; .agents/linear-workflow.md uses AKG-XXX: message while README shows KON-123 as an example.",
+      "pullRequests": "Use GitHub PR template, link Linear ticket, and include local dev, responsive, accessibility, lint, and build checks.",
+      "codeowners": "@zepi2509 owns repository-wide changes plus source, styles, config, workflows, and documentation.",
+      "currentObservedBranch": "feature/AKG-17-website-mvps-restart",
+      "currentObservedUntrackedAreas": [".a5c/", "assets/", "concepts/", "stitch-exports/"]
+    },
+    "codeStyle": {
+      "typescript": "Strict TypeScript; no explicit any; unused args may be prefixed with underscore.",
+      "react": "Functional components with hooks; React 19 automatic JSX runtime; react/prop-types disabled.",
+      "astro": "Use Astro Islands only for interactive components; avoid astro:set:html via astro/no-set-html-directive.",
+      "tailwind": "Prefer Tailwind utility classes; extract repeated patterns into reusable components; class ordering handled by Prettier Tailwind plugin.",
+      "formatting": "2-space indentation, semicolons, single quotes, print width 100, no trailing commas per .prettierrc.",
+      "comments": "Add comments for complex logic only."
+    },
+    "importOrder": [
+      "No explicit import-order rule is configured.",
+      "Observed style places external package imports before local imports in TS files, and local Astro imports in frontmatter.",
+      "Path alias @/* maps to ./src/* and shadcn aliases map components, ui, lib, utils, and hooks."
+    ],
+    "errorHandling": [
+      "Static app currently has no centralized error boundary or runtime error-handling abstraction.",
+      "ESLint warns on console usage except console.warn and console.error.",
+      "Build pipeline relies on astro check, TypeScript, ESLint, and CI to catch errors before deployment.",
+      "Do not add server-side features or API behavior because deployment target is static Cloudflare Workers assets."
+    ],
+    "testingConventions": [
+      "No unit, integration, or e2e test framework is currently configured.",
+      "CI quality gates are lint, type-check via bunx tsc --noEmit, and bun run build.",
+      "PR template expects manual verification for local dev server, responsive behavior, accessibility, lint, and build.",
+      "devbox test script is a placeholder that exits with an error."
+    ],
+    "additionalRules": [
+      "Use Bun commands: bun install, bun run dev, bun run build, bun run lint.",
+      "Do not directly modify src/components/ui/ generated shadcn/ui components; add components through the shadcn CLI.",
+      "Do not add .vscode/ because team uses Vim/WebStorm, although the devcontainer currently contains VS Code customizations.",
+      "Do not commit sensitive data or environment files; .env* is ignored except .env.example.",
+      "Build locally before pushing.",
+      "Use frontend-design workflow for UI creation/refactoring, responsive layout, and accessibility improvements.",
+      "Project docs mark node_modules, .astro, dist, and .env* as ignored/generated areas.",
+      "package.json contains a likely typo in lint:fix script: exlint . --fix instead of eslint . --fix.",
+      "postcss.config.mjs references ./config/tailwind.config.js, while the repository has tailwind.config.js at the root; Tailwind v4 import in globals.css may reduce reliance on this config but the path is inconsistent."
+    ]
+  },
+  "repositories": [
+    {
+      "path": "/home/zepi/Projects/web-konzerte",
+      "branch": "feature/AKG-17-website-mvps-restart",
+      "primary": true
+    }
+  ],
+  "claudeMdInstructions": [
+    "Use Bun for package management and scripts; do not use npm/pnpm/yarn for normal project workflow.",
+    "Follow AGENTS.md and .agents/*.md for coding, design, Linear, and git workflow rules.",
+    "Use Stitch exports in stitch-exports/kieler-konzertkirche and concepts/website-mvps as design references for implementation.",
+    "Before PR or handoff, run bun run lint, bunx tsc --noEmit, and bun run build; include manual responsive/accessibility notes for UI changes.",
+    "Preserve static Cloudflare Workers deployment assumptions unless explicitly asked to add server-side behavior.",
+    "Babysitter PR checks live in .github/workflows/babysitter.yml; enable full orchestration only after setting BABYSITTER_CI_ENABLED and a CI-compatible BABYSITTER_HARNESS."
+  ],
+  "installedSkills": [
+    "frontend-create",
+    "context-mode",
+    "pi-subagents",
+    "ask-user",
+    "parse-document",
+    "conventional-commit"
+  ],
+  "installedAgents": ["planner", "worker", "reviewer", "scout", "delegate"],
+  "installedProcesses": [
+    "gsd/plan",
+    "gsd/execute",
+    "gsd/verify",
+    "gsd/iterative-convergence",
+    "methodologies/tdd-quality-convergence",
+    "specializations/ux-ui-design",
+    "cradle/project-install"
+  ],
+  "preferences": {
+    "autonomy": "supervised to semi-autonomous",
+    "breakpointTolerance": "moderate",
+    "ciCdChanges": "do not modify CI/CD unless explicitly requested"
+  },
+  "createdAt": "2026-06-11T17:03:38.317598+00:00",
+  "updatedAt": "2026-06-11T17:15:38.781773+00:00",
+  "version": 1
+}
