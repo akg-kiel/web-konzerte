@@ -67,4 +67,7 @@ Babysitter project checks are configured in `.github/workflows/babysitter.yml` f
 - Do not use npm/pnpm/yarn for project workflow unless working inside isolated tooling such as `.a5c/`.
 - Keep design/reference artifacts separate from production source until intentionally integrated.
 - Preserve static Cloudflare Workers asset hosting unless server behavior is explicitly requested.
+- Linear is the source of truth for project management: plans, triage, sprint scope, workflow decisions, and status updates belong in Linear documents/issues/comments.
+- When a feature introduces external font/provider dependencies such as Google Fonts, automatically create or link a Linear follow-up ticket in the feature handoff so privacy/performance/legal work is tracked before launch.
+- Do not create planning/PM artifacts in a local `docs/` folder unless the user explicitly asks for repo-versioned documentation; repo docs should be limited to code-adjacent material that must version with the codebase.
 - Follow `AGENTS.md` and `.agents/*.md` as authoritative repository instructions.
