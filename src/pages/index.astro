@@ -1,24 +1,10 @@
 ---
+import Hero from '../components/sections/Hero.astro';
 import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Konzerte in der Petruskirche">
   <main class="min-h-screen bg-role-dominant text-role-on">
-    <section class="site-container grid min-h-screen place-items-center py-section-sm">
-      <div class="surface-panel max-w-4xl rounded-4xl px-grid-6 py-grid-12 text-center sm:px-grid-12 lg:px-grid-20 lg:py-grid-20">
-        <p class="editorial-label">Kieler Konzertkirche · Gestaltungsfundament</p>
-        <h1 class="mx-auto mt-grid-6 max-w-3xl font-display text-display text-role-accent">
-          Konzerte in der Petruskirche
-        </h1>
-        <p class="mx-auto mt-grid-6 max-w-measure text-lead text-role-on/85">
-          Ein dunkles, ruhiges Gestaltungsfundament für klassische Musik, Raumklang und besondere
-          Programme in architektonischer Atmosphäre.
-        </p>
-        <p class="mx-auto mt-grid-8 max-w-measure-narrow text-sm leading-compact text-role-on/65">
-          Die vollständige Startseite folgt in AKG-17. AKG-10 stellt dafür Typografie,
-          Farbklima, Abstände und barrierearme Basiszustände bereit.
-        </p>
-      </div>
-    </section>
+    <Hero />
   </main>
 </Layout>

@@ -63,7 +63,7 @@ export default {
         ring: 'hsl(var(--ring) / <alpha-value>)'
       },
       fontFamily: {
-        display: ['EB Garamond', 'Georgia', 'Cambria', 'Times New Roman', 'serif'],
+        display: ['Merriweather', 'Georgia', 'Cambria', 'Times New Roman', 'serif'],
         body: [
           'Hanken Grotesk',
           'ui-sans-serif',
@@ -82,7 +82,7 @@ export default {
           'Segoe UI',
           'sans-serif'
         ],
-        serif: ['EB Garamond', 'Georgia', 'Cambria', 'Times New Roman', 'serif']
+        serif: ['Merriweather', 'Georgia', 'Cambria', 'Times New Roman', 'serif']
       },
       fontSize: {
         eyebrow: ['clamp(0.875rem, 0.84rem + 0.16vw, 0.95rem)', { lineHeight: '1.2' }],

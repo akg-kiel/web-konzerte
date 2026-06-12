@@ -1,0 +1,151 @@
+---
+import { Image } from 'astro:assets';
+
+import heroStage from '../../assets/hero/l1130722-hero.jpg';
+import akgLogo from '../../assets/logos/logo-akg-250px.png';
+---
+
+<nav
+  aria-label="Hauptnavigation"
+  class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-slate-mist/60 shadow-sm backdrop-blur-xl"
+>
+  <div class="site-container flex h-20 items-center gap-6">
+    <a
+      href="/"
+      class="inline-flex items-center no-underline transition hover:opacity-85"
+      aria-label="Apostel Kirchengemeinde Kiel · Konzertkirche Petruskirche Startseite"
+    >
+      <Image
+        src={akgLogo}
+        alt="Apostel Kirchengemeinde Kiel"
+        class="h-10 w-auto brightness-0 invert sm:h-12"
+        widths={[160, 220, 250]}
+        sizes="(min-width: 640px) 113px, 94px"
+        loading="eager"
+        decoding="async"
+      />
+    </a>
+
+    <div class="ml-auto hidden items-center gap-8 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] md:flex">
+      <a class="border-b-2 border-secondary pb-1 text-secondary no-underline" href="/programm">
+        Programm
+      </a>
+      <a class="text-role-on/78 no-underline transition hover:text-secondary" href="/besuch-planen">
+        Besuch planen
+      </a>
+      <a
+        class="text-role-on/78 no-underline transition hover:text-secondary"
+        href="https://akg-kiel.de/petruskirche"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Die Petruskirche
+      </a>
+      <a class="text-role-on/78 no-underline transition hover:text-secondary" href="/raum-anfragen">
+        Raum anfragen
+      </a>
+      <a class="text-role-on/78 no-underline transition hover:text-secondary" href="/kontakt">
+        Kontakt
+      </a>
+    </div>
+
+    <details class="relative ml-auto md:hidden">
+      <summary
+        class="flex size-11 cursor-pointer list-none items-center justify-center rounded-sm text-role-on transition hover:text-secondary [&::-webkit-details-marker]:hidden"
+        aria-label="Navigation öffnen"
+      >
+        <span class="sr-only">Navigation öffnen</span>
+        <svg aria-hidden="true" class="size-8" viewBox="0 0 24 24" fill="none">
+          <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.7" />
+        </svg>
+      </summary>
+      <div class="absolute right-0 top-14 w-72 rounded-sm border border-white/10 bg-midnight/95 p-5 shadow-panel backdrop-blur-xl">
+        <div class="flex flex-col gap-4 font-display text-2xl leading-heading">
+          <a class="text-secondary no-underline" href="/programm">Programm</a>
+          <a class="text-role-on/80 no-underline" href="/besuch-planen">Besuch planen</a>
+          <a
+            class="text-role-on/80 no-underline"
+            href="https://akg-kiel.de/petruskirche"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Die Petruskirche
+          </a>
+          <a class="text-role-on/80 no-underline" href="/raum-anfragen">Raum anfragen</a>
+          <a class="text-role-on/80 no-underline" href="/kontakt">Kontakt</a>
+        </div>
+      </div>
+    </details>
+  </div>
+</nav>
+
+<section
+  aria-labelledby="hero-heading"
+  class="relative flex min-h-[100svh] items-end overflow-hidden bg-role-dominant px-0 pb-[clamp(5.5rem,14svh,9rem)] pt-20 text-role-on md:pb-44 lg:pb-52"
+>
+  <div class="absolute inset-x-0 top-0 bottom-[40svh] z-0 w-full overflow-hidden md:bottom-[20svh]">
+    <Image
+      src={heroStage}
+      alt=""
+      class="hero-media"
+      widths={[640, 960, 1280, 1600, 1920]}
+      sizes="100vw"
+      loading="eager"
+      decoding="async"
+      fetchpriority="high"
+      format="webp"
+    />
+    <div
+      aria-hidden="true"
+      class="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(2,6,23,0.06)_0%,rgba(2,6,23,0.14)_42%,rgba(2,6,23,0.46)_66%,rgba(2,6,23,0.86)_100%)] md:bg-[linear-gradient(to_bottom,rgba(2,6,23,0.02)_0%,rgba(2,6,23,0.04)_58%,rgba(2,6,23,0.18)_82%,rgba(2,6,23,0.68)_100%)]"
+    >
+    </div>
+    <div
+      aria-hidden="true"
+      class="absolute inset-0 bg-[linear-gradient(90deg,rgba(2,6,23,0.48)_0%,rgba(2,6,23,0.18)_46%,rgba(2,6,23,0.28)_100%)] md:bg-[linear-gradient(90deg,rgba(2,6,23,0.22)_0%,rgba(2,6,23,0.05)_46%,rgba(2,6,23,0.14)_100%)]"
+    >
+    </div>
+    <div
+      aria-hidden="true"
+      class="absolute inset-x-0 bottom-0 h-[72%] bg-[linear-gradient(to_bottom,rgba(2,6,23,0)_0%,rgba(2,6,23,0.24)_28%,rgba(2,6,23,0.68)_62%,rgb(2,6,23)_100%)] md:h-[42%] md:bg-[linear-gradient(to_bottom,rgba(2,6,23,0)_0%,rgba(2,6,23,0.12)_42%,rgba(2,6,23,0.55)_82%,rgb(2,6,23)_100%)] lg:h-[36%]"
+    >
+    </div>
+    <div
+      aria-hidden="true"
+      class="absolute inset-y-0 left-0 w-[76%] bg-[radial-gradient(ellipse_at_24%_86%,rgba(2,6,23,0.84)_0%,rgba(2,6,23,0.5)_32%,rgba(2,6,23,0.12)_58%,rgba(2,6,23,0)_76%)] md:w-[62%] lg:w-[54%]"
+    >
+    </div>
+  </div>
+
+  <div class="site-container relative z-20 w-full">
+    <div class="max-w-3xl">
+      <h1 id="hero-heading" class="hero-title font-display font-medium !text-white">
+        <span class="whitespace-nowrap">Konzerte in der</span><br />
+        <span class="whitespace-nowrap italic !text-secondary">Petruskirche Kiel</span>
+      </h1>
+
+      <p class="hero-copy mt-6 max-w-2xl font-body text-[clamp(1.05rem,1.6vw,1.125rem)] leading-7 text-role-on/82">
+        Ein besonderer Konzertort in Kiel-Wik für Klassik, Chor, Pop, Crossover und
+        Kulturveranstaltungen. Erleben Sie Musik in unvergleichlicher akustischer und
+        architektonischer Atmosphäre.
+      </p>
+
+      <div class="mt-10 flex flex-col gap-4 sm:flex-row">
+        <a
+          class="inline-flex min-h-14 items-center justify-center rounded-sm bg-secondary px-8 py-4 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] !text-[#241a00] no-underline transition hover:bg-role-accent active:scale-95"
+          href="/programm"
+          aria-label="Programm der Konzertkirche ansehen"
+        >
+          Programm ansehen
+        </a>
+        <a
+          class="inline-flex min-h-14 items-center justify-center rounded-sm border border-white/10 bg-slate-mist/60 px-8 py-4 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] !text-white no-underline shadow-sm backdrop-blur-xl transition hover:bg-white/10 active:scale-95"
+          href="/besuch-planen"
+          aria-label="Besuch in der Petruskirche planen"
+        >
+          Besuch planen
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
