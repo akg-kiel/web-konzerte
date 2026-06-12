@@ -5,11 +5,9 @@ import heroStage from '../../assets/hero/l1130722-hero.jpg';
 import akgLogo from '../../assets/logos/logo-akg-250px.png';
 ---
 
-<nav
-  aria-label="Hauptnavigation"
-  class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-slate-mist/60 shadow-sm backdrop-blur-xl"
->
-  <div class="site-container flex h-20 items-center gap-6">
+<nav aria-label="Hauptnavigation" class="fixed inset-x-0 top-0 z-50 border-b border-white/10 shadow-sm">
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-slate-mist/60 backdrop-blur-xl"></div>
+  <div class="site-container relative flex h-20 items-center gap-6">
     <a
       href="/"
       class="relative z-[60] inline-flex items-center no-underline transition hover:opacity-85"
