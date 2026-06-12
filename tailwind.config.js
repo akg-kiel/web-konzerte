@@ -23,6 +23,15 @@ export default {
         secondary: '#e9c349',
         'on-surface': '#e3e2e2',
         paper: '#faf7ee',
+        role: {
+          dominant: 'rgb(var(--color-midnight-rgb) / <alpha-value>)',
+          support: 'rgb(var(--color-surface-rgb) / <alpha-value>)',
+          'support-elevated': 'rgb(var(--color-slate-mist-rgb) / <alpha-value>)',
+          accent: 'rgb(var(--color-champagne-rgb) / <alpha-value>)',
+          'accent-strong': 'rgb(var(--color-brass-rgb) / <alpha-value>)',
+          on: 'rgb(var(--color-on-surface-rgb) / <alpha-value>)',
+          muted: 'rgb(var(--color-muted-rgb) / <alpha-value>)'
+        },
         background: 'hsl(var(--background) / <alpha-value>)',
         foreground: 'hsl(var(--foreground) / <alpha-value>)',
         card: {
@@ -88,10 +97,33 @@ export default {
         ]
       },
       spacing: {
+        'grid-1': 'var(--space-grid)',
+        'grid-2': 'var(--space-unit)',
+        'grid-3': 'var(--space-sm)',
+        'grid-4': 'var(--space-md)',
+        'grid-6': 'var(--space-lg)',
+        'grid-8': 'var(--space-xl)',
+        'grid-12': 'var(--space-2xl)',
+        'grid-20': 'var(--space-3xl)',
         gutter: 'var(--page-gutter)',
         'section-sm': 'clamp(3rem, 8vw, 6rem)',
         section: 'clamp(5rem, 12vw, 10rem)',
         'section-lg': 'clamp(7rem, 16vw, 14rem)'
+      },
+      maxWidth: {
+        measure: 'var(--measure-copy)',
+        'measure-narrow': 'var(--measure-narrow)',
+        'measure-wide': 'var(--measure-wide)'
+      },
+      lineHeight: {
+        body: 'var(--leading-body)',
+        compact: 'var(--leading-compact)',
+        display: 'var(--leading-display)'
+      },
+      letterSpacing: {
+        label: 'var(--tracking-label)',
+        display: 'var(--tracking-display)',
+        heading: 'var(--tracking-heading)'
       },
       borderRadius: {
         '4xl': '2rem',
