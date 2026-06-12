@@ -12,7 +12,7 @@ import akgLogo from '../../assets/logos/logo-akg-250px.png';
   <div class="site-container flex h-20 items-center gap-6">
     <a
       href="/"
-      class="inline-flex items-center no-underline transition hover:opacity-85"
+      class="relative z-[60] inline-flex items-center no-underline transition hover:opacity-85"
       aria-label="Apostel Kirchengemeinde Kiel · Konzertkirche Petruskirche Startseite"
     >
       <Image
@@ -49,30 +49,49 @@ import akgLogo from '../../assets/logos/logo-akg-250px.png';
       </a>
     </div>
 
-    <details class="relative ml-auto md:hidden">
-      <summary
-        class="flex size-11 cursor-pointer list-none items-center justify-center rounded-sm text-role-on transition hover:text-secondary [&::-webkit-details-marker]:hidden"
-        aria-label="Navigation öffnen"
-      >
-        <span class="sr-only">Navigation öffnen</span>
-        <svg aria-hidden="true" class="size-8" viewBox="0 0 24 24" fill="none">
-          <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.7" />
-        </svg>
+    <details class="mobile-nav ml-auto md:hidden">
+      <summary class="mobile-nav__toggle" aria-label="Navigation öffnen oder schließen">
+        <span class="sr-only">Navigation öffnen oder schließen</span>
+        <span class="mobile-nav__icon"></span>
       </summary>
-      <div class="absolute right-0 top-14 w-72 rounded-sm border border-white/10 bg-midnight/95 p-5 shadow-panel backdrop-blur-xl">
-        <div class="flex flex-col gap-4 font-display text-2xl leading-heading">
-          <a class="text-secondary no-underline" href="/programm">Programm</a>
-          <a class="text-role-on/80 no-underline" href="/besuch-planen">Besuch planen</a>
-          <a
-            class="text-role-on/80 no-underline"
-            href="https://akg-kiel.de/petruskirche"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Die Petruskirche
-          </a>
-          <a class="text-role-on/80 no-underline" href="/raum-anfragen">Raum anfragen</a>
-          <a class="text-role-on/80 no-underline" href="/kontakt">Kontakt</a>
+      <div class="mobile-nav__panel">
+        <div class="site-container flex min-h-svh flex-col pb-8 pt-28">
+          <p class="font-body text-[11px] font-semibold uppercase leading-4 tracking-[0.18em] text-secondary/90">
+            Navigation
+          </p>
+
+          <div class="mt-8 flex flex-col gap-3 font-display text-[clamp(2.35rem,12vw,4.25rem)] leading-[0.95] tracking-[-0.04em]">
+            <a class="mobile-nav__link text-secondary" href="/programm">
+              <span>Programm</span>
+              <small>Konzerte & Termine</small>
+            </a>
+            <a class="mobile-nav__link" href="/besuch-planen">
+              <span>Besuch planen</span>
+              <small>Anfahrt, Einlass & Raum</small>
+            </a>
+            <a
+              class="mobile-nav__link"
+              href="https://akg-kiel.de/petruskirche"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span>Die Petruskirche</span>
+              <small>Externe AKG-Seite</small>
+            </a>
+            <a class="mobile-nav__link" href="/raum-anfragen">
+              <span>Raum anfragen</span>
+              <small>Veranstaltungen & Kultur</small>
+            </a>
+            <a class="mobile-nav__link" href="/kontakt">
+              <span>Kontakt</span>
+              <small>Ansprechpersonen</small>
+            </a>
+          </div>
+
+          <div class="mt-auto grid gap-4 border-t border-white/10 pt-6 font-body text-sm leading-6 text-role-on/72">
+            <p>Der Ticketverkauf erfolgt über externe Anbieter.</p>
+            <a class="mobile-nav__meta-link" href="/programm">Zum Programm</a>
+          </div>
         </div>
       </div>
     </details>
