@@ -249,6 +249,17 @@ body:has(.mobile-nav[open]) {
   position: relative;
 }
 
+.mobile-nav::details-content {
+  opacity: 0;
+  transition:
+    opacity 180ms ease,
+    content-visibility 180ms allow-discrete;
+}
+
+.mobile-nav[open]::details-content {
+  opacity: 1;
+}
+
 .mobile-nav__toggle {
   position: relative;
   z-index: 60;
@@ -336,9 +347,12 @@ body:has(.mobile-nav[open]) {
   color: var(--color-on-surface);
   background:
     radial-gradient(circle at 86% 18%, rgb(var(--color-champagne-rgb) / 0.15), transparent 18rem),
-    linear-gradient(145deg, rgb(var(--color-midnight-rgb) / 0.98), rgb(var(--color-surface-rgb) / 0.98));
+    linear-gradient(
+      145deg,
+      rgb(var(--color-midnight-rgb) / 0.98),
+      rgb(var(--color-surface-rgb) / 0.98)
+    );
   backdrop-filter: blur(18px);
-  animation: mobile-nav-enter var(--transition-base) both;
 }
 
 .mobile-nav__link {
@@ -374,15 +388,74 @@ body:has(.mobile-nav[open]) {
   transform: translate(0.2rem, 0.08em);
 }
 
-@keyframes mobile-nav-enter {
-  from {
+@media (prefers-reduced-motion: no-preference) {
+  .mobile-nav__panel {
     opacity: 0;
     clip-path: inset(0 0 100% 0);
+    transform: translateY(-0.75rem);
+    transition:
+      opacity 180ms ease,
+      transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+      clip-path 220ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  to {
+  .mobile-nav[open] .mobile-nav__panel {
     opacity: 1;
     clip-path: inset(0);
+    transform: translateY(0);
+  }
+
+  @starting-style {
+    .mobile-nav[open] .mobile-nav__panel {
+      opacity: 0;
+      clip-path: inset(0 0 100% 0);
+      transform: translateY(-0.75rem);
+    }
+  }
+
+  .mobile-nav__link {
+    opacity: 0;
+    transform: translateY(0.45rem);
+    transition:
+      color var(--transition-fast),
+      opacity 160ms ease,
+      transform 190ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .mobile-nav[open] .mobile-nav__link {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .mobile-nav[open] .mobile-nav__link:nth-child(1) {
+    transition-delay: 55ms;
+  }
+
+  .mobile-nav[open] .mobile-nav__link:nth-child(2) {
+    transition-delay: 75ms;
+  }
+
+  .mobile-nav[open] .mobile-nav__link:nth-child(3) {
+    transition-delay: 95ms;
+  }
+
+  .mobile-nav[open] .mobile-nav__link:nth-child(4) {
+    transition-delay: 115ms;
+  }
+
+  .mobile-nav[open] .mobile-nav__link:nth-child(5) {
+    transition-delay: 135ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-nav::details-content,
+  .mobile-nav__panel,
+  .mobile-nav__link,
+  .mobile-nav__icon,
+  .mobile-nav__icon::before,
+  .mobile-nav__icon::after {
+    transition: none;
   }
 }
 
