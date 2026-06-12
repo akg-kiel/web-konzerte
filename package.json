@@ -12,7 +12,7 @@
     "lint:fix": "vp lint . --fix",
     "format": "vp fmt .",
     "check": "vp check .",
-    "prepare": "husky"
+    "prepare": "vp config"
   },
   "dependencies": {
     "@astrojs/react": "^5.0.7",
@@ -32,8 +32,6 @@
     "@types/react-dom": "^19.2.3",
     "astro-eslint-parser": "^1.4.0",
     "eslint-plugin-astro": "^1.7.0",
-    "husky": "^9.1.7",
-    "lint-staged": "^17.0.7",
     "postcss": "^8.5.15",
     "shadcn": "^4.11.0",
     "tailwindcss": "^4.3.0",
