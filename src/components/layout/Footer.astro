@@ -1,0 +1,111 @@
+---
+import { Image } from 'astro:assets';
+
+import akgLogo from '../../assets/logos/logo-akg-250px.png';
+
+const currentYear = new Date().getFullYear();
+
+const footerLinks = [
+  { label: 'Home', href: '/' },
+  { label: 'Programm', href: '/programm' },
+  { label: 'Besuch planen', href: '/besuch-planen' },
+  { label: 'Raum anfragen', href: '/raum-anfragen' },
+  { label: 'Kontakt', href: '/kontakt' },
+  {
+    label: 'Die Petruskirche',
+    href: 'https://akg-kiel.de/petruskirche',
+    external: true,
+    accent: true
+  }
+];
+
+const legalLinks = [
+  { label: 'Impressum', href: '/impressum' },
+  { label: 'Datenschutz', href: '/datenschutz' }
+];
+---
+
+<footer aria-labelledby="footer-heading" class="w-full border-t border-white/10 bg-midnight py-14 text-role-on md:py-16">
+  <div class="site-container grid grid-cols-1 items-start gap-11 md:grid-cols-2 md:gap-10 lg:gap-16">
+    <section aria-labelledby="footer-heading" class="max-w-lg">
+      <h2 id="footer-heading" class="mb-5">
+        <a
+          href="/"
+          class="inline-flex no-underline transition-opacity hover:opacity-85"
+          aria-label="Apostel-Kirchengemeinde Kiel Startseite"
+        >
+          <Image
+            src={akgLogo}
+            alt="Apostel-Kirchengemeinde Kiel"
+            class="h-12 w-auto brightness-0 invert md:h-14"
+            widths={[160, 220, 250]}
+            sizes="(min-width: 768px) 132px, 113px"
+            loading="lazy"
+            decoding="async"
+          />
+        </a>
+      </h2>
+
+      <p class="max-w-sm font-body text-sm leading-6 text-role-on/64 md:text-base md:leading-7">
+        © {currentYear} Apostel-Kirchengemeinde Kiel. Konzerte in der Petruskirche.
+      </p>
+
+      <address class="mt-7 space-y-3 font-body text-sm leading-6 text-role-on/68 not-italic">
+        <p>
+          <span class="block font-semibold text-role-on/86">Petruskirche Kiel-Wik</span>
+          Weimarer Straße 1 · 24106 Kiel
+        </p>
+        <p class="flex flex-col gap-1 sm:flex-row sm:flex-wrap sm:gap-x-5">
+          <a href="mailto:kontakt@akg-kiel.de" class="text-role-on/76 no-underline hover:text-secondary">
+            kontakt@akg-kiel.de
+          </a>
+          <a href="tel:+4943116456" class="text-role-on/76 no-underline hover:text-secondary">
+            Gemeindebüro 0431 16 456
+          </a>
+        </p>
+      </address>
+    </section>
+
+    <div class="w-full border-t border-white/10 pt-7 md:justify-self-end md:border-t-0 md:pt-1">
+      <nav aria-label="Navigation im Fußbereich">
+        <ul class="grid grid-cols-1 gap-1 sm:grid-cols-2 sm:gap-x-8 md:flex md:flex-wrap md:justify-end md:gap-x-7 md:gap-y-2" role="list">
+          {
+            footerLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  target={link.external ? '_blank' : undefined}
+                  rel={link.external ? 'noopener noreferrer' : undefined}
+                  class:list={[
+                    'inline-flex min-h-10 items-center gap-1.5 font-body text-sm leading-6 no-underline transition-colors hover:text-secondary',
+                    link.accent ? 'font-semibold text-secondary' : 'text-role-on/70'
+                  ]}
+                >
+                  {link.label}
+                  {link.external && <span aria-hidden="true">↗</span>}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <nav aria-label="Rechtliche Links" class="mt-7 border-t border-white/10 pt-5 md:mt-8">
+        <ul class="flex flex-wrap gap-x-6 gap-y-2 md:justify-end" role="list">
+          {
+            legalLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="inline-flex min-h-9 items-center font-body text-sm leading-6 text-role-on/56 no-underline transition-colors hover:text-secondary"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
+  </div>
+</footer>

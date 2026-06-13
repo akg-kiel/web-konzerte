@@ -1,4 +1,5 @@
 ---
+import Footer from '../components/layout/Footer.astro';
 import '../styles/globals.css';
 
 interface Props {
@@ -75,5 +76,6 @@ const fontStylesheetUrl =
     <div id="page-content" class="page-content" tabindex="-1">
       <slot />
     </div>
+    <Footer />
   </body>
 </html>
