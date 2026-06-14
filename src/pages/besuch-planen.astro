@@ -1,0 +1,131 @@
+---
+import { Image } from 'astro:assets';
+
+import Layout from '../layouts/Layout.astro';
+import heroStage from '../assets/hero/l1130722-hero.jpg';
+import orgelMikrofon from '../assets/concerts/orgel-mikrofon.jpg';
+---
+
+<Layout title="Ihren Besuch planen · Konzertkirche Petruskirche" description="Informationen zu Anfahrt, Parken, Einlass, Abendkasse, Barrierefreiheit und Café Dreimaster für die Petruskirche Kiel.">
+  <main class="min-h-screen bg-midnight text-role-on">
+    <section class="relative flex min-h-[48svh] items-center justify-center overflow-hidden pt-20 text-center" aria-labelledby="visit-heading">
+      <Image
+        src={heroStage}
+        alt="Innenraum der Petruskirche während einer musikalischen Veranstaltung"
+        class="absolute inset-0 !h-full !w-full object-cover opacity-45"
+        widths={[640, 960, 1280, 1600]}
+        sizes="100vw"
+        loading="eager"
+        decoding="async"
+        format="webp"
+      />
+      <div class="absolute inset-0 bg-gradient-to-b from-midnight/20 via-midnight/80 to-midnight" aria-hidden="true"></div>
+      <div class="site-container relative z-10 py-16 md:py-24">
+        <h1 id="visit-heading" class="font-display text-[clamp(3rem,8vw,5.6rem)] font-normal leading-[1.02] tracking-[-0.045em] text-white">Ihren Besuch planen</h1>
+        <p class="mx-auto mt-6 max-w-2xl font-body text-lg leading-8 text-role-on/72">
+          Alle wichtigen Informationen für einen reibungslosen und inspirierenden Aufenthalt in der Konzertkirche Petruskirche Kiel.
+        </p>
+      </div>
+    </section>
+
+    <div class="site-container space-y-20 py-16 md:space-y-28 md:py-28">
+      <section class="grid grid-cols-1 items-start gap-12 lg:grid-cols-2 lg:gap-20" aria-labelledby="arrival-heading">
+        <div>
+          <div class="border-l-2 border-secondary pl-6">
+            <p class="mb-2 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-secondary">Wie Sie uns finden</p>
+            <h2 id="arrival-heading" class="font-display text-[clamp(2.2rem,6vw,3.3rem)] font-normal text-white">Anfahrt &amp; Parken</h2>
+          </div>
+          <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <article class="rounded-[0.5rem] border border-white/5 bg-surface p-6">
+              <h3 class="font-body text-lg font-semibold text-on-surface">ÖPNV</h3>
+              <p class="mt-3 font-body text-base leading-7 text-role-on/70">
+                Die nächste Bushaltestelle „Petruskirche“ liegt nur wenige Gehminuten entfernt. Nutzen Sie je nach Verbindung die Linien 11, 60S oder 501.
+              </p>
+            </article>
+            <article class="rounded-[0.5rem] border border-white/5 bg-surface p-6">
+              <h3 class="font-body text-lg font-semibold text-on-surface">Auto &amp; Parken</h3>
+              <p class="mt-3 font-body text-base leading-7 text-role-on/70">
+                Rund um die Kirche gibt es begrenzte kostenfreie Parkmöglichkeiten an der Straße. Planen Sie bei größeren Veranstaltungen zusätzliche Zeit ein.
+              </p>
+            </article>
+          </div>
+        </div>
+        <aside class="surface-panel flex min-h-80 flex-col items-center justify-center rounded-[0.5rem] p-8 text-center" aria-label="Adresse">
+          <span class="text-4xl text-secondary/70" aria-hidden="true">⌖</span>
+          <p class="mt-4 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.14em] text-role-on/54">Adresse</p>
+          <p class="mt-3 font-display text-2xl leading-tight text-white">Petruskirche Kiel-Wik</p>
+          <p class="mt-3 font-body text-base leading-7 text-role-on/70">Weimarer Straße 1 · 24106 Kiel</p>
+          <a class="mt-6 inline-flex min-h-11 items-center justify-center rounded-sm border border-white/20 px-5 py-2 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] !text-secondary no-underline hover:border-secondary" href="https://www.openstreetmap.org/search?query=Weimarer%20Stra%C3%9Fe%201%2024106%20Kiel" target="_blank" rel="noopener noreferrer">Karte öffnen ↗</a>
+        </aside>
+      </section>
+
+      <section class="surface-panel relative overflow-hidden rounded-[0.5rem] p-8 md:p-12" aria-labelledby="admission-heading">
+        <div class="absolute right-0 top-0 h-64 w-64 translate-x-1/2 -translate-y-1/2 rounded-full bg-secondary/5 blur-3xl" aria-hidden="true"></div>
+        <div class="relative grid grid-cols-1 gap-10 md:grid-cols-2">
+          <div>
+            <div class="border-l-2 border-secondary pl-6">
+              <p class="mb-2 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-secondary">Zeitlicher Ablauf</p>
+              <h2 id="admission-heading" class="font-display text-[clamp(2.2rem,6vw,3.3rem)] font-normal text-white">Einlass &amp; Abendkasse</h2>
+            </div>
+            <p class="mt-8 font-body text-lg leading-8 text-role-on/72">
+              Um Ihnen ein entspanntes Konzerterlebnis zu ermöglichen, öffnen wir unsere Türen frühzeitig. Abweichende Zeiten entnehmen Sie bitte Ihrem jeweiligen Veranstaltungshinweis.
+            </p>
+          </div>
+          <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <article class="rounded-sm border border-white/5 bg-midnight/50 p-6">
+              <h3 class="font-body text-base font-semibold text-on-surface">Einlass</h3>
+              <p class="mt-3 font-body text-base leading-7 text-role-on/70">In der Regel 45 Minuten vor Veranstaltungsbeginn.</p>
+            </article>
+            <article class="rounded-sm border border-white/5 bg-midnight/50 p-6">
+              <h3 class="font-body text-base font-semibold text-on-surface">Abendkasse</h3>
+              <p class="mt-3 font-body text-base leading-7 text-role-on/70">Öffnet zeitgleich mit dem Einlass. Wir empfehlen bargeldlose Zahlung.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid grid-cols-1 gap-8 lg:grid-cols-3" aria-label="Barrierefreiheit und Café">
+        <article class="surface-panel rounded-[0.5rem] p-8 md:p-12 lg:col-span-2">
+          <div class="border-l-2 border-secondary pl-6">
+            <p class="mb-2 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-secondary">Zugang für alle</p>
+            <h2 class="font-display text-[clamp(2.2rem,6vw,3.3rem)] font-normal text-white">Barrierefreiheit</h2>
+          </div>
+          <div class="mt-8 grid grid-cols-1 gap-8 font-body text-base leading-7 text-role-on/72 md:grid-cols-2">
+            <div>
+              <h3 class="font-body text-lg font-semibold text-on-surface">Stufenloser Zugang</h3>
+              <p class="mt-3">Der Haupteingang ist über eine flache Rampe stufenlos erreichbar. Im Kirchenschiff sind keine Stufen vorhanden.</p>
+            </div>
+            <div>
+              <h3 class="font-body text-lg font-semibold text-on-surface">Sanitäre Anlagen</h3>
+              <p class="mt-3">Ein rollstuhlgerechtes WC befindet sich im anliegenden Gemeindehaus und ist während Veranstaltungen ausgeschildert.</p>
+            </div>
+            <p class="rounded-sm border border-secondary/20 bg-secondary/10 p-4 text-on-surface md:col-span-2">
+              Für die Reservierung spezifischer Rollstuhlplätze bitten wir um vorherige Kontaktaufnahme.
+            </p>
+          </div>
+        </article>
+
+        <article class="surface-panel flex flex-col overflow-hidden rounded-[0.5rem]">
+          <Image
+            src={orgelMikrofon}
+            alt="Atmosphärisches Detail mit Mikrofon und Kirchenfenstern"
+            class="aspect-video !w-full object-cover"
+            widths={[480, 720, 960]}
+            sizes="(min-width: 1024px) 30vw, calc(100vw - 40px)"
+            loading="lazy"
+            decoding="async"
+            format="webp"
+          />
+          <div class="flex flex-1 flex-col p-8">
+            <p class="mb-3 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.14em] text-secondary">Tipp</p>
+            <h2 class="font-display text-[clamp(1.9rem,4vw,2.5rem)] font-normal text-white">Café Dreimaster</h2>
+            <p class="mt-4 font-body text-base leading-7 text-role-on/72">
+              Stimmen Sie sich kulinarisch auf den Abend ein oder lassen Sie das Konzert gemütlich ausklingen. Direkt neben der Kirche gelegen.
+            </p>
+            <a class="mt-7 inline-flex min-h-11 items-center gap-2 self-start font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] !text-secondary no-underline hover:!text-champagne" href="https://akg-kiel.de" target="_blank" rel="noopener noreferrer">Mehr erfahren ↗</a>
+          </div>
+        </article>
+      </section>
+    </div>
+  </main>
+</Layout>

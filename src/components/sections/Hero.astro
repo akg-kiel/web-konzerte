@@ -2,89 +2,11 @@
 import { Image } from 'astro:assets';
 
 import heroStage from '../../assets/hero/l1130722-hero.jpg';
-import akgLogo from '../../assets/logos/logo-akg-250px.png';
 ---
-
-<nav aria-label="Hauptnavigation" class="fixed inset-x-0 top-0 z-50 border-b border-white/10 shadow-sm">
-  <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-slate-mist/60 backdrop-blur-xl"></div>
-  <div class="site-container relative flex h-20 items-center gap-6">
-    <a
-      href="/"
-      class="relative z-[60] inline-flex items-center no-underline transition hover:opacity-85"
-      aria-label="Apostel Kirchengemeinde Kiel · Konzertkirche Petruskirche Startseite"
-    >
-      <Image
-        src={akgLogo}
-        alt="Apostel Kirchengemeinde Kiel"
-        class="h-10 w-auto brightness-0 invert sm:h-12"
-        widths={[160, 220, 250]}
-        sizes="(min-width: 640px) 113px, 94px"
-        loading="eager"
-        decoding="async"
-      />
-    </a>
-
-    <div class="ml-auto hidden items-center gap-8 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] md:flex">
-      <a class="border-b-2 border-secondary pb-1 text-secondary no-underline" href="/programm">
-        Programm
-      </a>
-      <a class="text-role-on/78 no-underline transition hover:text-secondary" href="/besuch-planen">
-        Besuch planen
-      </a>
-      <a
-        class="text-role-on/78 no-underline transition hover:text-secondary"
-        href="https://akg-kiel.de/petruskirche"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Die Petruskirche
-      </a>
-      <a class="text-role-on/78 no-underline transition hover:text-secondary" href="/raum-anfragen">
-        Raum anfragen
-      </a>
-      <a class="text-role-on/78 no-underline transition hover:text-secondary" href="/kontakt">
-        Kontakt
-      </a>
-    </div>
-
-    <details class="mobile-nav ml-auto md:hidden">
-      <summary class="mobile-nav__toggle" aria-label="Navigation öffnen oder schließen">
-        <span class="sr-only">Navigation öffnen oder schließen</span>
-        <span class="mobile-nav__icon"></span>
-      </summary>
-      <div class="mobile-nav__panel">
-        <div class="site-container flex min-h-svh flex-col pb-10 pt-32">
-          <p class="font-body text-[11px] font-semibold uppercase leading-4 tracking-[0.18em] text-secondary/80">
-            Menü
-          </p>
-
-          <div class="mt-10 flex flex-col gap-5 font-display text-[clamp(2.05rem,10.5vw,3.6rem)] leading-[1.02] tracking-[-0.035em]">
-            <a class="mobile-nav__link text-secondary" href="/programm">Programm</a>
-            <a class="mobile-nav__link" href="/besuch-planen">Besuch planen</a>
-            <a
-              class="mobile-nav__link"
-              href="https://akg-kiel.de/petruskirche"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Die Petruskirche
-            </a>
-            <a class="mobile-nav__link" href="/raum-anfragen">Raum anfragen</a>
-            <a class="mobile-nav__link" href="/kontakt">Kontakt</a>
-          </div>
-
-          <p class="mt-auto max-w-xs border-t border-white/10 pt-6 font-body text-sm leading-6 text-role-on/58">
-            Tickets werden über externe Anbieter verkauft.
-          </p>
-        </div>
-      </div>
-    </details>
-  </div>
-</nav>
 
 <section
   aria-labelledby="hero-heading"
-  class="relative flex min-h-[100svh] items-end overflow-hidden bg-role-dominant px-0 pb-[calc(var(--page-gutter)+env(safe-area-inset-bottom))] pt-20 text-role-on md:pb-44 lg:pb-52"
+  class="relative flex min-h-[100svh] items-end overflow-hidden bg-role-dominant px-0 pb-[calc(3.5rem+env(safe-area-inset-bottom))] pt-24 text-role-on sm:pb-20 md:pb-44 lg:pb-52"
 >
   <div class="absolute inset-x-0 top-0 bottom-[40svh] z-0 w-full overflow-hidden md:bottom-[20svh]">
     <Image
@@ -123,8 +45,8 @@ import akgLogo from '../../assets/logos/logo-akg-250px.png';
   <div class="site-container relative z-20 w-full">
     <div class="max-w-3xl">
       <h1 id="hero-heading" class="hero-title font-display font-semibold !text-white">
-        <span class="whitespace-nowrap">Konzerte in der</span><br />
-        <span class="whitespace-nowrap italic !text-secondary">Petruskirche Kiel</span>
+        <span class="block whitespace-nowrap">Konzerte in der</span>
+        <span class="block italic !text-secondary">Petruskirche Kiel</span>
       </h1>
 
       <p class="hero-copy mt-5 max-w-[35ch] font-body text-[clamp(0.92rem,2.35vw,1rem)] font-normal leading-[1.56] text-role-on/66 md:mt-6 md:max-w-[46ch] md:text-[clamp(1rem,1.1vw,1.1rem)] md:leading-[1.6] md:text-role-on/74">

@@ -295,6 +295,7 @@ h1 {
 
 h2 {
   font-size: var(--text-step-3);
+  font-weight: 400;
   letter-spacing: var(--tracking-heading);
 }
 
@@ -759,12 +760,18 @@ hr {
   background: var(--color-role-accent);
 }
 
-.editorial-label {
+.editorial-label,
+.section-label {
+  display: block;
+  margin: 0;
   font-family: var(--font-ui);
-  font-size: var(--text-step--1);
-  font-weight: 700;
-  letter-spacing: var(--tracking-label);
-  color: var(--color-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1rem;
+  letter-spacing: 0.1em;
+  text-align: left;
+  text-transform: uppercase;
+  color: rgb(var(--color-on-surface-rgb) / 0.62);
 }
 
 @media (prefers-reduced-motion: reduce) {

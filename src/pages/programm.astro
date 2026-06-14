@@ -1,0 +1,28 @@
+---
+import Concerts from '../components/sections/Concerts.astro';
+import Layout from '../layouts/Layout.astro';
+import { programmeConcerts } from '../data/concerts';
+---
+
+<Layout title="Programm & Tickets · Konzertkirche Petruskirche" description="Programm und Tickets der Konzertkirche Petruskirche Kiel: Klassik, Chor, Musical, Orgel und Crossover im Kirchenraum.">
+  <main class="min-h-screen bg-midnight pt-32 text-role-on">
+    <section class="site-container pb-10 md:pb-14" aria-labelledby="programme-heading">
+      <p class="mb-5 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.14em] text-secondary">Konzerte in Kiel-Wik</p>
+      <h1 id="programme-heading" class="font-display text-[clamp(3rem,9vw,5.8rem)] font-normal leading-[1.02] tracking-[-0.045em] text-primary">Programm &amp; Tickets</h1>
+      <p class="mt-6 max-w-2xl font-body text-lg leading-8 text-role-on/72">
+        Erleben Sie außergewöhnliche musikalische Momente in der einzigartigen Akustik und Atmosphäre der Petruskirche. Ticketaktionen erscheinen nur dort, wo ein Ticketlink in den Veranstaltungsdaten hinterlegt ist.
+      </p>
+    </section>
+
+    <Concerts
+      id="programm"
+      concerts={programmeConcerts}
+      variant="programme"
+      eyebrow="Kategorien"
+      heading="Alle Termine"
+      intro="Die Kategorien geben Orientierung; Details führen zu den einzelnen Terminen und zu hinterlegten Ticketlinks."
+      showHeaderLink={false}
+      showFilters
+    />
+  </main>
+</Layout>

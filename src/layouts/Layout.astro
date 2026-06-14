@@ -1,5 +1,6 @@
 ---
 import Footer from '../components/layout/Footer.astro';
+import Header from '../components/layout/Header.astro';
 import '../styles/globals.css';
 
 interface Props {
@@ -87,6 +88,7 @@ const ogImageUrl = new URL(ogImage, siteUrl).href;
   </head>
   <body>
     <a href="#page-content" class="skip-link">Direkt zum Inhalt springen</a>
+    <Header />
     <div id="page-content" class="page-content" tabindex="-1">
       <slot />
     </div>

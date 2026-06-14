@@ -60,13 +60,12 @@ export const concerts: Concert[] = [
     location: 'Konzertkirche Petruskirche Kiel',
     performers: 'Kieler Philharmoniker',
     price: 'ab 24,00 €',
-    ticketUrl: '/programm#tickets-kieler-philharmoniker-herbstklaenge',
     ticketLabel: 'Tickets',
     detailsHref: '/programm#kieler-philharmoniker-herbstklaenge',
     status: {
       state: 'available',
-      label: 'Tickets im Vorverkauf',
-      description: 'Für diesen Termin ist ein Ticketlink hinterlegt.'
+      label: 'Ticketinformationen folgen',
+      description: 'Es ist noch kein externer Ticketlink hinterlegt.'
     },
     image: sinfonieFenster,
     imageAlt: 'Dunkler Blick über Flügel und Kirchenfenster in der Petruskirche',
@@ -117,17 +116,100 @@ export const concerts: Concert[] = [
     location: 'Konzertkirche Petruskirche Kiel',
     performers: 'Petrus-Chor und Solisten',
     price: 'ab 18,00 €',
-    ticketUrl: '/programm#tickets-weihnachtsoratorium-bach',
     ticketLabel: 'Tickets',
     detailsHref: '/programm#weihnachtsoratorium-bach',
     status: {
       state: 'available',
-      label: 'Tickets im Vorverkauf',
-      description: 'Für diesen Termin ist ein Ticketlink hinterlegt.'
+      label: 'Ticketinformationen folgen',
+      description: 'Es ist noch kein externer Ticketlink hinterlegt.'
     },
     image: heroStage,
     imageAlt: 'Chor- und Ensembleauftritt im Altarraum der Petruskirche',
     imagePosition: '70% 58%'
+  },
+  {
+    slug: 'die-passion-2026',
+    title: 'Die Passion 2026 - Das Musical',
+    programme:
+      'Ein monumentales musikalisches Ereignis, das Passionsspieltradition mit moderner Musicalkraft, Chor, Solisten und Orchester verbindet.',
+    category: 'Musical Premiere',
+    date: {
+      iso: '2026-03-22T18:00:00+01:00',
+      month: 'Mär',
+      day: '22',
+      time: '18:00',
+      display: '22. März 2026 • 18:00 Uhr',
+      compact: 'MÄR 22 · 18:00 Uhr'
+    },
+    location: 'Konzertkirche Petruskirche Kiel',
+    performers: 'Großer Sinfonischer Chor der Petruskirche & Projektorchester Kiel',
+    price: '25€ - 45€',
+    ticketLabel: 'Tickets',
+    detailsHref: '/programm/die-passion-2026',
+    status: {
+      state: 'available',
+      label: 'Ticketinformationen folgen',
+      description: 'Es ist noch kein externer Ticketlink hinterlegt.'
+    },
+    image: heroStage,
+    imageAlt: 'Chorprobe und Ensemble im Kirchenraum der Petruskirche',
+    imagePosition: '64% 52%'
+  },
+  {
+    slug: 'cello-meets-electronic',
+    title: 'Cello meets Electronic',
+    programme:
+      'Ein immersives Klangerlebnis, das klassisches Cello-Spiel mit modernen elektronischen Elementen und Licht im Kirchenraum verbindet.',
+    category: 'Pop / Crossover',
+    date: {
+      iso: '2026-04-15T20:00:00+02:00',
+      month: 'Apr',
+      day: '15',
+      time: '20:00',
+      display: '15. April 2026 • 20:00 Uhr',
+      compact: 'APR 15 · 20:00 Uhr'
+    },
+    location: 'Konzertkirche Petruskirche Kiel',
+    performers: 'Solo-Cello, Live-Elektronik und Lichtregie',
+    price: 'ab 35,00 €',
+    ticketLabel: 'Tickets',
+    detailsHref: '/programm#cello-meets-electronic',
+    status: {
+      state: 'available',
+      label: 'Ticketinformationen folgen',
+      description: 'Es ist noch kein externer Ticketlink hinterlegt.'
+    },
+    image: sinfonieFenster,
+    imageAlt: 'Reflexionen von Kirchenfenstern auf einem Konzertflügel',
+    imagePosition: '52% 50%'
+  },
+  {
+    slug: 'nordische-lichter',
+    title: 'A-cappella-Konzert: Nordische Lichter',
+    programme:
+      'Der Petruschor präsentiert zeitgenössische und klassische Chorwerke skandinavischer Komponisten in klarer Kirchenakustik.',
+    category: 'Chor',
+    date: {
+      iso: '2026-05-02T18:00:00+02:00',
+      month: 'Mai',
+      day: '02',
+      time: '18:00',
+      display: '2. Mai 2026 • 18:00 Uhr',
+      compact: 'MAI 02 · 18:00 Uhr'
+    },
+    location: 'Konzertkirche Petruskirche Kiel',
+    performers: 'Petruschor Kiel',
+    price: 'Eintritt frei (Spende erbeten)',
+    ticketLabel: 'Details',
+    detailsHref: '/programm#nordische-lichter',
+    status: {
+      state: 'free',
+      label: 'Eintritt frei',
+      description: 'Für dieses Konzert ist kein Ticketlink erforderlich.'
+    },
+    image: orgelMikrofon,
+    imageAlt: 'Mikrofon und Instrumentendetail in der Petruskirche',
+    imagePosition: '50% 45%'
   }
 ];
 
@@ -136,3 +218,9 @@ export const upcomingConcerts = concerts.filter((concert) => !concert.isPast).sl
 export const programmeConcerts = concerts.filter((concert) => !concert.isPast);
 
 export const archiveConcerts = concerts.filter((concert) => concert.isPast);
+
+export const passionConcert = concerts.find((concert) => concert.slug === 'die-passion-2026');
+
+export const relatedConcerts = concerts
+  .filter((concert) => concert.slug !== 'die-passion-2026')
+  .slice(0, 3);

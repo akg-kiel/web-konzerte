@@ -1,0 +1,35 @@
+---
+import Card from '../ui/Card.astro';
+
+interface Props {
+  href: string;
+  title: string;
+  body: string;
+  cta: string;
+  icon: string;
+  ariaLabel?: string;
+}
+
+const { href, title, body, cta, icon, ariaLabel = `${title}: ${cta}` } = Astro.props;
+---
+
+<Card
+  as="a"
+  href={href}
+  class="group flex min-h-full flex-col p-8 !text-role-on no-underline shadow-panel transition-[background-color,border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-secondary/40 hover:bg-slate-mist/35 hover:shadow-[0_28px_90px_rgb(var(--color-champagne-rgb)/0.1)] focus-visible:-translate-y-1 focus-visible:border-secondary/50 md:p-10"
+  aria-label={ariaLabel}
+>
+  <span class="mb-8 flex h-14 w-14 items-center justify-center rounded-sm bg-slate-mist text-2xl text-secondary transition-colors duration-300 group-hover:bg-secondary group-hover:text-midnight group-focus-visible:bg-secondary group-focus-visible:text-midnight" aria-hidden="true">
+    {icon}
+  </span>
+  <h3 class="font-display text-[clamp(1.8rem,4vw,2.4rem)] font-normal text-white transition-colors duration-300 group-hover:text-champagne group-focus-visible:text-champagne">
+    {title}
+  </h3>
+  <p class="mt-5 font-body text-lg leading-8 text-role-on/72 transition-colors duration-300 group-hover:text-role-on/82 group-focus-visible:text-role-on/82">
+    {body}
+  </p>
+  <span class="mt-auto inline-flex min-h-11 items-center gap-2 self-start pt-9 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] !text-secondary transition-colors duration-300 group-hover:!text-champagne group-focus-visible:!text-champagne">
+    {cta}
+    <span class="transition-transform duration-300 group-hover:translate-x-1 group-focus-visible:translate-x-1" aria-hidden="true">→</span>
+  </span>
+</Card>

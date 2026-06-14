@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 
+import Card from '../ui/Card.astro';
 import type { Concert, ConcertStatusState, ConcertVariant } from '../../data/concerts';
 
 interface Props {
@@ -25,14 +26,23 @@ const statusClasses: Record<ConcertStatusState, string> = {
 
 {
   isProgramme ? (
-    <article
+    <Card
+      as="article"
+      id={concert.slug}
       aria-labelledby={titleId}
       class:list={[
-        'group group/card relative flex flex-col overflow-hidden rounded-[0.5rem] border border-white/5 bg-slate-mist/30 transition-colors duration-300 hover:border-secondary/30 md:flex-row',
+        'group group/card flex flex-col border-white/5 bg-slate-mist/30 backdrop-blur-none transition-colors duration-300 hover:border-secondary/30 focus-within:border-secondary/30 md:flex-row',
         isArchive && 'opacity-75 grayscale-[0.25]'
       ]}
     >
-      <div class="relative min-h-64 overflow-hidden md:w-[34%] lg:w-[31%]">
+      <a
+        href={concert.detailsHref}
+        class="absolute inset-0 z-10 rounded-[0.5rem] no-underline"
+        aria-hidden="true"
+        tabindex="-1"
+      ></a>
+
+      <div class="pointer-events-none relative min-h-64 overflow-hidden md:w-[34%] lg:w-[31%]">
         <Image
           src={concert.image}
           alt={concert.imageAlt}
@@ -59,7 +69,7 @@ const statusClasses: Record<ConcertStatusState, string> = {
         </time>
       </div>
 
-      <div class="flex min-h-full min-w-0 flex-1 flex-col px-6 py-7 md:px-8 lg:px-10">
+      <div class="pointer-events-none relative z-20 flex min-h-full min-w-0 flex-1 flex-col px-6 py-7 md:px-8 lg:px-10">
         <div class="flex flex-wrap items-center gap-3">
           <span class="rounded-sm border border-white/10 bg-white/5 px-3 py-1 font-body text-[11px] font-semibold uppercase leading-4 tracking-[0.1em] text-role-on/72">
             {concert.category}
@@ -75,15 +85,14 @@ const statusClasses: Record<ConcertStatusState, string> = {
         <h3
           id={titleId}
           title={concert.title}
-          tabindex="0"
-          class="group/title relative mt-5 block max-w-full overflow-hidden font-display !text-[clamp(1.6rem,3vw,2.35rem)] !font-normal !leading-[1.08] tracking-[-0.03em] !text-role-on/92 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-secondary/70 group-hover:!text-white"
+          class="group/title relative mt-5 block max-w-full overflow-hidden font-display !text-[clamp(1.6rem,3vw,2.35rem)] !font-normal !leading-[1.08] tracking-[-0.03em] !text-role-on/92 transition-colors group-hover:!text-white"
           data-concert-title
           data-overflow="false"
         >
-          <span class="block truncate pr-6 !text-nowrap transition-opacity motion-reduce:!opacity-100 group-data-[overflow=true]/title:group-hover/card:opacity-0 group-data-[overflow=true]/title:group-focus-within/title:opacity-0" data-concert-title-text>
+          <span class="block truncate pr-6 !text-nowrap transition-opacity motion-reduce:!opacity-100 group-data-[overflow=true]/title:group-hover/card:opacity-0 group-data-[overflow=true]/title:group-focus-within/card:opacity-0" data-concert-title-text>
             {concert.title}
           </span>
-          <span aria-hidden="true" class="pointer-events-none absolute inset-0 hidden overflow-hidden motion-reduce:!hidden group-data-[overflow=true]/title:group-hover/card:block group-data-[overflow=true]/title:group-focus-within/title:block">
+          <span aria-hidden="true" class="pointer-events-none absolute inset-0 hidden overflow-hidden motion-reduce:!hidden group-data-[overflow=true]/title:group-hover/card:block group-data-[overflow=true]/title:group-focus-within/card:block">
             <span class="inline-flex min-w-max animate-title-marquee gap-10 pr-10 motion-reduce:animate-none">
               <span>{concert.title}</span>
               <span>{concert.title}</span>
@@ -109,15 +118,16 @@ const statusClasses: Record<ConcertStatusState, string> = {
           <div class="flex flex-wrap justify-end gap-2">
             <a
               href={concert.detailsHref}
-              class="inline-flex min-h-11 min-w-28 items-center justify-center rounded-sm border border-white/20 bg-transparent px-5 py-2.5 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.08em] !text-role-on/84 no-underline transition-colors hover:border-white/45 hover:bg-white/[0.04] hover:!text-white active:scale-95"
+              class="pointer-events-auto relative z-30 inline-flex min-h-11 min-w-28 items-center justify-center rounded-sm border border-white/20 bg-transparent px-5 py-2.5 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.08em] !text-role-on/84 no-underline transition-colors hover:border-white/45 hover:bg-white/[0.04] hover:!text-white active:scale-95"
               aria-label={`Details zu ${concert.title} ansehen`}
             >
               Details
             </a>
             {concert.ticketUrl && (
               <a
+                id={`tickets-${concert.slug}`}
                 href={concert.ticketUrl}
-                class="inline-flex min-h-11 min-w-28 items-center justify-center rounded-sm border border-secondary/55 bg-transparent px-5 py-2.5 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.08em] !text-secondary no-underline transition-colors hover:border-secondary hover:bg-secondary/10 hover:!text-champagne active:scale-95"
+                class="pointer-events-auto relative z-30 inline-flex min-h-11 min-w-28 items-center justify-center rounded-sm border border-secondary/55 bg-transparent px-5 py-2.5 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.08em] !text-secondary no-underline transition-colors hover:border-secondary hover:bg-secondary/10 hover:!text-champagne active:scale-95"
                 aria-label={`Tickets für ${concert.title} kaufen`}
               >
                 {concert.ticketLabel}
@@ -126,16 +136,25 @@ const statusClasses: Record<ConcertStatusState, string> = {
           </div>
         </div>
       </div>
-    </article>
+    </Card>
   ) : (
-    <article
+    <Card
+      as="article"
+      id={concert.slug}
       aria-labelledby={titleId}
       class:list={[
-        'group group/card relative flex h-full flex-col overflow-hidden rounded-[0.5rem] border border-white/10 bg-slate-mist/60 backdrop-blur-[12px] transition-colors duration-300 hover:border-secondary/40',
+        'group group/card flex h-full flex-col transition-colors duration-300 hover:border-secondary/40 focus-within:border-secondary/40',
         isArchive && 'opacity-75 grayscale-[0.25]'
       ]}
     >
-      <div class="relative aspect-[4/3] w-full shrink-0 overflow-hidden">
+      <a
+        href={concert.detailsHref}
+        class="absolute inset-0 z-10 rounded-[0.5rem] no-underline"
+        aria-hidden="true"
+        tabindex="-1"
+      ></a>
+
+      <div class="pointer-events-none relative aspect-[4/3] w-full shrink-0 overflow-hidden">
         <Image
           src={concert.image}
           alt={concert.imageAlt}
@@ -150,7 +169,7 @@ const statusClasses: Record<ConcertStatusState, string> = {
         <div class="absolute inset-0 bg-[linear-gradient(180deg,rgb(var(--color-midnight-rgb)/0),rgb(var(--color-midnight-rgb)/0.12))]" aria-hidden="true"></div>
       </div>
 
-      <div class="flex min-w-0 flex-grow flex-col px-7 pb-7 pt-6">
+      <div class="pointer-events-none relative z-20 flex min-w-0 flex-grow flex-col px-7 pb-7 pt-6">
         <div class="mb-4 flex items-center gap-2 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-secondary">
           <svg aria-hidden="true" class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none">
             <path d="M7 3v3M17 3v3M4.5 9.5h15M6.5 5h11A2.5 2.5 0 0 1 20 7.5v10A2.5 2.5 0 0 1 17.5 20h-11A2.5 2.5 0 0 1 4 17.5v-10A2.5 2.5 0 0 1 6.5 5Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
@@ -161,15 +180,14 @@ const statusClasses: Record<ConcertStatusState, string> = {
         <h3
           id={titleId}
           title={concert.title}
-          tabindex="0"
-          class="group/title relative mb-3 block max-w-full overflow-hidden font-display !text-[20px] !font-normal !leading-[1.32] tracking-[-0.01em] !text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-secondary/70 sm:!text-[21px]"
+          class="group/title relative mb-3 block max-w-full overflow-hidden font-display !text-[20px] !font-normal !leading-[1.32] tracking-[-0.01em] !text-white sm:!text-[21px]"
           data-concert-title
           data-overflow="false"
         >
-          <span class="block truncate pr-6 !text-nowrap transition-opacity motion-reduce:!opacity-100 group-data-[overflow=true]/title:group-hover/card:opacity-0 group-data-[overflow=true]/title:group-focus-within/title:opacity-0" data-concert-title-text>
+          <span class="block truncate pr-6 !text-nowrap transition-opacity motion-reduce:!opacity-100 group-data-[overflow=true]/title:group-hover/card:opacity-0 group-data-[overflow=true]/title:group-focus-within/card:opacity-0" data-concert-title-text>
             {concert.title}
           </span>
-          <span aria-hidden="true" class="pointer-events-none absolute inset-0 hidden overflow-hidden motion-reduce:!hidden group-data-[overflow=true]/title:group-hover/card:block group-data-[overflow=true]/title:group-focus-within/title:block">
+          <span aria-hidden="true" class="pointer-events-none absolute inset-0 hidden overflow-hidden motion-reduce:!hidden group-data-[overflow=true]/title:group-hover/card:block group-data-[overflow=true]/title:group-focus-within/card:block">
             <span class="inline-flex min-w-max animate-title-marquee gap-10 pr-10 motion-reduce:animate-none">
               <span>{concert.title}</span>
               <span>{concert.title}</span>
@@ -187,15 +205,16 @@ const statusClasses: Record<ConcertStatusState, string> = {
           <div class="flex flex-wrap justify-end gap-2">
             <a
               href={concert.detailsHref}
-              class="inline-flex min-h-10 items-center justify-center rounded-sm border border-white/18 bg-transparent px-4 py-2 font-body text-[11px] font-semibold uppercase leading-4 tracking-[0.09em] !text-role-on/72 no-underline transition-colors hover:border-white/40 hover:bg-white/[0.04] hover:!text-white active:scale-95"
+              class="pointer-events-auto relative z-30 inline-flex min-h-10 items-center justify-center rounded-sm border border-white/18 bg-transparent px-4 py-2 font-body text-[11px] font-semibold uppercase leading-4 tracking-[0.09em] !text-role-on/72 no-underline transition-colors hover:border-white/40 hover:bg-white/[0.04] hover:!text-white active:scale-95"
               aria-label={`Details zu ${concert.title} ansehen`}
             >
               Details
             </a>
             {concert.ticketUrl && (
               <a
+                id={`tickets-${concert.slug}`}
                 href={concert.ticketUrl}
-                class="inline-flex min-h-10 items-center justify-center rounded-sm border border-secondary/55 bg-transparent px-4 py-2 font-body text-[11px] font-semibold uppercase leading-4 tracking-[0.09em] !text-secondary no-underline transition-colors hover:border-secondary hover:bg-secondary/10 hover:!text-champagne active:scale-95"
+                class="pointer-events-auto relative z-30 inline-flex min-h-10 items-center justify-center rounded-sm border border-secondary/55 bg-transparent px-4 py-2 font-body text-[11px] font-semibold uppercase leading-4 tracking-[0.09em] !text-secondary no-underline transition-colors hover:border-secondary hover:bg-secondary/10 hover:!text-champagne active:scale-95"
                 aria-label={`Tickets für ${concert.title} kaufen`}
               >
                 {concert.ticketLabel}
@@ -204,7 +223,7 @@ const statusClasses: Record<ConcertStatusState, string> = {
           </div>
         </div>
       </div>
-    </article>
+    </Card>
   )
 }
 

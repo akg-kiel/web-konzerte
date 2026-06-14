@@ -42,7 +42,7 @@ const imageSizes = isProgramme
   : '(min-width: 1024px) 384px, (min-width: 768px) 45vw, calc(100vw - 40px)';
 
 const headerLinkClass =
-  'flex items-center gap-2 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] !text-role-on/68 no-underline transition-colors hover:!text-secondary';
+  'inline-flex items-center gap-2 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] !text-role-on/68 no-underline transition-colors hover:!text-secondary';
 ---
 
 <section
@@ -59,15 +59,12 @@ const headerLinkClass =
   <div class="site-container">
     {
       showVisibleHeading ? (
-        <div class="mb-16 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+        <div class="mb-10 flex flex-col justify-between gap-6 md:mb-12 md:flex-row md:items-end">
           <div>
-            <p class="mb-4 block font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-secondary">
+            <h2 id={titleId} class="section-label">
               {eyebrow}
-            </p>
-            <h2 id={titleId} class="font-display text-[clamp(2.4rem,7vw,3rem)] font-normal leading-[1.16] tracking-[-0.015em] text-white">
-              {heading}
             </h2>
-            {intro && <p class="mt-6 max-w-2xl font-body text-[18px] leading-7 text-role-on/68">{intro}</p>}
+            {intro && <p class="mt-5 max-w-2xl font-body text-[18px] leading-7 text-role-on/68">{intro}</p>}
           </div>
 
           {showHeaderLink && (
@@ -83,11 +80,10 @@ const headerLinkClass =
         </div>
       ) : (
         <>
-          <h2 id={titleId} class="sr-only">{heading}</h2>
-          <div class="mb-8 flex items-center justify-between gap-6 md:mb-10">
-            <p class="block font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-secondary">
+          <div class="mb-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between md:mb-10">
+            <h2 id={titleId} class="section-label">
               {eyebrow}
-            </p>
+            </h2>
             {showHeaderLink && (
               <a
                 href="/programm"
@@ -105,25 +101,25 @@ const headerLinkClass =
 
     {
       showFilters && (
-        <nav aria-label="Programm filtern" class="-mt-4 mb-12 border-b border-white/5 pb-4">
+        <div aria-label="Programmkategorien" class="-mt-4 mb-12 border-b border-white/5 pb-4">
           <ul class="flex gap-3 overflow-x-auto pb-1" role="list">
             {filters.map((filter, index) => (
               <li>
-                <a
-                  href={filter === 'Alle' ? '#programm' : `#${filter.toLowerCase().replaceAll(' ', '-')}`}
+                <span
                   class:list={[
-                    'inline-flex min-h-10 items-center rounded-sm border px-6 py-2 font-body text-[12px] font-semibold leading-4 tracking-[0.08em] !no-underline transition-colors active:scale-95',
+                    'inline-flex min-h-10 items-center rounded-sm border px-6 py-2 font-body text-[12px] font-semibold leading-4 tracking-[0.08em]',
                     index === 0
-                      ? 'border-secondary bg-secondary/10 !text-secondary'
-                      : 'border-white/20 bg-white/[0.02] !text-role-on/78 hover:border-secondary/60 hover:!text-secondary'
+                      ? 'border-secondary bg-secondary/10 text-secondary'
+                      : 'border-white/20 bg-white/[0.02] text-role-on/78'
                   ]}
+                  aria-current={index === 0 ? 'true' : undefined}
                 >
                   {filter}
-                </a>
+                </span>
               </li>
             ))}
           </ul>
-        </nav>
+        </div>
       )
     }
 

@@ -1,0 +1,22 @@
+---
+import { cn } from '@/lib/utils';
+
+interface Props {
+  as?: keyof HTMLElementTagNameMap;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { as = 'div', class: className, ...attrs } = Astro.props as Props;
+const Component = as;
+---
+
+<Component
+  {...attrs}
+  class={cn(
+    'relative overflow-hidden rounded-[0.5rem] border border-white/10 bg-slate-mist/60 backdrop-blur-[12px]',
+    className
+  )}
+>
+  <slot />
+</Component>

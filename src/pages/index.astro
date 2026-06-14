@@ -1,12 +1,84 @@
 ---
-import Hero from '../components/sections/Hero.astro';
+import { Image } from 'astro:assets';
+
 import Concerts from '../components/sections/Concerts.astro';
+import CtaCard from '../components/sections/CtaCard.astro';
+import Hero from '../components/sections/Hero.astro';
+import Card from '../components/ui/Card.astro';
 import Layout from '../layouts/Layout.astro';
+import churchExterior from '../assets/venue/petruskirche-exterior.webp';
 ---
 
-<Layout title="Konzerte in der Petruskirche">
+<Layout title="Konzerte in der Petruskirche Kiel" description="Konzertkirche Petruskirche Kiel: Programm, Besuchsplanung und Raum für Kulturveranstaltungen in besonderer Akustik.">
   <main class="min-h-screen bg-role-dominant text-role-on">
     <Hero />
     <Concerts />
+
+    <section class="py-16 md:py-20" aria-label="Zitat über Musik">
+      <div class="mx-auto flex w-full max-w-3xl flex-col items-center px-5 text-center md:px-8">
+        <blockquote class="max-w-none text-center font-display text-[clamp(1.45rem,4vw,2.65rem)] font-normal italic leading-[1.18] tracking-[-0.025em] text-white">
+          Musik drückt das aus, was nicht gesagt werden kann und worüber zu schweigen unmöglich ist.
+        </blockquote>
+        <div class="mt-6 inline-flex items-center justify-center gap-3 text-center">
+          <span class="h-px w-6 bg-secondary/25" aria-hidden="true"></span>
+          <cite class="block text-center font-body text-[10px] font-semibold uppercase not-italic leading-4 tracking-[0.16em] text-secondary">Victor Hugo</cite>
+          <span class="h-px w-6 bg-secondary/25" aria-hidden="true"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="relative overflow-hidden border-y border-white/5 bg-surface py-20 md:py-32" aria-labelledby="architecture-heading">
+      <div class="pointer-events-none absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-slate-mist/40 to-transparent" aria-hidden="true"></div>
+      <div class="site-container relative grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        <div class="order-2 lg:order-1">
+          <h2 id="architecture-heading" class="section-label">Architektur &amp; Raumklang</h2>
+          <div class="mt-6 space-y-6 font-body text-lg leading-8 text-role-on/72">
+            <p>
+              Die Petruskirche in Kiel-Wik besticht nicht nur durch ihre neugotische Architektur, sondern vor allem durch eine Akustik, die Stimmen, Orgel und Ensembleklang besonders klar trägt.
+            </p>
+            <p>
+              Der weite Kirchenraum bietet mit seinen hohen Gewölben den Resonanzkörper für orchestrale Werke, während die intime Atmosphäre des Altarraums kammermusikalischen Darbietungen einen besonderen Rahmen verleiht.
+            </p>
+          </div>
+        </div>
+        <Card as="figure" class="order-1 bg-slate-mist/30 shadow-panel lg:order-2">
+          <Image
+            src={churchExterior}
+            alt="Außenansicht der Petruskirche Kiel mit neugotischer Backsteinarchitektur"
+            class="aspect-[4/3] !h-full !w-full object-cover"
+            widths={[640, 960, 1280]}
+            sizes="(min-width: 1024px) 50vw, calc(100vw - 40px)"
+            loading="lazy"
+            decoding="async"
+          />
+
+        </Card>
+      </div>
+    </section>
+
+    <section class="bg-midnight py-20 md:py-32" aria-labelledby="service-heading">
+      <div class="site-container">
+        <div class="mb-8 max-w-3xl md:mb-10">
+          <h2 id="service-heading" class="section-label">Ihren Besuch &amp; Events planen</h2>
+        </div>
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+          <CtaCard
+            href="/besuch-planen"
+            icon="i"
+            title="Besuch planen"
+            body="Alles Wichtige für Ihren Konzertbesuch: Anfahrt, Parkmöglichkeiten in der Kieler Wik sowie Informationen zur Barrierefreiheit und zum Café Dreimaster."
+            cta="Besucherinfos ansehen"
+          />
+
+          <CtaCard
+            href="/raum-anfragen"
+            icon="◇"
+            title="Raum anfragen"
+            body="Sie möchten die Petruskirche für eigene Kulturveranstaltungen, Konzerte oder Aufnahmen nutzen? Informieren Sie sich über Technik, Akustik und Konditionen."
+            cta="Jetzt unverbindlich anfragen"
+          />
+        </div>
+      </div>
+    </section>
   </main>
 </Layout>
