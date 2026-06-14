@@ -1,0 +1,109 @@
+{
+  "version": 1,
+  "startupFiles": [
+    {
+      "path": "AGENTS.md",
+      "maxBytes": 2200,
+      "maxLines": 45,
+      "purpose": "startup router only"
+    }
+  ],
+  "lazyFiles": [
+    {
+      "path": "DESIGN.md",
+      "maxBytes": 12000,
+      "purpose": "UI/design system"
+    },
+    {
+      "path": "standards/interface-craft.md",
+      "maxBytes": 3500,
+      "purpose": "UI craft gate"
+    },
+    {
+      "path": "standards/design-foundation-research.md",
+      "maxBytes": 9000,
+      "purpose": "foundation-level design research"
+    },
+    {
+      "path": "standards/context-management.md",
+      "maxBytes": 5000,
+      "purpose": "context governance"
+    },
+    {
+      "path": ".a5c/project-profile.md",
+      "maxBytes": 4500,
+      "purpose": "Babysitter project profile summary"
+    },
+    {
+      "path": ".a5c/quality-gates.json",
+      "maxBytes": 1600,
+      "purpose": "machine-readable gates"
+    }
+  ],
+  "requiredFiles": [
+    "AGENTS.md",
+    "DESIGN.md",
+    "standards/interface-craft.md",
+    "standards/design-foundation-research.md",
+    "standards/context-management.md",
+    ".a5c/project-profile.md",
+    ".a5c/quality-gates.json"
+  ],
+  "requiredIgnoreLines": [
+    {
+      "file": ".rgignore",
+      "lines": [
+        "node_modules/",
+        ".a5c/node_modules/",
+        ".a5c/runs/",
+        "dist/",
+        ".astro/",
+        "assets/**/*.jpg",
+        "assets/**/*.JPG",
+        "stitch-exports/",
+        "inspiration/"
+      ]
+    },
+    {
+      "file": ".gitignore",
+      "lines": [".a5c/runs/", ".a5c/logs/", ".a5c/processes/*/"]
+    }
+  ],
+  "stalePatterns": [
+    {
+      "name": "old direct Bun workflow commands",
+      "pattern": "\\b(bun run|bunx|bun install|setup-bun)\\b",
+      "paths": [
+        "AGENTS.md",
+        "README.md",
+        ".a5c/quality-gates.json",
+        ".a5c/project-profile.md",
+        ".a5c/project-profile.json",
+        ".github/workflows/babysitter.yml",
+        ".a5c/processes"
+      ]
+    },
+    {
+      "name": "startup recursive context loading",
+      "pattern": "(read|load).{0,40}(all|entire|every).{0,40}(docs|context|agents|\\.agents)",
+      "paths": ["AGENTS.md"]
+    },
+    {
+      "name": "obsolete split quality gate names",
+      "pattern": "(bunx tsc|format:check|lint/type/build)",
+      "paths": [
+        "AGENTS.md",
+        "README.md",
+        ".a5c/quality-gates.json",
+        ".a5c/project-profile.md",
+        ".github/workflows/babysitter.yml"
+      ]
+    }
+  ],
+  "requiredStartupPhrases": [
+    "Load deeper project context only when the task needs it.",
+    "Use the Vite+ command surface",
+    "Task-specific context",
+    "Context hygiene"
+  ]
+}

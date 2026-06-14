@@ -136,6 +136,15 @@ export default {
       backgroundImage: {
         'editorial-radial':
           'radial-gradient(circle at 12% -10%, rgb(243 229 171 / 0.13), transparent 28rem), radial-gradient(circle at 88% 8%, rgb(30 41 59 / 0.42), transparent 30rem)'
+      },
+      keyframes: {
+        'title-marquee': {
+          '0%, 12%': { transform: 'translateX(0)' },
+          '82%, 100%': { transform: 'translateX(calc(-50% - 1.25rem))' }
+        }
+      },
+      animation: {
+        'title-marquee': 'title-marquee 7s linear infinite'
       }
     }
   },

@@ -19,17 +19,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+      - name: Setup Vite+
+        uses: voidzero-dev/setup-vp@v1
+        with:
+          node-version: '22'
+          cache: true
+          run-install: true
 
-      - name: Install dependencies
-        run: bun install
-
-      - name: Run existing quality gates
-        run: |
-          bun run lint
-          bunx tsc --noEmit
-          bun run build
+      - name: Run project quality gate
+        run: vp run quality
 
       - name: Install Babysitter SDK
         run: npm install --no-save @a5c-ai/babysitter-sdk@0.0.187
@@ -47,7 +45,7 @@ jobs:
           BABYSITTER_HARNESS: ${{ vars.BABYSITTER_HARNESS }}
           BABYSITTER_PROMPT: >-
             Review this pull request for the Konzertkirche Astro site. Focus on
-            Bun quality gates, Astro/Tailwind conventions, accessibility,
+            Vite+ quality gates, Astro/Tailwind conventions, accessibility,
             responsive behavior, and fidelity to Stitch/concept references.
         run: |
           npx babysitter harness:yolo \

@@ -222,6 +222,16 @@ export default defineConfig({
         }
       },
       {
+        files: ['scripts/**/*.{js,mjs,cjs}'],
+        globals: {
+          Buffer: 'readonly',
+          process: 'readonly'
+        },
+        env: {
+          node: true
+        }
+      },
+      {
         files: ['src/env.d.ts'],
         rules: {
           'typescript/triple-slash-reference': 'off'

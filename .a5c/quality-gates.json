@@ -3,25 +3,30 @@
   "testCoverage": {
     "minimum": 0,
     "target": 60,
-    "note": "No test framework currently configured; use lint/type/build until tests are added."
+    "note": "No dedicated test framework is configured yet; Vite+ static checks, context audit, and the Astro production build are the required baseline."
   },
-  "linting": {
-    "tools": ["ESLint", "Astro Check"],
-    "commands": ["bun run lint", "bunx tsc --noEmit"]
+  "staticChecks": {
+    "tools": ["Vite+ check", "Oxfmt", "Oxlint", "TypeScript/tsgo"],
+    "commands": ["vp check ."]
+  },
+  "contextAudit": {
+    "tools": ["Project context audit"],
+    "commands": ["vp run context:check"]
   },
   "formatting": {
-    "tools": ["Prettier", "prettier-plugin-tailwindcss", "prettier-plugin-astro"],
-    "commands": ["bun run format:check"]
+    "tools": ["Vite+ fmt / Oxfmt"],
+    "commands": ["vp check ."]
   },
   "build": {
-    "commands": ["bun run build"],
+    "tools": ["Astro Check", "Astro Build"],
+    "commands": ["vp run build"],
     "output": "dist"
   },
-  "commitChecks": ["bun run lint", "bunx tsc --noEmit", "bun run build"],
+  "commitChecks": ["vp run quality"],
   "deployGates": [
-    "lint passes",
-    "type-check passes",
-    "build succeeds",
+    "Vite+ check passes",
+    "context audit passes",
+    "Astro production build succeeds",
     "manual responsive/accessibility review for UI changes",
     "Cloudflare static asset assumptions preserved"
   ],

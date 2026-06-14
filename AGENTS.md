@@ -1,73 +1,29 @@
-# CLAUDE.md
+# Agent Contract
 
-This file provides guidance to Claude Code and compatible agents working in this repository.
+Load this file at startup. Load deeper project context only when the task needs it.
 
-For the primary project instructions, also read `AGENTS.md` and the `.agents/*.md` files.
+## Always
 
-## Babysitter
-
-This project is configured for Babysitter-assisted development.
-
-### Project context
-
-- Project: Konzerte in der Petruskirche / Kieler Konzertkirche
-- Stack: Astro 5, React 19, Tailwind CSS 4, Bun, Cloudflare Workers static assets
-- Primary design references:
-  - `stitch-exports/kieler-konzertkirche/`
-  - `concepts/website-mvps/`
-  - `inspiration/`
-- Production source currently lives under `src/` and should remain a static Astro site unless explicitly requested otherwise.
-
-### Recommended Babysitter workflows
-
-Use Babysitter for larger, quality-gated work rather than one-off edits:
-
-- Planning: `gsd/plan`
-- Implementation: `gsd/execute`
-- Verification: `gsd/verify`
-- Visual/design convergence: `gsd/iterative-convergence`
-- Quality convergence when adding tests or regression gates: `methodologies/tdd-quality-convergence`
-- Project onboarding/profile refresh: `cradle/project-install`
-
-Recommended methodology: UX-led iterative convergence with TDD-style quality gates. Plan against Stitch/concept references, implement incrementally in Astro/Tailwind, then verify with Bun lint/type/build plus responsive/accessibility review.
-
-### Recommended skills and agents
-
-- Use `frontend-create` for polished UI/page work and visual refinements.
-- Use `context-mode` for large outputs, design exports, build logs, and git-history analysis.
-- Use `pi-subagents` for larger implementation/review handoffs.
-- Use `ask-user` before high-impact design, CI/CD, or architecture decisions.
-- Use `parse-document` for PDFs or visual design-reference documents.
-- Use `conventional-commit` when preparing commits.
-
-### Quality gates
-
-Before PR/handoff, run:
-
-```bash
-bun run lint
-bunx tsc --noEmit
-bun run build
-```
-
-For UI changes, also record manual checks for:
-
-- responsive desktop/mobile behavior
-- accessibility and keyboard navigation where relevant
-- visual fidelity to Stitch/concept references
-- Cloudflare static deployment assumptions
-
-### CI/CD integration
-
-Babysitter project checks are configured in `.github/workflows/babysitter.yml` for PR events. Full Babysitter PR orchestration is gated behind repository variable `BABYSITTER_CI_ENABLED == 'true'`; set `BABYSITTER_HARNESS` to a CI-compatible harness before enabling.
-
-### Project-specific cautions
-
-- Use Bun for normal package and script operations.
-- Do not use npm/pnpm/yarn for project workflow unless working inside isolated tooling such as `.a5c/`.
+- Use the Vite+ command surface (`vp ...`) for normal project workflow. Do not call package-manager commands directly unless debugging the package-manager layer.
+- Keep production source under `src/` and preserve the static Astro + React + Tailwind architecture unless explicitly asked otherwise.
+- Preserve Cloudflare static asset hosting assumptions; do not introduce server/runtime behavior without approval.
+- Ask before high-impact design, architecture, CI/CD, deployment, data, or privacy/legal decisions.
 - Keep design/reference artifacts separate from production source until intentionally integrated.
-- Preserve static Cloudflare Workers asset hosting unless server behavior is explicitly requested.
-- Linear is the source of truth for project management: plans, triage, sprint scope, workflow decisions, and status updates belong in Linear documents/issues/comments.
-- When a feature introduces external font/provider dependencies such as Google Fonts, automatically create or link a Linear follow-up ticket in the feature handoff so privacy/performance/legal work is tracked before launch.
-- Do not create planning/PM artifacts in a local `docs/` folder unless the user explicitly asks for repo-versioned documentation; repo docs should be limited to code-adjacent material that must version with the codebase.
-- Follow `AGENTS.md` and `.agents/*.md` as authoritative repository instructions.
+- Use Linear for planning, triage, sprint scope, and status updates. Do not create local PM docs unless explicitly asked.
+- Before handoff after code changes, run `vp run quality` and summarize results. For UI changes, also include responsive/accessibility/manual review notes.
+
+## Task-specific context
+
+- UI/page/component work: read `DESIGN.md` and `standards/interface-craft.md`.
+- Foundation-level design/token/component-system decisions: also read `standards/design-foundation-research.md`.
+- Babysitter/orchestration work: read `.a5c/project-profile.md` and `.a5c/quality-gates.json`.
+- CI/deployment changes: read `.github/workflows/babysitter.yml`, `wrangler.toml`, and `package.json`.
+- Context-system changes: read `standards/context-management.md`, `context.config.json`, and `scripts/context-audit.mjs`.
+- Visual-reference work: inspect `stitch-exports/`, `inspiration/`, `concepts/`, or `assets/` only as needed.
+
+## Context hygiene
+
+- Do not crawl `.a5c/runs`, `.a5c/node_modules`, `node_modules`, `dist`, `.astro`, raw image folders, or design exports unless directly relevant.
+- Prefer project scripts and small targeted reads over broad repository dumps.
+- Run `vp run context:check` after changing context-management files.
+- Treat external UI guidance such as https://interfaces.rauno.me/ as craft guidance, not blind law; encode enforceable parts in checks or handoff evidence.

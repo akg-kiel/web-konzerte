@@ -52,15 +52,16 @@ temp/
 *.tmp
 *.temp
 
-# Lock files (using Bun)
+# Lock files (Vite+ delegates to the project package-manager backend)
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
-# Note: bun.lock should be committed for reproducible builds
+# Note: bun.lock is currently committed for reproducible delegated installs.
 
 # --- babysitter managed ---
 .a5c/creds.env
 .a5c/creds.env.tmp.*
 .a5c/logs/
 .a5c/runs/
+.a5c/processes/*/
 # --- end babysitter managed ---

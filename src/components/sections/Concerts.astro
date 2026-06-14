@@ -1,0 +1,138 @@
+---
+import { upcomingConcerts } from '../../data/concerts';
+import type { Concert, ConcertVariant } from '../../data/concerts';
+
+import ConcertCard from './ConcertCard.astro';
+
+interface Props {
+  id?: string;
+  concerts?: Concert[];
+  variant?: ConcertVariant;
+  eyebrow?: string;
+  heading?: string;
+  intro?: string;
+  showHeaderLink?: boolean;
+  showFilters?: boolean;
+}
+
+const {
+  id = 'naechste-konzerte',
+  concerts = upcomingConcerts,
+  variant = 'home',
+  eyebrow = 'Programm',
+  heading = 'Nächste Konzerte',
+  intro = '',
+  showHeaderLink = variant === 'home',
+  showFilters = variant === 'programme'
+} = Astro.props;
+
+const titleId = `${id}-heading`;
+const isHome = variant === 'home';
+const isProgramme = variant === 'programme';
+const showVisibleHeading = !isHome && Boolean(heading);
+const categories = Array.from(new Set(concerts.map((concert) => concert.category)));
+const filters = ['Alle', ...categories, 'Eintritt frei'];
+
+const gridClass = isProgramme
+  ? 'space-y-6'
+  : 'grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3 lg:gap-8';
+
+const imageSizes = isProgramme
+  ? '(min-width: 768px) 320px, calc(100vw - 40px)'
+  : '(min-width: 1024px) 384px, (min-width: 768px) 45vw, calc(100vw - 40px)';
+
+const headerLinkClass =
+  'flex items-center gap-2 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] !text-role-on/68 no-underline transition-colors hover:!text-secondary';
+---
+
+<section
+  id={id}
+  aria-labelledby={titleId}
+  class:list={[
+    'scroll-mt-20',
+    isHome
+      ? 'bg-midnight px-0 py-16 text-role-on md:py-20'
+      : 'bg-midnight px-0 py-24 text-role-on md:py-32',
+    variant === 'archive' && 'bg-role-support'
+  ]}
+>
+  <div class="site-container">
+    {
+      showVisibleHeading ? (
+        <div class="mb-16 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <div>
+            <p class="mb-4 block font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-secondary">
+              {eyebrow}
+            </p>
+            <h2 id={titleId} class="font-display text-[clamp(2.4rem,7vw,3rem)] font-normal leading-[1.16] tracking-[-0.015em] text-white">
+              {heading}
+            </h2>
+            {intro && <p class="mt-6 max-w-2xl font-body text-[18px] leading-7 text-role-on/68">{intro}</p>}
+          </div>
+
+          {showHeaderLink && (
+            <a
+              href="/programm"
+              class={headerLinkClass}
+              aria-label="Alle Konzerttermine im Programm ansehen"
+            >
+              Alle Termine ansehen
+              <span aria-hidden="true">→</span>
+            </a>
+          )}
+        </div>
+      ) : (
+        <>
+          <h2 id={titleId} class="sr-only">{heading}</h2>
+          <div class="mb-8 flex items-center justify-between gap-6 md:mb-10">
+            <p class="block font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-secondary">
+              {eyebrow}
+            </p>
+            {showHeaderLink && (
+              <a
+                href="/programm"
+                class={headerLinkClass}
+                aria-label="Alle Konzerttermine im Programm ansehen"
+              >
+                Alle Termine ansehen
+                <span aria-hidden="true">→</span>
+              </a>
+            )}
+          </div>
+        </>
+      )
+    }
+
+    {
+      showFilters && (
+        <nav aria-label="Programm filtern" class="-mt-4 mb-12 border-b border-white/5 pb-4">
+          <ul class="flex gap-3 overflow-x-auto pb-1" role="list">
+            {filters.map((filter, index) => (
+              <li>
+                <a
+                  href={filter === 'Alle' ? '#programm' : `#${filter.toLowerCase().replaceAll(' ', '-')}`}
+                  class:list={[
+                    'inline-flex min-h-10 items-center rounded-sm border px-6 py-2 font-body text-[12px] font-semibold leading-4 tracking-[0.08em] !no-underline transition-colors active:scale-95',
+                    index === 0
+                      ? 'border-secondary bg-secondary/10 !text-secondary'
+                      : 'border-white/20 bg-white/[0.02] !text-role-on/78 hover:border-secondary/60 hover:!text-secondary'
+                  ]}
+                >
+                  {filter}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )
+    }
+
+    <div class:list={gridClass}>
+      {
+        concerts.map((concert) => (
+          <ConcertCard concert={concert} imageSizes={imageSizes} variant={variant} />
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -6,7 +6,7 @@ Update the project plan for `web-konzerte` so the team can quickly iterate on th
 
 ## Source inputs
 
-- **Repo state:** Astro 5 + React 19 + Tailwind CSS + Bun static site; current `src/pages/index.astro` is still a scaffold.
+- **Repo state:** Astro + React + Tailwind CSS + Vite+ static site; current `src/pages/index.astro` is still a scaffold.
 - **Linear:** `Website Konzerte` project, Phase 1 MVP at 35%, active issue `AKG-17` for the homepage, and completed architecture issue/document `AKG-16`.
 - **Stitch:** project `6221185249843486689` / `Kieler Konzertkirche`, dark-mode design system (`EB Garamond`, `Hanken Grotesk`, midnight/slate/champagne/brass palette) and exported screens for home, programme, concert detail, visit planning, and venue inquiry.
 - **Repo artifacts:** local exports in `stitch-exports/kieler-konzertkirche/` and concept prototypes in `concepts/website-mvps/`.
@@ -24,6 +24,6 @@ Update the project plan for `web-konzerte` so the team can quickly iterate on th
 
 - Keep implementation planning incremental: design tokens + shared layout/navigation + homepage vertical slice before broad page coverage.
 - Preserve traceability: every implementation wave maps back to Stitch screens and Linear issues/milestones.
-- Use Bun commands only (`bun run lint`, `bunx tsc --noEmit`, `bun run build`).
+- Use the Vite+ command surface (`vp check .`, `vp run build`, `vp run quality`) for project workflow.
 - Keep the site static, accessible (WCAG AA), responsive, and Cloudflare-ready.
 - Avoid editing production source code in this planning run.

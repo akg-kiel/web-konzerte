@@ -14,20 +14,21 @@
       "?? stitch-exports/"
     ],
     "stack": [
-      "Astro 5",
-      "React 19",
+      "Astro",
+      "React",
       "Tailwind CSS",
       "TypeScript",
-      "Bun",
+      "Vite+",
       "Cloudflare Workers static assets"
     ],
-    "packageManager": "Bun only for normal project commands; avoid npm/pnpm/yarn except documented npx/bunx cases.",
+    "packageManager": "Use Vite+ command surface for normal project workflow; Vite+ delegates package-manager operations from the workspace lockfile/backend.",
     "commands": [
-      "bun run dev",
-      "bun run lint",
-      "bunx tsc --noEmit",
-      "bun run build",
-      "bun run preview"
+      "vp install",
+      "vp run dev",
+      "vp check .",
+      "vp run build",
+      "vp run preview",
+      "vp run quality"
     ],
     "currentImplementation": "src/pages/index.astro is a scaffold landing page with a React Counter island; global styles only import Tailwind.",
     "entryPoints": {
@@ -93,11 +94,31 @@
       "dependencies": ["AKG-6 Header", "AKG-7 Footer", "AKG-8 Hero", "AKG-9 Concerts listing"]
     },
     "relatedIssues": [
-      { "id": "AKG-6", "title": "Create Header component with navigation", "status": "Todo" },
-      { "id": "AKG-7", "title": "Create Footer component", "status": "Todo" },
-      { "id": "AKG-8", "title": "Create Hero section for landing page", "status": "Todo" },
-      { "id": "AKG-9", "title": "Create Concerts listing section", "status": "Todo" },
-      { "id": "AKG-10", "title": "Set up global styles and typography", "status": "Todo" },
+      {
+        "id": "AKG-6",
+        "title": "Create Header component with navigation",
+        "status": "Todo"
+      },
+      {
+        "id": "AKG-7",
+        "title": "Create Footer component",
+        "status": "Todo"
+      },
+      {
+        "id": "AKG-8",
+        "title": "Create Hero section for landing page",
+        "status": "Todo"
+      },
+      {
+        "id": "AKG-9",
+        "title": "Create Concerts listing section",
+        "status": "Todo"
+      },
+      {
+        "id": "AKG-10",
+        "title": "Set up global styles and typography",
+        "status": "Todo"
+      },
       {
         "id": "AKG-18",
         "title": "Build Programme & Tickets page (/programm) with archive",
@@ -272,9 +293,9 @@
     "qualityGates": [
       "Responsive review at mobile/tablet/desktop",
       "WCAG AA contrast/focus/semantic landmarks",
-      "bun run lint",
-      "bunx tsc --noEmit",
-      "bun run build",
+      "vp check .",
+      "vp run build",
+      "vp run quality",
       "Cloudflare static output sanity check"
     ]
   }

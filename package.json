@@ -12,6 +12,8 @@
     "lint:fix": "vp lint . --fix",
     "format": "vp fmt .",
     "check": "vp check .",
+    "context:check": "node scripts/context-audit.mjs",
+    "quality": "vp check . && node scripts/context-audit.mjs && astro check && astro build",
     "prepare": "vp config"
   },
   "dependencies": {
