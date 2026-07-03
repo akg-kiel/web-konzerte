@@ -10,7 +10,7 @@ const footerLinks = [
   { label: 'Programm', href: '/programm' },
   { label: 'Besuch planen', href: '/besuch-planen' },
   { label: 'Raum anfragen', href: '/raum-anfragen' },
-  { label: 'Kontakt', href: 'mailto:kontakt@akg-kiel.de' },
+  { label: 'Kontakt', href: 'mailto:konzerte@akg-kiel.de' },
   {
     label: 'Die Petruskirche',
     href: 'https://akg-kiel.de/petruskirche',
@@ -56,8 +56,8 @@ const legalLinks = [
           Weimarer Straße 1 · 24106 Kiel
         </p>
         <p class="flex flex-col gap-1 sm:flex-row sm:flex-wrap sm:gap-x-5">
-          <a href="mailto:kontakt@akg-kiel.de" class="text-role-on/76 no-underline hover:text-secondary">
-            kontakt@akg-kiel.de
+          <a href="mailto:konzerte@akg-kiel.de" class="text-role-on/76 no-underline hover:text-secondary">
+            konzerte@akg-kiel.de
           </a>
           <a href="tel:+4943116456" class="text-role-on/76 no-underline hover:text-secondary">
             Gemeindebüro 0431 16 456
@@ -66,9 +66,9 @@ const legalLinks = [
       </address>
     </section>
 
-    <div class="w-full border-t border-white/10 pt-7 md:justify-self-end md:border-t-0 md:pt-1">
+    <div class="w-full border-t border-white/10 pt-7 md:justify-self-end md:self-end md:border-t-0 md:pt-1">
       <nav aria-label="Navigation im Fußbereich">
-        <ul class="grid grid-cols-1 gap-1 sm:grid-cols-2 sm:gap-x-8 md:flex md:flex-wrap md:justify-end md:gap-x-7 md:gap-y-2" role="list">
+        <ul class="grid grid-cols-1 gap-1 sm:grid-cols-2 sm:gap-x-8 lg:flex lg:flex-wrap lg:justify-end lg:gap-x-7 lg:gap-y-2" role="list">
           {
             footerLinks.map((link) => (
               <li>

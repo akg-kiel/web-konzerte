@@ -7,6 +7,7 @@ import Hero from '../components/sections/Hero.astro';
 import Card from '../components/ui/Card.astro';
 import Layout from '../layouts/Layout.astro';
 import churchExterior from '../assets/venue/petruskirche-exterior.webp';
+import acousticReflection from '../assets/venue/petruskirche-interior-concert.webp';
 ---
 
 <Layout title="Konzerte in der Petruskirche Kiel" description="Konzertkirche Petruskirche Kiel: Programm, Besuchsplanung und Raum für Kulturveranstaltungen in besonderer Akustik.">
@@ -27,12 +28,12 @@ import churchExterior from '../assets/venue/petruskirche-exterior.webp';
       </div>
     </section>
 
-    <section class="relative overflow-hidden border-y border-white/5 bg-surface py-20 md:py-32" aria-labelledby="architecture-heading">
-      <div class="pointer-events-none absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-slate-mist/40 to-transparent" aria-hidden="true"></div>
-      <div class="site-container relative grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
-        <div class="order-2 lg:order-1">
+    <section class="architecture-section relative overflow-hidden border-y border-white/5 bg-surface py-16 md:py-24 lg:py-32" aria-labelledby="architecture-heading">
+      <div class="architecture-radial-field pointer-events-none absolute" aria-hidden="true"></div>
+      <div class="site-container relative grid grid-cols-1 items-center gap-10 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-12 lg:gap-16">
+        <div class="order-2 md:order-1">
           <h2 id="architecture-heading" class="section-label">Architektur &amp; Raumklang</h2>
-          <div class="mt-6 space-y-6 font-body text-lg leading-8 text-role-on/72">
+          <div class="mt-6 grid max-w-2xl gap-5 font-body text-base leading-7 text-role-on/72 md:max-w-none md:text-lg md:leading-8">
             <p>
               Die Petruskirche in Kiel-Wik besticht nicht nur durch ihre neugotische Architektur, sondern vor allem durch eine Akustik, die Stimmen, Orgel und Ensembleklang besonders klar trägt.
             </p>
@@ -41,18 +42,30 @@ import churchExterior from '../assets/venue/petruskirche-exterior.webp';
             </p>
           </div>
         </div>
-        <Card as="figure" class="order-1 bg-slate-mist/30 shadow-panel lg:order-2">
-          <Image
-            src={churchExterior}
-            alt="Außenansicht der Petruskirche Kiel mit neugotischer Backsteinarchitektur"
-            class="aspect-[4/3] !h-full !w-full object-cover"
-            widths={[640, 960, 1280]}
-            sizes="(min-width: 1024px) 50vw, calc(100vw - 40px)"
-            loading="lazy"
-            decoding="async"
-          />
-
-        </Card>
+        <div class="architecture-media order-1 md:order-2">
+          <Card as="figure" class="architecture-media__back bg-slate-mist/30 shadow-panel">
+            <Image
+              src={acousticReflection}
+              alt="Publikum im warm beleuchteten Innenraum der Petruskirche"
+              class="!h-full !w-full object-cover object-[48%_58%]"
+              widths={[640, 960, 1200]}
+              sizes="(min-width: 1024px) 560px, (min-width: 768px) 44vw, 92vw"
+              loading="lazy"
+              decoding="async"
+            />
+          </Card>
+          <Card as="figure" class="architecture-media__front bg-slate-mist/30 shadow-panel">
+            <Image
+              src={churchExterior}
+              alt="Außenansicht der Petruskirche Kiel mit neugotischer Backsteinarchitektur"
+              class="!h-full !w-full object-cover object-[50%_42%]"
+              widths={[480, 640, 960]}
+              sizes="(min-width: 1024px) 340px, (min-width: 768px) 28vw, 62vw"
+              loading="lazy"
+              decoding="async"
+            />
+          </Card>
+        </div>
       </div>
     </section>
 
@@ -82,3 +95,92 @@ import churchExterior from '../assets/venue/petruskirche-exterior.webp';
     </section>
   </main>
 </Layout>
+
+<style is:global>
+  .architecture-radial-field {
+    inset: -24% -18%;
+    background:
+      radial-gradient(ellipse 58% 46% at 78% 42%, rgb(var(--color-slate-mist-rgb) / 0.56), transparent 68%),
+      radial-gradient(ellipse 48% 38% at 24% 58%, rgb(var(--color-slate-mist-rgb) / 0.26), transparent 70%),
+      linear-gradient(120deg, rgb(var(--color-midnight-rgb) / 0.22), transparent 58%);
+  }
+
+  .architecture-media {
+    position: relative;
+    min-height: clamp(20rem, 74vw, 29rem);
+    isolation: isolate;
+    --architecture-scroll: 0.5;
+  }
+
+  .architecture-media__back {
+    position: absolute;
+    inset: 0 0 18% 10%;
+    z-index: 0;
+    transform: translateY(calc((0.5 - var(--architecture-scroll)) * 5rem)) scale(1.04);
+  }
+
+  .architecture-media__front {
+    position: relative;
+    z-index: 1;
+    width: min(68%, 21rem);
+    margin-top: clamp(5rem, 17vw, 8rem);
+    aspect-ratio: 4 / 5;
+    transform: translateY(calc((var(--architecture-scroll) - 0.5) * 2.25rem));
+  }
+
+  @media (width >= 768px) {
+    .architecture-media {
+      min-height: clamp(24rem, 45vw, 33rem);
+    }
+
+    .architecture-media__back {
+      inset: 0 0 16% 14%;
+    }
+
+    .architecture-media__front {
+      width: min(58%, 21rem);
+      margin-top: clamp(7rem, 16vw, 10rem);
+    }
+  }
+
+  @media (width >= 1024px) {
+    .architecture-media {
+      min-height: 35rem;
+    }
+
+    .architecture-media__back {
+      inset: 0 0 12% 16%;
+    }
+
+    .architecture-media__front {
+      width: min(52%, 23rem);
+      margin-top: 11rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .architecture-media__back,
+    .architecture-media__front {
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  const architectureMedia = document.querySelector<HTMLElement>('.architecture-media');
+
+  if (architectureMedia && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const updateArchitectureScroll = () => {
+      const rect = architectureMedia.getBoundingClientRect();
+      const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+      architectureMedia.style.setProperty(
+        '--architecture-scroll',
+        Math.min(1, Math.max(0, progress)).toFixed(3)
+      );
+    };
+
+    updateArchitectureScroll();
+    window.addEventListener('scroll', updateArchitectureScroll, { passive: true });
+    window.addEventListener('resize', updateArchitectureScroll);
+  }
+</script>

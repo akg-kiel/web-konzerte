@@ -213,11 +213,15 @@ export const concerts: Concert[] = [
   }
 ];
 
-export const upcomingConcerts = concerts.filter((concert) => !concert.isPast).slice(0, 3);
+const now = new Date();
 
-export const programmeConcerts = concerts.filter((concert) => !concert.isPast);
+const isPastConcert = (concert: Concert) => concert.isPast || new Date(concert.date.iso) < now;
 
-export const archiveConcerts = concerts.filter((concert) => concert.isPast);
+export const upcomingConcerts = concerts.filter((concert) => !isPastConcert(concert)).slice(0, 3);
+
+export const programmeConcerts = concerts.filter((concert) => !isPastConcert(concert));
+
+export const archiveConcerts = concerts.filter(isPastConcert);
 
 export const passionConcert = concerts.find((concert) => concert.slug === 'die-passion-2026');
 

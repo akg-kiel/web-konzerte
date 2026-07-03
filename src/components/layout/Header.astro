@@ -15,7 +15,7 @@ const navItems = [
     match: ''
   },
   { label: 'Raum anfragen', href: '/raum-anfragen', match: '/raum-anfragen' },
-  { label: 'Kontakt', href: 'mailto:kontakt@akg-kiel.de', match: '' }
+  { label: 'Kontakt', href: 'mailto:konzerte@akg-kiel.de', match: '' }
 ];
 
 const isActive = (match: string) => Boolean(match) && (pathname === match || pathname.startsWith(`${match}/`));
@@ -40,7 +40,7 @@ const isActive = (match: string) => Boolean(match) && (pathname === match || pat
       />
     </a>
 
-    <div class="ml-auto hidden items-center gap-8 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] md:flex">
+    <div class="ml-auto hidden items-center gap-8 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] lg:flex">
       {
         navItems.map((item) => {
           const active = isActive(item.match);
@@ -63,7 +63,7 @@ const isActive = (match: string) => Boolean(match) && (pathname === match || pat
       }
     </div>
 
-    <details class="mobile-nav ml-auto md:hidden">
+    <details class="mobile-nav ml-auto lg:hidden">
       <summary class="mobile-nav__toggle" aria-label="Navigation öffnen oder schließen">
         <span class="sr-only">Navigation öffnen oder schließen</span>
         <span class="mobile-nav__icon"></span>
@@ -74,7 +74,7 @@ const isActive = (match: string) => Boolean(match) && (pathname === match || pat
             Menü
           </p>
 
-          <div class="mt-10 flex flex-col gap-5 font-display text-[clamp(2.05rem,10.5vw,3.6rem)] leading-[1.02] tracking-[-0.035em]">
+          <div class="mt-10 flex flex-1 flex-col justify-center gap-6 font-display text-[clamp(2.05rem,10.5vw,3.6rem)] leading-[1.02] tracking-[-0.035em]">
             {
               navItems.map((item) => (
                 <a
