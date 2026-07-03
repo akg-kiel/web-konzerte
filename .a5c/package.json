@@ -1,8 +1,0 @@
-{
-  "name": "web-konzerte-a5c",
-  "private": true,
-  "type": "module",
-  "dependencies": {
-    "@a5c-ai/babysitter-sdk": "0.0.187"
-  }
-}

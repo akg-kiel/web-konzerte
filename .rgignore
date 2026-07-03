@@ -1,6 +1,4 @@
 node_modules/
-.a5c/node_modules/
-.a5c/runs/
 dist/
 .astro/
 .wrangler/
@@ -12,5 +10,4 @@ assets/**/*.png
 assets/**/*.PNG
 assets/**/*.webp
 assets/**/*.WEBP
-stitch-exports/
 inspiration/
