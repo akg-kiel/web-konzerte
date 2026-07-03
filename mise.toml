@@ -1,2 +1,24 @@
 [tools]
-vp = "0.1.24"
+node = "22"
+pnpm = "11.9.0"
+vp = "0.2.2"
+
+[tasks.deps]
+description = "Install dependencies"
+run = "vp install"
+
+[tasks.dev]
+description = "Start local dev server"
+run = "vp run dev --host 127.0.0.1 --port 4321"
+
+[tasks.od]
+description = "Build and deploy static files to OpenDesign"
+run = "vp run od"
+
+[tasks.quality]
+description = "Run the quality gate"
+run = "vp run quality"
+
+[tasks.ci]
+description = "Install locked dependencies and run quality"
+run = "vp install --frozen-lockfile && vp run quality"
