@@ -8,9 +8,10 @@ interface Props {
   concert: Concert;
   imageSizes: string;
   variant?: ConcertVariant;
+  [key: string]: unknown;
 }
 
-const { concert, imageSizes, variant = 'home' } = Astro.props;
+const { concert, imageSizes, variant = 'home', ...rest } = Astro.props;
 
 const isProgramme = variant === 'programme';
 const isArchive = variant === 'archive';
@@ -30,6 +31,7 @@ const statusClasses: Record<ConcertStatusState, string> = {
       as="article"
       id={concert.slug}
       aria-labelledby={titleId}
+      {...rest}
       class:list={[
         'group group/card flex flex-col border-white/5 bg-slate-mist/30 backdrop-blur-none transition-colors duration-300 hover:border-secondary/30 focus-within:border-secondary/30 md:flex-row',
         isArchive && 'opacity-75 grayscale-[0.25]'

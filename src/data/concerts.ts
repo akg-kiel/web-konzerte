@@ -134,12 +134,12 @@ export const concerts: Concert[] = [
       'Ein monumentales musikalisches Ereignis, das Passionsspieltradition mit moderner Musicalkraft, Chor, Solisten und Orchester verbindet.',
     category: 'Musical Premiere',
     date: {
-      iso: '2026-03-22T18:00:00+01:00',
+      iso: '2027-03-21T18:00:00+01:00',
       month: 'Mär',
-      day: '22',
+      day: '21',
       time: '18:00',
-      display: '22. März 2026 • 18:00 Uhr',
-      compact: 'MÄR 22 · 18:00 Uhr'
+      display: '21. März 2027 • 18:00 Uhr',
+      compact: 'MÄR 21 · 18:00 Uhr'
     },
     location: 'Konzertkirche Petruskirche Kiel',
     performers: 'Großer Sinfonischer Chor der Petruskirche & Projektorchester Kiel',
@@ -162,12 +162,12 @@ export const concerts: Concert[] = [
       'Ein immersives Klangerlebnis, das klassisches Cello-Spiel mit modernen elektronischen Elementen und Licht im Kirchenraum verbindet.',
     category: 'Pop / Crossover',
     date: {
-      iso: '2026-04-15T20:00:00+02:00',
-      month: 'Apr',
-      day: '15',
+      iso: '2026-11-14T20:00:00+01:00',
+      month: 'Nov',
+      day: '14',
       time: '20:00',
-      display: '15. April 2026 • 20:00 Uhr',
-      compact: 'APR 15 · 20:00 Uhr'
+      display: '14. November 2026 • 20:00 Uhr',
+      compact: 'NOV 14 · 20:00 Uhr'
     },
     location: 'Konzertkirche Petruskirche Kiel',
     performers: 'Solo-Cello, Live-Elektronik und Lichtregie',
@@ -190,12 +190,12 @@ export const concerts: Concert[] = [
       'Der Petruschor präsentiert zeitgenössische und klassische Chorwerke skandinavischer Komponisten in klarer Kirchenakustik.',
     category: 'Chor',
     date: {
-      iso: '2026-05-02T18:00:00+02:00',
-      month: 'Mai',
-      day: '02',
+      iso: '2026-12-05T18:00:00+01:00',
+      month: 'Dez',
+      day: '05',
       time: '18:00',
-      display: '2. Mai 2026 • 18:00 Uhr',
-      compact: 'MAI 02 · 18:00 Uhr'
+      display: '5. Dezember 2026 • 18:00 Uhr',
+      compact: 'DEZ 05 · 18:00 Uhr'
     },
     location: 'Konzertkirche Petruskirche Kiel',
     performers: 'Petruschor Kiel',
@@ -217,14 +217,18 @@ const now = new Date();
 
 const isPastConcert = (concert: Concert) => concert.isPast || new Date(concert.date.iso) < now;
 
-export const upcomingConcerts = concerts.filter((concert) => !isPastConcert(concert)).slice(0, 3);
+const byDateAsc = (a: Concert, b: Concert) => a.date.iso.localeCompare(b.date.iso);
 
-export const programmeConcerts = concerts.filter((concert) => !isPastConcert(concert));
+export const programmeConcerts = concerts
+  .filter((concert) => !isPastConcert(concert))
+  .sort(byDateAsc);
 
-export const archiveConcerts = concerts.filter(isPastConcert);
+export const upcomingConcerts = programmeConcerts.slice(0, 3);
+
+export const archiveConcerts = concerts.filter(isPastConcert).sort((a, b) => byDateAsc(b, a));
 
 export const passionConcert = concerts.find((concert) => concert.slug === 'die-passion-2026');
 
-export const relatedConcerts = concerts
+export const relatedConcerts = programmeConcerts
   .filter((concert) => concert.slug !== 'die-passion-2026')
   .slice(0, 3);

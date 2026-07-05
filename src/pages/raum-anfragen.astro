@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 
+import PageHero from '../components/sections/PageHero.astro';
 import Layout from '../layouts/Layout.astro';
 import orgelMikrofon from '../assets/concerts/orgel-mikrofon.jpg';
 import sinfonieFenster from '../assets/concerts/sinfonie-fenster.jpg';
@@ -11,118 +12,121 @@ const basics = [
   ['Ausstattung', 'Konzertflügel, historische Orgel, Basis-Beleuchtungskonzept und Stromanschlüsse (16A/32A).'],
   ['Backstage', 'Zwei beheizbare Künstlergarderoben mit direktem Zugang zum Bühnenbereich und separate Sanitäranlagen.']
 ];
+
+const inputClass =
+  'w-full border-0 border-b border-white/30 bg-transparent px-0 py-3 font-body text-base text-on-surface placeholder:text-role-on/42 focus:border-secondary focus:ring-0';
+const labelClass =
+  'mb-2 block font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-role-on/72';
 ---
 
-<Layout title="Raum anfragen · Konzertkirche Petruskirche" description="Petruskirche Kiel als Raum für Konzerte, Chöre, Orchester, Aufnahmen und ausgewählte Kulturveranstaltungen anfragen.">
-  <main class="min-h-screen bg-midnight pt-32 text-role-on">
-    <section class="site-container mb-16 md:mb-24" aria-labelledby="room-heading">
-      <div class="relative overflow-hidden rounded-[0.75rem] border border-white/10 bg-slate-mist/30">
-        <Image
-          src={sinfonieFenster}
-          alt="Reflexion von Kirchenfenstern auf einem Konzertflügel"
-          class="aspect-[16/9] max-h-[430px] !w-full object-cover opacity-70"
-          widths={[640, 960, 1280, 1600]}
-          sizes="calc(100vw - 40px)"
-          loading="eager"
-          decoding="async"
-          format="webp"
-        />
-        <div class="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/65 to-transparent" aria-hidden="true"></div>
-        <div class="absolute inset-x-0 bottom-0 p-8 md:p-12">
-          <h1 id="room-heading" class="font-display text-[clamp(3rem,8vw,5.6rem)] font-normal leading-[1.02] tracking-[-0.045em] text-white">Raum anfragen</h1>
-          <p class="mt-5 max-w-2xl font-body text-lg leading-8 text-role-on/72">
-            Die Petruskirche Kiel bietet einen besonderen Rahmen für Konzerte, Chöre, Orchester und ausgewählte kulturelle Veranstaltungen.
-          </p>
-        </div>
-      </div>
-    </section>
+<Layout
+  title="Raum anfragen · Konzertkirche Petruskirche"
+  description="Petruskirche Kiel als Raum für Konzerte, Chöre, Orchester, Aufnahmen und ausgewählte Kulturveranstaltungen anfragen."
+>
+  <main class="min-h-screen bg-midnight text-role-on">
+    <PageHero
+      eyebrow="Veranstaltungsräume"
+      intro="Die Petruskirche Kiel bietet einen besonderen Rahmen für Konzerte, Chöre, Orchester und ausgewählte kulturelle Veranstaltungen."
+      image={sinfonieFenster}
+      imageAlt="Reflexion von Kirchenfenstern auf einem Konzertflügel"
+      imagePosition="52% 45%"
+    >
+      Raum anfragen
+    </PageHero>
 
-    <section class="site-container grid grid-cols-1 gap-12 pb-20 lg:grid-cols-12 lg:gap-8 md:pb-28" aria-label="Rauminformationen und Buchungsanfrage">
+    <section class="site-container grid grid-cols-1 gap-12 pb-20 pt-16 lg:grid-cols-12 lg:gap-8 md:pb-28 md:pt-24" aria-label="Rauminformationen und Buchungsanfrage">
       <div class="space-y-6 lg:col-span-5">
-        <article class="rounded-[0.5rem] border border-white/5 bg-slate-mist/30 p-8 backdrop-blur-md">
-          <h2 class="font-display text-[clamp(2rem,5vw,2.8rem)] font-normal text-primary">Technische Basisinformationen</h2>
-          <ul class="mt-8 space-y-6" role="list">
-            {basics.map(([title, text]) => (
-              <li class="flex gap-4">
-                <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-secondary" aria-hidden="true"></span>
-                <div>
-                  <h3 class="font-body text-lg font-semibold text-on-surface">{title}</h3>
-                  <p class="mt-1 font-body text-base leading-7 text-role-on/70">{text}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </article>
-
         <article class="overflow-hidden rounded-[0.5rem] border border-white/5 bg-slate-mist/30 backdrop-blur-md">
           <Image
             src={orgelMikrofon}
             alt="Detailaufnahme von Konzertflügel, Mikrofon und Kirchenfenstern"
-            class="h-64 !w-full object-cover"
+            class="h-56 !w-full object-cover"
             widths={[480, 720, 960]}
             sizes="(min-width: 1024px) 40vw, calc(100vw - 40px)"
             loading="lazy"
             decoding="async"
             format="webp"
           />
-          <div class="p-6">
-            <h3 class="font-body text-lg font-semibold text-primary">Exzellente Technik &amp; Akustik</h3>
-            <p class="mt-2 font-body text-base leading-7 text-role-on/70">
-              Die Ausstattung ist auf professionelle Tonaufnahmen und Live-Konzerte ausgelegt; Detailabstimmungen erfolgen je nach Format.
-            </p>
+          <div class="p-8">
+            <h2 class="section-label mb-8">Basisinformationen</h2>
+            <ul class="space-y-6" role="list">
+              {
+                basics.map(([title, text]) => (
+                  <li class="flex gap-4">
+                    <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-secondary" aria-hidden="true" />
+                    <div>
+                      <h3 class="font-body text-lg font-semibold text-on-surface">{title}</h3>
+                      <p class="mt-1 font-body text-base leading-7 text-role-on/70">{text}</p>
+                    </div>
+                  </li>
+                ))
+              }
+            </ul>
           </div>
         </article>
       </div>
 
       <div class="lg:col-span-7">
         <div class="rounded-[0.5rem] border border-white/5 bg-surface/70 p-8 backdrop-blur-sm md:p-10">
-          <h2 class="font-display text-[clamp(2.2rem,6vw,3.3rem)] font-normal text-white">Buchungsanfrage</h2>
-          <p class="mt-4 max-w-2xl font-body text-base leading-7 text-role-on/68">
-            Das Formular ist statisch und öffnet beim Absenden Ihr E-Mail-Programm. Es wird keine Anfrage serverseitig gespeichert oder automatisch bestätigt.
+          <h2 class="section-label mb-6">Unverbindlich anfragen</h2>
+          <p class="max-w-2xl font-body text-base leading-7 text-role-on/68">
+            Beschreiben Sie kurz Ihr Vorhaben – wir melden uns in der Regel innerhalb weniger Werktage. Mit <span class="text-secondary">*</span> markierte Felder sind Pflichtfelder.
           </p>
 
-          <form action="mailto:konzerte@akg-kiel.de" method="post" enctype="text/plain" class="mt-10 space-y-8">
-            <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-              <div>
-                <label class="mb-2 block font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-role-on/72" for="name">Name / Organisation <span class="text-secondary">(Pflichtfeld)</span></label>
-                <input class="w-full border-0 border-b border-white/30 bg-transparent px-0 py-3 font-body text-base text-on-surface placeholder:text-role-on/42 focus:border-secondary focus:ring-0" id="name" name="Name / Organisation" autocomplete="organization" required type="text" />
+          <form action="mailto:[EMAIL]" method="post" enctype="text/plain" class="mt-10 space-y-10">
+            <fieldset class="space-y-8 border-0 p-0">
+              <legend class="mb-2 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-secondary">Ihre Veranstaltung</legend>
+              <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+                <div>
+                  <label class={labelClass} for="event-type">Art der Veranstaltung <span class="text-secondary" aria-hidden="true">*</span></label>
+                  <input class={inputClass} id="event-type" name="Art der Veranstaltung" required type="text" />
+                </div>
+                <div>
+                  <label class={labelClass} for="date">Wunschdatum / Zeitraum <span class="text-secondary" aria-hidden="true">*</span></label>
+                  <input class={inputClass} id="date" name="Wunschdatum / Zeitraum" required type="text" />
+                </div>
+                <div>
+                  <label class={labelClass} for="attendees">Erwartete Besucherzahl</label>
+                  <input class={inputClass} id="attendees" name="Erwartete Besucherzahl" min="1" max="450" inputmode="numeric" type="number" />
+                </div>
               </div>
-              <div>
-                <label class="mb-2 block font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-role-on/72" for="email">E-Mail <span class="text-secondary">(Pflichtfeld)</span></label>
-                <input class="w-full border-0 border-b border-white/30 bg-transparent px-0 py-3 font-body text-base text-on-surface placeholder:text-role-on/42 focus:border-secondary focus:ring-0" id="email" name="E-Mail" autocomplete="email" required type="email" />
-              </div>
-            </div>
+            </fieldset>
 
-            <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-              <div>
-                <label class="mb-2 block font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-role-on/72" for="phone">Telefon</label>
-                <input class="w-full border-0 border-b border-white/30 bg-transparent px-0 py-3 font-body text-base text-on-surface placeholder:text-role-on/42 focus:border-secondary focus:ring-0" id="phone" name="Telefon" autocomplete="tel" type="tel" />
+            <fieldset class="space-y-8 border-0 border-t border-white/10 pt-10 p-0">
+              <legend class="mb-2 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-secondary">Kontakt</legend>
+              <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+                <div>
+                  <label class={labelClass} for="name">Name / Organisation <span class="text-secondary" aria-hidden="true">*</span></label>
+                  <input class={inputClass} id="name" name="Name / Organisation" autocomplete="organization" required type="text" />
+                </div>
+                <div>
+                  <label class={labelClass} for="email">E-Mail <span class="text-secondary" aria-hidden="true">*</span></label>
+                  <input class={inputClass} id="email" name="E-Mail" autocomplete="email" required type="email" />
+                </div>
+                <div>
+                  <label class={labelClass} for="phone">Telefon</label>
+                  <input class={inputClass} id="phone" name="Telefon" autocomplete="tel" type="tel" />
+                </div>
               </div>
-              <div>
-                <label class="mb-2 block font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-role-on/72" for="event-type">Art der Veranstaltung <span class="text-secondary">(Pflichtfeld)</span></label>
-                <input class="w-full border-0 border-b border-white/30 bg-transparent px-0 py-3 font-body text-base text-on-surface placeholder:text-role-on/42 focus:border-secondary focus:ring-0" id="event-type" name="Art der Veranstaltung" required type="text" />
-              </div>
-            </div>
+            </fieldset>
 
-            <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+            <fieldset class="space-y-8 border-0 border-t border-white/10 pt-10 p-0">
+              <legend class="mb-2 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-secondary">Anmerkungen</legend>
               <div>
-                <label class="mb-2 block font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-role-on/72" for="date">Wunschdatum / Zeitraum <span class="text-secondary">(Pflichtfeld)</span></label>
-                <input class="w-full border-0 border-b border-white/30 bg-transparent px-0 py-3 font-body text-base text-on-surface placeholder:text-role-on/42 focus:border-secondary focus:ring-0" id="date" name="Wunschdatum / Zeitraum" required type="text" />
+                <label class={labelClass} for="technical-requirements">Technische Anforderungen &amp; Bemerkungen</label>
+                <textarea class="min-h-36 w-full resize-y border-0 border-b border-white/30 bg-transparent px-0 py-3 font-body text-base text-on-surface placeholder:text-role-on/42 focus:border-secondary focus:ring-0" id="technical-requirements" name="Technische Anforderungen und Bemerkungen" rows="5"></textarea>
               </div>
-              <div>
-                <label class="mb-2 block font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-role-on/72" for="attendees">Erwartete Besucherzahl</label>
-                <input class="w-full border-0 border-b border-white/30 bg-transparent px-0 py-3 font-body text-base text-on-surface placeholder:text-role-on/42 focus:border-secondary focus:ring-0" id="attendees" name="Erwartete Besucherzahl" min="1" max="450" inputmode="numeric" type="number" />
-              </div>
-            </div>
+            </fieldset>
 
             <div>
-              <label class="mb-2 block font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-role-on/72" for="technical-requirements">Technische Anforderungen &amp; Bemerkungen</label>
-              <textarea class="min-h-36 w-full resize-y border-0 border-b border-white/30 bg-transparent px-0 py-3 font-body text-base text-on-surface placeholder:text-role-on/42 focus:border-secondary focus:ring-0" id="technical-requirements" name="Technische Anforderungen und Bemerkungen" rows="5"></textarea>
+              <button class="inline-flex min-h-14 w-full items-center justify-center rounded-sm bg-secondary px-8 py-4 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-midnight shadow-[0_0_22px_rgb(var(--color-secondary-rgb)/0.12)] transition hover:bg-champagne active:scale-95 md:w-auto" type="submit">
+                Anfrage per E-Mail senden
+              </button>
+              <p class="mt-4 font-body text-sm leading-6 text-role-on/56">
+                Beim Absenden öffnet sich Ihr E-Mail-Programm mit der vorbereiteten Anfrage. Alternativ erreichen Sie uns direkt unter
+                <a class="!text-secondary no-underline hover:!text-champagne" href="mailto:[EMAIL]">[EMAIL]</a>.
+              </p>
             </div>
-
-            <button class="inline-flex min-h-14 w-full items-center justify-center rounded-sm bg-secondary px-8 py-4 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-midnight shadow-[0_0_22px_rgb(var(--color-secondary-rgb)/0.12)] transition hover:bg-champagne active:scale-95 md:w-auto" type="submit">
-              Anfrage per E-Mail senden
-            </button>
           </form>
         </div>
       </div>

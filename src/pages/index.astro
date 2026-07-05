@@ -15,7 +15,7 @@ import acousticReflection from '../assets/venue/petruskirche-interior-concert.we
     <Hero />
     <Concerts />
 
-    <section class="py-16 md:py-20" aria-label="Zitat über Musik">
+    <section class="py-16 md:py-44" aria-label="Zitat über Musik">
       <div class="mx-auto flex w-full max-w-3xl flex-col items-center px-5 text-center md:px-8">
         <blockquote class="max-w-none text-center font-display text-[clamp(1.45rem,4vw,2.65rem)] font-normal italic leading-[1.18] tracking-[-0.025em] text-white">
           Musik drückt das aus, was nicht gesagt werden kann und worüber zu schweigen unmöglich ist.
@@ -42,25 +42,13 @@ import acousticReflection from '../assets/venue/petruskirche-interior-concert.we
             </p>
           </div>
         </div>
-        <div class="architecture-media order-1 md:order-2">
-          <Card as="figure" class="architecture-media__back bg-slate-mist/30 shadow-panel">
-            <Image
-              src={acousticReflection}
-              alt="Publikum im warm beleuchteten Innenraum der Petruskirche"
-              class="!h-full !w-full object-cover object-[48%_58%]"
-              widths={[640, 960, 1200]}
-              sizes="(min-width: 1024px) 560px, (min-width: 768px) 44vw, 92vw"
-              loading="lazy"
-              decoding="async"
-            />
-          </Card>
-          <Card as="figure" class="architecture-media__front bg-slate-mist/30 shadow-panel">
+        <div class="order-1 md:order-2">
+          <Card as="figure" class="architecture-media__front bg-slate-mist/30 shadow-panel aspect-[4/5]">
             <Image
               src={churchExterior}
               alt="Außenansicht der Petruskirche Kiel mit neugotischer Backsteinarchitektur"
-              class="!h-full !w-full object-cover object-[50%_42%]"
+              class="object-cover object-[50%_42%]"
               widths={[480, 640, 960]}
-              sizes="(min-width: 1024px) 340px, (min-width: 768px) 28vw, 62vw"
               loading="lazy"
               decoding="async"
             />
@@ -95,92 +83,3 @@ import acousticReflection from '../assets/venue/petruskirche-interior-concert.we
     </section>
   </main>
 </Layout>
-
-<style is:global>
-  .architecture-radial-field {
-    inset: -24% -18%;
-    background:
-      radial-gradient(ellipse 58% 46% at 78% 42%, rgb(var(--color-slate-mist-rgb) / 0.56), transparent 68%),
-      radial-gradient(ellipse 48% 38% at 24% 58%, rgb(var(--color-slate-mist-rgb) / 0.26), transparent 70%),
-      linear-gradient(120deg, rgb(var(--color-midnight-rgb) / 0.22), transparent 58%);
-  }
-
-  .architecture-media {
-    position: relative;
-    min-height: clamp(20rem, 74vw, 29rem);
-    isolation: isolate;
-    --architecture-scroll: 0.5;
-  }
-
-  .architecture-media__back {
-    position: absolute;
-    inset: 0 0 18% 10%;
-    z-index: 0;
-    transform: translateY(calc((0.5 - var(--architecture-scroll)) * 5rem)) scale(1.04);
-  }
-
-  .architecture-media__front {
-    position: relative;
-    z-index: 1;
-    width: min(68%, 21rem);
-    margin-top: clamp(5rem, 17vw, 8rem);
-    aspect-ratio: 4 / 5;
-    transform: translateY(calc((var(--architecture-scroll) - 0.5) * 2.25rem));
-  }
-
-  @media (width >= 768px) {
-    .architecture-media {
-      min-height: clamp(24rem, 45vw, 33rem);
-    }
-
-    .architecture-media__back {
-      inset: 0 0 16% 14%;
-    }
-
-    .architecture-media__front {
-      width: min(58%, 21rem);
-      margin-top: clamp(7rem, 16vw, 10rem);
-    }
-  }
-
-  @media (width >= 1024px) {
-    .architecture-media {
-      min-height: 35rem;
-    }
-
-    .architecture-media__back {
-      inset: 0 0 12% 16%;
-    }
-
-    .architecture-media__front {
-      width: min(52%, 23rem);
-      margin-top: 11rem;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .architecture-media__back,
-    .architecture-media__front {
-      transform: none;
-    }
-  }
-</style>
-
-<script>
-  const architectureMedia = document.querySelector<HTMLElement>('.architecture-media');
-
-  if (architectureMedia && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const updateArchitectureScroll = () => {
-      const rect = architectureMedia.getBoundingClientRect();
-      const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
-      architectureMedia.style.setProperty(
-        '--architecture-scroll',
-        Math.min(1, Math.max(0, progress)).toFixed(3)
-      );
-    };
-
-    updateArchitectureScroll();
-    window.addEventListener('scroll', updateArchitectureScroll, { passive: true });
-    window.addEventListener('resize', updateArchitectureScroll);
-  }
-</script>

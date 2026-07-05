@@ -1,28 +1,71 @@
 ---
+import { Image } from 'astro:assets';
+
 import Concerts from '../components/sections/Concerts.astro';
+import PageHero from '../components/sections/PageHero.astro';
 import Layout from '../layouts/Layout.astro';
-import { programmeConcerts } from '../data/concerts';
+import { archiveConcerts, programmeConcerts } from '../data/concerts';
 ---
 
-<Layout title="Programm & Tickets · Konzertkirche Petruskirche" description="Programm und Tickets der Konzertkirche Petruskirche Kiel: Klassik, Chor, Musical, Orgel und Crossover im Kirchenraum.">
-  <main class="min-h-screen bg-midnight pt-32 text-role-on">
-    <section class="site-container pb-10 md:pb-14" aria-labelledby="programme-heading">
-      <p class="mb-5 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.14em] text-secondary">Konzerte in Kiel-Wik</p>
-      <h1 id="programme-heading" class="font-display text-[clamp(3rem,9vw,5.8rem)] font-normal leading-[1.02] tracking-[-0.045em] text-primary">Programm &amp; Tickets</h1>
-      <p class="mt-6 max-w-2xl font-body text-lg leading-8 text-role-on/72">
-        Erleben Sie außergewöhnliche musikalische Momente in der einzigartigen Akustik und Atmosphäre der Petruskirche. Ticketaktionen erscheinen nur dort, wo ein Ticketlink in den Veranstaltungsdaten hinterlegt ist.
-      </p>
-    </section>
+<Layout
+  title="Programm & Tickets · Konzertkirche Petruskirche"
+  description="Programm und Tickets der Konzertkirche Petruskirche Kiel: Klassik, Chor, Musical, Orgel und Crossover im Kirchenraum."
+>
+  <main class="min-h-screen bg-midnight text-role-on">
+    <PageHero
+      eyebrow="Konzerte in Kiel-Wik"
+      intro="Alle kommenden Konzerte in der Petruskirche auf einen Blick – chronologisch sortiert, mit Ticketlinks, sobald der Vorverkauf startet."
+    >
+      Programm &amp; Tickets
+    </PageHero>
 
     <Concerts
       id="programm"
       concerts={programmeConcerts}
       variant="programme"
-      eyebrow="Kategorien"
+      eyebrow="Alle Termine"
       heading="Alle Termine"
-      intro="Die Kategorien geben Orientierung; Details führen zu den einzelnen Terminen und zu hinterlegten Ticketlinks."
+      intro=""
       showHeaderLink={false}
       showFilters
     />
+
+    {
+      archiveConcerts.length > 0 && (
+        <section class="bg-role-support py-20 md:py-28" aria-labelledby="archive-heading">
+          <div class="site-container">
+            <h2 id="archive-heading" class="section-label mb-10">Vergangene Konzerte</h2>
+            <div class="grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+              {archiveConcerts.map((concert) => (
+                <article class="flex h-full flex-col overflow-hidden rounded-[0.5rem] border border-white/10 bg-slate-mist/60 opacity-75 grayscale-[0.25]">
+                  <div class="relative aspect-[4/3] overflow-hidden">
+                    <Image
+                      src={concert.image}
+                      alt={concert.imageAlt}
+                      class="absolute inset-0 !h-full !w-full object-cover"
+                      style={`object-position: ${concert.imagePosition};`}
+                      widths={[480, 720, 960]}
+                      sizes="(min-width: 1024px) 384px, (min-width: 768px) 45vw, calc(100vw - 40px)"
+                      loading="lazy"
+                      decoding="async"
+                      format="webp"
+                    />
+                  </div>
+                  <div class="flex flex-grow flex-col px-7 pb-7 pt-6">
+                    <p class="mb-3 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-secondary">
+                      {concert.date.display}
+                    </p>
+                    <h3 class="font-display text-[20px] font-normal leading-tight tracking-[-0.01em] text-white">
+                      {concert.title}
+                    </h3>
+                    <p class="mt-3 font-body text-[15px] leading-[1.55] text-role-on/68">{concert.programme}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
   </main>
 </Layout>

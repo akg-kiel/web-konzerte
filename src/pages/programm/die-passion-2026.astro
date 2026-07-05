@@ -1,7 +1,6 @@
 ---
-import { Image } from 'astro:assets';
-
 import ConcertCard from '../../components/sections/ConcertCard.astro';
+import PageHero from '../../components/sections/PageHero.astro';
 import Layout from '../../layouts/Layout.astro';
 import { passionConcert, relatedConcerts } from '../../data/concerts';
 import heroStage from '../../assets/hero/l1130722-hero.jpg';
@@ -11,7 +10,7 @@ if (!passionConcert) {
 }
 
 const infoItems = [
-  ['Datum', 'Sonntag, 22.03.2026'],
+  ['Datum', 'Sonntag, 21.03.2027'],
   ['Uhrzeit', '18:00 Uhr'],
   ['Einlass', 'Ab 17:15 Uhr'],
   ['Dauer', 'ca. 140 Minuten (inkl. Pause)'],
@@ -21,47 +20,56 @@ const infoItems = [
 ];
 ---
 
-<Layout title="Die Passion 2026 - Das Musical · Konzertkirche Petruskirche" description="Detailseite zu Die Passion 2026 - Das Musical in der Konzertkirche Petruskirche Kiel am 22. März 2026.">
+<Layout
+  title="Die Passion 2026 - Das Musical · Konzertkirche Petruskirche"
+  description="Detailseite zu Die Passion 2026 - Das Musical in der Konzertkirche Petruskirche Kiel am 21. März 2027."
+>
   <main class="min-h-screen bg-midnight text-role-on">
-    <section class="relative flex min-h-[72svh] items-end overflow-hidden pt-20 md:min-h-[85svh]" aria-labelledby="detail-heading">
-      <Image
-        src={heroStage}
-        alt="Chorprobe im Kirchenraum der Petruskirche"
-        class="absolute inset-0 !h-full !w-full object-cover object-[64%_52%]"
-        widths={[640, 960, 1280, 1600, 1920]}
-        sizes="100vw"
-        loading="eager"
-        decoding="async"
-        fetchpriority="high"
-        format="webp"
-      />
-      <div class="absolute inset-0 bg-gradient-to-b from-midnight/30 via-midnight/20 to-midnight" aria-hidden="true"></div>
-      <div class="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-midnight via-midnight/80 to-transparent" aria-hidden="true"></div>
-      <div class="site-container relative z-10 pb-16 md:pb-24">
-        <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
-          <div class="max-w-4xl">
-            <p class="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-slate-mist/40 px-3 py-1 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-primary backdrop-blur-md">
-              <span class="h-2 w-2 rounded-full bg-secondary" aria-hidden="true"></span>
-              Musical Premiere
-            </p>
-            <h1 id="detail-heading" class="font-display text-[clamp(3rem,8vw,6rem)] font-normal leading-[1.02] tracking-[-0.045em] text-white">Die Passion 2026 -<br />Das Musical</h1>
-            <p class="mt-5 font-display text-[clamp(1.5rem,4vw,2.3rem)] font-normal leading-tight text-secondary/90">
-              Sonntag 22.03.2026, 18:00 Uhr
-            </p>
+    <PageHero
+      image={heroStage}
+      imageAlt="Chorprobe im Kirchenraum der Petruskirche"
+      imagePosition="64% 52%"
+      subtitle="Sonntag 21.03.2027, 18:00 Uhr"
+    >
+      <p
+        slot="badge"
+        class="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-slate-mist/40 px-3 py-1 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-primary backdrop-blur-md"
+      >
+        <span class="h-2 w-2 rounded-full bg-secondary" aria-hidden="true"></span>
+        Musical Premiere
+      </p>
+      Die Passion 2026 -<br />Das Musical
+      {passionConcert.ticketUrl && (
+        <a
+          slot="cta"
+          class="inline-flex min-h-14 items-center justify-center rounded-sm bg-secondary px-8 py-4 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] !text-midnight no-underline shadow-[0_0_30px_rgb(var(--color-secondary-rgb)/0.25)] transition hover:bg-champagne active:scale-95"
+          href={passionConcert.ticketUrl}
+        >
+          Tickets kaufen
+        </a>
+      )}
+    </PageHero>
+
+    <section class="site-container -mt-8 relative z-20 md:hidden" aria-label="Kurzinfo">
+      <div class="grid grid-cols-2 gap-px overflow-hidden rounded-[0.5rem] border border-white/10 bg-white/5 backdrop-blur-xl">
+        {[
+          ['Datum', passionConcert.date.display.split(' • ')[0]],
+          ['Beginn', passionConcert.date.time + ' Uhr'],
+          ['Einlass', 'Ab 17:15 Uhr'],
+          ['Preis', passionConcert.price]
+        ].map(([term, value]) => (
+          <div class="bg-surface/90 p-4">
+            <p class="font-body text-[10px] font-semibold uppercase leading-3 tracking-[0.12em] text-role-on/52">{term}</p>
+            <p class="mt-1.5 font-body text-sm font-medium leading-5 text-white">{value}</p>
           </div>
-          {passionConcert.ticketUrl && (
-            <a class="inline-flex min-h-14 shrink-0 items-center justify-center rounded-full bg-secondary px-8 py-4 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] !text-midnight no-underline shadow-[0_0_30px_rgb(var(--color-secondary-rgb)/0.25)] transition hover:bg-champagne active:scale-95" href={passionConcert.ticketUrl}>
-              Tickets kaufen
-            </a>
-          )}
-        </div>
+        ))}
       </div>
     </section>
 
     <section class="site-container py-16 md:py-24" aria-labelledby="passion-about-heading">
       <div class="grid grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:gap-8">
         <article class="space-y-8 lg:col-span-8">
-          <h2 id="passion-about-heading" class="border-b border-white/10 pb-4 font-display text-[clamp(2.4rem,6vw,3.4rem)] font-normal leading-tight tracking-[-0.03em] text-secondary">Was ist die Passion 2026?</h2>
+          <h2 id="passion-about-heading" class="section-label">Das Werk</h2>
           <div class="space-y-6 font-body text-lg leading-8 text-role-on/74">
             <p class="font-semibold text-primary">
               Ein monumentales musikalisches Ereignis, das die jahrhundertealte Tradition der Passionsspiele mit der modernen Kraft des Musicals vereint.
@@ -96,14 +104,16 @@ const infoItems = [
           <div class="overflow-hidden rounded-[0.75rem] border border-white/10 bg-slate-mist/40 shadow-panel backdrop-blur-xl">
             <div class="h-1 bg-gradient-to-r from-transparent via-secondary/50 to-transparent" aria-hidden="true"></div>
             <div class="p-8">
-              <h2 id="short-info-heading" class="font-display text-[clamp(1.9rem,4vw,2.5rem)] font-normal text-white">Kurzinfo</h2>
-              <dl class="mt-6 space-y-5">
-                {infoItems.map(([term, description]) => (
-                  <div class="border-b border-white/5 pb-4 last:border-0 last:pb-0">
-                    <dt class="mb-1 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-role-on/56">{term}</dt>
-                    <dd class="font-body text-base leading-7 text-primary">{description}</dd>
-                  </div>
-                ))}
+              <h2 id="short-info-heading" class="section-label mb-6">Kurzinfo</h2>
+              <dl class="space-y-5">
+                {
+                  infoItems.map(([term, description]) => (
+                    <div class="border-b border-white/5 pb-4 last:border-0 last:pb-0">
+                      <dt class="mb-1 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-role-on/56">{term}</dt>
+                      <dd class="font-body text-base leading-7 text-primary">{description}</dd>
+                    </div>
+                  ))
+                }
               </dl>
             </div>
             {passionConcert.ticketUrl && (
@@ -115,7 +125,7 @@ const infoItems = [
             )}
           </div>
           <p class="mt-6 text-center">
-            <a class="font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] !text-role-on/70 no-underline hover:!text-secondary" href="/besuch-planen">Ihren Besuch planen</a>
+            <a class="font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] !text-role-on/70 no-underline transition hover:!text-secondary" href="/besuch-planen">Ihren Besuch planen</a>
           </p>
         </aside>
       </div>
@@ -124,8 +134,11 @@ const infoItems = [
     <section class="border-t border-white/5 bg-gradient-to-b from-transparent to-surface/50 py-20 md:py-24" aria-labelledby="related-heading">
       <div class="site-container">
         <div class="mb-10 flex flex-col justify-between gap-5 md:flex-row md:items-end">
-          <h2 id="related-heading" class="font-display text-[clamp(2.3rem,6vw,3.4rem)] font-normal text-primary">Andere Konzerte</h2>
-          <a class="font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] !text-secondary no-underline hover:!text-champagne" href="/programm">Gesamtes Programm →</a>
+          <h2 id="related-heading" class="section-label">Andere Konzerte</h2>
+          <a class="inline-flex items-center gap-2 self-start font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] !text-secondary no-underline transition hover:!text-champagne md:self-auto" href="/programm">
+            Gesamtes Programm
+            <span aria-hidden="true">→</span>
+          </a>
         </div>
         <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
           {relatedConcerts.map((concert) => <ConcertCard concert={concert} imageSizes="(min-width: 768px) 30vw, calc(100vw - 40px)" />)}
@@ -133,4 +146,13 @@ const infoItems = [
       </div>
     </section>
   </main>
+
+  {passionConcert.ticketUrl && (
+    <a
+      href={passionConcert.ticketUrl}
+      class="fixed inset-x-0 bottom-0 z-50 flex min-h-14 items-center justify-center bg-secondary px-6 py-4 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] !text-midnight no-underline shadow-[0_-8px_24px_rgb(0_0_0/0.4)] transition hover:bg-champagne active:scale-[0.99] md:hidden"
+    >
+      Tickets kaufen →
+    </a>
+  )}
 </Layout>
