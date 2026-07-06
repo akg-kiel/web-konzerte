@@ -19,14 +19,17 @@ const navItems = [
 ];
 
 const isActive = (match: string) => Boolean(match) && (pathname === match || pathname.startsWith(`${match}/`));
+
+const mobileLinkClass =
+  "flex min-h-16 items-center justify-between border-b border-champagne/10 text-role-on/95 no-underline transition after:text-champagne/40 after:content-['→'] after:transition hover:text-secondary hover:after:translate-x-2 hover:after:text-current focus-visible:text-secondary focus-visible:after:translate-x-2 focus-visible:after:text-current";
 ---
 
-<nav aria-label="Hauptnavigation" class="fixed inset-x-0 top-0 z-50 border-b border-white/10 shadow-sm">
+<nav aria-label="Hauptnavigation" class="fixed inset-x-0 top-0 z-40 border-b border-white/10 shadow-sm">
   <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-slate-mist/60 backdrop-blur-xl"></div>
-  <div class="site-container relative flex h-20 items-center gap-6">
+  <div class="mx-auto w-full max-w-screen-2xl px-6 md:px-8 lg:px-16 relative flex h-20 items-center gap-6">
     <a
       href="/"
-      class="relative z-[60] inline-flex items-center no-underline transition hover:opacity-85"
+      class="relative z-50 inline-flex items-center no-underline transition hover:opacity-85"
       aria-label="Apostel Kirchengemeinde Kiel · Konzertkirche Petruskirche Startseite"
     >
       <Image
@@ -40,7 +43,7 @@ const isActive = (match: string) => Boolean(match) && (pathname === match || pat
       />
     </a>
 
-    <div class="ml-auto hidden items-center gap-8 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] lg:flex">
+    <div class="ml-auto hidden items-center gap-8 font-body text-xs/4 font-semibold uppercase tracking-widest lg:flex">
       {
         navItems.map((item) => {
           const active = isActive(item.match);
@@ -48,8 +51,8 @@ const isActive = (match: string) => Boolean(match) && (pathname === match || pat
             <a
               class:list={[
                 active
-                  ? 'border-b-2 border-secondary pb-1 text-secondary no-underline'
-                  : 'text-role-on/78 no-underline transition hover:text-secondary'
+                  ? 'border-b-2 border-secondary pb-2 text-secondary no-underline'
+                  : 'text-role-on/80 no-underline transition hover:text-secondary'
               ]}
               href={item.href}
               target={item.external ? '_blank' : undefined}
@@ -63,22 +66,25 @@ const isActive = (match: string) => Boolean(match) && (pathname === match || pat
       }
     </div>
 
-    <details class="mobile-nav ml-auto lg:hidden">
-      <summary class="mobile-nav__toggle" aria-label="Navigation öffnen oder schließen">
+    <details class="group ml-auto lg:hidden">
+      <summary
+        class="relative z-50 flex h-12 w-12 cursor-pointer list-none items-center justify-center rounded-sm border border-transparent text-on-surface transition marker:hidden group-open:border-champagne/20 group-open:bg-champagne/10 group-open:text-champagne [&::-webkit-details-marker]:hidden"
+        aria-label="Navigation öffnen oder schließen"
+      >
         <span class="sr-only">Navigation öffnen oder schließen</span>
-        <span class="mobile-nav__icon"></span>
+        <span class="relative block h-px w-6 rounded-full bg-current transition before:absolute before:left-0 before:block before:h-px before:w-6 before:-translate-y-2 before:rounded-full before:bg-current before:transition before:content-[''] after:absolute after:left-0 after:block after:h-px after:w-6 after:translate-y-2 after:rounded-full after:bg-current after:transition after:content-[''] group-open:bg-transparent group-open:before:translate-y-0 group-open:before:rotate-45 group-open:after:translate-y-0 group-open:after:-rotate-45"></span>
       </summary>
-      <div class="mobile-nav__panel">
-        <div class="site-container flex min-h-svh flex-col pb-10 pt-32">
-          <p class="font-body text-[11px] font-semibold uppercase leading-4 tracking-[0.18em] text-secondary/80">
+      <div class="fixed inset-0 z-40 overflow-y-auto bg-midnight/95 text-on-surface backdrop-blur-lg">
+        <div class="mx-auto w-full max-w-screen-2xl px-6 md:px-8 lg:px-16 flex min-h-svh flex-col pb-10 pt-32">
+          <p class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary/80">
             Menü
           </p>
 
-          <div class="mt-10 flex flex-1 flex-col justify-center gap-6 font-display text-[clamp(2.05rem,10.5vw,3.6rem)] leading-[1.02] tracking-[-0.035em]">
+          <div class="mt-10 flex flex-1 flex-col justify-center gap-6 font-display text-4xl/none tracking-tight sm:text-5xl/none md:text-6xl/none">
             {
               navItems.map((item) => (
                 <a
-                  class:list={['mobile-nav__link', isActive(item.match) && 'text-secondary']}
+                  class:list={[mobileLinkClass, isActive(item.match) && 'text-secondary']}
                   href={item.href}
                   target={item.external ? '_blank' : undefined}
                   rel={item.external ? 'noopener noreferrer' : undefined}
@@ -90,7 +96,7 @@ const isActive = (match: string) => Boolean(match) && (pathname === match || pat
             }
           </div>
 
-          <p class="mt-auto max-w-xs border-t border-white/10 pt-6 font-body text-sm leading-6 text-role-on/58">
+          <p class="mt-auto max-w-xs border-t border-white/10 pt-6 font-body text-sm/6 text-role-on/60">
             Tickets werden über externe Anbieter verkauft.
           </p>
         </div>

@@ -12,7 +12,7 @@ import heroStage from '../../assets/hero/l1130722-hero.jpg';
     <Image
       src={heroStage}
       alt=""
-      class="hero-media"
+      class="h-full w-full object-cover object-[75%_center]"
       widths={[640, 960, 1280, 1600, 1920]}
       sizes="100vw"
       loading="eager"
@@ -42,14 +42,14 @@ import heroStage from '../../assets/hero/l1130722-hero.jpg';
     </div>
   </div>
 
-  <div class="site-container relative z-20 w-full">
+  <div class="relative z-20 mx-auto w-full max-w-screen-2xl px-6 md:px-8 lg:px-16">
     <div class="max-w-3xl">
-      <h1 id="hero-heading" class="hero-title font-display font-semibold !text-white">
-        <span class="block whitespace-nowrap">Konzerte in der</span>
+      <h1 id="hero-heading" class="font-display text-4xl/tight font-semibold tracking-tight !text-white sm:text-5xl/tight md:text-7xl/tight lg:text-8xl/tight">
+        <span class="block sm:whitespace-nowrap">Konzerte in der</span>
         <span class="block italic !text-secondary">Petruskirche Kiel</span>
       </h1>
 
-      <p class="hero-copy mt-5 max-w-[35ch] font-body text-[clamp(0.92rem,2.35vw,1rem)] font-normal leading-[1.56] text-role-on/66 md:mt-6 md:max-w-[46ch] md:text-[clamp(1rem,1.1vw,1.1rem)] md:leading-[1.6] md:text-role-on/74">
+      <p class="mt-6 max-w-md font-body text-sm/relaxed font-normal tracking-tight text-role-on/70 md:max-w-xl md:text-base/relaxed md:text-role-on/75">
         Ein besonderer Konzertort in Kiel-Wik für Klassik, Chor, Pop, Crossover und
         Kulturveranstaltungen. Erleben Sie Musik in unvergleichlicher akustischer und
         architektonischer Atmosphäre.
@@ -57,14 +57,14 @@ import heroStage from '../../assets/hero/l1130722-hero.jpg';
 
       <div class="mt-10 flex flex-col gap-4 sm:flex-row">
         <a
-          class="inline-flex min-h-14 items-center justify-center rounded-sm bg-secondary px-8 py-4 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] !text-[#241a00] no-underline transition hover:bg-role-accent active:scale-95"
+          class="inline-flex min-h-14 items-center justify-center rounded-sm bg-secondary px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest !text-midnight no-underline transition hover:bg-role-accent active:scale-95"
           href="#naechste-konzerte"
           aria-label="Zu den nächsten Konzerten springen"
         >
           Programm ansehen
         </a>
         <a
-          class="inline-flex min-h-14 items-center justify-center rounded-sm border border-white/10 bg-slate-mist/60 px-8 py-4 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] !text-white no-underline shadow-sm backdrop-blur-xl transition hover:bg-white/10 active:scale-95"
+          class="inline-flex min-h-14 items-center justify-center rounded-sm border border-white/10 bg-slate-mist/60 px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest !text-white no-underline shadow-sm backdrop-blur-xl transition hover:bg-white/10 active:scale-95"
           href="/besuch-planen"
           aria-label="Besuch in der Petruskirche planen"
         >

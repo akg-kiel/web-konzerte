@@ -9,7 +9,6 @@ interface Props {
   concerts?: Concert[];
   variant?: ConcertVariant;
   eyebrow?: string;
-  heading?: string;
   intro?: string;
   showHeaderLink?: boolean;
   showFilters?: boolean;
@@ -20,7 +19,6 @@ const {
   concerts = upcomingConcerts,
   variant = 'home',
   eyebrow = 'Programm',
-  heading = 'Nächste Konzerte',
   intro = '',
   showHeaderLink = variant === 'home',
   showFilters = variant === 'programme'
@@ -29,21 +27,20 @@ const {
 const titleId = `${id}-heading`;
 const isHome = variant === 'home';
 const isProgramme = variant === 'programme';
-const showVisibleHeading = !isHome && Boolean(heading);
 const hasConcerts = concerts.length > 0;
 const categories = Array.from(new Set(concerts.map((concert) => concert.category)));
 const filters = ['Alle', ...categories, 'Eintritt frei'];
 
 const gridClass = isProgramme
   ? 'space-y-6'
-  : 'grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3 lg:gap-8';
+  : 'grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-8';
 
 const imageSizes = isProgramme
-  ? '(min-width: 768px) 320px, calc(100vw - 40px)'
-  : '(min-width: 1024px) 384px, (min-width: 768px) 45vw, calc(100vw - 40px)';
+  ? '(min-width: 768px) 320px, calc(100vw - 48px)'
+  : '(min-width: 1024px) 384px, (min-width: 768px) 45vw, calc(100vw - 48px)';
 
 const headerLinkClass =
-  'items-center gap-2 font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] !text-role-on/68 no-underline transition-colors hover:!text-secondary';
+  'items-center gap-2 font-body text-xs/4 font-semibold uppercase tracking-widest !text-role-on/70 no-underline transition-colors hover:!text-secondary';
 ---
 
 <section
@@ -57,64 +54,42 @@ const headerLinkClass =
     variant === 'archive' && 'bg-role-support'
   ]}
 >
-  <div class="site-container">
-    {
-      showVisibleHeading ? (
-        <div class="mb-10 flex flex-col justify-between gap-6 md:mb-12 md:flex-row md:items-end">
-          <div>
-            <h2 id={titleId} class="section-label">
-              {eyebrow}
-            </h2>
-            {intro && <p class="mt-5 max-w-2xl font-body text-[18px] leading-7 text-role-on/68">{intro}</p>}
-          </div>
+  <div class="mx-auto w-full max-w-screen-2xl px-6 md:px-8 lg:px-16">
+    <div class="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end md:mb-10">
+      <div>
+        <h2 id={titleId} class="block font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/60">
+          {eyebrow}
+        </h2>
+        {intro && <p class="mt-6 max-w-2xl font-body text-lg/7 text-role-on/70">{intro}</p>}
+      </div>
 
-          {showHeaderLink && (
-            <a
-              href="/programm"
-              class:list={['hidden sm:inline-flex', headerLinkClass]}
-              aria-label="Alle Konzerttermine im Programm ansehen"
-            >
-              Alle Termine ansehen
-              <span aria-hidden="true">→</span>
-            </a>
-          )}
-        </div>
-      ) : (
-        <>
-          <div class="mb-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between md:mb-10">
-            <h2 id={titleId} class="section-label">
-              {eyebrow}
-            </h2>
-            {showHeaderLink && (
-              <a
-                href="/programm"
-                class:list={['hidden sm:inline-flex', headerLinkClass]}
-                aria-label="Alle Konzerttermine im Programm ansehen"
-              >
-                Alle Termine ansehen
-                <span aria-hidden="true">→</span>
-              </a>
-            )}
-          </div>
-        </>
-      )
-    }
+      {showHeaderLink && (
+        <a
+          href="/programm"
+          class:list={['hidden sm:inline-flex', headerLinkClass]}
+          aria-label="Alle Konzerttermine im Programm ansehen"
+        >
+          Alle Termine ansehen
+          <span aria-hidden="true">→</span>
+        </a>
+      )}
+    </div>
 
     {
       showFilters && hasConcerts && (
-        <div aria-label="Programmkategorien" class="-mt-4 mb-10 border-b border-white/5 pb-4">
-          <div class="flex flex-wrap items-center gap-3">
-            <ul class="flex gap-3 overflow-x-auto pb-1" role="list" data-concert-filters>
+        <div role="group" aria-label="Programmkategorien" class="-mt-4 mb-10 border-b border-white/5 pb-4">
+          <div class="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-center">
+            <ul class="-mx-6 flex min-w-0 gap-2 overflow-x-auto px-6 pb-2 sm:mx-0 sm:flex-1 sm:px-0" role="list" data-concert-filters>
               {filters.map((filter, index) => (
                 <li>
                   <button
                     type="button"
                     data-filter={filter}
                     class:list={[
-                      'inline-flex min-h-10 items-center rounded-sm border px-6 py-2 font-body text-[12px] font-semibold leading-4 tracking-[0.08em] transition-colors',
+                      'inline-flex min-h-10 items-center whitespace-nowrap rounded-sm border px-6 py-2 font-body text-xs/4 font-semibold tracking-widest transition-colors',
                       index === 0
                         ? 'border-secondary bg-secondary/10 text-secondary'
-                        : 'border-white/20 bg-white/[0.02] text-role-on/78 hover:border-white/40 hover:text-white'
+                        : 'border-white/20 bg-white/5 text-role-on/80 hover:border-white/40 hover:text-white'
                     ]}
                     aria-pressed={index === 0 ? 'true' : 'false'}
                   >
@@ -123,7 +98,7 @@ const headerLinkClass =
                 </li>
               ))}
             </ul>
-            <span class="ml-auto font-body text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-role-on/52" data-concert-count />
+            <span class="font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/50 sm:ml-auto" data-concert-count role="status" aria-live="polite" />
           </div>
         </div>
       )
@@ -138,7 +113,7 @@ const headerLinkClass =
         </div>
       ) : (
         <div class="max-w-2xl">
-          <p class="font-body text-sm leading-6 text-role-on/68">
+          <p class="font-body text-sm/6 text-role-on/70">
             Neue Konzerttermine erscheinen hier, sobald sie feststehen.
           </p>
         </div>
@@ -170,7 +145,7 @@ const headerLinkClass =
     const cards = Array.from(list.querySelectorAll<HTMLElement>('[data-category]'));
     const buttons = Array.from(group.querySelectorAll<HTMLButtonElement>('[data-filter]'));
     const activeClass = ['border-secondary', 'bg-secondary/10', 'text-secondary'];
-    const idleClass = ['border-white/20', 'bg-white/[0.02]', 'text-role-on/78', 'hover:border-white/40', 'hover:text-white'];
+    const idleClass = ['border-white/20', 'bg-white/5', 'text-role-on/80', 'hover:border-white/40', 'hover:text-white'];
 
     const apply = (filter: string) => {
       let visible = 0;

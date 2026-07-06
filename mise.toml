@@ -22,3 +22,6 @@ run = "vp run quality"
 [tasks.ci]
 description = "Install locked dependencies and run quality"
 run = "vp install --frozen-lockfile && vp run quality"
+
+[settings]
+node.compile = false

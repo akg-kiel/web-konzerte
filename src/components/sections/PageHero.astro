@@ -13,6 +13,7 @@ interface Props {
 
 const { eyebrow, intro, subtitle, image, imageAlt = '', imagePosition = 'center center' } = Astro.props;
 const hasImage = Boolean(image);
+const hasCta = Astro.slots.has('cta');
 ---
 
 <section
@@ -51,35 +52,37 @@ const hasImage = Boolean(image);
     )
   }
 
-  <div class="site-container relative z-10 w-full">
+  <div class="relative z-10 mx-auto w-full max-w-screen-2xl px-6 md:px-8 lg:px-16">
     <slot name="badge" />
     {
       eyebrow && (
-        <p class="section-label mb-5">{eyebrow}</p>
+        <p class="mb-6 block font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/60">{eyebrow}</p>
       )
     }
     <h1
       id="page-hero-heading"
-      class="font-display text-[clamp(2.6rem,8vw,5.4rem)] font-normal leading-[1.02] tracking-[-0.045em] text-white"
+      class="font-display text-4xl/tight font-normal tracking-tighter text-white sm:text-5xl/tight md:text-7xl/none lg:text-8xl/none"
     >
       <slot />
     </h1>
     {
       subtitle && (
-        <p class="mt-5 font-display text-[clamp(1.5rem,4vw,2.3rem)] font-normal leading-tight text-secondary/90">
+        <p class="mt-6 font-display text-2xl/tight font-normal text-secondary/90 md:text-4xl/tight">
           {subtitle}
         </p>
       )
     }
     {
       intro && (
-        <p class="mt-6 max-w-2xl font-body text-lg leading-8 text-role-on/74">
+        <p class="mt-6 max-w-2xl font-body text-lg/8 text-role-on/75">
           {intro}
         </p>
       )
     }
-    <div class="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
-      <slot name="cta" />
-    </div>
+    {hasCta && (
+      <div class="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
+        <slot name="cta" />
+      </div>
+    )}
   </div>
 </section>

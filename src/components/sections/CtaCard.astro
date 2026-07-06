@@ -16,20 +16,20 @@ const { href, title, body, cta, icon, ariaLabel = `${title}: ${cta}` } = Astro.p
 <Card
   as="a"
   href={href}
-  class="group flex min-h-full flex-col p-7 !text-role-on no-underline transition-[background-color,border-color] duration-300 hover:border-secondary/40 hover:bg-slate-mist/35 focus-visible:border-secondary/50 md:p-8"
+  class="group flex min-h-full flex-col p-8 !text-role-on no-underline transition-colors duration-300 hover:border-secondary/40 hover:bg-slate-mist/30 focus-visible:border-secondary/50"
   aria-label={ariaLabel}
 >
-  <span class="mb-7 flex h-11 w-11 items-center justify-center rounded-sm bg-slate-mist text-xl text-secondary transition-colors duration-300 group-hover:bg-secondary group-hover:text-midnight group-focus-visible:bg-secondary group-focus-visible:text-midnight" aria-hidden="true">
+  <span class="mb-8 flex h-12 w-12 items-center justify-center rounded-sm bg-slate-mist text-xl/7 text-secondary transition-colors duration-300 group-hover:bg-secondary group-hover:text-midnight group-focus-visible:bg-secondary group-focus-visible:text-midnight" aria-hidden="true">
     {icon}
   </span>
-  <h3 class="font-display text-[clamp(1.55rem,3vw,2.1rem)] font-normal text-white transition-colors duration-300 group-hover:text-champagne group-focus-visible:text-champagne">
+  <h3 class="font-display text-2xl/8 md:text-3xl/9 font-normal text-white transition-colors duration-300 group-hover:text-champagne group-focus-visible:text-champagne">
     {title}
   </h3>
-  <p class="!mt-4 font-body text-base leading-7 text-role-on/72 transition-colors duration-300 group-hover:text-role-on/82 group-focus-visible:text-role-on/82">
+  <p class="!mt-4 font-body text-base/7 text-role-on/70 transition-colors duration-300 group-hover:text-role-on/80 group-focus-visible:text-role-on/80">
     {body}
   </p>
-  <span class="mt-auto inline-flex min-h-10 items-center gap-2 self-start pt-7 font-body text-[11px] font-semibold uppercase leading-4 tracking-[0.1em] !text-secondary transition-colors duration-300 group-hover:!text-champagne group-focus-visible:!text-champagne">
+  <span class="mt-auto inline-flex min-h-10 items-center gap-2 self-start pt-8 font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary transition-colors duration-300 group-hover:!text-champagne group-focus-visible:!text-champagne">
     {cta}
-    <span class="transition-transform duration-300 group-hover:translate-x-1 group-focus-visible:translate-x-1" aria-hidden="true">→</span>
+    <span class="transition-transform duration-300 group-hover:translate-x-2 group-focus-visible:translate-x-2" aria-hidden="true">→</span>
   </span>
 </Card>

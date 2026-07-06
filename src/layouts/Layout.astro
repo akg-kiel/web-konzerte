@@ -25,7 +25,7 @@ const ogImageUrl = new URL(ogImage, siteUrl).href;
 ---
 
 <!doctype html>
-<html lang="de" dir="ltr">
+<html lang="de" dir="ltr" class="min-h-full overflow-x-clip scroll-smooth bg-midnight scheme-dark motion-reduce:scroll-auto">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -86,10 +86,10 @@ const ogImageUrl = new URL(ogImage, siteUrl).href;
       })}
     </script>
   </head>
-  <body>
-    <a href="#page-content" class="skip-link">Direkt zum Inhalt springen</a>
+  <body class="min-h-screen min-w-80 overflow-x-clip bg-midnight font-body text-base/relaxed text-role-on antialiased selection:bg-champagne selection:text-midnight [&_*:focus-visible]:outline [&_*:focus-visible]:outline-2 [&_*:focus-visible]:outline-offset-4 [&_*:focus-visible]:outline-champagne">
+    <a href="#page-content" class="fixed left-4 top-4 z-50 -translate-y-24 rounded-full bg-champagne px-4 py-2 text-midnight shadow-glow transition-transform focus-visible:translate-y-0">Direkt zum Inhalt springen</a>
     <Header />
-    <div id="page-content" class="page-content" tabindex="-1">
+    <div id="page-content" class="min-h-screen" tabindex="-1">
       <slot />
     </div>
     <Footer />

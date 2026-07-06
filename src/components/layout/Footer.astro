@@ -26,9 +26,9 @@ const legalLinks = [
 ---
 
 <footer aria-labelledby="footer-heading" class="w-full border-t border-white/10 bg-midnight py-14 text-role-on md:py-16">
-  <div class="site-container grid grid-cols-1 items-start gap-11 md:grid-cols-2 md:gap-10 lg:gap-16">
+  <div class="mx-auto w-full max-w-screen-2xl px-6 md:px-8 lg:px-16 grid grid-cols-1 items-start gap-12 md:grid-cols-2 md:gap-10 lg:gap-16">
     <section aria-labelledby="footer-heading" class="max-w-lg">
-      <h2 id="footer-heading" class="mb-5">
+      <h2 id="footer-heading" class="mb-6">
         <a
           href="/"
           class="inline-flex no-underline transition-opacity hover:opacity-85"
@@ -46,29 +46,29 @@ const legalLinks = [
         </a>
       </h2>
 
-      <p class="max-w-sm font-body text-sm leading-6 text-role-on/64 md:text-base md:leading-7">
+      <p class="max-w-sm font-body text-sm/6 text-role-on/60 md:text-base/7">
         © {currentYear} Apostel-Kirchengemeinde Kiel. Konzerte in der Petruskirche.
       </p>
 
-      <address class="mt-7 space-y-3 font-body text-sm leading-6 text-role-on/68 not-italic">
+      <address class="mt-8 space-y-4 font-body text-sm/6 text-role-on/70 not-italic">
         <p>
-          <span class="block font-semibold text-role-on/86">Petruskirche Kiel-Wik</span>
+          <span class="block font-semibold text-role-on/90">Petruskirche Kiel-Wik</span>
           Weimarer Straße 1 · 24106 Kiel
         </p>
-        <p class="flex flex-col gap-1 sm:flex-row sm:flex-wrap sm:gap-x-5">
-          <a href="mailto:konzerte@akg-kiel.de" class="text-role-on/76 no-underline hover:text-secondary">
+        <p class="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-x-6">
+          <a href="mailto:konzerte@akg-kiel.de" class="text-role-on/75 no-underline hover:text-secondary">
             konzerte@akg-kiel.de
           </a>
-          <a href="tel:+4943116456" class="text-role-on/76 no-underline hover:text-secondary">
+          <a href="tel:+4943116456" class="text-role-on/75 no-underline hover:text-secondary">
             Gemeindebüro 0431 16 456
           </a>
         </p>
       </address>
     </section>
 
-    <div class="w-full border-t border-white/10 pt-7 md:justify-self-end md:self-end md:border-t-0 md:pt-1">
+    <div class="w-full border-t border-white/10 pt-8 md:justify-self-end md:self-end md:border-t-0 md:pt-0">
       <nav aria-label="Navigation im Fußbereich">
-        <ul class="grid grid-cols-1 gap-1 sm:grid-cols-2 sm:gap-x-8 lg:flex lg:flex-wrap lg:justify-end lg:gap-x-7 lg:gap-y-2" role="list">
+        <ul class="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-x-8 lg:flex lg:flex-wrap lg:justify-end lg:gap-x-8 lg:gap-y-2" role="list">
           {
             footerLinks.map((link) => (
               <li>
@@ -77,7 +77,7 @@ const legalLinks = [
                   target={link.external ? '_blank' : undefined}
                   rel={link.external ? 'noopener noreferrer' : undefined}
                   class:list={[
-                    'inline-flex min-h-10 items-center gap-1.5 font-body text-sm leading-6 no-underline transition-colors hover:text-secondary',
+                    'inline-flex min-h-10 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary',
                     link.accent ? 'font-semibold text-secondary' : 'text-role-on/70'
                   ]}
                 >
@@ -90,14 +90,14 @@ const legalLinks = [
         </ul>
       </nav>
 
-      <nav aria-label="Rechtliche Links" class="mt-7 border-t border-white/10 pt-5 md:mt-8">
+      <nav aria-label="Rechtliche Links" class="mt-8 border-t border-white/10 pt-6">
         <ul class="flex flex-wrap gap-x-6 gap-y-2 md:justify-end" role="list">
           {
             legalLinks.map((link) => (
               <li>
                 <a
                   href={link.href}
-                  class="inline-flex min-h-9 items-center font-body text-sm leading-6 text-role-on/56 no-underline transition-colors hover:text-secondary"
+                  class="inline-flex min-h-10 items-center font-body text-sm/6 text-role-on/60 no-underline transition-colors hover:text-secondary"
                 >
                   {link.label}
                 </a>
