@@ -143,11 +143,12 @@ const mapAppointment = (row: ChurchToolsRow): Concert | undefined => {
   const ticketUrl = safeUrl(appointment.link);
   const date = formatDate(startDate, appointment.allDay);
   const address = appointment.address;
-  const location = address
-    ? [address.name, address.street, [address.zip, address.city].filter(Boolean).join(' ')]
-        .filter(Boolean)
-        .join(', ')
-    : defaults.location;
+  const location =
+    (address
+      ? [address.name, address.street, [address.zip, address.city].filter(Boolean).join(' ')]
+          .filter(Boolean)
+          .join(', ')
+      : '') || defaults.location;
   const focus = appointment.image?.imageOption?.focus;
   const focusX = Number(focus?.x ?? 0.5) * 100;
   const focusY = Number(focus?.y ?? 0.5) * 100;
@@ -159,7 +160,7 @@ const mapAppointment = (row: ChurchToolsRow): Concert | undefined => {
     programme: metadata.programme ?? 'Weitere Informationen zu diesem Konzert folgen.',
     programmeNotes: metadata.programmeNotes,
     date,
-    endIso: endDate,
+    endIso: endDate && !Number.isNaN(Date.parse(endDate)) ? endDate : undefined,
     location,
     accessibility: metadata.accessibility ?? defaults.accessibility,
     ticketUrl,
@@ -227,6 +228,10 @@ export async function getConcerts(environment: ChurchToolsEnvironment = {}) {
     : undefined;
 
   try {
+    if (new URL(baseUrl).protocol !== 'https:')
+      throw new Error('CHURCHTOOLS_BASE_URL must use HTTPS');
+    if (calendarIds.length === 0) throw new Error('CHURCHTOOLS_CALENDAR_IDS must not be empty');
+
     const responses = await Promise.all(
       calendarIds.map((id) =>
         fetchCalendar(
@@ -266,5 +271,7 @@ export function splitConcerts(concerts: Concert[], now = new Date()) {
   };
 }
 
-export const cacheProgramme = (response: { headers: Headers }) =>
-  response.headers.set('Cache-Control', 'public, max-age=0, s-maxage=300, stale-if-error=86400');
+export const cacheProgramme = (response: { headers: Headers }) => {
+  response.headers.set('Cache-Control', 'public, max-age=0');
+  response.headers.set('Cloudflare-CDN-Cache-Control', 'public, max-age=300, stale-if-error=86400');
+};
