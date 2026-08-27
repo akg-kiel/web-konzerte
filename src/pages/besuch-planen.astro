@@ -42,17 +42,40 @@ import orgelMikrofon from '../assets/concerts/orgel-mikrofon.jpg';
             </div>
             <p class="font-body text-base/7 text-role-on/70">
               <span class="block font-semibold text-on-surface">Petruskirche Kiel-Wik</span>
-              Weimarer Straße 1 · 24106 Kiel ·
-              <a class="!text-secondary no-underline hover:!text-champagne" href="https://www.openstreetmap.org/search?query=Weimarer%20Stra%C3%9Fe%201%2024106%20Kiel" target="_blank" rel="noopener noreferrer">Karte öffnen ↗</a>
+              Weimarer Straße 1 · 24106 Kiel
             </p>
           </div>
 
-          <iframe
-            title="OpenStreetMap – Petruskirche Kiel-Wik"
-            class="aspect-[4/3] w-full rounded-lg border border-white/10 lg:aspect-[16/10]"
-            loading="lazy"
-            src="https://www.openstreetmap.org/export/embed.html?bbox=10.1310%2C54.3220%2C10.1370%2C54.3260&layer=mapnik&marker=54.3240%2C10.1340"
-          />
+          <div>
+            <div data-google-map-consent class="flex min-h-64 flex-col items-center justify-center rounded-lg border border-white/10 bg-slate-mist/30 p-8 text-center">
+              <p class="font-body text-base/7 text-role-on/70">Google Maps wird erst nach Ihrer Zustimmung geladen.</p>
+              <button
+                data-google-map-button
+                aria-controls="google-map"
+                class="mt-6 inline-flex min-h-12 items-center justify-center rounded-sm bg-secondary px-6 py-3 font-body text-xs/4 font-semibold uppercase tracking-widest text-midnight transition hover:bg-champagne active:scale-95"
+                type="button"
+              >
+                Google Maps laden
+              </button>
+              <p class="mt-4 max-w-sm font-body text-xs/5 text-role-on/55">
+                Dabei erhält Google Verbindungsdaten und kann Cookies setzen. <a class="!text-secondary no-underline hover:!text-champagne" href="/datenschutz#drittanbieter">Mehr zum Datenschutz</a>.
+              </p>
+              <noscript>
+                <a class="mt-4 !text-secondary no-underline hover:!text-champagne" href="https://www.google.com/maps/search/?api=1&query=Petruskirche%20Kiel-Wik%2C%20Weimarer%20Stra%C3%9Fe%201%2C%2024106%20Kiel" target="_blank" rel="noopener noreferrer">Google Maps öffnen ↗</a>
+              </noscript>
+            </div>
+            <iframe
+              id="google-map"
+              data-google-map
+              data-src="https://www.google.com/maps?q=Petruskirche%20Kiel-Wik%2C%20Weimarer%20Stra%C3%9Fe%201%2C%2024106%20Kiel&output=embed"
+              title="Google Maps – Petruskirche Kiel-Wik"
+              class="aspect-[4/3] w-full rounded-lg border border-white/10 lg:aspect-[16/10]"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              allowfullscreen
+              hidden
+            ></iframe>
+          </div>
         </div>
       </section>
 
@@ -114,3 +137,16 @@ import orgelMikrofon from '../assets/concerts/orgel-mikrofon.jpg';
     </div>
   </main>
 </Layout>
+
+<script>
+  const consent = document.querySelector('[data-google-map-consent]') as HTMLElement;
+  const button = document.querySelector('[data-google-map-button]') as HTMLButtonElement;
+  const map = document.querySelector('[data-google-map]') as HTMLIFrameElement;
+
+  button.addEventListener('click', () => {
+    map.src = map.dataset.src!;
+    map.hidden = false;
+    map.focus();
+    consent.remove();
+  });
+</script>

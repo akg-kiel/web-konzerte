@@ -1,0 +1,178 @@
+---
+import PageHero from '../components/sections/PageHero.astro';
+import Layout from '../layouts/Layout.astro';
+
+const linkClass = '!text-secondary no-underline hover:!text-champagne';
+const headingClass = 'font-display text-2xl/tight text-on-surface md:text-3xl/tight';
+const textClass = 'mt-6 space-y-4 font-body text-base/7 text-role-on/75';
+---
+
+<Layout
+  title="Datenschutz · Konzertkirche Petruskirche"
+  description="Datenschutzhinweise der Evangelisch-Lutherischen Apostel-Kirchengemeinde Kiel für die Website der Konzertkirche Petruskirche."
+>
+  <main class="min-h-screen bg-midnight text-role-on">
+    <PageHero
+      eyebrow="Rechtliches"
+      intro="Informationen über die Verarbeitung personenbezogener Daten beim Besuch dieser Website und bei der Kontaktaufnahme."
+    >
+      Datenschutz
+    </PageHero>
+
+    <article class="mx-auto grid w-full max-w-screen-2xl gap-16 px-6 py-16 md:px-8 md:py-24 lg:grid-cols-12 lg:px-16">
+      <div class="space-y-16 lg:col-span-8">
+        <section id="verantwortlicher" aria-labelledby="controller-heading">
+          <h2 id="controller-heading" class={headingClass}>Verantwortlicher</h2>
+          <div class={textClass}>
+            <address class="not-italic">
+              <strong class="font-semibold text-on-surface">Evangelisch-Lutherische Apostel-Kirchengemeinde Kiel</strong><br />
+              Adalbertstraße 10<br />
+              24106 Kiel<br />
+              Telefon: <a class={linkClass} href="tel:+4943116456">0431 16 456</a><br />
+              E-Mail: <a class={linkClass} href="mailto:kontakt@akg-kiel.de">kontakt@akg-kiel.de</a>
+            </address>
+            <p>
+              Verantwortlich ist die Kirchengemeinde nach dem Datenschutzgesetz der Evangelischen Kirche in Deutschland (DSG-EKD). Soweit die Datenschutz-Grundverordnung anwendbar ist, gelten ergänzend deren Bestimmungen.
+            </p>
+          </div>
+        </section>
+
+        <section id="datenschutzkontakt" aria-labelledby="privacy-contact-heading">
+          <h2 id="privacy-contact-heading" class={headingClass}>Datenschutzkontakt</h2>
+          <div class={textClass}>
+            <address class="not-italic">
+              <strong class="font-semibold text-on-surface">Örtlich Beauftragter für den Datenschutz</strong><br />
+              Michael G. Schmidt<br />
+              Falckstraße 9<br />
+              24103 Kiel<br />
+              Telefon: <a class={linkClass} href="tel:+494312402336">0431 2402-336</a><br />
+              E-Mail: <a class={linkClass} href="mailto:michael.schmidt@altholstein.de">michael.schmidt@altholstein.de</a>
+            </address>
+            <p>Sie können sich mit allen Fragen zum Datenschutz auch an die oben genannte verantwortliche Stelle wenden.</p>
+          </div>
+        </section>
+
+        <section id="website" aria-labelledby="website-heading">
+          <h2 id="website-heading" class={headingClass}>Aufruf der Website und Hosting</h2>
+          <div class={textClass}>
+            <p>
+              Beim Aufruf der Website übermittelt Ihr Browser technisch notwendige Daten an unseren Hosting-Dienstleister. Dazu können insbesondere IP-Adresse, Datum und Uhrzeit, aufgerufene Adresse, übertragene Datenmenge, Referrer, Browsertyp und Betriebssystem gehören. Die Verarbeitung dient der sicheren, stabilen und fehlerfreien Bereitstellung sowie der Abwehr von Angriffen.
+            </p>
+            <p>
+              Die Rechtsgrundlage ist § 6 DSG-EKD, insbesondere unser berechtigtes Interesse an einem sicheren Internetangebot; soweit anwendbar, Art. 6 Abs. 1 lit. f DSGVO.
+            </p>
+            <p>
+              Die Website wird als statische Website über Dienste von <strong class="font-semibold text-on-surface">Cloudflare, Inc.</strong>, 101 Townsend St, San Francisco, CA 94107, USA, ausgeliefert. Cloudflare kann Daten auch außerhalb des Europäischen Wirtschaftsraums verarbeiten. Dabei kommen die jeweils anwendbaren Garantien für Drittlandübermittlungen zum Einsatz, insbesondere das EU-US Data Privacy Framework und Standardvertragsklauseln.
+            </p>
+            <p>
+              Wir führen keine eigenen Anwendungs- oder Besucherprotokolle. Technische Protokolle des Hosting-Dienstleisters werden nur so lange verarbeitet, wie dies für Betrieb und Sicherheit sowie aufgrund vertraglicher oder gesetzlicher Vorgaben erforderlich ist. Weitere Informationen finden Sie in der
+              <a class={linkClass} href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Datenschutzerklärung von Cloudflare ↗</a>.
+            </p>
+          </div>
+        </section>
+
+        <section id="kontakt" aria-labelledby="contact-heading">
+          <h2 id="contact-heading" class={headingClass}>Kontaktaufnahme</h2>
+          <div class={textClass}>
+            <p>
+              Wenn Sie uns per E-Mail oder Telefon kontaktieren, verarbeiten wir Ihre Kontaktdaten und den Inhalt Ihrer Nachricht, um Ihr Anliegen zu beantworten. Empfänger sind nur die zuständigen Mitarbeitenden und, soweit technisch erforderlich, unsere Kommunikationsdienstleister. Eine Weitergabe innerhalb kirchlicher Stellen erfolgt nur, wenn dies zur Bearbeitung notwendig ist.
+            </p>
+            <p>
+              Rechtsgrundlage ist § 6 DSG-EKD. Bei Anfragen zu Verträgen oder Veranstaltungen erfolgt die Verarbeitung außerdem zur Durchführung vorvertraglicher oder vertraglicher Maßnahmen; im Übrigen beruht sie auf unserem berechtigten Interesse an der Beantwortung Ihrer Anfrage.
+            </p>
+            <p>
+              Die Seite „Raum anfragen“ übermittelt keine Formulardaten an diese Website. Beim Absenden wird lediglich Ihr eigenes E-Mail-Programm geöffnet; erst wenn Sie die Nachricht dort versenden, werden die eingegebenen Daten über Ihren E-Mail-Anbieter an uns übertragen.
+            </p>
+            <p>
+              Anfragedaten löschen wir nach abschließender Bearbeitung, grundsätzlich spätestens nach zehn Tagen. Daten bleiben länger gespeichert, wenn gesetzliche Aufbewahrungspflichten bestehen oder sie für einen Vertrag oder die Abwehr von Rechtsansprüchen benötigt werden. Unverschlüsselte E-Mails können auf dem Übertragungsweg grundsätzlich von Dritten eingesehen werden; senden Sie daher keine besonders sensiblen Angaben per E-Mail.
+            </p>
+          </div>
+        </section>
+
+        <section id="cookies" aria-labelledby="cookies-heading">
+          <h2 id="cookies-heading" class={headingClass}>Cookies, Analyse und lokale Inhalte</h2>
+          <div class={textClass}>
+            <p>
+              Diese Website setzt selbst keine Cookies ein, speichert keine Informationen im lokalen Browserspeicher und verwendet keine Analyse-, Werbe- oder Profilingdienste. Google Maps kann erst nach Ihrer gesonderten Zustimmung Cookies oder ähnliche Speichertechniken verwenden.
+            </p>
+            <p>
+              Schriften, Bilder und sonstige Seitendateien werden von unserem eigenen Hosting ausgeliefert. Beim bloßen Seitenaufruf werden keine Inhalte von Google Fonts, Google Maps oder sozialen Netzwerken geladen.
+            </p>
+          </div>
+        </section>
+
+        <section id="drittanbieter" aria-labelledby="external-heading">
+          <h2 id="external-heading" class={headingClass}>Google Maps und externe Links</h2>
+          <div class={textClass}>
+            <p>
+              Auf der Seite „Besuch planen“ ist eine Karte von Google Maps eingebunden. Anbieter im Europäischen Wirtschaftsraum ist Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland. Die Karte bleibt zunächst deaktiviert. Erst wenn Sie „Google Maps laden“ wählen, wird eine Verbindung zu Google hergestellt.
+            </p>
+            <p>
+              Google erhält dabei insbesondere Ihre IP-Adresse, Browser- und Geräteinformationen, Zeitpunkt und aufgerufene Seite. Google kann Cookies setzen, die Daten mit einem bestehenden Google-Konto verknüpfen und sie auch durch Google LLC in den USA verarbeiten. Google stützt Drittlandübermittlungen nach eigenen Angaben insbesondere auf das EU-US Data Privacy Framework und Standardvertragsklauseln.
+            </p>
+            <p>
+              Die Verarbeitung erfolgt nur mit Ihrer Einwilligung nach § 11 DSG-EKD und, soweit anwendbar, Art. 6 Abs. 1 lit. a DSGVO sowie § 25 Abs. 1 TDDDG. Die Zustimmung gilt nur für den aktuellen Seitenaufruf und wird von uns nicht gespeichert. Durch erneutes Laden der Seite wird die Karte wieder deaktiviert; bereits erfolgte Verarbeitungen bleiben hiervon unberührt. Weitere Informationen finden Sie in der
+              <a class={linkClass} href="https://policies.google.com/privacy?hl=de" target="_blank" rel="noopener noreferrer">Datenschutzerklärung von Google ↗</a>.
+            </p>
+            <p>
+              Weitere Links, etwa zur Gemeindewebsite oder zu Ticketanbietern, sind als externe Links gekennzeichnet. Erst beim Aufruf gelten die Datenschutzbestimmungen des jeweiligen Anbieters.
+            </p>
+          </div>
+        </section>
+
+        <section id="rechte" aria-labelledby="rights-heading">
+          <h2 id="rights-heading" class={headingClass}>Ihre Rechte</h2>
+          <div class={textClass}>
+            <p>Nach dem DSG-EKD und, soweit anwendbar, der DSGVO haben Sie insbesondere das Recht auf:</p>
+            <ul class="list-disc space-y-2 pl-6">
+              <li>Auskunft über die zu Ihrer Person verarbeiteten Daten,</li>
+              <li>Berichtigung unrichtiger oder Vervollständigung unvollständiger Daten,</li>
+              <li>Löschung oder Einschränkung der Verarbeitung, soweit die Voraussetzungen vorliegen,</li>
+              <li>Datenübertragbarkeit, soweit die Voraussetzungen vorliegen,</li>
+              <li>Widerspruch gegen eine Verarbeitung aus besonderem Grund sowie</li>
+              <li>Widerruf einer Einwilligung mit Wirkung für die Zukunft.</li>
+            </ul>
+            <p>
+              Zur Ausübung Ihrer Rechte genügt eine Nachricht an den Verantwortlichen oder den Datenschutzkontakt. Außerdem können Sie sich beim Beauftragten für den Datenschutz der EKD beschweren:
+            </p>
+            <address class="not-italic">
+              <strong class="font-semibold text-on-surface">Der Beauftragte für den Datenschutz der EKD – Außenstelle Berlin</strong><br />
+              Invalidenstraße 29<br />
+              10115 Berlin<br />
+              Telefon: <a class={linkClass} href="tel:+493020051570">030 2005157-0</a><br />
+              E-Mail: <a class={linkClass} href="mailto:ost@datenschutz.ekd.de">ost@datenschutz.ekd.de</a><br />
+              <a class={linkClass} href="https://datenschutz.ekd.de/" target="_blank" rel="noopener noreferrer">datenschutz.ekd.de ↗</a>
+            </address>
+          </div>
+        </section>
+
+        <section id="sicherheit" aria-labelledby="security-heading">
+          <h2 id="security-heading" class={headingClass}>Datensicherheit und Aktualität</h2>
+          <div class={textClass}>
+            <p>
+              Die Übertragung dieser Website ist durch TLS verschlüsselt. Die statische Bereitstellung ohne Benutzerkonten, Tracking und serverseitiges Kontaktformular begrenzt die auf der Website verarbeiteten Daten auf das technisch notwendige Maß.
+            </p>
+            <p>Wir aktualisieren diese Hinweise, wenn sich Funktionen, Dienstleister oder rechtliche Anforderungen ändern.</p>
+            <p class="text-role-on/60">Stand: August 2026</p>
+          </div>
+        </section>
+      </div>
+
+      <aside class="lg:col-span-3 lg:col-start-10" aria-labelledby="contents-heading">
+        <nav class="border-t border-white/10 pt-8 lg:sticky lg:top-28" aria-labelledby="contents-heading">
+          <h2 id="contents-heading" class="font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/60">Auf dieser Seite</h2>
+          <ul class="mt-5 space-y-2 font-body text-sm/6" role="list">
+            <li><a class={linkClass} href="#verantwortlicher">Verantwortlicher</a></li>
+            <li><a class={linkClass} href="#datenschutzkontakt">Datenschutzkontakt</a></li>
+            <li><a class={linkClass} href="#website">Hosting</a></li>
+            <li><a class={linkClass} href="#kontakt">Kontaktaufnahme</a></li>
+            <li><a class={linkClass} href="#cookies">Cookies &amp; Analyse</a></li>
+            <li><a class={linkClass} href="#drittanbieter">Google Maps</a></li>
+            <li><a class={linkClass} href="#rechte">Ihre Rechte</a></li>
+            <li><a class={linkClass} href="#sicherheit">Datensicherheit</a></li>
+          </ul>
+        </nav>
+      </aside>
+    </article>
+  </main>
+</Layout>
