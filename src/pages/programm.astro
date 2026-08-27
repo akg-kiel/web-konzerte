@@ -1,8 +1,17 @@
 ---
+export const prerender = false;
+
+import { env } from 'cloudflare:workers';
+
 import Concerts from '../components/sections/Concerts.astro';
 import PageHero from '../components/sections/PageHero.astro';
 import Layout from '../layouts/Layout.astro';
-import { programmeConcerts } from '../data/concerts';
+import { cacheProgramme, getConcerts, splitConcerts } from '../data/concerts';
+
+cacheProgramme(Astro.response);
+const result = await getConcerts(env);
+const { programmeConcerts } = splitConcerts(result.concerts);
+if (result.error) Astro.response.status = 503;
 
 const seasons = Object.entries(Object.groupBy(programmeConcerts, (concert) => {
   const [year, month] = concert.date.iso.slice(0, 7).split('-').map(Number);
@@ -44,6 +53,12 @@ const seasons = Object.entries(Object.groupBy(programmeConcerts, (concert) => {
         </div>
     </section>
 
+    {result.error && (
+      <p class="mx-auto my-12 w-[calc(100%-3rem)] max-w-screen-2xl rounded-sm border border-secondary/40 bg-secondary/10 px-6 py-4 font-body text-base/7 text-role-on" role="alert">
+        Das Konzertprogramm kann gerade nicht geladen werden. Bitte versuchen Sie es später erneut.
+      </p>
+    )}
+
     <Concerts
       id="programm"
       concerts={programmeConcerts}
@@ -51,7 +66,6 @@ const seasons = Object.entries(Object.groupBy(programmeConcerts, (concert) => {
       eyebrow="Alle Termine"
       intro=""
       showHeaderLink={false}
-      showFilters
     />
 
     <section class="border-t border-white/5 bg-surface py-16 md:py-20" aria-labelledby="venue-heading">

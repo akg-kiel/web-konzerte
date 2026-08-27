@@ -1,12 +1,4 @@
-import type { ImageMetadata } from 'astro';
-
-import heroStage from '../assets/hero/l1130722-hero.jpg';
-import orgelMikrofon from '../assets/concerts/orgel-mikrofon.jpg';
-import sinfonieFenster from '../assets/concerts/sinfonie-fenster.jpg';
-
 export type ConcertVariant = 'home' | 'programme' | 'archive';
-
-export type ConcertStatusState = 'available' | 'lastTickets' | 'soldOut' | 'free';
 
 export interface ConcertDate {
   iso: string;
@@ -14,231 +6,272 @@ export interface ConcertDate {
   day: string;
   time: string;
   display: string;
-  compact: string;
-}
-
-export interface ConcertStatus {
-  state: ConcertStatusState;
-  label: string;
-  description: string;
 }
 
 export interface Concert {
   slug: string;
   title: string;
   programme: string;
-  category: string;
-  date: ConcertDate;
-  location: string;
-  performers: string;
-  artistBio?: string;
   programmeNotes?: string;
-  price: string;
+  date: ConcertDate;
+  endIso?: string;
+  location: string;
+  accessibility: string;
   ticketUrl?: string;
-  ticketLabel: string;
   detailsHref: string;
-  status: ConcertStatus;
-  image: ImageMetadata;
+  image: string;
   imageAlt: string;
   imagePosition: string;
-  isPast?: boolean;
 }
 
-export const concerts: Concert[] = [
-  {
-    slug: 'kieler-philharmoniker-herbstklaenge',
-    title: 'Kieler Philharmoniker: Herbstklänge',
-    programme:
-      'Werke von Brahms und Mendelssohn Bartholdy. Ein Abend der großen romantischen Gefühle im einzigartigen Kirchenraum.',
-    category: 'Sinfonie',
-    date: {
-      iso: '2024-11-15T19:30:00+01:00',
-      month: 'Nov',
-      day: '15',
-      time: '19:30',
-      display: '15. November 2024 • 19:30 Uhr',
-      compact: 'NOV 15 · 19:30 Uhr'
-    },
-    location: 'Konzertkirche Petruskirche Kiel',
-    performers: 'Kieler Philharmoniker',
-    price: 'ab 24,00 €',
-    ticketLabel: 'Tickets',
-    detailsHref: '/programm#kieler-philharmoniker-herbstklaenge',
-    status: {
-      state: 'available',
-      label: 'Ticketinformationen folgen',
-      description: 'Es ist noch kein externer Ticketlink hinterlegt.'
-    },
-    image: sinfonieFenster,
-    imageAlt: 'Dunkler Blick über Flügel und Kirchenfenster in der Petruskirche',
-    imagePosition: '48% 42%'
-  },
-  {
-    slug: 'orgelkonzert-zur-adventszeit',
-    title: 'Orgelkonzert zur Adventszeit',
-    programme:
-      'Traditionelle und moderne Orgelwerke zur Einstimmung auf die Vorweihnachtszeit. Gespielt an der historischen Sauer-Orgel.',
-    category: 'Orgel',
-    date: {
-      iso: '2024-11-28T18:00:00+01:00',
-      month: 'Nov',
-      day: '28',
-      time: '18:00',
-      display: '28. November 2024 • 18:00 Uhr',
-      compact: 'NOV 28 · 18:00 Uhr'
-    },
-    location: 'Konzertkirche Petruskirche Kiel',
-    performers: 'Sauer-Orgel der Petruskirche',
-    price: 'Eintritt frei',
-    ticketLabel: 'Details',
-    detailsHref: '/programm#orgelkonzert-zur-adventszeit',
-    status: {
-      state: 'free',
-      label: 'Eintritt frei',
-      description: 'Für dieses Konzert ist kein Ticketlink erforderlich.'
-    },
-    image: orgelMikrofon,
-    imageAlt: 'Mikrofon auf einem Flügel vor Kirchenfenstern',
-    imagePosition: '50% 52%'
-  },
-  {
-    slug: 'weihnachtsoratorium-bach',
-    title: 'Weihnachtsoratorium – J.S. Bach',
-    programme:
-      'Der Petrus-Chor und Solisten präsentieren die Kantaten I-III. Ein musikalischer Höhepunkt in der Vorweihnachtszeit.',
-    category: 'Chor',
-    date: {
-      iso: '2024-12-12T20:00:00+01:00',
-      month: 'Dez',
-      day: '12',
-      time: '20:00',
-      display: '12. Dezember 2024 • 20:00 Uhr',
-      compact: 'DEZ 12 · 20:00 Uhr'
-    },
-    location: 'Konzertkirche Petruskirche Kiel',
-    performers: 'Petrus-Chor und Solisten',
-    price: 'ab 18,00 €',
-    ticketLabel: 'Tickets',
-    detailsHref: '/programm#weihnachtsoratorium-bach',
-    status: {
-      state: 'available',
-      label: 'Ticketinformationen folgen',
-      description: 'Es ist noch kein externer Ticketlink hinterlegt.'
-    },
-    image: heroStage,
-    imageAlt: 'Chor- und Ensembleauftritt im Altarraum der Petruskirche',
-    imagePosition: '70% 58%'
-  },
-  {
-    slug: 'die-passion-2026',
-    title: 'Die Passion 2026 - Das Musical',
-    programme:
-      'Ein monumentales musikalisches Ereignis, das Passionsspieltradition mit moderner Musicalkraft, Chor, Solisten und Orchester verbindet.',
-    category: 'Musical Premiere',
-    date: {
-      iso: '2027-03-21T18:00:00+01:00',
-      month: 'Mär',
-      day: '21',
-      time: '18:00',
-      display: '21. März 2027 • 18:00 Uhr',
-      compact: 'MÄR 21 · 18:00 Uhr'
-    },
-    location: 'Konzertkirche Petruskirche Kiel',
-    performers: 'Großer Sinfonischer Chor der Petruskirche & Projektorchester Kiel',
-    price: '25€ - 45€',
-    ticketLabel: 'Tickets',
-    detailsHref: '/programm/die-passion-2026',
-    status: {
-      state: 'available',
-      label: 'Ticketinformationen folgen',
-      description: 'Es ist noch kein externer Ticketlink hinterlegt.'
-    },
-    image: heroStage,
-    imageAlt: 'Chorprobe und Ensemble im Kirchenraum der Petruskirche',
-    imagePosition: '64% 52%'
-  },
-  {
-    slug: 'cello-meets-electronic',
-    title: 'Cello meets Electronic',
-    programme:
-      'Ein immersives Klangerlebnis, das klassisches Cello-Spiel mit modernen elektronischen Elementen und Licht im Kirchenraum verbindet.',
-    category: 'Pop / Crossover',
-    date: {
-      iso: '2026-11-14T20:00:00+01:00',
-      month: 'Nov',
-      day: '14',
-      time: '20:00',
-      display: '14. November 2026 • 20:00 Uhr',
-      compact: 'NOV 14 · 20:00 Uhr'
-    },
-    location: 'Konzertkirche Petruskirche Kiel',
-    performers: 'Solo-Cello, Live-Elektronik und Lichtregie',
-    artistBio:
-      'Für diesen Abend bilden Solo-Cello, Live-Elektronik und Lichtregie ein gemeinsames Ensemble. Akustischer Instrumentalklang, elektronische Flächen und die Architektur der Petruskirche werden unmittelbar aufeinander abgestimmt.',
-    programmeNotes:
-      'Das Programm führt vom unverstärkten Celloklang schrittweise in elektronische Klangräume. Die Lichtinszenierung folgt den musikalischen Übergängen und macht Gewölbe und Kirchenfenster zum Teil des Konzerterlebnisses.',
-    price: 'ab 35,00 €',
-    ticketLabel: 'Tickets',
-    detailsHref: '/programm/cello-meets-electronic',
-    status: {
-      state: 'available',
-      label: 'Ticketinformationen folgen',
-      description: 'Es ist noch kein externer Ticketlink hinterlegt.'
-    },
-    image: sinfonieFenster,
-    imageAlt: 'Reflexionen von Kirchenfenstern auf einem Konzertflügel',
-    imagePosition: '52% 50%'
-  },
-  {
-    slug: 'nordische-lichter',
-    title: 'A-cappella-Konzert: Nordische Lichter',
-    programme:
-      'Der Petruschor präsentiert zeitgenössische und klassische Chorwerke skandinavischer Komponisten in klarer Kirchenakustik.',
-    category: 'Chor',
-    date: {
-      iso: '2026-12-05T18:00:00+01:00',
-      month: 'Dez',
-      day: '05',
-      time: '18:00',
-      display: '5. Dezember 2026 • 18:00 Uhr',
-      compact: 'DEZ 05 · 18:00 Uhr'
-    },
-    location: 'Konzertkirche Petruskirche Kiel',
-    performers: 'Petruschor Kiel',
-    artistBio:
-      'Der Petruschor Kiel gestaltet das Konzert als A-cappella-Ensemble. Im Mittelpunkt stehen ein transparenter Chorklang und die unmittelbare Wirkung der Stimmen im Kirchenraum.',
-    programmeNotes:
-      'Zeitgenössische und klassische Chorwerke skandinavischer Komponisten zeichnen musikalische Bilder von Weite, Dunkelheit und Licht. Die klare Akustik der Petruskirche trägt dabei jede Stimme durch den Raum.',
-    price: 'Eintritt frei (Spende erbeten)',
-    ticketLabel: 'Details',
-    detailsHref: '/programm/nordische-lichter',
-    status: {
-      state: 'free',
-      label: 'Eintritt frei',
-      description: 'Für dieses Konzert ist kein Ticketlink erforderlich.'
-    },
-    image: orgelMikrofon,
-    imageAlt: 'Mikrofon und Instrumentendetail in der Petruskirche',
-    imagePosition: '50% 45%'
+interface ChurchToolsEnvironment {
+  CHURCHTOOLS_BASE_URL?: string;
+  CHURCHTOOLS_CALENDAR_IDS?: string;
+  CHURCHTOOLS_TOKEN?: string;
+}
+
+interface ChurchToolsAppointment {
+  id: number;
+  title: string;
+  description?: string | null;
+  address?: { name?: string; street?: string; zip?: string; city?: string } | null;
+  image?: {
+    imageUrl?: string;
+    description?: string | null;
+    imageOption?: { focus?: { x?: number | string; y?: number | string } };
+  } | null;
+  link?: string | null;
+  allDay?: boolean;
+}
+
+interface ChurchToolsRow {
+  appointment?: {
+    base?: ChurchToolsAppointment;
+    calculated?: { startDate?: string; endDate?: string };
+  };
+}
+
+const defaults = {
+  baseUrl: 'https://akg-kiel.church.tools',
+  calendarIds: '3',
+  location: 'Konzertkirche Petruskirche Kiel',
+  accessibility: 'Stufenloser Zugang, Rollstuhlplätze und rollstuhlgerechtes WC vorhanden.'
+};
+
+const dateParts = new Intl.DateTimeFormat('de-DE', {
+  timeZone: 'Europe/Berlin',
+  day: '2-digit',
+  month: 'short',
+  year: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit'
+});
+
+const longDate = new Intl.DateTimeFormat('de-DE', {
+  timeZone: 'Europe/Berlin',
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric'
+});
+
+const fieldNames: Record<string, string> = {
+  programm: 'programme',
+  programmhinweise: 'programmeNotes',
+  barrierefreiheit: 'accessibility'
+};
+
+const parseMetadata = (description = '') =>
+  Object.fromEntries(
+    description.split('\n').flatMap((line) => {
+      const match = line.match(/^([^:]+):\s*(.+)$/);
+      const key = match?.[1]
+        .trim()
+        .toLocaleLowerCase('de-DE')
+        .replaceAll(/[^a-zäöü]/g, '');
+      return match && key && fieldNames[key] ? [[fieldNames[key], match[2].trim()]] : [];
+    })
+  ) as Record<string, string>;
+
+const safeUrl = (value?: string | null) => {
+  if (!value) return undefined;
+  try {
+    const url = new URL(value);
+    return ['http:', 'https:'].includes(url.protocol) ? url.href : undefined;
+  } catch {
+    return undefined;
   }
-];
+};
 
-const now = new Date();
+const slugify = (value: string) =>
+  value
+    .normalize('NFKD')
+    .replaceAll(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replaceAll(/[^a-z0-9]+/g, '-')
+    .replaceAll(/(^-|-$)/g, '');
 
-const isPastConcert = (concert: Concert) => concert.isPast || new Date(concert.date.iso) < now;
+const formatDate = (iso: string, allDay = false): ConcertDate => {
+  const date = new Date(iso);
+  const parts = Object.fromEntries(
+    dateParts.formatToParts(date).map(({ type, value }) => [type, value])
+  );
+  const time = allDay ? 'Termin folgt' : `${parts.hour}:${parts.minute}`;
+  const displayDate = longDate.format(date);
 
-const byDateAsc = (a: Concert, b: Concert) => a.date.iso.localeCompare(b.date.iso);
+  return {
+    iso,
+    month: parts.month.replace('.', ''),
+    day: parts.day,
+    time,
+    display: allDay ? displayDate : `${displayDate} • ${time} Uhr`
+  };
+};
 
-export const programmeConcerts = concerts
-  .filter((concert) => !isPastConcert(concert))
-  .sort(byDateAsc);
+const mapAppointment = (row: ChurchToolsRow): Concert | undefined => {
+  const appointment = row.appointment?.base;
+  const startDate = row.appointment?.calculated?.startDate;
+  const endDate = row.appointment?.calculated?.endDate;
+  if (
+    !appointment?.id ||
+    !appointment.title?.trim() ||
+    !startDate ||
+    Number.isNaN(Date.parse(startDate))
+  )
+    return undefined;
 
-export const upcomingConcerts = programmeConcerts.slice(0, 3);
+  const metadata = parseMetadata(appointment.description ?? '');
+  const ticketUrl = safeUrl(appointment.link);
+  const date = formatDate(startDate, appointment.allDay);
+  const address = appointment.address;
+  const location =
+    (address
+      ? [address.name, address.street, [address.zip, address.city].filter(Boolean).join(' ')]
+          .filter(Boolean)
+          .join(', ')
+      : '') || defaults.location;
+  const focus = appointment.image?.imageOption?.focus;
+  const focusX = Number(focus?.x ?? 0.5) * 100;
+  const focusY = Number(focus?.y ?? 0.5) * 100;
+  const slug = `${slugify(appointment.title)}-${appointment.id}-${startDate.slice(0, 10)}`;
 
-export const archiveConcerts = concerts.filter(isPastConcert).sort((a, b) => byDateAsc(b, a));
+  return {
+    slug,
+    title: appointment.title.trim(),
+    programme: metadata.programme ?? 'Weitere Informationen zu diesem Konzert folgen.',
+    programmeNotes: metadata.programmeNotes,
+    date,
+    endIso: endDate && !Number.isNaN(Date.parse(endDate)) ? endDate : undefined,
+    location,
+    accessibility: metadata.accessibility ?? defaults.accessibility,
+    ticketUrl,
+    detailsHref: `/programm/${slug}`,
+    image: safeUrl(appointment.image?.imageUrl) ?? '/og-image.jpg',
+    imageAlt:
+      appointment.image?.description ??
+      `Konzert „${appointment.title.trim()}“ in der Petruskirche Kiel`,
+    imagePosition: `${Number.isFinite(focusX) ? focusX : 50}% ${Number.isFinite(focusY) ? focusY : 50}%`
+  };
+};
 
-export const passionConcert = concerts.find((concert) => concert.slug === 'die-passion-2026');
+const fetchCalendar = async (url: string, headers?: Record<string, string>) => {
+  const edgeCache =
+    typeof caches === 'undefined'
+      ? undefined
+      : (caches as CacheStorage & { default?: Cache }).default;
+  const cacheKey = new Request(url);
+  let cached: Response | undefined;
+  try {
+    cached = await edgeCache?.match(cacheKey);
+  } catch (error) {
+    console.error('ChurchTools cache read failed:', error);
+  }
+  const cachedAt = Number(cached?.headers.get('x-akg-cached-at') ?? 0);
+  if (cached && Date.now() - cachedAt < 300_000) return cached;
 
-export const relatedConcerts = programmeConcerts
-  .filter((concert) => concert.slug !== 'die-passion-2026')
-  .slice(0, 3);
+  try {
+    const response = await fetch(url, { headers, signal: AbortSignal.timeout(10_000) });
+    if (!response.ok) return cached ?? response;
+
+    if (edgeCache) {
+      const copy = response.clone();
+      const cacheHeaders = new Headers(copy.headers);
+      cacheHeaders.set('Cache-Control', 'public, max-age=86400');
+      cacheHeaders.set('x-akg-cached-at', String(Date.now()));
+      try {
+        await edgeCache.put(
+          cacheKey,
+          new Response(copy.body, {
+            status: copy.status,
+            statusText: copy.statusText,
+            headers: cacheHeaders
+          })
+        );
+      } catch (error) {
+        console.error('ChurchTools cache write failed:', error);
+      }
+    }
+    return response;
+  } catch (error) {
+    if (cached) return cached;
+    throw error;
+  }
+};
+
+export async function getConcerts(environment: ChurchToolsEnvironment = {}) {
+  const baseUrl = (environment.CHURCHTOOLS_BASE_URL || defaults.baseUrl).replace(/\/$/, '');
+  const calendarIds = (environment.CHURCHTOOLS_CALENDAR_IDS || defaults.calendarIds)
+    .split(',')
+    .map((id) => id.trim())
+    .filter(Boolean);
+  const headers = environment.CHURCHTOOLS_TOKEN
+    ? { Authorization: `Login ${environment.CHURCHTOOLS_TOKEN}` }
+    : undefined;
+
+  try {
+    if (new URL(baseUrl).protocol !== 'https:')
+      throw new Error('CHURCHTOOLS_BASE_URL must use HTTPS');
+    if (calendarIds.length === 0) throw new Error('CHURCHTOOLS_CALENDAR_IDS must not be empty');
+
+    const responses = await Promise.all(
+      calendarIds.map((id) =>
+        fetchCalendar(
+          `${baseUrl}/api/calendars/${encodeURIComponent(id)}/appointments?from=2000-01-01&to=2100-12-31`,
+          headers
+        )
+      )
+    );
+    if (responses.some((response) => !response.ok))
+      throw new Error(`ChurchTools returned ${responses.map(({ status }) => status).join(', ')}`);
+
+    const payloads = (await Promise.all(responses.map((response) => response.json()))) as Array<{
+      data?: ChurchToolsRow[];
+    }>;
+    const concerts = payloads
+      .flatMap(({ data }) => data ?? [])
+      .map(mapAppointment)
+      .filter((concert): concert is Concert => Boolean(concert));
+    return {
+      concerts: concerts.sort((a, b) => a.date.iso.localeCompare(b.date.iso)),
+      error: false
+    };
+  } catch (error) {
+    console.error(
+      'ChurchTools concerts unavailable:',
+      error instanceof Error ? error.message : error
+    );
+    return { concerts: [], error: true };
+  }
+}
+
+export function splitConcerts(concerts: Concert[], now = new Date()) {
+  const isPast = (concert: Concert) => new Date(concert.endIso ?? concert.date.iso) < now;
+  return {
+    programmeConcerts: concerts.filter((concert) => !isPast(concert)),
+    archiveConcerts: concerts.filter(isPast).reverse()
+  };
+}
+
+export const cacheProgramme = (response: { headers: Headers }) => {
+  response.headers.set('Cache-Control', 'public, max-age=0');
+  response.headers.set('Cloudflare-CDN-Cache-Control', 'public, max-age=300, stale-if-error=86400');
+};

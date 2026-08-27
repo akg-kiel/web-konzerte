@@ -1,4 +1,5 @@
 ---
+import { env } from 'cloudflare:workers';
 import { Image } from 'astro:assets';
 
 import Concerts from '../components/sections/Concerts.astro';
@@ -6,13 +7,17 @@ import CtaCard from '../components/sections/CtaCard.astro';
 import Hero from '../components/sections/Hero.astro';
 import Card from '../components/ui/Card.astro';
 import Layout from '../layouts/Layout.astro';
+import { getConcerts, splitConcerts } from '../data/concerts';
 import churchExterior from '../assets/venue/petruskirche-exterior.webp';
+
+const { concerts } = await getConcerts(env);
+const { programmeConcerts } = splitConcerts(concerts);
 ---
 
 <Layout title="Konzerte in der Petruskirche Kiel" description="Konzertkirche Petruskirche Kiel: Programm, Besuchsplanung und Raum für Kulturveranstaltungen in besonderer Akustik.">
   <main class="min-h-screen bg-role-dominant text-role-on">
     <Hero />
-    <Concerts />
+    <Concerts concerts={programmeConcerts.slice(0, 3)} />
 
     <section class="py-16 md:py-44" aria-label="Zitat über Musik">
       <div class="mx-auto flex w-full max-w-3xl flex-col items-center px-6 text-center md:px-8">

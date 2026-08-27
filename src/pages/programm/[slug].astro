@@ -1,97 +1,95 @@
 ---
+export const prerender = false;
+
+import { env } from 'cloudflare:workers';
+
 import PageHero from '../../components/sections/PageHero.astro';
 import Layout from '../../layouts/Layout.astro';
-import { concerts } from '../../data/concerts';
-import type { Concert } from '../../data/concerts';
+import { cacheProgramme, getConcerts } from '../../data/concerts';
 
-export function getStaticPaths() {
-  return concerts
-    .filter((concert) => concert.artistBio && concert.programmeNotes)
-    .map((concert) => ({ params: { slug: concert.slug }, props: { concert } }));
-}
-
-interface Props {
-  concert: Concert;
-}
-
-const { concert } = Astro.props;
+cacheProgramme(Astro.response);
+const result = await getConcerts(env);
+const concert = result.concerts.find(({ slug }) => slug === Astro.params.slug);
+if (!concert) Astro.response.status = result.error ? 503 : 404;
 ---
 
 <Layout
-  title={`${concert.title} · Konzertkirche Petruskirche`}
-  description={`${concert.title} am ${concert.date.display} in der Konzertkirche Petruskirche Kiel.`}
+  title={concert ? `${concert.title} · Konzertkirche Petruskirche` : 'Konzert nicht gefunden · Konzertkirche Petruskirche'}
+  description={concert ? `${concert.title} am ${concert.date.display} in der Konzertkirche Petruskirche Kiel.` : 'Das angefragte Konzert wurde nicht gefunden.'}
 >
   <main class="min-h-screen bg-midnight text-role-on">
-    <PageHero
-      image={concert.image}
-      imageAlt={concert.imageAlt}
-      imagePosition={concert.imagePosition}
-      subtitle={concert.date.display}
-    >
-      <p slot="badge" class="mb-6 inline-flex rounded-full border border-white/20 bg-slate-mist/40 px-4 py-2 font-body text-xs/4 font-semibold uppercase tracking-widest text-primary backdrop-blur-md">
-        {concert.category}
-      </p>
-      {concert.title}
-      {concert.ticketUrl && (
-        <a slot="cta" class="inline-flex min-h-14 items-center justify-center rounded-sm bg-secondary px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest !text-midnight no-underline shadow-glow transition hover:bg-champagne" href={concert.ticketUrl}>
-          {concert.ticketLabel} kaufen
-        </a>
-      )}
-    </PageHero>
+    {concert ? (
+      <>
+        <PageHero
+          image={concert.image}
+          imageAlt={concert.imageAlt}
+          imagePosition={concert.imagePosition}
+          subtitle={concert.date.display}
+        >
+          {concert.title}
+          {concert.ticketUrl && (
+            <a slot="cta" class="inline-flex min-h-14 items-center justify-center rounded-sm bg-secondary px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest !text-midnight no-underline shadow-glow transition hover:bg-champagne" href={concert.ticketUrl}>
+              Tickets kaufen
+            </a>
+          )}
+        </PageHero>
 
-    <section class="mx-auto grid w-full max-w-screen-2xl gap-12 px-6 py-16 md:px-8 md:py-24 lg:grid-cols-12 lg:px-16" aria-labelledby="programme-notes-heading">
-      <article class="space-y-16 lg:col-span-8">
-        <div>
-          <h2 id="programme-notes-heading" class="font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/60">Zum Programm</h2>
-          <p class="mt-6 font-display text-2xl/tight text-white">{concert.programme}</p>
-          <p class="mt-6 max-w-3xl font-body text-lg/8 text-role-on/70">{concert.programmeNotes}</p>
-        </div>
+        <section class="mx-auto grid w-full max-w-screen-2xl gap-12 px-6 py-16 md:px-8 md:py-24 lg:grid-cols-12 lg:px-16" aria-labelledby="programme-notes-heading">
+          <article class="space-y-16 lg:col-span-8">
+            <div>
+              <h2 id="programme-notes-heading" class="font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/60">Zum Programm</h2>
+              <p class="mt-6 font-display text-2xl/tight text-white">{concert.programme}</p>
+              {concert.programmeNotes && <p class="mt-6 max-w-3xl whitespace-pre-line font-body text-lg/8 text-role-on/70">{concert.programmeNotes}</p>}
+            </div>
 
-        <div aria-labelledby="artists-heading">
-          <h2 id="artists-heading" class="font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/60">Mitwirkende</h2>
-          <h3 class="mt-6 font-display text-2xl/tight text-white">{concert.performers}</h3>
-          <p class="mt-4 max-w-3xl font-body text-lg/8 text-role-on/70">{concert.artistBio}</p>
-        </div>
-      </article>
 
-      <aside class="lg:col-span-4" aria-labelledby="concert-info-heading">
-        <div class="rounded-xl border border-white/10 bg-slate-mist/40 p-8 lg:sticky lg:top-28">
-          <h2 id="concert-info-heading" class="font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/60">Kurzinfo</h2>
-          <dl class="mt-6 space-y-6">
-            <div>
-              <dt class="font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/50">Termin</dt>
-              <dd class="mt-2 font-body text-base/7 text-white"><time datetime={concert.date.iso}>{concert.date.display}</time></dd>
-            </div>
-            <div>
-              <dt class="font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/50">Einlass</dt>
-              <dd class="mt-2 font-body text-base/7 text-white">In der Regel 45 Minuten vor Beginn</dd>
-            </div>
-            <div>
-              <dt class="font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/50">Preis</dt>
-              <dd class="mt-2 font-body text-base/7 text-secondary">{concert.price}</dd>
-            </div>
-            <div>
-              <dt class="font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/50">Ort</dt>
-              <dd class="mt-2 font-body text-base/7 text-white">Konzertkirche Petruskirche<br />Weimarer Straße 1 · 24106 Kiel</dd>
-            </div>
-            <div>
-              <dt class="font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/50">Barrierefreiheit</dt>
-              <dd class="mt-2 font-body text-base/7 text-white">Stufenloser Zugang, Rollstuhlplätze und rollstuhlgerechtes WC vorhanden.</dd>
-            </div>
-          </dl>
+          </article>
 
-          <div class="mt-8 border-t border-white/10 pt-6">
-            {concert.ticketUrl ? (
-              <a class="inline-flex min-h-14 w-full items-center justify-center rounded-sm bg-secondary px-6 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest !text-midnight no-underline transition hover:bg-champagne" href={concert.ticketUrl}>
-                {concert.ticketLabel} kaufen
-              </a>
-            ) : (
-              <p class="font-body text-sm/6 text-role-on/70" role="status">{concert.status.label}</p>
-            )}
-            <a class="mt-6 inline-flex font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary no-underline hover:!text-champagne" href="/besuch-planen">Besuch planen →</a>
-          </div>
-        </div>
-      </aside>
-    </section>
+          <aside class="lg:col-span-4" aria-labelledby="concert-info-heading">
+            <div class="rounded-xl border border-white/10 bg-slate-mist/40 p-8 lg:sticky lg:top-28">
+              <h2 id="concert-info-heading" class="font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/60">Kurzinfo</h2>
+              <dl class="mt-6 space-y-6">
+                <div>
+                  <dt class="font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/50">Termin</dt>
+                  <dd class="mt-2 font-body text-base/7 text-white"><time datetime={concert.date.iso}>{concert.date.display}</time></dd>
+                </div>
+                <div>
+                  <dt class="font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/50">Einlass</dt>
+                  <dd class="mt-2 font-body text-base/7 text-white">In der Regel 45 Minuten vor Beginn</dd>
+                </div>
+                <div>
+                  <dt class="font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/50">Ort</dt>
+                  <dd class="mt-2 font-body text-base/7 text-white">{concert.location}</dd>
+                </div>
+                <div>
+                  <dt class="font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/50">Barrierefreiheit</dt>
+                  <dd class="mt-2 font-body text-base/7 text-white">{concert.accessibility}</dd>
+                </div>
+              </dl>
+
+              <div class="mt-8 border-t border-white/10 pt-6">
+                {concert.ticketUrl && (
+                  <a class="inline-flex min-h-14 w-full items-center justify-center rounded-sm bg-secondary px-6 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest !text-midnight no-underline transition hover:bg-champagne" href={concert.ticketUrl}>
+                    Tickets kaufen
+                  </a>
+                )}
+                <a class:list={['inline-flex font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary no-underline hover:!text-champagne', concert.ticketUrl && 'mt-6']} href="/besuch-planen">Besuch planen →</a>
+              </div>
+            </div>
+          </aside>
+        </section>
+      </>
+    ) : (
+      <section class="mx-auto flex min-h-[70vh] w-full max-w-screen-md flex-col justify-center px-6 py-32 text-center" aria-labelledby="missing-concert-heading">
+        <p class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Programm</p>
+        <h1 id="missing-concert-heading" class="mt-6 font-display text-4xl/tight text-white">
+          {result.error ? 'Programm vorübergehend nicht erreichbar' : 'Konzert nicht gefunden'}
+        </h1>
+        <p class="mt-6 font-body text-lg/8 text-role-on/70">
+          {result.error ? 'Die Konzertdaten können gerade nicht geladen werden. Bitte versuchen Sie es später erneut.' : 'Dieser Termin existiert nicht oder wurde aus dem Programm entfernt.'}
+        </p>
+        <a class="mt-8 font-body text-sm font-semibold !text-secondary no-underline hover:!text-champagne" href="/programm">Zum Konzertprogramm →</a>
+      </section>
+    )}
   </main>
 </Layout>
