@@ -21,4 +21,36 @@ mise run quality
 
 OpenDesign: `mise run od` baut `dist/` und kopiert es in den OpenDesign-Ordner.
 
-Produktion: Cloudflare-kompatibler Static Build nach `dist/`.
+Produktion: Cloudflare Worker mit statischen Seiten und serverseitig gerenderten Programmseiten in `dist/`.
+
+## ChurchTools
+
+Das Programm kommt zur Laufzeit aus dem in ChurchTools als `#5 – Konzerte` angezeigten Kalender unter `https://akg-kiel.church.tools`. Seine REST-API-ID ist `3`; Basis-URL und API-ID stehen in `wrangler.toml`.
+
+Den nur lesenden ChurchTools-Login-Token serverseitig setzen:
+
+```sh
+pnpm wrangler secret put CHURCHTOOLS_TOKEN
+cp .dev.vars.example .dev.vars # lokale Entwicklung
+```
+
+`.dev.vars` wird nicht eingecheckt. ChurchTools-Antworten und die Programm-, Archiv- und Detailseiten werden am Cloudflare-Edge fünf Minuten gecacht; bei Fehlern kann die letzte erfolgreiche Antwort bis zu 24 Stunden weiter ausgeliefert werden. Ohne vorhandenen Cache erscheint ein klarer Fehlerhinweis.
+
+### Feldzuordnung
+
+Native ChurchTools-Felder werden so verwendet:
+
+- Titel, Beginn und Ende → Titel und Termin
+- Link → Ticketlink
+- Bild inklusive Fokuspunkt → Konzertbild
+- Adresse → Veranstaltungsort; ohne Adresse gilt die Petruskirche
+
+Zusätzliche öffentliche Angaben kommen als einzelne `Feld: Wert`-Zeilen in die ChurchTools-Beschreibung:
+
+```text
+Programm: Kurzbeschreibung des Konzerts
+Programmhinweise: Ausführliche öffentliche Hinweise
+Barrierefreiheit: Abweichende Hinweise für diesen Termin
+```
+
+Andere Beschreibungszeilen werden bewusst nicht veröffentlicht, damit interne Aufbauzeiten und Kontaktdaten nicht auf der Website landen.

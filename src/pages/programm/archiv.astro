@@ -1,8 +1,17 @@
 ---
+export const prerender = false;
+
+import { env } from 'cloudflare:workers';
+
 import Concerts from '../../components/sections/Concerts.astro';
 import PageHero from '../../components/sections/PageHero.astro';
 import Layout from '../../layouts/Layout.astro';
-import { archiveConcerts } from '../../data/concerts';
+import { cacheProgramme, getConcerts, splitConcerts } from '../../data/concerts';
+
+cacheProgramme(Astro.response);
+const result = await getConcerts(env);
+const { archiveConcerts } = splitConcerts(result.concerts);
+if (result.error) Astro.response.status = 503;
 ---
 
 <Layout
@@ -23,6 +32,12 @@ import { archiveConcerts } from '../../data/concerts';
         Aktuelles Programm
       </a>
     </PageHero>
+
+    {result.error && (
+      <p class="mx-auto my-12 w-[calc(100%-3rem)] max-w-screen-2xl rounded-sm border border-secondary/40 bg-secondary/10 px-6 py-4 font-body text-base/7 text-role-on" role="alert">
+        Das Konzertarchiv kann gerade nicht geladen werden. Bitte versuchen Sie es später erneut.
+      </p>
+    )}
 
     <Concerts
       id="archiv"

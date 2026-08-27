@@ -6,7 +6,7 @@ interface Props {
   eyebrow?: string;
   intro?: string;
   subtitle?: string;
-  image?: ImageMetadata;
+  image?: ImageMetadata | string;
   imageAlt?: string;
   imagePosition?: string;
 }
@@ -28,18 +28,30 @@ const hasCta = Astro.slots.has('cta');
   {
     hasImage && (
       <>
-        <Image
-          src={image!}
-          alt={imageAlt}
-          class="absolute inset-0 !h-full !w-full object-cover"
-          style={`object-position: ${imagePosition};`}
-          widths={[640, 960, 1280, 1600, 1920]}
-          sizes="100vw"
-          loading="eager"
-          decoding="async"
-          fetchpriority="high"
-          format="webp"
-        />
+        {typeof image === 'string' ? (
+          <img
+            src={image}
+            alt={imageAlt}
+            class="absolute inset-0 h-full w-full object-cover"
+            style={`object-position: ${imagePosition};`}
+            sizes="100vw"
+            decoding="async"
+            fetchpriority="high"
+          />
+        ) : (
+          <Image
+            src={image!}
+            alt={imageAlt}
+            class="absolute inset-0 !h-full !w-full object-cover"
+            style={`object-position: ${imagePosition};`}
+            widths={[640, 960, 1280, 1600, 1920]}
+            sizes="100vw"
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+            format="webp"
+          />
+        )}
         <div
           aria-hidden="true"
           class="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(2,6,23,0.45)_0%,rgba(2,6,23,0.28)_42%,rgba(2,6,23,0.7)_78%,rgb(2,6,23)_100%)]"
