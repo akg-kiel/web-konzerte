@@ -31,6 +31,8 @@ export interface Concert {
   date: ConcertDate;
   location: string;
   performers: string;
+  artistBio?: string;
+  programmeNotes?: string;
   price: string;
   ticketUrl?: string;
   ticketLabel: string;
@@ -171,9 +173,13 @@ export const concerts: Concert[] = [
     },
     location: 'Konzertkirche Petruskirche Kiel',
     performers: 'Solo-Cello, Live-Elektronik und Lichtregie',
+    artistBio:
+      'Für diesen Abend bilden Solo-Cello, Live-Elektronik und Lichtregie ein gemeinsames Ensemble. Akustischer Instrumentalklang, elektronische Flächen und die Architektur der Petruskirche werden unmittelbar aufeinander abgestimmt.',
+    programmeNotes:
+      'Das Programm führt vom unverstärkten Celloklang schrittweise in elektronische Klangräume. Die Lichtinszenierung folgt den musikalischen Übergängen und macht Gewölbe und Kirchenfenster zum Teil des Konzerterlebnisses.',
     price: 'ab 35,00 €',
     ticketLabel: 'Tickets',
-    detailsHref: '/programm#cello-meets-electronic',
+    detailsHref: '/programm/cello-meets-electronic',
     status: {
       state: 'available',
       label: 'Ticketinformationen folgen',
@@ -199,9 +205,13 @@ export const concerts: Concert[] = [
     },
     location: 'Konzertkirche Petruskirche Kiel',
     performers: 'Petruschor Kiel',
+    artistBio:
+      'Der Petruschor Kiel gestaltet das Konzert als A-cappella-Ensemble. Im Mittelpunkt stehen ein transparenter Chorklang und die unmittelbare Wirkung der Stimmen im Kirchenraum.',
+    programmeNotes:
+      'Zeitgenössische und klassische Chorwerke skandinavischer Komponisten zeichnen musikalische Bilder von Weite, Dunkelheit und Licht. Die klare Akustik der Petruskirche trägt dabei jede Stimme durch den Raum.',
     price: 'Eintritt frei (Spende erbeten)',
     ticketLabel: 'Details',
-    detailsHref: '/programm#nordische-lichter',
+    detailsHref: '/programm/nordische-lichter',
     status: {
       state: 'free',
       label: 'Eintritt frei',
