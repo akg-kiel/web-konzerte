@@ -1,0 +1,73 @@
+---
+import PageHero from '../components/sections/PageHero.astro';
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Impressum · Konzertkirche Petruskirche"
+  description="Impressum und Anbieterkennzeichnung der Evangelisch-Lutherischen Apostel-Kirchengemeinde Kiel."
+>
+  <main class="min-h-screen bg-midnight text-role-on">
+    <PageHero
+      eyebrow="Rechtliches"
+      intro="Anbieterkennzeichnung und Kontaktangaben gemäß § 5 Digitale-Dienste-Gesetz (DDG)."
+    >
+      Impressum
+    </PageHero>
+
+    <article class="mx-auto grid w-full max-w-screen-2xl gap-16 px-6 py-16 md:px-8 md:py-24 lg:grid-cols-12 lg:px-16">
+      <div class="space-y-16 lg:col-span-7">
+        <section aria-labelledby="provider-heading">
+          <h2 id="provider-heading" class="font-display text-2xl/tight text-on-surface md:text-3xl/tight">
+            Anbieter
+          </h2>
+          <address class="mt-6 space-y-6 font-body text-base/7 text-role-on/75 not-italic">
+            <p>
+              <strong class="font-semibold text-on-surface">Evangelisch-Lutherische Apostel-Kirchengemeinde Kiel</strong><br />
+              Adalbertstraße 10<br />
+              24106 Kiel
+            </p>
+            <p>
+              Telefon: <a class="!text-secondary no-underline hover:!text-champagne" href="tel:+4943116456">0431 16 456</a><br />
+              Fax: 0431 1 39 04<br />
+              E-Mail: <a class="!text-secondary no-underline hover:!text-champagne" href="mailto:kontakt@akg-kiel.de">kontakt@akg-kiel.de</a>
+            </p>
+          </address>
+        </section>
+
+        <section aria-labelledby="representation-heading">
+          <h2 id="representation-heading" class="font-display text-2xl/tight text-on-surface md:text-3xl/tight">
+            Vertretung
+          </h2>
+          <p class="mt-6 font-body text-base/7 text-role-on/75">
+            Die Kirchengemeinde wird vertreten durch Pastor Jonas Grabbet, Vorsitzender des Kirchengemeinderates der Apostel-Kirchengemeinde Kiel.
+          </p>
+        </section>
+
+        <section aria-labelledby="editorial-heading">
+          <h2 id="editorial-heading" class="font-display text-2xl/tight text-on-surface md:text-3xl/tight">
+            Technische und redaktionelle Anfragen
+          </h2>
+          <p class="mt-6 font-body text-base/7 text-role-on/75">
+            Bei technischen Fragen zu dieser Website oder Anregungen zu den Inhalten erreichen Sie uns unter{' '}
+            <a class="!text-secondary no-underline hover:!text-champagne" href="mailto:website@akg-kiel.de">website@akg-kiel.de</a>.
+          </p>
+        </section>
+      </div>
+
+      <aside class="lg:col-span-4 lg:col-start-9" aria-labelledby="concert-contact-heading">
+        <div class="border-t border-white/10 pt-8 lg:sticky lg:top-28">
+          <p class="font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/60">Konzertanfragen</p>
+          <h2 id="concert-contact-heading" class="mt-4 font-display text-2xl/tight text-on-surface">
+            Konzertkirche Petruskirche
+          </h2>
+          <address class="mt-6 font-body text-base/7 text-role-on/75 not-italic">
+            Weimarer Straße 1<br />
+            24106 Kiel<br />
+            <a class="mt-4 inline-block !text-secondary no-underline hover:!text-champagne" href="mailto:konzerte@akg-kiel.de">konzerte@akg-kiel.de</a>
+          </address>
+        </div>
+      </aside>
+    </article>
+  </main>
+</Layout>
