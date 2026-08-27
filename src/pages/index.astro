@@ -1,4 +1,5 @@
 ---
+import { env } from 'cloudflare:workers';
 import { Image } from 'astro:assets';
 
 import Concerts from '../components/sections/Concerts.astro';
@@ -9,7 +10,7 @@ import Layout from '../layouts/Layout.astro';
 import { getConcerts, splitConcerts } from '../data/concerts';
 import churchExterior from '../assets/venue/petruskirche-exterior.webp';
 
-const { concerts } = await getConcerts();
+const { concerts } = await getConcerts(env);
 const { programmeConcerts } = splitConcerts(concerts);
 ---
 
