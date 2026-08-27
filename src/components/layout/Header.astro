@@ -25,7 +25,7 @@ const mobileLinkClass =
 ---
 
 <nav aria-label="Hauptnavigation" class="fixed inset-x-0 top-0 z-40 border-b border-white/10 shadow-sm">
-  <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-slate-mist/60 backdrop-blur-xl"></div>
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-slate-mist/90 backdrop-blur-xl"></div>
   <div class="mx-auto w-full max-w-screen-2xl px-6 md:px-8 lg:px-16 relative flex h-20 items-center gap-6">
     <a
       href="/"
@@ -60,13 +60,14 @@ const mobileLinkClass =
               aria-current={active ? 'page' : undefined}
             >
               {item.label}
+              {item.external && <span class="sr-only"> (öffnet in neuem Tab)</span>}
             </a>
           );
         })
       }
     </div>
 
-    <details class="group ml-auto lg:hidden">
+    <details class="group ml-auto lg:hidden" data-mobile-menu>
       <summary
         class="relative z-50 flex h-12 w-12 cursor-pointer list-none items-center justify-center rounded-sm border border-transparent text-on-surface transition marker:hidden group-open:border-champagne/20 group-open:bg-champagne/10 group-open:text-champagne [&::-webkit-details-marker]:hidden"
         aria-label="Navigation öffnen oder schließen"
@@ -91,6 +92,7 @@ const mobileLinkClass =
                   aria-current={isActive(item.match) ? 'page' : undefined}
                 >
                   {item.label}
+                  {item.external && <span class="sr-only"> (öffnet in neuem Tab)</span>}
                 </a>
               ))
             }
