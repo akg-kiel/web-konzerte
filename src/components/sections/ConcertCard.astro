@@ -13,7 +13,7 @@ interface Props {
 
 const { concert, imageSizes, variant = 'home', ...rest } = Astro.props;
 
-const isProgramme = variant === 'programme';
+const isProgramme = variant !== 'home';
 const isArchive = variant === 'archive';
 const titleId = `${concert.slug}-title`;
 
@@ -44,12 +44,14 @@ const compactTicketClass = `${actionBase} min-h-10 border-secondary/50 bg-transp
         isArchive && 'opacity-70'
       ]}
     >
-      <a
-        href={concert.detailsHref}
-        class={overlayLinkClass}
-        aria-hidden="true"
-        tabindex="-1"
-      ></a>
+      {!isArchive && (
+        <a
+          href={concert.detailsHref}
+          class={overlayLinkClass}
+          aria-hidden="true"
+          tabindex="-1"
+        ></a>
+      )}
 
       <div class="pointer-events-none relative min-h-64 overflow-hidden md:basis-1/3">
         <Image
@@ -84,7 +86,7 @@ const compactTicketClass = `${actionBase} min-h-10 border-secondary/50 bg-transp
             {concert.category}
           </span>
           <span class="font-body text-lg/6 text-secondary">{concert.price}</span>
-          {concert.status.state !== 'available' && (
+          {!isArchive && (
             <span class:list={['rounded-sm border px-4 py-2 font-body text-xs/4 font-semibold uppercase tracking-widest', statusClasses[concert.status.state]]}>
               {concert.status.label}
             </span>
@@ -113,27 +115,29 @@ const compactTicketClass = `${actionBase} min-h-10 border-secondary/50 bg-transp
           </div>
         </dl>
 
-        <div class="mt-8 flex justify-end border-t border-white/10 pt-6">
-          <div class="flex flex-wrap justify-end gap-2">
-            <a
-              href={concert.detailsHref}
-              class={programmeDetailClass}
-              aria-label={`Details zu ${concert.title} ansehen`}
-            >
-              Details
-            </a>
-            {concert.ticketUrl && (
+        {!isArchive && (
+          <div class="mt-8 flex justify-end border-t border-white/10 pt-6">
+            <div class="flex flex-wrap justify-end gap-2">
               <a
-                id={`tickets-${concert.slug}`}
-                href={concert.ticketUrl}
-                class={programmeTicketClass}
-                aria-label={`Tickets für ${concert.title} kaufen`}
+                href={concert.detailsHref}
+                class={programmeDetailClass}
+                aria-label={`Details zu ${concert.title} ansehen`}
               >
-                {concert.ticketLabel}
+                Details
               </a>
-            )}
+              {concert.ticketUrl && (
+                <a
+                  id={`tickets-${concert.slug}`}
+                  href={concert.ticketUrl}
+                  class={programmeTicketClass}
+                  aria-label={`Tickets für ${concert.title} kaufen`}
+                >
+                  {concert.ticketLabel}
+                </a>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </Card>
   ) : (
