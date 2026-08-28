@@ -27,14 +27,14 @@ Produktion: Cloudflare Worker mit statischen Seiten und serverseitig gerenderten
 
 Das Programm kommt zur Laufzeit aus dem in ChurchTools als `#5 – Konzerte` angezeigten Kalender unter `https://akg-kiel.church.tools`. Seine REST-API-ID ist `3`; Basis-URL und API-ID stehen in `wrangler.toml`.
 
-Den nur lesenden ChurchTools-Login-Token serverseitig setzen:
+Den nur lesenden ChurchTools-Login-Token serverseitig setzen. Der zugehörige Benutzer benötigt Leserechte für Kalender sowie die auf der Seite „Raum anfragen“ geprüften Ressourcen und Buchungen:
 
 ```sh
 pnpm wrangler secret put CHURCHTOOLS_TOKEN
 cp .dev.vars.example .dev.vars # lokale Entwicklung
 ```
 
-`.dev.vars` wird nicht eingecheckt. ChurchTools-Antworten und die Programm-, Archiv- und Detailseiten werden am Cloudflare-Edge fünf Minuten gecacht; bei Fehlern kann die letzte erfolgreiche Antwort bis zu 24 Stunden weiter ausgeliefert werden. Ohne vorhandenen Cache erscheint ein klarer Fehlerhinweis.
+`.dev.vars` wird nicht eingecheckt. ChurchTools-Antworten, Verfügbarkeitsstatus und die Programm-, Archiv- und Detailseiten werden am Cloudflare-Edge fünf Minuten gecacht; bei Fehlern kann die letzte erfolgreiche Antwort bis zu 24 Stunden weiter ausgeliefert werden. Ohne vorhandenen Cache erscheint ein klarer Fehlerhinweis. Der öffentliche Verfügbarkeitsstatus enthält keine Buchungstitel, Personen oder internen Notizen.
 
 ### Feldzuordnung
 

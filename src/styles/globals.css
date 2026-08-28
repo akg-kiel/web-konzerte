@@ -27,6 +27,19 @@
   --color-role-on: #e3e2e2;
   --color-role-muted: #a7a29a;
 
+  --color-background: #020617;
+  --color-foreground: #e3e2e2;
+  --color-popover: #121414;
+  --color-muted-foreground: #a7a29a;
+  --color-accent: #1e293b;
+  --color-accent-foreground: #e3e2e2;
+  --color-primary-foreground: #020617;
+  --color-secondary-foreground: #020617;
+  --color-destructive: #f87171;
+  --color-destructive-foreground: #020617;
+  --color-input: rgb(255 255 255 / 0.2);
+  --color-ring: #f3e5ab;
+
   --shadow-glow: 0 0 48px rgb(243 229 171 / 0.12);
   --shadow-panel: 0 24px 80px rgb(0 0 0 / 0.35);
 }
