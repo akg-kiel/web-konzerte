@@ -1,0 +1,176 @@
+---
+import { Image } from 'astro:assets';
+
+import PageHero from '../components/sections/PageHero.astro';
+import Card from '../components/ui/Card.astro';
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { Label } from '../components/ui/label';
+import { Textarea } from '../components/ui/textarea';
+import Layout from '../layouts/Layout.astro';
+import yonatanPandelaki from '../assets/team/yonatan-pandelaki.jpg';
+import concertInterior from '../assets/venue/petruskirche-interior-concert.webp';
+
+const inputClass =
+  'h-auto rounded-none border-0 border-b border-white/30 bg-transparent px-0 py-4 font-body text-base/6 text-on-surface focus-visible:ring-secondary';
+const labelClass =
+  'mb-2 block font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/70';
+---
+
+<Layout
+  title="Kontakt · Konzertkirche Petruskirche"
+  description="Kontakt zur Konzertkirche Petruskirche Kiel: Ansprechpartner, Nachrichtformular, Adresse und Anfahrt."
+>
+  <main class="min-h-screen bg-midnight text-role-on">
+    <PageHero
+      eyebrow="Konzertkirche Petruskirche"
+      intro="Sie planen ein Konzert, haben eine Frage zum Programm oder möchten mit uns zusammenarbeiten? Schreiben Sie uns – wir melden uns so bald wie möglich."
+      image={concertInterior}
+      imageAlt="Publikum bei einem Konzert im Innenraum der Petruskirche"
+      imagePosition="50% 48%"
+    >
+      Kontakt
+      <a slot="cta" class="inline-flex min-h-12 items-center justify-center rounded-sm bg-secondary px-6 py-3 font-body text-xs/4 font-semibold uppercase tracking-widest !text-midnight no-underline transition hover:bg-champagne active:scale-95" href="#nachricht">Nachricht senden</a>
+      <a slot="cta" class="inline-flex min-h-12 items-center justify-center rounded-sm border border-white/30 px-6 py-3 font-body text-xs/4 font-semibold uppercase tracking-widest !text-on-surface no-underline transition hover:border-secondary hover:!text-secondary" href="#anfahrt">Anfahrt ansehen</a>
+    </PageHero>
+
+    <nav aria-label="Inhalte dieser Seite" class="border-b border-white/10 bg-surface/60">
+      <div class="mx-auto flex w-full max-w-screen-2xl flex-wrap gap-x-8 gap-y-2 px-6 py-6 font-body text-sm/6 md:px-8 lg:px-16">
+        <a class="min-h-10 content-center !text-role-on/70 no-underline hover:!text-secondary" href="#nachricht">Kontakt</a>
+        <a class="min-h-10 content-center !text-role-on/70 no-underline hover:!text-secondary" href="#ueber-uns">Über uns</a>
+        <a class="min-h-10 content-center !text-role-on/70 no-underline hover:!text-secondary" href="#anfahrt">Anfahrt</a>
+      </div>
+    </nav>
+
+    <section id="nachricht" class="scroll-mt-24 py-16 md:py-24" aria-labelledby="contact-heading">
+      <div class="mx-auto w-full max-w-screen-2xl px-6 md:px-8 lg:px-16">
+        <p class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Direkter Kontakt</p>
+        <h2 id="contact-heading" class="mt-4 max-w-3xl font-display text-3xl/tight font-normal text-on-surface md:text-5xl/tight">Wie können wir helfen?</h2>
+
+        <div class="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
+          <div class="space-y-10 lg:col-span-4">
+            <address class="space-y-8 font-body text-base/7 text-role-on/70 not-italic">
+              <div>
+                <p class="font-semibold text-on-surface">Konzertanfragen</p>
+                <a class="block !text-secondary no-underline hover:!text-champagne" href="mailto:konzerte@akg-kiel.de">konzerte@akg-kiel.de</a>
+                <a class="block !text-secondary no-underline hover:!text-champagne" href="tel:+4915752874279">01575 287 4279</a>
+              </div>
+              <div>
+                <p class="font-semibold text-on-surface">Veranstaltungsort</p>
+                <p>Konzertkirche Petruskirche<br />Weimarer Straße 1<br />24106 Kiel</p>
+              </div>
+            </address>
+            <p class="border-l-2 border-secondary bg-secondary/5 py-4 pl-6 font-body text-base/7 text-role-on/75">Sie möchten die Petruskirche selbst nutzen? Technische Angaben und Terminanfrage finden Sie unter <a class="!text-secondary no-underline hover:!text-champagne" href="/raum-anfragen">Raum anfragen</a>.</p>
+          </div>
+
+          <Card class="border-white/5 bg-slate-mist/20 p-8 lg:col-span-8 md:p-10">
+            <h3 class="font-display text-2xl/tight text-on-surface md:text-3xl/tight">Nachricht senden</h3>
+            <p id="required-note" class="mt-4 font-body text-sm/6 text-role-on/60">Mit <span class="text-secondary">*</span> markierte Felder sind Pflichtfelder. Beim Absenden öffnet sich Ihr E-Mail-Programm.</p>
+
+            <form action="mailto:konzerte@akg-kiel.de?subject=Kontakt%20Konzertkirche" method="post" enctype="text/plain" class="mt-8 space-y-8" aria-describedby="required-note">
+              <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+                <div>
+                  <Label className={labelClass} htmlFor="contact-name">Name <span class="text-secondary" aria-hidden="true">*</span></Label>
+                  <Input className={inputClass} id="contact-name" name="Name" autoComplete="name" minLength={2} required type="text" />
+                </div>
+                <div>
+                  <Label className={labelClass} htmlFor="contact-email">E-Mail <span class="text-secondary" aria-hidden="true">*</span></Label>
+                  <Input className={inputClass} id="contact-email" name="E-Mail" autoComplete="email" required type="email" />
+                </div>
+              </div>
+              <div>
+                <Label className={labelClass} htmlFor="contact-subject">Betreff <span class="text-secondary" aria-hidden="true">*</span></Label>
+                <Input className={inputClass} id="contact-subject" name="Betreff" minLength={3} required type="text" />
+              </div>
+              <div>
+                <Label className={labelClass} htmlFor="contact-message">Nachricht <span class="text-secondary" aria-hidden="true">*</span></Label>
+                <Textarea className="min-h-40 resize-y rounded-none border-0 border-b border-white/30 bg-transparent px-0 py-4 font-body text-base/6 text-on-surface focus-visible:ring-secondary" id="contact-message" name="Nachricht" minLength={10} required rows={6} />
+              </div>
+              <div>
+                <Button className="min-h-14 w-full rounded-sm bg-secondary px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest text-midnight shadow-glow hover:bg-champagne active:scale-95 sm:w-auto" type="submit">Nachricht per E-Mail senden</Button>
+                <p class="mt-4 font-body text-sm/6 text-role-on/60">Ihre Eingaben werden nicht auf dieser Website gespeichert. Mehr dazu im <a class="!text-secondary no-underline hover:!text-champagne" href="/datenschutz#kontakt">Datenschutz</a>.</p>
+              </div>
+            </form>
+          </Card>
+        </div>
+      </div>
+    </section>
+
+    <section id="ueber-uns" class="scroll-mt-24 border-y border-white/5 bg-surface py-16 md:py-24" aria-labelledby="about-heading">
+      <div class="mx-auto w-full max-w-5xl px-6 md:px-8">
+        <Card as="article" class="grid bg-midnight/60 md:grid-cols-3">
+          <figure>
+            <Image
+              src={yonatanPandelaki}
+              alt="Porträt von Yonatan Pandelaki"
+              class="h-full max-h-96 !w-full object-cover object-top md:max-h-none"
+              widths={[320, 480, 640]}
+              sizes="(min-width: 768px) 33vw, calc(100vw - 48px)"
+              loading="lazy"
+              decoding="async"
+              format="webp"
+            />
+            <figcaption class="sr-only">Foto: Yosua Pandelaki</figcaption>
+          </figure>
+          <div class="p-8 md:col-span-2 md:p-10 lg:p-12">
+            <p class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Über uns · Ihr Ansprechpartner</p>
+            <h2 id="about-heading" class="mt-4 font-display text-3xl/tight text-on-surface">Yonatan Pandelaki</h2>
+            <p class="mt-2 font-body text-lg/7 font-semibold text-role-on/80">Konzertmanager der Petruskirche</p>
+            <p class="mt-6 max-w-xl font-body text-base/7 text-role-on/70">Yonatan Pandelaki ist Ihr Ansprechpartner für Konzerte und Veranstaltungen in der Petruskirche. Die Konzertarbeit gehört zur Ev.-Luth. Apostel-Kirchengemeinde Kiel.</p>
+            <address class="mt-6 font-body text-base/7 text-role-on/70 not-italic">
+              Adalbertstraße 10 · 24106 Kiel<br />
+              <a class="!text-secondary no-underline hover:!text-champagne" href="tel:+4915752874279">01575 287 4279</a><br />
+              <a class="!text-secondary no-underline hover:!text-champagne" href="mailto:konzerte@akg-kiel.de">konzerte@akg-kiel.de</a>
+            </address>
+          </div>
+        </Card>
+      </div>
+    </section>
+
+    <section id="anfahrt" class="scroll-mt-24 py-16 md:py-24" aria-labelledby="directions-heading">
+      <div class="mx-auto grid w-full max-w-screen-2xl grid-cols-1 gap-12 px-6 md:px-8 lg:grid-cols-12 lg:gap-16 lg:px-16">
+        <div class="lg:col-span-5">
+          <p class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Anfahrt</p>
+          <h2 id="directions-heading" class="mt-4 font-display text-3xl/tight font-normal text-on-surface md:text-5xl/tight">Gut zu erreichen</h2>
+          <div class="mt-8 space-y-6 font-body text-base/7 text-role-on/70">
+            <div>
+              <h3 class="font-semibold text-on-surface">Bus</h3>
+              <p class="mt-2">Die Haltestelle „Petruskirche“ liegt wenige Gehminuten entfernt. Sie wird unter anderem von den Linien 11, 60S und 501 bedient.</p>
+            </div>
+            <div>
+              <h3 class="font-semibold text-on-surface">Auto &amp; Parken</h3>
+              <p class="mt-2">In den umliegenden Straßen gibt es begrenzte kostenfreie Parkplätze. Bitte planen Sie bei größeren Veranstaltungen zusätzliche Zeit ein.</p>
+            </div>
+            <div>
+              <h3 class="font-semibold text-on-surface">Barrierefrei ankommen</h3>
+              <p class="mt-2">Der Haupteingang ist über eine flache Rampe stufenlos erreichbar. Ein rollstuhlgerechtes WC befindet sich im angrenzenden Gemeindehaus.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7">
+          <div data-google-map-consent class="flex min-h-80 flex-col items-center justify-center rounded-lg border border-white/10 bg-slate-mist/20 p-8 text-center">
+            <p class="font-body text-base/7 text-role-on/70">Google Maps wird erst nach Ihrer Zustimmung geladen.</p>
+            <button data-google-map-button aria-controls="contact-google-map" class="mt-6 inline-flex min-h-12 items-center justify-center rounded-sm bg-secondary px-6 py-3 font-body text-xs/4 font-semibold uppercase tracking-widest text-midnight transition hover:bg-champagne active:scale-95" type="button">Google Maps laden</button>
+            <p class="mt-4 max-w-sm font-body text-xs/5 text-role-on/55">Dabei erhält Google Verbindungsdaten und kann Cookies setzen. <a class="!text-secondary no-underline hover:!text-champagne" href="/datenschutz#drittanbieter">Mehr zum Datenschutz</a>.</p>
+            <noscript><a class="mt-4 !text-secondary no-underline hover:!text-champagne" href="https://www.google.com/maps/search/?api=1&query=Petruskirche%20Kiel-Wik%2C%20Weimarer%20Stra%C3%9Fe%201%2C%2024106%20Kiel" target="_blank" rel="noopener noreferrer">Google Maps öffnen <span aria-hidden="true">↗</span><span class="sr-only"> (öffnet in neuem Tab)</span></a></noscript>
+          </div>
+          <iframe id="contact-google-map" data-google-map data-src="https://www.google.com/maps?q=Petruskirche%20Kiel-Wik%2C%20Weimarer%20Stra%C3%9Fe%201%2C%2024106%20Kiel&output=embed" title="Google Maps – Petruskirche Kiel-Wik" class="aspect-[4/3] w-full rounded-lg border border-white/10 lg:aspect-[16/10]" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen hidden></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<script>
+  const consent = document.querySelector('[data-google-map-consent]') as HTMLElement;
+  const button = document.querySelector('[data-google-map-button]') as HTMLButtonElement;
+  const map = document.querySelector('[data-google-map]') as HTMLIFrameElement;
+
+  button.addEventListener('click', () => {
+    map.src = map.dataset.src!;
+    map.hidden = false;
+    map.focus();
+    consent.remove();
+  });
+</script>
