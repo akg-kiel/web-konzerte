@@ -2,6 +2,7 @@ import { defineConfig } from 'vite-plus';
 
 export default defineConfig({
   lint: {
+    ignorePatterns: ['.pi/**'],
     jsPlugins: ['eslint-plugin-astro'],
     overrides: [
       {
@@ -20,7 +21,7 @@ export default defineConfig({
     trailingComma: 'none',
     printWidth: 100,
     sortPackageJson: false,
-    ignorePatterns: ['pnpm-lock.yaml']
+    ignorePatterns: ['.pi/**', 'pnpm-lock.yaml']
   },
   staged: {
     '*': 'vp check --fix'

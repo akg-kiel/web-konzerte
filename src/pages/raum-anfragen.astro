@@ -1,131 +1,206 @@
 ---
 import { Image } from 'astro:assets';
 
+import AvailabilityCalendar from '../components/sections/AvailabilityCalendar';
 import PageHero from '../components/sections/PageHero.astro';
 import Card from '../components/ui/Card.astro';
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { Label } from '../components/ui/label';
+import { Textarea } from '../components/ui/textarea';
 import Layout from '../layouts/Layout.astro';
 import orgelMikrofon from '../assets/concerts/orgel-mikrofon.jpg';
 import sinfonieFenster from '../assets/concerts/sinfonie-fenster.jpg';
 
-const basics = [
-  ['Kapazität', 'Bis zu 450 Sitzplätze im Kirchenschiff. Flexible Bestuhlung auf Anfrage möglich.'],
-  ['Bühnenbereich', 'Der Chorraum dient als erhöhte Bühne (ca. 60 qm). Ausgezeichnete Akustik für unverstärkte Musik.'],
-  ['Ausstattung', 'Konzertflügel, historische Orgel, Basis-Beleuchtungskonzept und Stromanschlüsse (16A/32A).'],
-  ['Backstage', 'Zwei beheizbare Künstlergarderoben mit direktem Zugang zum Bühnenbereich und separate Sanitäranlagen.']
+const technicalDetails = [
+  ['Kapazität', 'Bis zu 450 Sitzplätze im Kirchenschiff. Flexible Bestuhlung ist auf Anfrage möglich.'],
+  ['Bühne & Akustik', 'Der Chorraum dient als erhöhte Bühne (ca. 60 qm). Der Kirchenraum eignet sich besonders für unverstärkte Musik.'],
+  ['Ton', 'Beschallung, Mikrofonierung, Monitoring und technisches Personal werden passend zu Besetzung und Veranstaltung abgestimmt.'],
+  ['Licht & Strom', 'Ein Basis-Beleuchtungskonzept sowie Stromanschlüsse mit 16 A und 32 A sind vorhanden. Zusätzliche Lichttechnik wird vorab abgestimmt.'],
+  ['Instrumente', 'Konzertflügel und historische Orgel können nach Absprache genutzt werden. Nutzung, Stimmung und Betreuung werden im Angebot festgehalten.'],
+  ['Backstage', 'Zwei beheizbare Künstlergarderoben mit direktem Zugang zum Bühnenbereich und separate Sanitäranlagen stehen zur Verfügung.']
+];
+
+const rentalDetails = [
+  ['Preis', 'Die Kosten richten sich nach Dauer, Besucherzahl, Technik-, Personal- und Reinigungsbedarf. Sie erhalten nach der Anfrage ein individuelles schriftliches Angebot.'],
+  ['Verfügbarkeit', 'Termine werden einzeln geprüft. Wählen Sie unten Wunsch- und Alternativdatum; verbindlich reserviert ist der Raum erst nach schriftlicher Bestätigung.'],
+  ['Mietbedingungen', 'Art, Ablauf und Nutzungszeiten der Veranstaltung werden vorab vereinbart. Maßgeblich sind das abschließende Angebot und der Nutzungsvertrag.'],
+  ['Technische Anforderungen', 'Bitte senden Sie frühzeitig Bühnenplan, Besetzung sowie Bedarf an Strom, Ton und Licht. Fremdtechnik darf nur nach Abstimmung eingesetzt werden.'],
+  ['Versicherung', 'Veranstaltende haften für verursachte Schäden. Ob ein Nachweis einer Veranstalterhaftpflicht erforderlich ist, wird vor Vertragsschluss geklärt.']
 ];
 
 const inputClass =
-  'w-full border-0 border-b border-white/30 bg-transparent px-0 py-4 font-body text-base/6 text-on-surface placeholder:text-role-on/60 focus:border-secondary focus:ring-0';
+  'h-auto rounded-none border-0 border-b border-white/30 bg-transparent px-0 py-4 font-body text-base/6 text-on-surface focus-visible:ring-secondary';
 const labelClass =
   'mb-2 block font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/70';
 ---
 
 <Layout
   title="Raum anfragen · Konzertkirche Petruskirche"
-  description="Petruskirche Kiel als Raum für Konzerte, Chöre, Orchester, Aufnahmen und ausgewählte Kulturveranstaltungen anfragen."
+  description="Technische Informationen, Konditionen und Terminanfrage für Konzerte und Kulturveranstaltungen in der Petruskirche Kiel."
 >
   <main class="min-h-screen bg-midnight text-role-on">
     <PageHero
-      eyebrow="Veranstaltungsräume"
-      intro="Die Petruskirche Kiel bietet einen besonderen Rahmen für Konzerte, Chöre, Orchester und ausgewählte kulturelle Veranstaltungen."
+      eyebrow="Für Veranstaltende"
+      intro="Die Petruskirche Kiel bietet einen besonderen Rahmen für Konzerte, Chöre, Orchester, Aufnahmen und ausgewählte Kulturveranstaltungen."
       image={sinfonieFenster}
       imageAlt="Reflexion von Kirchenfenstern auf einem Konzertflügel"
       imagePosition="52% 45%"
     >
       Raum anfragen
+      <a slot="cta" class="inline-flex min-h-12 items-center justify-center rounded-sm bg-secondary px-6 py-3 font-body text-xs/4 font-semibold uppercase tracking-widest !text-midnight no-underline transition hover:bg-champagne active:scale-95" href="#anfrage">Termin anfragen</a>
+      <a slot="cta" class="inline-flex min-h-12 items-center justify-center rounded-sm border border-white/30 px-6 py-3 font-body text-xs/4 font-semibold uppercase tracking-widest !text-on-surface no-underline transition hover:border-secondary hover:!text-secondary" href="#technik">Technische Daten</a>
     </PageHero>
 
-    <section class="mx-auto w-full max-w-screen-2xl px-6 md:px-8 lg:px-16 grid grid-cols-1 gap-12 pb-20 pt-16 lg:grid-cols-12 lg:gap-8 md:pb-28 md:pt-24" aria-label="Rauminformationen und Buchungsanfrage">
-      <div class="space-y-6 lg:col-span-5">
-        <Card as="article" class="border-white/5 bg-slate-mist/30">
-          <Image
-            src={orgelMikrofon}
-            alt="Detailaufnahme von Konzertflügel, Mikrofon und Kirchenfenstern"
-            class="h-56 !w-full object-cover"
-            widths={[480, 720, 960]}
-            sizes="(min-width: 1024px) 40vw, calc(100vw - 48px)"
-            loading="lazy"
-            decoding="async"
-            format="webp"
-          />
-          <div class="p-8">
-            <h2 class="block font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/60 mb-8">Basisinformationen</h2>
-            <ul class="space-y-6" role="list">
-              {
-                basics.map(([title, text]) => (
-                  <li class="flex gap-4">
-                    <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-secondary" aria-hidden="true" />
-                    <div>
-                      <h3 class="font-body text-lg/7 font-semibold text-on-surface">{title}</h3>
-                      <p class="mt-2 font-body text-base/7 text-role-on/70">{text}</p>
-                    </div>
-                  </li>
-                ))
-              }
-            </ul>
-          </div>
-        </Card>
+    <nav aria-label="Inhalte dieser Seite" class="border-b border-white/10 bg-surface/60">
+      <div class="mx-auto flex w-full max-w-screen-2xl flex-wrap gap-x-8 gap-y-2 px-6 py-6 font-body text-sm/6 md:px-8 lg:px-16">
+        <a class="min-h-10 content-center !text-role-on/70 no-underline hover:!text-secondary" href="#technik">Technik &amp; Räume</a>
+        <a class="min-h-10 content-center !text-role-on/70 no-underline hover:!text-secondary" href="#ablauf">Auf- &amp; Abbau</a>
+        <a class="min-h-10 content-center !text-role-on/70 no-underline hover:!text-secondary" href="#konditionen">Konditionen</a>
+        <a class="min-h-10 content-center !text-role-on/70 no-underline hover:!text-secondary" href="#anfrage">Anfrage</a>
       </div>
+    </nav>
 
-      <div class="lg:col-span-7">
-        <Card class="border-white/5 bg-surface/70 p-8 backdrop-blur-sm md:p-10">
-          <h2 class="block font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/60 mb-6">Unverbindlich anfragen</h2>
-          <p class="max-w-2xl font-body text-base/7 text-role-on/70">
-            Beschreiben Sie kurz Ihr Vorhaben – wir melden uns in der Regel innerhalb weniger Werktage. Mit <span class="text-secondary">*</span> markierte Felder sind Pflichtfelder.
+    <section id="technik" class="scroll-mt-24 py-16 md:py-24" aria-labelledby="technical-heading">
+      <div class="mx-auto w-full max-w-screen-2xl px-6 md:px-8 lg:px-16">
+        <p class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Technische Basis</p>
+        <h2 id="technical-heading" class="mt-4 max-w-3xl font-display text-3xl/tight font-normal text-on-surface md:text-5xl/tight">Raum, Bühne und Ausstattung</h2>
+        <p class="mt-6 max-w-3xl font-body text-lg/8 text-role-on/70">
+          Die folgenden Angaben dienen der ersten Planung. Die konkrete Ausstattung und Positionierung klären wir anhand Ihres Bühnen- und Technikplans.
+        </p>
+
+        <div class="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-16">
+          <Card as="figure" class="bg-slate-mist/30 lg:col-span-5">
+            <Image
+              src={orgelMikrofon}
+              alt="Konzertflügel und Mikrofon vor den Fenstern der Petruskirche"
+              class="h-full min-h-80 !w-full object-cover"
+              widths={[480, 720, 960]}
+              sizes="(min-width: 1024px) 40vw, calc(100vw - 48px)"
+              loading="lazy"
+              decoding="async"
+              format="webp"
+            />
+          </Card>
+
+          <dl class="grid grid-cols-1 gap-x-10 gap-y-8 sm:grid-cols-2 lg:col-span-7">
+            {technicalDetails.map(([title, text]) => (
+              <div class="border-t border-white/10 pt-6">
+                <dt class="font-body text-lg/7 font-semibold text-on-surface">{title}</dt>
+                <dd class="mt-2 font-body text-base/7 text-role-on/70">{text}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section id="ablauf" class="scroll-mt-24 border-y border-white/5 bg-surface py-16 md:py-24" aria-labelledby="process-heading">
+      <div class="mx-auto w-full max-w-screen-2xl px-6 md:px-8 lg:px-16">
+        <p class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Produktionsablauf</p>
+        <h2 id="process-heading" class="mt-4 max-w-3xl font-display text-3xl/tight font-normal text-on-surface md:text-5xl/tight">Aufbau, Veranstaltung, Abbau</h2>
+        <div class="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
+          <Card as="article" class="bg-slate-mist/30 p-8">
+            <p class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">01 · Vorplanung</p>
+            <h3 class="mt-4 font-body text-lg/7 font-semibold text-on-surface">Technik abstimmen</h3>
+            <p class="mt-2 font-body text-base/7 text-role-on/70">Bühnenplan, Instrumente, Fremdtechnik, Personal und Zeitfenster werden vor dem Termin schriftlich festgehalten.</p>
+          </Card>
+          <Card as="article" class="bg-slate-mist/30 p-8">
+            <p class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">02 · Anlieferung</p>
+            <h3 class="mt-4 font-body text-lg/7 font-semibold text-on-surface">Zugang einweisen</h3>
+            <p class="mt-2 font-body text-base/7 text-role-on/70">Anfahrt, Ladeweg, Türmaße und nutzbare Flächen klären wir bei Bedarf in einem Vor-Ort-Termin. Eine verantwortliche Person begleitet die Anlieferung.</p>
+          </Card>
+          <Card as="article" class="bg-slate-mist/30 p-8">
+            <p class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">03 · Rückgabe</p>
+            <h3 class="mt-4 font-body text-lg/7 font-semibold text-on-surface">Gemeinsam abnehmen</h3>
+            <p class="mt-2 font-body text-base/7 text-role-on/70">Der Abbau erfolgt im vereinbarten Zeitfenster. Räume und Ausstattung werden anschließend gemeinsam kontrolliert.</p>
+          </Card>
+        </div>
+        <p class="mt-8 max-w-3xl rounded-sm border-l-2 border-secondary bg-secondary/5 py-4 pl-6 font-body text-base/7 text-role-on/75">
+          Vorhandene Ausstattung ist nur nach schriftlicher Bestätigung Teil der Nutzung. Zusätzlich benötigte Miettechnik wird abgestimmt und im Angebot ausgewiesen.
+        </p>
+      </div>
+    </section>
+
+    <section id="konditionen" class="scroll-mt-24 py-16 md:py-24" aria-labelledby="rental-heading">
+      <div class="mx-auto w-full max-w-screen-2xl px-6 md:px-8 lg:px-16">
+        <p class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Anmietung</p>
+        <h2 id="rental-heading" class="mt-4 max-w-3xl font-display text-3xl/tight font-normal text-on-surface md:text-5xl/tight">Preise und Bedingungen</h2>
+        <p class="mt-6 max-w-3xl font-body text-lg/8 text-role-on/70">Jede Veranstaltung wird individuell geplant. So zahlen Sie nur für die Räume, Technik und Leistungen, die tatsächlich benötigt werden.</p>
+        <dl class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {rentalDetails.map(([title, text]) => (
+            <Card class="bg-slate-mist/30 p-8">
+              <dt class="font-body text-lg/7 font-semibold text-on-surface">{title}</dt>
+              <dd class="mt-3 font-body text-base/7 text-role-on/70">{text}</dd>
+            </Card>
+          ))}
+        </dl>
+      </div>
+    </section>
+
+    <section id="anfrage" class="scroll-mt-24 border-t border-white/5 bg-surface py-16 md:py-24" aria-labelledby="inquiry-heading">
+      <div class="mx-auto w-full max-w-4xl px-6 md:px-8">
+        <Card class="border-white/5 bg-midnight/70 p-8 md:p-10">
+          <p class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Buchungsanfrage</p>
+          <h2 id="inquiry-heading" class="mt-4 font-display text-3xl/tight font-normal text-on-surface md:text-5xl/tight">Wunschtermin anfragen</h2>
+          <p class="mt-6 max-w-2xl font-body text-base/7 text-role-on/70">
+            Wählen Sie Ihren Termin im Kalender und beschreiben Sie kurz Ihr Vorhaben. Wir prüfen die Verfügbarkeit und melden uns in der Regel innerhalb weniger Werktage. Mit <span class="text-secondary">*</span> markierte Felder sind Pflichtfelder.
           </p>
 
-          <form action="mailto:konzerte@akg-kiel.de" method="post" enctype="text/plain" class="mt-10 space-y-10">
+          <form action="mailto:konzerte@akg-kiel.de?subject=Raumanfrage%20Petruskirche" method="post" enctype="text/plain" class="mt-10 space-y-10">
             <fieldset class="space-y-8 border-0 p-0">
               <legend class="mb-2 font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Ihre Veranstaltung</legend>
               <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
                 <div>
-                  <label class={labelClass} for="event-type">Art der Veranstaltung <span class="text-secondary" aria-hidden="true">*</span></label>
-                  <input class={inputClass} id="event-type" name="Art der Veranstaltung" required type="text" />
+                  <Label className={labelClass} htmlFor="event-type">Art der Veranstaltung <span class="text-secondary" aria-hidden="true">*</span></Label>
+                  <Input className={inputClass} id="event-type" name="Art der Veranstaltung" required type="text" />
                 </div>
                 <div>
-                  <label class={labelClass} for="date">Wunschdatum / Zeitraum <span class="text-secondary" aria-hidden="true">*</span></label>
-                  <input class={inputClass} id="date" name="Wunschdatum / Zeitraum" required type="text" />
+                  <Label className={labelClass} htmlFor="attendees">Erwartete Besucherzahl</Label>
+                  <Input className={inputClass} id="attendees" name="Erwartete Besucherzahl" min="1" max="450" inputMode="numeric" type="number" />
+                </div>
+                <div class="md:col-span-2">
+                  <AvailabilityCalendar client:visible />
                 </div>
                 <div>
-                  <label class={labelClass} for="attendees">Erwartete Besucherzahl</label>
-                  <input class={inputClass} id="attendees" name="Erwartete Besucherzahl" min="1" max="450" inputmode="numeric" type="number" />
+                  <Label className={labelClass} htmlFor="alternative-date">Alternativdatum</Label>
+                  <Input className={inputClass} id="alternative-date" name="Alternativdatum" type="date" />
                 </div>
               </div>
             </fieldset>
 
-            <fieldset class="space-y-8 border-0 border-t border-white/10 pt-10 p-0">
+            <fieldset class="space-y-8 border-0 border-t border-white/10 p-0 pt-10">
               <legend class="mb-2 font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Kontakt</legend>
               <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
                 <div>
-                  <label class={labelClass} for="name">Name / Organisation <span class="text-secondary" aria-hidden="true">*</span></label>
-                  <input class={inputClass} id="name" name="Name / Organisation" autocomplete="organization" required type="text" />
+                  <Label className={labelClass} htmlFor="name">Name / Organisation <span class="text-secondary" aria-hidden="true">*</span></Label>
+                  <Input className={inputClass} id="name" name="Name / Organisation" autoComplete="organization" required type="text" />
                 </div>
                 <div>
-                  <label class={labelClass} for="email">E-Mail <span class="text-secondary" aria-hidden="true">*</span></label>
-                  <input class={inputClass} id="email" name="E-Mail" autocomplete="email" required type="email" />
+                  <Label className={labelClass} htmlFor="email">E-Mail <span class="text-secondary" aria-hidden="true">*</span></Label>
+                  <Input className={inputClass} id="email" name="E-Mail" autoComplete="email" required type="email" />
                 </div>
                 <div>
-                  <label class={labelClass} for="phone">Telefon</label>
-                  <input class={inputClass} id="phone" name="Telefon" autocomplete="tel" type="tel" />
+                  <Label className={labelClass} htmlFor="phone">Telefon</Label>
+                  <Input className={inputClass} id="phone" name="Telefon" autoComplete="tel" type="tel" />
                 </div>
               </div>
             </fieldset>
 
-            <fieldset class="space-y-8 border-0 border-t border-white/10 pt-10 p-0">
-              <legend class="mb-2 font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Anmerkungen</legend>
+            <fieldset class="space-y-8 border-0 border-t border-white/10 p-0 pt-10">
+              <legend class="mb-2 font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Planung</legend>
               <div>
-                <label class={labelClass} for="technical-requirements">Technische Anforderungen &amp; Bemerkungen</label>
-                <textarea class="min-h-36 w-full resize-y border-0 border-b border-white/30 bg-transparent px-0 py-4 font-body text-base/6 text-on-surface placeholder:text-role-on/60 focus:border-secondary focus:ring-0" id="technical-requirements" name="Technische Anforderungen und Bemerkungen" rows="5"></textarea>
+                <Label className={labelClass} htmlFor="technical-requirements">Technische Anforderungen &amp; Bemerkungen</Label>
+                <Textarea className="min-h-36 resize-y rounded-none border-0 border-b border-white/30 bg-transparent px-0 py-4 font-body text-base/6 text-on-surface focus-visible:ring-secondary" id="technical-requirements" name="Technische Anforderungen und Bemerkungen" rows={5} />
               </div>
             </fieldset>
 
             <div>
-              <button class="inline-flex min-h-14 w-full items-center justify-center rounded-sm bg-secondary px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest text-midnight shadow-glow transition hover:bg-champagne active:scale-95 md:w-auto" type="submit">
+              <Button className="min-h-14 w-full rounded-sm bg-secondary px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest text-midnight shadow-glow hover:bg-champagne active:scale-95 md:w-auto" type="submit">
                 Anfrage per E-Mail senden
-              </button>
+              </Button>
               <p class="mt-4 font-body text-sm/6 text-role-on/60">
-                Beim Absenden öffnet sich Ihr E-Mail-Programm mit der vorbereiteten Anfrage. Alternativ erreichen Sie uns direkt unter
-                <a class="!text-secondary no-underline hover:!text-champagne" href="mailto:konzerte@akg-kiel.de">konzerte@akg-kiel.de</a>.
+                Beim Absenden öffnet sich Ihr E-Mail-Programm. Es werden keine Formulardaten auf dieser Website gespeichert. Hinweise finden Sie im <a class="!text-secondary no-underline hover:!text-champagne" href="/datenschutz">Datenschutz</a>. Alternativ erreichen Sie uns unter <a class="!text-secondary no-underline hover:!text-champagne" href="mailto:konzerte@akg-kiel.de">konzerte@akg-kiel.de</a>.
               </p>
             </div>
           </form>

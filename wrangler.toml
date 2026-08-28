@@ -4,6 +4,7 @@ compatibility_date = "2026-01-19"
 [vars]
 CHURCHTOOLS_BASE_URL = "https://akg-kiel.church.tools"
 CHURCHTOOLS_CALENDAR_IDS = "3"
+CHURCHTOOLS_EVENT_BUFFER_HOURS = "12"
 
 [assets]
 directory = "./dist"
