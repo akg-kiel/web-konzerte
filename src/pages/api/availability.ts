@@ -1,7 +1,7 @@
 import { env } from 'cloudflare:workers';
 import type { APIRoute } from 'astro';
 
-import { classifyAvailability, type BookingSlot } from '../../lib/availability';
+import { classifyAvailability, parseIsoDate, type BookingSlot } from '../../lib/availability';
 
 export const prerender = false;
 
@@ -12,17 +12,13 @@ const resources: Array<{ id: number; group: BookingSlot['group'] }> = [
     group: 'secondary' as const
   }))
 ];
-const datePattern = /^\d{4}-\d{2}-\d{2}$/;
-
 export const GET: APIRoute = async ({ request }) => {
   const url = new URL(request.url);
   const from = url.searchParams.get('from') ?? '';
   const to = url.searchParams.get('to') ?? '';
-  const fromTime = Date.parse(`${from}T00:00:00Z`);
-  const toTime = Date.parse(`${to}T00:00:00Z`);
+  const fromTime = parseIsoDate(from);
+  const toTime = parseIsoDate(to);
   if (
-    !datePattern.test(from) ||
-    !datePattern.test(to) ||
     !Number.isFinite(fromTime) ||
     !Number.isFinite(toTime) ||
     toTime < fromTime ||
@@ -46,8 +42,10 @@ export const GET: APIRoute = async ({ request }) => {
   if (!env.CHURCHTOOLS_TOKEN)
     return Response.json({ error: 'Verfügbarkeit derzeit nicht abrufbar' }, { status: 503 });
 
-  const headers = { Authorization: `Login ${env.CHURCHTOOLS_TOKEN}` };
   try {
+    if (new URL(baseUrl).protocol !== 'https:')
+      throw new Error('CHURCHTOOLS_BASE_URL must use HTTPS');
+    const headers = { Authorization: `Login ${env.CHURCHTOOLS_TOKEN}` };
     const masterResponse = await fetch(`${baseUrl}/api/resource/masterdata`, {
       headers,
       signal: AbortSignal.timeout(10_000)

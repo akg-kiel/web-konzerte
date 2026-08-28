@@ -7,6 +7,12 @@ export interface BookingSlot {
   endDate: string;
 }
 
+export const parseIsoDate = (value: string) => {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return NaN;
+  const time = Date.parse(`${value}T00:00:00Z`);
+  return Number.isFinite(time) && new Date(time).toISOString().slice(0, 10) === value ? time : NaN;
+};
+
 const rank: Record<AvailabilityStatus, number> = {
   available: 1,
   coordination: 2,
@@ -55,11 +61,11 @@ export function classifyAvailability(
     }
   };
 
+  const buffer = (Number.isFinite(bufferHours) && bufferHours >= 0 ? bufferHours : 12) * 3_600_000;
   for (const booking of bookings) {
     const start = Date.parse(booking.startDate);
     const end = Date.parse(booking.endDate);
     if (booking.group === 'venue') {
-      const buffer = bufferHours * 3_600_000;
       mark(start - buffer, end + buffer, 'coordination');
       if (booking.statusId === 2) mark(start, end, 'occupied');
     } else {
