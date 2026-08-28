@@ -6,4 +6,4 @@ CHURCHTOOLS_BASE_URL = "https://akg-kiel.church.tools"
 CHURCHTOOLS_CALENDAR_IDS = "3"
 
 [assets]
-directory = "./dist"
+directory = "./dist/client"
