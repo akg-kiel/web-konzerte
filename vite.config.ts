@@ -1,6 +1,9 @@
 import { defineConfig } from 'vite-plus';
 
 export default defineConfig({
+  server: {
+    allowedHosts: ['.trycloudflare.com']
+  },
   lint: {
     ignorePatterns: ['.pi/**'],
     jsPlugins: ['eslint-plugin-astro'],
