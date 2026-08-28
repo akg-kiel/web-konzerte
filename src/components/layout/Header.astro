@@ -8,14 +8,8 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
 const navItems = [
   { label: 'Programm', href: '/programm', match: '/programm' },
   { label: 'Besuch planen', href: '/besuch-planen', match: '/besuch-planen' },
-  {
-    label: 'Die Petruskirche',
-    href: 'https://akg-kiel.de/petruskirche',
-    external: true,
-    match: ''
-  },
   { label: 'Raum anfragen', href: '/raum-anfragen', match: '/raum-anfragen' },
-  { label: 'Kontakt', href: 'mailto:konzerte@akg-kiel.de', match: '' }
+  { label: 'Kontakt', href: '/kontakt', match: '/kontakt' }
 ];
 
 const isActive = (match: string) => Boolean(match) && (pathname === match || pathname.startsWith(`${match}/`));
@@ -30,11 +24,11 @@ const mobileLinkClass =
     <a
       href="/"
       class="relative z-50 inline-flex items-center no-underline transition hover:opacity-85"
-      aria-label="Apostel Kirchengemeinde Kiel · Konzertkirche Petruskirche Startseite"
+      aria-label="Ev.-Luth. Apostel-Kirchengemeinde Kiel · Konzertkirche Petruskirche Startseite"
     >
       <Image
         src={akgLogo}
-        alt="Apostel Kirchengemeinde Kiel"
+        alt="Ev.-Luth. Apostel-Kirchengemeinde Kiel"
         class="h-10 w-auto brightness-0 invert sm:h-12"
         widths={[160, 220, 250]}
         sizes="(min-width: 640px) 113px, 94px"
@@ -55,12 +49,9 @@ const mobileLinkClass =
                   : 'text-role-on/80 no-underline transition hover:text-secondary'
               ]}
               href={item.href}
-              target={item.external ? '_blank' : undefined}
-              rel={item.external ? 'noopener noreferrer' : undefined}
               aria-current={active ? 'page' : undefined}
             >
               {item.label}
-              {item.external && <span class="sr-only"> (öffnet in neuem Tab)</span>}
             </a>
           );
         })
@@ -87,12 +78,9 @@ const mobileLinkClass =
                 <a
                   class:list={[mobileLinkClass, isActive(item.match) && 'text-secondary']}
                   href={item.href}
-                  target={item.external ? '_blank' : undefined}
-                  rel={item.external ? 'noopener noreferrer' : undefined}
                   aria-current={isActive(item.match) ? 'page' : undefined}
                 >
                   {item.label}
-                  {item.external && <span class="sr-only"> (öffnet in neuem Tab)</span>}
                 </a>
               ))
             }
