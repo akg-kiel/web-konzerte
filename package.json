@@ -4,11 +4,11 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build",
+    "build": "astro check && astro build && node scripts/check-cloudflare-build.mjs",
     "od": "astro check && astro build && node scripts/deploy-opendesign.mjs",
     "preview": "astro preview",
     "test": "node --experimental-strip-types scripts/check-concerts.mjs",
-    "quality": "pnpm test && vp check . && astro check && astro build",
+    "quality": "pnpm test && vp check . && pnpm build",
     "prepare": "vp config"
   },
   "dependencies": {
