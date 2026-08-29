@@ -1,15 +1,12 @@
 ---
-import { Image } from 'astro:assets';
-
 import PageHero from '../components/sections/PageHero.astro';
 import Layout from '../layouts/Layout.astro';
 import heroStage from '../assets/hero/l1130722-hero.jpg';
-import orgelMikrofon from '../assets/concerts/orgel-mikrofon.jpg';
 ---
 
 <Layout
   title="Ihren Besuch planen · Konzertkirche Petruskirche"
-  description="Informationen zu Anfahrt, Parken, Einlass, Abendkasse, Barrierefreiheit und Café Dreimaster für die Petruskirche Kiel."
+  description="Informationen zu Anfahrt, Parken, Einlass, Abendkasse und Barrierefreiheit für die Petruskirche Kiel."
 >
   <main class="min-h-screen bg-midnight text-role-on">
     <PageHero
@@ -111,28 +108,6 @@ import orgelMikrofon from '../assets/concerts/orgel-mikrofon.jpg';
         <p class="mt-8 max-w-3xl rounded-sm border-l-2 border-secondary bg-secondary/5 py-4 pl-6 text-on-surface">
           Für die Reservierung spezifischer Rollstuhlplätze bitten wir um vorherige Kontaktaufnahme.
         </p>
-      </section>
-
-      <section aria-labelledby="cafe-heading">
-        <div class="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center lg:gap-12">
-          <Image
-            src={orgelMikrofon}
-            alt="Atmosphärisches Detail mit Mikrofon und Kirchenfenstern"
-            class="aspect-[4/3] w-full rounded-lg object-cover"
-            widths={[480, 720, 960]}
-            sizes="(min-width: 1024px) 40vw, calc(100vw - 48px)"
-            loading="lazy"
-            decoding="async"
-            format="webp"
-          />
-          <div>
-            <h2 id="cafe-heading" class="mb-6 block font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/60">Café Dreimaster</h2>
-            <p class="font-body text-base/7 text-role-on/70">
-              Stimmen Sie sich kulinarisch auf den Abend ein oder lassen Sie das Konzert gemütlich ausklingen. Direkt neben der Kirche gelegen.
-            </p>
-            <a class="mt-6 inline-flex min-h-12 items-center gap-2 font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary no-underline transition hover:!text-champagne" href="https://akg-kiel.de" target="_blank" rel="noopener noreferrer">Mehr erfahren <span aria-hidden="true">↗</span><span class="sr-only"> (öffnet in neuem Tab)</span></a>
-          </div>
-        </div>
       </section>
     </div>
   </main>
