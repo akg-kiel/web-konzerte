@@ -13,6 +13,7 @@ export interface Concert {
   title: string;
   programme: string;
   programmeNotes?: string;
+  performers?: string;
   date: ConcertDate;
   endIso?: string;
   location: string;
@@ -77,6 +78,7 @@ const longDate = new Intl.DateTimeFormat('de-DE', {
 const fieldNames: Record<string, string> = {
   programm: 'programme',
   programmhinweise: 'programmeNotes',
+  mitwirkende: 'performers',
   barrierefreiheit: 'accessibility'
 };
 
@@ -159,6 +161,7 @@ const mapAppointment = (row: ChurchToolsRow): Concert | undefined => {
     title: appointment.title.trim(),
     programme: metadata.programme ?? 'Weitere Informationen zu diesem Konzert folgen.',
     programmeNotes: metadata.programmeNotes,
+    performers: metadata.performers,
     date,
     endIso: endDate && !Number.isNaN(Date.parse(endDate)) ? endDate : undefined,
     location,
@@ -269,6 +272,54 @@ export function splitConcerts(concerts: Concert[], now = new Date()) {
     programmeConcerts: concerts.filter((concert) => !isPast(concert)),
     archiveConcerts: concerts.filter(isPast).reverse()
   };
+}
+
+export interface ConcertFilters {
+  search: string;
+  season: string;
+  from: string;
+  to: string;
+}
+
+const validDate = (value: string) =>
+  /^\d{4}-\d{2}-\d{2}$/.test(value) &&
+  !Number.isNaN(Date.parse(`${value}T00:00:00Z`)) &&
+  new Date(`${value}T00:00:00Z`).toISOString().slice(0, 10) === value;
+
+export function getConcertFilters(params: URLSearchParams): ConcertFilters {
+  const from = params.get('from') ?? '';
+  const to = params.get('to') ?? '';
+  const season = params.get('season') ?? '';
+  return {
+    search: (params.get('q') ?? '').trim().slice(0, 100),
+    season: /^\d{4}\/\d{2}$/.test(season) ? season : '',
+    from: validDate(from) ? from : '',
+    to: validDate(to) ? to : ''
+  };
+}
+
+export function getConcertSeason(concert: Concert) {
+  const [year, month] = concert.date.iso.slice(0, 7).split('-').map(Number);
+  const start = month >= 7 ? year : year - 1;
+  return `${start}/${String(start + 1).slice(-2)}`;
+}
+
+export function filterConcerts(concerts: Concert[], filters: ConcertFilters) {
+  const query = filters.search.toLocaleLowerCase('de-DE');
+  return concerts.filter((concert) => {
+    const date = concert.date.iso.slice(0, 10);
+    return (
+      (!filters.season || getConcertSeason(concert) === filters.season) &&
+      (!filters.from || date >= filters.from) &&
+      (!filters.to || date <= filters.to) &&
+      (!query ||
+        [concert.title, concert.programme, concert.programmeNotes, concert.performers]
+          .filter(Boolean)
+          .join('\n')
+          .toLocaleLowerCase('de-DE')
+          .includes(query))
+    );
+  });
 }
 
 export const cacheProgramme = (response: { headers: Headers }) => {

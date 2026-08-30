@@ -50,6 +50,7 @@ Zusätzliche öffentliche Angaben kommen als einzelne `Feld: Wert`-Zeilen in die
 ```text
 Programm: Kurzbeschreibung des Konzerts
 Programmhinweise: Ausführliche öffentliche Hinweise
+Mitwirkende: Chor, Ensemble oder Solist:innen
 Barrierefreiheit: Abweichende Hinweise für diesen Termin
 ```
 
