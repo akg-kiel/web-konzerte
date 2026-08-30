@@ -3,21 +3,39 @@ export const prerender = false;
 
 import { env } from 'cloudflare:workers';
 
+import ConcertFilters from '../components/sections/ConcertFilters.astro';
 import Concerts from '../components/sections/Concerts.astro';
 import PageHero from '../components/sections/PageHero.astro';
 import Layout from '../layouts/Layout.astro';
-import { cacheProgramme, getConcerts, splitConcerts } from '../data/concerts';
+import {
+  cacheProgramme,
+  filterConcerts,
+  getConcertFilters,
+  getConcertSeason,
+  getConcerts,
+  splitConcerts
+} from '../data/concerts';
 
 cacheProgramme(Astro.response);
 const result = await getConcerts(env);
 const { programmeConcerts } = splitConcerts(result.concerts);
+const filters = getConcertFilters(Astro.url.searchParams);
+const filteredConcerts = filterConcerts(programmeConcerts, filters);
+const emptyMessage = Object.values(filters).some(Boolean)
+  ? 'Für diese Filter wurden keine Konzerte gefunden. Ändern Sie die Suche oder setzen Sie die Filter zurück.'
+  : undefined;
 if (result.error) Astro.response.status = 503;
 
-const seasons = Object.entries(Object.groupBy(programmeConcerts, (concert) => {
-  const [year, month] = concert.date.iso.slice(0, 7).split('-').map(Number);
-  const start = month >= 7 ? year : year - 1;
-  return `${start}/${String(start + 1).slice(-2)}`;
-}));
+const seasonConcerts = filterConcerts(programmeConcerts, { ...filters, season: '' });
+const seasons = Object.entries(Object.groupBy(seasonConcerts, getConcertSeason));
+const seasonHref = (season: string) => {
+  const params = new URLSearchParams();
+  if (filters.search) params.set('q', filters.search);
+  if (filters.from) params.set('from', filters.from);
+  if (filters.to) params.set('to', filters.to);
+  params.set('season', season);
+  return `/programm?${params}#programm`;
+};
 ---
 
 <Layout
@@ -39,7 +57,14 @@ const seasons = Object.entries(Object.groupBy(programmeConcerts, (concert) => {
               <h2 id="seasons-heading" class="font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/60">Saisonübersicht</h2>
               <div class="mt-6 flex flex-wrap gap-4">
                 {seasons.map(([season, entries]) => (
-                  <a class="rounded-sm border border-white/10 bg-white/5 px-6 py-4 no-underline transition hover:border-secondary/40 hover:bg-secondary/5" href="#programm">
+                  <a
+                    class:list={[
+                      'rounded-sm border px-6 py-4 no-underline transition hover:border-secondary/40 hover:bg-secondary/5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-secondary',
+                      filters.season === season ? 'border-secondary bg-secondary/10' : 'border-white/10 bg-white/5'
+                    ]}
+                    href={seasonHref(season)}
+                    aria-current={filters.season === season ? 'true' : undefined}
+                  >
                     <span class="block font-display text-2xl/tight text-white">Saison {season}</span>
                     <span class="mt-2 block font-body text-sm/6 text-role-on/60">{entries?.length ?? 0} {entries?.length === 1 ? 'Konzert' : 'Konzerte'}</span>
                   </a>
@@ -50,6 +75,14 @@ const seasons = Object.entries(Object.groupBy(programmeConcerts, (concert) => {
               Zum Konzertarchiv <span aria-hidden="true">→</span>
             </a>
           </div>
+          <ConcertFilters
+            action="/programm"
+            anchor="programm"
+            filters={filters}
+            seasons={seasons.map(([season]) => season)}
+            matchCount={filteredConcerts.length}
+            totalCount={programmeConcerts.length}
+          />
         </div>
     </section>
 
@@ -61,10 +94,11 @@ const seasons = Object.entries(Object.groupBy(programmeConcerts, (concert) => {
 
     <Concerts
       id="programm"
-      concerts={programmeConcerts}
+      concerts={filteredConcerts}
       variant="programme"
       eyebrow="Alle Termine"
       intro=""
+      emptyMessage={emptyMessage}
       showHeaderLink={false}
     />
 

@@ -1,6 +1,13 @@
 import assert from 'node:assert/strict';
 
-import { cacheProgramme, getConcerts, splitConcerts } from '../src/data/concerts.ts';
+import {
+  cacheProgramme,
+  filterConcerts,
+  getConcertFilters,
+  getConcertSeason,
+  getConcerts,
+  splitConcerts
+} from '../src/data/concerts.ts';
 
 const originalFetch = globalThis.fetch;
 const originalConsoleError = console.error;
@@ -51,7 +58,7 @@ try {
   assert.equal(result.error, false);
   assert.equal(result.concerts.length, 1);
   assert.equal(result.concerts[0].programme, 'Bach und Brahms');
-  assert.equal('performers' in result.concerts[0], false);
+  assert.equal(result.concerts[0].performers, 'Testchor');
   assert.equal('price' in result.concerts[0], false);
   assert.equal(result.concerts[0].ticketUrl, undefined);
   assert.equal(result.concerts[0].location, 'Konzertkirche Petruskirche Kiel');
@@ -84,6 +91,57 @@ try {
     'public, max-age=300, stale-if-error=86400'
   );
   assert.equal(splitConcerts(result.concerts, new Date('2027-08-07')).archiveConcerts.length, 1);
+
+  const concerts = [
+    result.concerts[0],
+    {
+      ...result.concerts[0],
+      slug: 'mozart-2028',
+      title: 'Mozart-Abend',
+      performers: 'Orchester Kiel',
+      date: { ...result.concerts[0].date, iso: '2028-02-10T18:00:00Z' }
+    },
+    {
+      ...result.concerts[0],
+      slug: 'chor-2028',
+      performers: 'Testchor',
+      date: { ...result.concerts[0].date, iso: '2028-08-10T18:00:00Z' }
+    }
+  ];
+  const midnightConcert = {
+    ...result.concerts[0],
+    date: { ...result.concerts[0].date, iso: '2027-06-30T22:30:00Z' }
+  };
+  assert.equal(getConcertSeason(midnightConcert), '2027/28');
+  assert.equal(
+    filterConcerts([midnightConcert], {
+      search: '',
+      season: '',
+      from: '2027-07-01',
+      to: '2027-07-01'
+    }).length,
+    1
+  );
+  assert.deepEqual(
+    filterConcerts(concerts, { search: '', season: '2027/28', from: '', to: '' }).map(
+      ({ slug }) => slug
+    ),
+    [result.concerts[0].slug, 'mozart-2028']
+  );
+  assert.deepEqual(
+    filterConcerts(
+      concerts,
+      getConcertFilters(
+        new URLSearchParams({
+          q: 'TESTCHOR',
+          season: '2027/28',
+          from: '2027-08-01',
+          to: '2027-12-31'
+        })
+      )
+    ).map(({ slug }) => slug),
+    [result.concerts[0].slug]
+  );
 } finally {
   globalThis.fetch = originalFetch;
   console.error = originalConsoleError;

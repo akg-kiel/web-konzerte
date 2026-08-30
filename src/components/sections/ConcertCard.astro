@@ -80,6 +80,7 @@ const compactTicketClass = `${actionBase} min-h-10 border-secondary/50 bg-transp
         <p class="!mt-4 !mb-6 max-w-none font-body text-base/7 text-role-on/70 md:text-lg/8">
           {concert.programme}
         </p>
+        {concert.performers && <p class="!mb-6 font-body text-sm/6 text-role-on/70"><span class="font-semibold text-role-on/90">Mitwirkende:</span> {concert.performers}</p>}
 
         <p class="mt-0 border-t border-white/10 pt-6 font-body text-sm/6 text-role-on/60">
           {concert.location}
@@ -159,6 +160,7 @@ const compactTicketClass = `${actionBase} min-h-10 border-secondary/50 bg-transp
         <p class="!mb-6 min-h-20 max-w-none font-body text-sm/relaxed text-role-on/70 line-clamp-3 sm:text-base/relaxed">
           {concert.programme}
         </p>
+        {concert.performers && <p class="!mb-6 font-body text-sm/6 text-role-on/70"><span class="font-semibold text-role-on/90">Mitwirkende:</span> {concert.performers}</p>}
         <span class="sr-only">Ort: {concert.location}.</span>
 
         <div class="mt-0 flex items-center justify-end border-t border-white/10 pt-6">
