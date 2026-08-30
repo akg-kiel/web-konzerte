@@ -21,6 +21,9 @@ const result = await getConcerts(env);
 const { archiveConcerts } = splitConcerts(result.concerts);
 const filters = getConcertFilters(Astro.url.searchParams);
 const filteredConcerts = filterConcerts(archiveConcerts, filters);
+const emptyMessage = Object.values(filters).some(Boolean)
+  ? 'Für diese Filter wurden keine Konzerte gefunden. Ändern Sie die Suche oder setzen Sie die Filter zurück.'
+  : undefined;
 const seasons = [...new Set(archiveConcerts.map(getConcertSeason))];
 if (result.error) Astro.response.status = 503;
 ---
@@ -69,7 +72,7 @@ if (result.error) Astro.response.status = 503;
       concerts={filteredConcerts}
       variant="archive"
       eyebrow="Vergangene Konzerte"
-      emptyMessage="Für diese Filter wurden keine Konzerte gefunden. Ändern Sie die Suche oder setzen Sie die Filter zurück."
+      emptyMessage={emptyMessage}
       showHeaderLink={false}
     />
   </main>

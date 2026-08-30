@@ -75,6 +75,13 @@ const longDate = new Intl.DateTimeFormat('de-DE', {
   year: 'numeric'
 });
 
+const berlinDate = new Intl.DateTimeFormat('sv-SE', {
+  timeZone: 'Europe/Berlin',
+  day: '2-digit',
+  month: '2-digit',
+  year: 'numeric'
+});
+
 const fieldNames: Record<string, string> = {
   programm: 'programme',
   programmhinweise: 'programmeNotes',
@@ -298,8 +305,10 @@ export function getConcertFilters(params: URLSearchParams): ConcertFilters {
   };
 }
 
+const getConcertDate = (concert: Concert) => berlinDate.format(new Date(concert.date.iso));
+
 export function getConcertSeason(concert: Concert) {
-  const [year, month] = concert.date.iso.slice(0, 7).split('-').map(Number);
+  const [year, month] = getConcertDate(concert).split('-').map(Number);
   const start = month >= 7 ? year : year - 1;
   return `${start}/${String(start + 1).slice(-2)}`;
 }
@@ -307,7 +316,7 @@ export function getConcertSeason(concert: Concert) {
 export function filterConcerts(concerts: Concert[], filters: ConcertFilters) {
   const query = filters.search.toLocaleLowerCase('de-DE');
   return concerts.filter((concert) => {
-    const date = concert.date.iso.slice(0, 10);
+    const date = getConcertDate(concert);
     return (
       (!filters.season || getConcertSeason(concert) === filters.season) &&
       (!filters.from || date >= filters.from) &&

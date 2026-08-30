@@ -21,9 +21,13 @@ const result = await getConcerts(env);
 const { programmeConcerts } = splitConcerts(result.concerts);
 const filters = getConcertFilters(Astro.url.searchParams);
 const filteredConcerts = filterConcerts(programmeConcerts, filters);
+const emptyMessage = Object.values(filters).some(Boolean)
+  ? 'Für diese Filter wurden keine Konzerte gefunden. Ändern Sie die Suche oder setzen Sie die Filter zurück.'
+  : undefined;
 if (result.error) Astro.response.status = 503;
 
-const seasons = Object.entries(Object.groupBy(programmeConcerts, getConcertSeason));
+const seasonConcerts = filterConcerts(programmeConcerts, { ...filters, season: '' });
+const seasons = Object.entries(Object.groupBy(seasonConcerts, getConcertSeason));
 const seasonHref = (season: string) => {
   const params = new URLSearchParams();
   if (filters.search) params.set('q', filters.search);
@@ -94,7 +98,7 @@ const seasonHref = (season: string) => {
       variant="programme"
       eyebrow="Alle Termine"
       intro=""
-      emptyMessage="Für diese Filter wurden keine Konzerte gefunden. Ändern Sie die Suche oder setzen Sie die Filter zurück."
+      emptyMessage={emptyMessage}
       showHeaderLink={false}
     />
 

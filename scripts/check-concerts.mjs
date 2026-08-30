@@ -4,6 +4,7 @@ import {
   cacheProgramme,
   filterConcerts,
   getConcertFilters,
+  getConcertSeason,
   getConcerts,
   splitConcerts
 } from '../src/data/concerts.ts';
@@ -107,6 +108,20 @@ try {
       date: { ...result.concerts[0].date, iso: '2028-08-10T18:00:00Z' }
     }
   ];
+  const midnightConcert = {
+    ...result.concerts[0],
+    date: { ...result.concerts[0].date, iso: '2027-06-30T22:30:00Z' }
+  };
+  assert.equal(getConcertSeason(midnightConcert), '2027/28');
+  assert.equal(
+    filterConcerts([midnightConcert], {
+      search: '',
+      season: '',
+      from: '2027-07-01',
+      to: '2027-07-01'
+    }).length,
+    1
+  );
   assert.deepEqual(
     filterConcerts(concerts, { search: '', season: '2027/28', from: '', to: '' }).map(
       ({ slug }) => slug
