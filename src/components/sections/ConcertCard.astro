@@ -11,6 +11,7 @@ interface Props {
 
 const { concert, imageSizes, variant = 'home', ...rest } = Astro.props;
 
+const isHome = variant === 'home';
 const isArchive = variant === 'archive';
 const titleId = `${concert.slug}-title`;
 
@@ -65,7 +66,10 @@ const compactTicketClass = `${actionBase} min-h-10 border-secondary/50 bg-transp
     >
       {concert.title}
     </h3>
-    <p class="!mb-6 min-h-20 max-w-none font-body text-sm/relaxed text-role-on/70 line-clamp-3 sm:text-base/relaxed">
+    <p class:list={[
+      '!mb-6 max-w-none font-body text-sm/relaxed text-role-on/70 sm:text-base/relaxed',
+      isHome && 'min-h-20 line-clamp-3'
+    ]}>
       {concert.programme}
     </p>
     {concert.performers && <p class="!mb-6 font-body text-sm/6 text-role-on/70"><span class="font-semibold text-role-on/90">Mitwirkende:</span> {concert.performers}</p>}
