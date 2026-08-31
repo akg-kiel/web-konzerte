@@ -16,7 +16,8 @@ Implementation lives in `src/styles/globals.css` and `tailwind.config.js`.
 
 - Use Tailwind type scale only; no arbitrary `text-*`, `leading-*`, or `tracking-*` values.
 - Prefer slash line-height: `text-sm/6`, `text-base/7`, `text-4xl/tight`.
-- One page hero title is dominant; section labels stay `text-xs/4 uppercase tracking-widest`.
+- One page hero title is dominant.
+- Content H2s use Hanken Grotesk at `text-xs/4 font-semibold uppercase tracking-widest text-secondary`; do not add a separate label above them.
 
 ## Spacing
 

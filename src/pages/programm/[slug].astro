@@ -37,7 +37,7 @@ if (!concert) Astro.response.status = result.error ? 503 : 404;
         <section class="mx-auto grid w-full max-w-screen-2xl gap-12 px-6 py-16 md:px-8 md:py-24 lg:grid-cols-12 lg:px-16" aria-labelledby="programme-notes-heading">
           <article class="space-y-16 lg:col-span-8">
             <div>
-              <h2 id="programme-notes-heading" class="font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/60">Zum Programm</h2>
+              <h2 id="programme-notes-heading" class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Zum Programm</h2>
               <p class="mt-6 font-display text-2xl/tight text-white">{concert.programme}</p>
               {concert.programmeNotes && <p class="mt-6 max-w-3xl whitespace-pre-line font-body text-lg/8 text-role-on/70">{concert.programmeNotes}</p>}
               {concert.performers && <p class="mt-6 font-body text-lg/8 text-role-on/70"><span class="font-semibold text-white">Mitwirkende:</span> {concert.performers}</p>}
@@ -46,7 +46,7 @@ if (!concert) Astro.response.status = result.error ? 503 : 404;
 
           <aside class="lg:col-span-4" aria-labelledby="concert-info-heading">
             <div class="rounded-xl border border-white/10 bg-slate-mist/40 p-8 lg:sticky lg:top-28">
-              <h2 id="concert-info-heading" class="font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/60">Kurzinfo</h2>
+              <h2 id="concert-info-heading" class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Kurzinfo</h2>
               <dl class="mt-6 space-y-6">
                 <div>
                   <dt class="font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/50">Termin</dt>
