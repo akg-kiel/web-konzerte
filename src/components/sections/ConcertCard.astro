@@ -11,180 +11,89 @@ interface Props {
 
 const { concert, imageSizes, variant = 'home', ...rest } = Astro.props;
 
-const isProgramme = variant !== 'home';
+const isHome = variant === 'home';
 const isArchive = variant === 'archive';
 const titleId = `${concert.slug}-title`;
 
 const overlayLinkClass = 'absolute inset-0 z-10 rounded-lg no-underline';
 const actionBase = 'pointer-events-auto relative z-30 inline-flex items-center justify-center rounded-sm border font-body text-xs/4 font-semibold uppercase tracking-widest no-underline transition-colors active:scale-95 focus-visible:outline-offset-2';
-const programmeDetailClass = `${actionBase} min-h-12 min-w-28 border-white/20 bg-transparent px-6 py-2 !text-role-on/80 hover:border-white/50 hover:bg-white/5 hover:!text-white`;
-const programmeTicketClass = `${actionBase} min-h-12 min-w-28 border-secondary/50 bg-transparent px-6 py-2 !text-secondary hover:border-secondary hover:bg-secondary/10 hover:!text-champagne`;
 const compactDetailClass = `${actionBase} min-h-10 border-white/20 bg-transparent px-4 py-2 !text-role-on/70 hover:border-white/40 hover:bg-white/5 hover:!text-white`;
 const compactTicketClass = `${actionBase} min-h-10 border-secondary/50 bg-transparent px-4 py-2 !text-secondary hover:border-secondary hover:bg-secondary/10 hover:!text-champagne`;
 ---
 
-{
-  isProgramme ? (
-    <Card
-      as="article"
-      id={concert.slug}
-      aria-labelledby={titleId}
-      {...rest}
-      class:list={[
-        'group group/card flex flex-col border-white/5 bg-slate-mist/30 backdrop-blur-none transition-colors duration-300 hover:border-secondary/30 focus-within:border-secondary/30 md:flex-row',
-        isArchive && 'opacity-70'
-      ]}
+<Card
+  as="article"
+  id={concert.slug}
+  aria-labelledby={titleId}
+  {...rest}
+  class:list={[
+    'group group/card flex h-full flex-col transition-colors duration-300 hover:border-secondary/40 focus-within:border-secondary/40',
+    isArchive && 'opacity-70'
+  ]}
+>
+  <a
+    href={concert.detailsHref}
+    class={overlayLinkClass}
+    aria-hidden="true"
+    tabindex="-1"
+  ></a>
+
+  <div class="pointer-events-none relative aspect-[4/3] w-full shrink-0 overflow-hidden">
+    <img
+      src={concert.image}
+      alt={concert.imageAlt}
+      class="absolute inset-0 h-full w-full object-cover"
+      style={`object-position: ${concert.imagePosition};`}
+      sizes={imageSizes}
+      loading="lazy"
+      decoding="async"
+    />
+    <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0),rgba(2,6,23,0.12))]" aria-hidden="true"></div>
+  </div>
+
+  <div class="pointer-events-none relative z-20 flex min-w-0 flex-grow flex-col px-8 pb-8 pt-6">
+    <div class="mb-4 flex items-center gap-2 font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">
+      <svg aria-hidden="true" class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none">
+        <path d="M7 3v3M17 3v3M4.5 9.5h15M6.5 5h11A2.5 2.5 0 0 1 20 7.5v10A2.5 2.5 0 0 1 17.5 20h-11A2.5 2.5 0 0 1 4 17.5v-10A2.5 2.5 0 0 1 6.5 5Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+      </svg>
+      <time datetime={concert.date.iso}>{concert.date.display}</time>
+    </div>
+
+    <h3
+      id={titleId}
+      title={concert.title}
+      class="mb-4 line-clamp-2 font-display text-xl/snug font-normal tracking-tight text-white"
     >
-      {!isArchive && (
+      {concert.title}
+    </h3>
+    <p class:list={[
+      '!mb-6 max-w-none font-body text-sm/relaxed text-role-on/70 sm:text-base/relaxed',
+      isHome && 'min-h-20 line-clamp-3'
+    ]}>
+      {concert.programme}
+    </p>
+    {concert.performers && <p class="!mb-6 font-body text-sm/6 text-role-on/70"><span class="font-semibold text-role-on/90">Mitwirkende:</span> {concert.performers}</p>}
+
+    <div class="mt-auto flex items-center justify-end border-t border-white/10 pt-6">
+      <div class="flex flex-wrap justify-end gap-2">
         <a
           href={concert.detailsHref}
-          class={overlayLinkClass}
-          aria-hidden="true"
-          tabindex="-1"
-        ></a>
-      )}
-
-      <div class="pointer-events-none relative min-h-64 overflow-hidden md:basis-1/3">
-        <img
-          src={concert.image}
-          alt={concert.imageAlt}
-          class="absolute inset-0 h-full w-full object-cover"
-          style={`object-position: ${concert.imagePosition};`}
-          sizes={imageSizes}
-          loading="lazy"
-          decoding="async"
-        />
-        <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(2,6,23,0.1),rgba(2,6,23,0.42))]" aria-hidden="true"></div>
-        <time
-          datetime={concert.date.iso}
-          class="absolute left-4 top-4 flex flex-col items-center rounded-sm border border-white/10 bg-midnight/80 px-4 py-2 font-body backdrop-blur-md"
+          class={compactDetailClass}
+          aria-label={`Details zu ${concert.title} ansehen`}
         >
-          <span class="mb-2 text-xs/4 font-semibold uppercase tracking-widest text-secondary">
-            {concert.date.month}
-          </span>
-          <span class="font-display text-4xl/none tracking-tighter text-role-on">
-            {concert.date.day}
-          </span>
-          <span class="mt-2 text-sm/5 text-role-on/80">{concert.date.time}</span>
-        </time>
-      </div>
-
-      <div class="pointer-events-none relative z-20 flex min-h-full min-w-0 flex-1 flex-col px-6 py-8 md:px-8 lg:px-10">
-        <h3
-          id={titleId}
-          title={concert.title}
-          class="mt-6 line-clamp-2 font-display text-2xl/tight font-normal tracking-tight text-role-on/90 transition-colors group-hover:text-white md:text-3xl/tight lg:text-4xl/tight"
-        >
-          {concert.title}
-        </h3>
-        <p class="!mt-4 !mb-6 max-w-none font-body text-base/7 text-role-on/70 md:text-lg/8">
-          {concert.programme}
-        </p>
-        {concert.performers && <p class="!mb-6 font-body text-sm/6 text-role-on/70"><span class="font-semibold text-role-on/90">Mitwirkende:</span> {concert.performers}</p>}
-
-        <p class="mt-0 border-t border-white/10 pt-6 font-body text-sm/6 text-role-on/60">
-          {concert.location}
-        </p>
-
-        {!isArchive && (
-          <div class="mt-8 flex justify-end border-t border-white/10 pt-6">
-            <div class="flex flex-wrap justify-end gap-2">
-              <a
-                href={concert.detailsHref}
-                class={programmeDetailClass}
-                aria-label={`Details zu ${concert.title} ansehen`}
-              >
-                Details
-              </a>
-              {concert.ticketUrl && (
-                <a
-                  id={`tickets-${concert.slug}`}
-                  href={concert.ticketUrl}
-                  class={programmeTicketClass}
-                  aria-label={`Tickets für ${concert.title} kaufen`}
-                >
-                  Tickets
-                </a>
-              )}
-            </div>
-          </div>
+          Details
+        </a>
+        {!isArchive && concert.ticketUrl && (
+          <a
+            id={`tickets-${concert.slug}`}
+            href={concert.ticketUrl}
+            class={compactTicketClass}
+            aria-label={`Tickets für ${concert.title} kaufen`}
+          >
+            Tickets
+          </a>
         )}
       </div>
-    </Card>
-  ) : (
-    <Card
-      as="article"
-      id={concert.slug}
-      aria-labelledby={titleId}
-      {...rest}
-      class:list={[
-        'group group/card flex h-full flex-col transition-colors duration-300 hover:border-secondary/40 focus-within:border-secondary/40',
-        isArchive && 'opacity-70'
-      ]}
-    >
-      <a
-        href={concert.detailsHref}
-        class={overlayLinkClass}
-        aria-hidden="true"
-        tabindex="-1"
-      ></a>
-
-      <div class="pointer-events-none relative aspect-[4/3] w-full shrink-0 overflow-hidden">
-        <img
-          src={concert.image}
-          alt={concert.imageAlt}
-          class="absolute inset-0 h-full w-full object-cover"
-          style={`object-position: ${concert.imagePosition};`}
-          sizes={imageSizes}
-          loading="lazy"
-          decoding="async"
-        />
-        <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0),rgba(2,6,23,0.12))]" aria-hidden="true"></div>
-      </div>
-
-      <div class="pointer-events-none relative z-20 flex min-w-0 flex-grow flex-col px-8 pb-8 pt-6">
-        <div class="mb-4 flex items-center gap-2 font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">
-          <svg aria-hidden="true" class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none">
-            <path d="M7 3v3M17 3v3M4.5 9.5h15M6.5 5h11A2.5 2.5 0 0 1 20 7.5v10A2.5 2.5 0 0 1 17.5 20h-11A2.5 2.5 0 0 1 4 17.5v-10A2.5 2.5 0 0 1 6.5 5Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
-          </svg>
-          <time datetime={concert.date.iso}>{concert.date.display}</time>
-        </div>
-
-        <h3
-          id={titleId}
-          title={concert.title}
-          class="mb-4 line-clamp-2 font-display text-xl/snug font-normal tracking-tight text-white"
-        >
-          {concert.title}
-        </h3>
-        <p class="!mb-6 min-h-20 max-w-none font-body text-sm/relaxed text-role-on/70 line-clamp-3 sm:text-base/relaxed">
-          {concert.programme}
-        </p>
-        {concert.performers && <p class="!mb-6 font-body text-sm/6 text-role-on/70"><span class="font-semibold text-role-on/90">Mitwirkende:</span> {concert.performers}</p>}
-        <span class="sr-only">Ort: {concert.location}.</span>
-
-        <div class="mt-0 flex items-center justify-end border-t border-white/10 pt-6">
-          <div class="flex flex-wrap justify-end gap-2">
-            <a
-              href={concert.detailsHref}
-              class={compactDetailClass}
-              aria-label={`Details zu ${concert.title} ansehen`}
-            >
-              Details
-            </a>
-            {concert.ticketUrl && (
-              <a
-                id={`tickets-${concert.slug}`}
-                href={concert.ticketUrl}
-                class={compactTicketClass}
-                aria-label={`Tickets für ${concert.title} kaufen`}
-              >
-                Tickets
-              </a>
-            )}
-          </div>
-        </div>
-      </div>
-    </Card>
-  )
-}
+    </div>
+  </div>
+</Card>

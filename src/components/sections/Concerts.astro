@@ -25,16 +25,10 @@ const {
 
 const titleId = `${id}-heading`;
 const isHome = variant === 'home';
-const isProgramme = variant !== 'home';
 const hasConcerts = concerts.length > 0;
 
-const gridClass = isProgramme
-  ? 'space-y-6'
-  : 'grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-8';
-
-const imageSizes = isProgramme
-  ? '(min-width: 768px) 320px, calc(100vw - 48px)'
-  : '(min-width: 1024px) 384px, (min-width: 768px) 45vw, calc(100vw - 48px)';
+const gridClass = 'grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-8';
+const imageSizes = '(min-width: 1024px) 384px, (min-width: 768px) 45vw, calc(100vw - 48px)';
 
 const headerLinkClass =
   'items-center gap-2 font-body text-xs/4 font-semibold uppercase tracking-widest !text-role-on/70 no-underline transition-colors hover:!text-secondary';
