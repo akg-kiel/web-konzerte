@@ -10,15 +10,26 @@ import churchEntrance from '../assets/venue/petruskirche-entrance.webp';
 >
   <main class="min-h-screen bg-midnight text-role-on">
     <PageHero
+      eyebrow="Für Konzertgäste"
       intro="Informationen zu Anfahrt, Parken, Einlass, Abendkasse und Barrierefreiheit."
       image={churchEntrance}
       imageAlt="Backsteinportal am Haupteingang der Petruskirche"
     >
       Ihren Besuch planen
+      <a slot="cta" class="inline-flex min-h-12 items-center justify-center rounded-sm bg-secondary px-6 py-3 font-body text-xs/4 font-semibold uppercase tracking-widest !text-midnight no-underline transition hover:bg-champagne active:scale-95" href="#anfahrt">Anfahrt ansehen</a>
+      <a slot="cta" class="inline-flex min-h-12 items-center justify-center rounded-sm border border-white/30 px-6 py-3 font-body text-xs/4 font-semibold uppercase tracking-widest !text-on-surface no-underline transition hover:border-secondary hover:!text-secondary" href="#barrierefreiheit">Barrierefreiheit</a>
     </PageHero>
 
+    <nav aria-label="Inhalte dieser Seite" class="border-b border-white/10 bg-surface/60">
+      <div class="mx-auto flex w-full max-w-screen-2xl flex-wrap gap-x-8 gap-y-2 px-6 py-6 font-body text-sm/6 md:px-8 lg:px-16">
+        <a class="min-h-10 content-center !text-role-on/70 no-underline hover:!text-secondary" href="#anfahrt">Anfahrt &amp; Parken</a>
+        <a class="min-h-10 content-center !text-role-on/70 no-underline hover:!text-secondary" href="#einlass">Einlass &amp; Abendkasse</a>
+        <a class="min-h-10 content-center !text-role-on/70 no-underline hover:!text-secondary" href="#barrierefreiheit">Barrierefreiheit</a>
+      </div>
+    </nav>
+
     <div class="mx-auto w-full max-w-screen-2xl px-6 md:px-8 lg:px-16 space-y-20 py-16 md:space-y-28 md:py-24">
-      <section aria-labelledby="arrival-heading">
+      <section id="anfahrt" aria-labelledby="arrival-heading">
         <h2 id="arrival-heading" class="block font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/60 mb-8">Anfahrt &amp; Parken</h2>
 
         <div class="mt-0 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
@@ -74,7 +85,7 @@ import churchEntrance from '../assets/venue/petruskirche-entrance.webp';
         </div>
       </section>
 
-      <section aria-labelledby="admission-heading">
+      <section id="einlass" aria-labelledby="admission-heading">
         <h2 id="admission-heading" class="block font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/60 mb-8">Einlass &amp; Abendkasse</h2>
         <p class="max-w-2xl font-body text-lg/8 text-role-on/70">
           Um Ihnen ein entspanntes Konzerterlebnis zu ermöglichen, öffnen wir unsere Türen frühzeitig. Abweichende Zeiten entnehmen Sie bitte Ihrem jeweiligen Veranstaltungshinweis.
@@ -91,7 +102,7 @@ import churchEntrance from '../assets/venue/petruskirche-entrance.webp';
         </dl>
       </section>
 
-      <section aria-labelledby="access-heading">
+      <section id="barrierefreiheit" aria-labelledby="access-heading">
         <h2 id="access-heading" class="block font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/60 mb-8">Barrierefreiheit</h2>
         <div class="grid max-w-3xl grid-cols-1 gap-8 font-body text-base/7 text-role-on/70 md:grid-cols-2">
           <div>
