@@ -2,6 +2,8 @@
 
 Astro-Site fuer Konzerte in der Petruskirche Kiel.
 
+Copyright und Lizenzbedingungen: [COPYRIGHT.md](COPYRIGHT.md)
+
 ## Workflow
 
 Immer oben anfangen, dann nach unten:
