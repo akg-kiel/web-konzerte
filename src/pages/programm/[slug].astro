@@ -26,7 +26,7 @@ if (!concert) Astro.response.status = result.error ? 503 : 404;
         <PageHero
           eyebrow={isPast ? 'Vergangenes Konzert' : undefined}
           image={concert.image ?? fallbackImage}
-          imageAlt={concert.imageAlt}
+          imageAlt={concert.image ? concert.imageAlt : ''}
           imagePosition={concert.imagePosition}
           subtitle={concert.date.display}
         >

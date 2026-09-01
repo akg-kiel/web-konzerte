@@ -48,17 +48,19 @@ const compactTicketClass = `${actionBase} min-h-10 border-secondary/50 bg-transp
         alt={concert.imageAlt}
         class="absolute inset-0 h-full w-full object-cover"
         style={`object-position: ${concert.imagePosition};`}
+        width={960}
+        height={720}
         widths={[480, 720, 960]}
         sizes={imageSizes}
-        inferSize
         loading="lazy"
         decoding="async"
         format="webp"
+        onerror={`this.onerror=null;this.srcset='';this.src='${fallbackImage.src}';this.alt=''`}
       />
     ) : (
       <Image
         src={fallbackImage}
-        alt={concert.imageAlt}
+        alt=""
         class="absolute inset-0 h-full w-full object-cover"
         style={`object-position: ${concert.imagePosition};`}
         widths={[480, 720, 960]}
