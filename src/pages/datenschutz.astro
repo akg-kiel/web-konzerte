@@ -20,7 +20,23 @@ const textClass = 'mt-6 space-y-4 font-body text-base/7 text-role-on/75';
     </PageHero>
 
     <article class="mx-auto grid w-full max-w-screen-2xl gap-16 px-6 py-16 md:px-8 md:py-24 lg:grid-cols-12 lg:px-16">
-      <div class="space-y-16 lg:col-span-8">
+      <aside class="lg:col-span-3 lg:col-start-10 lg:row-start-1" aria-labelledby="contents-heading">
+        <nav class="border-t border-white/10 pt-8 lg:sticky lg:top-28" aria-labelledby="contents-heading">
+          <h2 id="contents-heading" class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Auf dieser Seite</h2>
+          <ul class="mt-5 space-y-2 font-body text-sm/6" role="list">
+            <li><a class={linkClass} href="#verantwortlicher">Verantwortlicher</a></li>
+            <li><a class={linkClass} href="#datenschutzkontakt">Datenschutzkontakt</a></li>
+            <li><a class={linkClass} href="#website">Hosting</a></li>
+            <li><a class={linkClass} href="#kontakt">Kontaktaufnahme</a></li>
+            <li><a class={linkClass} href="#cookies">Cookies &amp; Analyse</a></li>
+            <li><a class={linkClass} href="#drittanbieter">Google Maps</a></li>
+            <li><a class={linkClass} href="#rechte">Ihre Rechte</a></li>
+            <li><a class={linkClass} href="#sicherheit">Datensicherheit</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <div class="space-y-16 lg:col-span-8 lg:col-start-1 lg:row-start-1">
         <section id="verantwortlicher" aria-labelledby="controller-heading">
           <h2 id="controller-heading" class={headingClass}>Verantwortlicher</h2>
           <div class={textClass}>
@@ -158,21 +174,6 @@ const textClass = 'mt-6 space-y-4 font-body text-base/7 text-role-on/75';
         </section>
       </div>
 
-      <aside class="lg:col-span-3 lg:col-start-10" aria-labelledby="contents-heading">
-        <nav class="border-t border-white/10 pt-8 lg:sticky lg:top-28" aria-labelledby="contents-heading">
-          <h2 id="contents-heading" class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Auf dieser Seite</h2>
-          <ul class="mt-5 space-y-2 font-body text-sm/6" role="list">
-            <li><a class={linkClass} href="#verantwortlicher">Verantwortlicher</a></li>
-            <li><a class={linkClass} href="#datenschutzkontakt">Datenschutzkontakt</a></li>
-            <li><a class={linkClass} href="#website">Hosting</a></li>
-            <li><a class={linkClass} href="#kontakt">Kontaktaufnahme</a></li>
-            <li><a class={linkClass} href="#cookies">Cookies &amp; Analyse</a></li>
-            <li><a class={linkClass} href="#drittanbieter">Google Maps</a></li>
-            <li><a class={linkClass} href="#rechte">Ihre Rechte</a></li>
-            <li><a class={linkClass} href="#sicherheit">Datensicherheit</a></li>
-          </ul>
-        </nav>
-      </aside>
     </article>
   </main>
 </Layout>

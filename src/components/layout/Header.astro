@@ -94,3 +94,13 @@ const mobileLinkClass =
     </details>
   </div>
 </nav>
+
+<script>
+  document.querySelectorAll<HTMLDetailsElement>('[data-mobile-menu]').forEach((menu) => {
+    menu.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape' || !menu.open) return;
+      menu.open = false;
+      menu.querySelector<HTMLElement>('summary')?.focus();
+    });
+  });
+</script>

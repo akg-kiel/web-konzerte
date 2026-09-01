@@ -1,4 +1,7 @@
 export type ConcertVariant = 'home' | 'programme' | 'archive';
+export type ConcertState = 'past' | 'upcoming-with-ticket' | 'upcoming-without-ticket';
+
+export const CONCERTS_PER_PAGE = 18;
 
 export interface ConcertDate {
   iso: string;
@@ -273,8 +276,13 @@ export async function getConcerts(environment: ChurchToolsEnvironment = {}) {
   }
 }
 
+export function getConcertState(concert: Concert, now = new Date()): ConcertState {
+  if (new Date(concert.endIso ?? concert.date.iso) <= now) return 'past';
+  return concert.ticketUrl ? 'upcoming-with-ticket' : 'upcoming-without-ticket';
+}
+
 export function splitConcerts(concerts: Concert[], now = new Date()) {
-  const isPast = (concert: Concert) => new Date(concert.endIso ?? concert.date.iso) < now;
+  const isPast = (concert: Concert) => getConcertState(concert, now) === 'past';
   return {
     programmeConcerts: concerts.filter((concert) => !isPast(concert)),
     archiveConcerts: concerts.filter(isPast).reverse()
@@ -302,6 +310,19 @@ export function getConcertFilters(params: URLSearchParams): ConcertFilters {
     season: /^\d{4}\/\d{2}$/.test(season) ? season : '',
     from: validDate(from) ? from : '',
     to: validDate(to) ? to : ''
+  };
+}
+
+export function paginateConcerts(concerts: Concert[], params: URLSearchParams) {
+  const pageCount = Math.max(1, Math.ceil(concerts.length / CONCERTS_PER_PAGE));
+  const value = params.get('page') ?? '';
+  const requested = /^\d+$/.test(value) ? Number(value) : 1;
+  const page = Number.isSafeInteger(requested) ? Math.min(Math.max(requested, 1), pageCount) : 1;
+  const start = (page - 1) * CONCERTS_PER_PAGE;
+  return {
+    pageConcerts: concerts.slice(start, start + CONCERTS_PER_PAGE),
+    page,
+    pageCount
   };
 }
 

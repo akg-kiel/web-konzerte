@@ -1,11 +1,14 @@
 import assert from 'node:assert/strict';
 
 import {
+  CONCERTS_PER_PAGE,
   cacheProgramme,
   filterConcerts,
   getConcertFilters,
   getConcertSeason,
+  getConcertState,
   getConcerts,
+  paginateConcerts,
   splitConcerts
 } from '../src/data/concerts.ts';
 
@@ -91,6 +94,19 @@ try {
     'public, max-age=300, stale-if-error=86400'
   );
   assert.equal(splitConcerts(result.concerts, new Date('2027-08-07')).archiveConcerts.length, 1);
+  assert.equal(getConcertState(result.concerts[0], new Date(result.concerts[0].date.iso)), 'past');
+  assert.equal(getConcertState(result.concerts[0], new Date('2027-08-07')), 'past');
+  assert.equal(
+    getConcertState(result.concerts[0], new Date('2027-08-01')),
+    'upcoming-without-ticket'
+  );
+  assert.equal(
+    getConcertState(
+      { ...result.concerts[0], ticketUrl: 'https://example.org/tickets' },
+      new Date('2027-08-01')
+    ),
+    'upcoming-with-ticket'
+  );
 
   const concerts = [
     result.concerts[0],
@@ -142,6 +158,19 @@ try {
     ).map(({ slug }) => slug),
     [result.concerts[0].slug]
   );
+
+  const manyConcerts = Array.from({ length: CONCERTS_PER_PAGE * 2 + 1 }, (_, index) => ({
+    ...result.concerts[0],
+    slug: `concert-${index}`
+  }));
+  const secondPage = paginateConcerts(manyConcerts, new URLSearchParams({ page: '2', q: 'chor' }));
+  assert.equal(secondPage.page, 2);
+  assert.equal(secondPage.pageCount, 3);
+  assert.equal(secondPage.pageConcerts.length, CONCERTS_PER_PAGE);
+  assert.equal(secondPage.pageConcerts[0].slug, `concert-${CONCERTS_PER_PAGE}`);
+  const lastPage = paginateConcerts(manyConcerts, new URLSearchParams({ page: '999' }));
+  assert.equal(lastPage.page, 3);
+  assert.equal(lastPage.pageConcerts.length, 1);
 } finally {
   globalThis.fetch = originalFetch;
   console.error = originalConsoleError;

@@ -11,7 +11,7 @@ interface Props {
 }
 
 const { action, anchor, filters, seasons, matchCount, totalCount } = Astro.props;
-const inputClass = 'min-h-12 w-full rounded-sm border border-white/20 bg-midnight/60 px-4 py-3 font-body text-base text-white outline-none transition placeholder:text-role-on/40 focus-visible:border-secondary focus-visible:ring-2 focus-visible:ring-secondary/40';
+const inputClass = 'min-h-12 w-full rounded-sm border border-white/20 bg-midnight/60 px-4 py-3 font-body text-base text-white outline-none transition placeholder:text-role-on/60 focus-visible:border-secondary focus-visible:ring-2 focus-visible:ring-secondary/40';
 const hasFilters = Boolean(filters.search || filters.season || filters.from || filters.to);
 ---
 

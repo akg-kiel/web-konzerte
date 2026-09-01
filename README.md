@@ -36,7 +36,7 @@ pnpm wrangler secret put CHURCHTOOLS_TOKEN
 cp .dev.vars.example .dev.vars # lokale Entwicklung
 ```
 
-`.dev.vars` wird nicht eingecheckt. Die Programm-, Archiv- und Detailseiten werden am Cloudflare-Edge fünf Minuten gecacht; bei Fehlern kann die letzte erfolgreiche Antwort bis zu 24 Stunden weiter ausgeliefert werden. Erfolgreiche Antworten des Verfügbarkeitsendpunkts werden fünf Minuten gecacht. Ist kein Cache vorhanden und ChurchTools nicht erreichbar, antwortet er mit einem klaren 503-Fehler. Der öffentliche Verfügbarkeitsstatus enthält keine Buchungstitel, Personen oder internen Notizen.
+`.dev.vars` wird nicht eingecheckt. Die Programm-, Archiv- und Detailseiten werden am Cloudflare-Edge fünf Minuten gecacht; bei Fehlern kann die letzte erfolgreiche Antwort bis zu 24 Stunden weiter ausgeliefert werden. Programm und Archiv liefern serverseitig höchstens 18 Konzerte pro Ergebnisseite aus. Erfolgreiche Antworten des Verfügbarkeitsendpunkts werden fünf Minuten gecacht. Ist kein Cache vorhanden und ChurchTools nicht erreichbar, antwortet er mit einem klaren 503-Fehler. Der öffentliche Verfügbarkeitsstatus enthält keine Buchungstitel, Personen oder internen Notizen.
 
 ### Feldzuordnung
 
