@@ -64,7 +64,7 @@ import churchEntrance from '../assets/venue/petruskirche-entrance.webp';
                 Google Maps laden
               </button>
               <p class="mt-4 max-w-sm font-body text-xs/5 text-role-on/55">
-                Dabei erhält Google Verbindungsdaten und kann Cookies setzen. <a class="!text-secondary no-underline hover:!text-champagne" href="/datenschutz#drittanbieter">Mehr zum Datenschutz</a>.
+                Dabei erhält Google Verbindungsdaten und kann Cookies setzen. <a class="!text-secondary no-underline hover:!text-champagne" href="/datenschutz/#drittanbieter">Mehr zum Datenschutz</a>.
               </p>
               <noscript>
                 <a class="mt-4 !text-secondary no-underline hover:!text-champagne" href="https://www.google.com/maps/search/?api=1&query=Petruskirche%20Kiel-Wik%2C%20Weimarer%20Stra%C3%9Fe%201%2C%2024106%20Kiel" target="_blank" rel="noopener noreferrer">Google Maps öffnen <span aria-hidden="true">↗</span><span class="sr-only"> (öffnet in neuem Tab)</span></a>
@@ -120,17 +120,17 @@ import churchEntrance from '../assets/venue/petruskirche-entrance.webp';
       </section>
     </div>
   </main>
+
+  <script>
+    const consent = document.querySelector('[data-google-map-consent]') as HTMLElement;
+    const button = document.querySelector('[data-google-map-button]') as HTMLButtonElement;
+    const map = document.querySelector('[data-google-map]') as HTMLIFrameElement;
+
+    button.addEventListener('click', () => {
+      map.src = map.dataset.src!;
+      map.hidden = false;
+      map.focus();
+      consent.remove();
+    });
+  </script>
 </Layout>
-
-<script>
-  const consent = document.querySelector('[data-google-map-consent]') as HTMLElement;
-  const button = document.querySelector('[data-google-map-button]') as HTMLButtonElement;
-  const map = document.querySelector('[data-google-map]') as HTMLIFrameElement;
-
-  button.addEventListener('click', () => {
-    map.src = map.dataset.src!;
-    map.hidden = false;
-    map.focus();
-    consent.remove();
-  });
-</script>

@@ -22,6 +22,15 @@ const siteUrl = Astro.site ?? Astro.url;
 const currentUrl = new URL(Astro.url.pathname, siteUrl);
 const canonicalHref = canonicalUrl ?? currentUrl.href;
 const ogImageUrl = new URL(ogImage, siteUrl).href;
+/* eslint-disable astro/no-set-html-directive -- trusted JSON-LD serialized here */
+const websiteSchema = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: siteName,
+  url: siteUrl.href,
+  description,
+  inLanguage: 'de'
+}).replaceAll('<', '\\u003c');
 ---
 
 <!doctype html>
@@ -75,16 +84,7 @@ const ogImageUrl = new URL(ogImage, siteUrl).href;
 
     <title>{title}</title>
 
-    <script is:inline type="application/ld+json">
-      {JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'WebSite',
-        name: siteName,
-        url: siteUrl.href,
-        description,
-        inLanguage: 'de'
-      })}
-    </script>
+    <script is:inline type="application/ld+json" set:html={websiteSchema}></script>
   </head>
   <body class="min-h-screen min-w-80 overflow-x-clip bg-midnight font-body text-base/relaxed text-role-on antialiased selection:bg-champagne selection:text-midnight [&_*:focus-visible]:outline [&_*:focus-visible]:outline-2 [&_*:focus-visible]:outline-offset-4 [&_*:focus-visible]:outline-champagne">
     <a href="#page-content" class="fixed left-4 top-4 z-50 -translate-y-24 rounded-full bg-champagne px-4 py-2 text-midnight shadow-glow transition-transform focus-visible:translate-y-0">Direkt zum Inhalt springen</a>

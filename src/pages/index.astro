@@ -5,6 +5,7 @@ import { Image } from 'astro:assets';
 import Concerts from '../components/sections/Concerts.astro';
 import CtaCard from '../components/sections/CtaCard.astro';
 import Hero from '../components/sections/Hero.astro';
+import HomeConcerts from '../components/sections/HomeConcerts.astro';
 import Card from '../components/ui/Card.astro';
 import Layout from '../layouts/Layout.astro';
 import { getConcerts, splitConcerts } from '../data/concerts';
@@ -17,10 +18,13 @@ const { programmeConcerts } = splitConcerts(result.concerts);
 <Layout title="Konzerte in der Petruskirche Kiel" description="Konzertkirche Petruskirche Kiel: Programm, Besuchsplanung und Raum für Kulturveranstaltungen in besonderer Akustik.">
   <main class="min-h-screen bg-role-dominant text-role-on">
     <Hero />
-    <Concerts
-      concerts={programmeConcerts.slice(0, 3)}
-      emptyMessage={result.error ? 'Das aktuelle Konzertprogramm konnte gerade nicht geladen werden. Bitte versuchen Sie es später erneut.' : undefined}
-    />
+    <HomeConcerts server:defer>
+      <Concerts
+        slot="fallback"
+        concerts={programmeConcerts.slice(0, 3)}
+        emptyMessage={result.error ? 'Das aktuelle Konzertprogramm konnte gerade nicht geladen werden. Bitte versuchen Sie es später erneut.' : undefined}
+      />
+    </HomeConcerts>
 
     <section class="py-16 md:py-44" aria-label="Zitat über Musik">
       <div class="mx-auto flex w-full max-w-3xl flex-col items-center px-6 text-center md:px-8">
@@ -68,7 +72,7 @@ const { programmeConcerts } = splitConcerts(result.concerts);
         <h2 id="service-heading" class="block font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary mb-8 max-w-3xl md:mb-10">Ihren Besuch &amp; Events planen</h2>
         <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
           <CtaCard
-            href="/besuch-planen"
+            href="/besuch-planen/"
             icon="i"
             title="Besuch planen"
             body="Alles Wichtige für Ihren Konzertbesuch: Anfahrt, Parkmöglichkeiten in der Kieler Wik sowie Informationen zur Barrierefreiheit."
@@ -76,7 +80,7 @@ const { programmeConcerts } = splitConcerts(result.concerts);
           />
 
           <CtaCard
-            href="/raum-anfragen"
+            href="/raum-anfragen/"
             icon="◇"
             title="Raum anfragen"
             body="Sie möchten die Petruskirche für eigene Kulturveranstaltungen, Konzerte oder Aufnahmen nutzen? Informieren Sie sich über Technik, Akustik und Konditionen."

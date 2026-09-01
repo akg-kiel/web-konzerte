@@ -59,7 +59,7 @@ const labelClass =
                 <p>Konzertkirche Petruskirche<br />Weimarer Straße 1<br />24106 Kiel</p>
               </div>
             </address>
-            <p class="border-l-2 border-secondary bg-secondary/5 py-4 pl-6 font-body text-base/7 text-role-on/75">Sie möchten die Petruskirche selbst nutzen? Technische Angaben und Terminanfrage finden Sie unter <a class="!text-secondary no-underline hover:!text-champagne" href="/raum-anfragen">Raum anfragen</a>.</p>
+            <p class="border-l-2 border-secondary bg-secondary/5 py-4 pl-6 font-body text-base/7 text-role-on/75">Sie möchten die Petruskirche selbst nutzen? Technische Angaben und Terminanfrage finden Sie unter <a class="!text-secondary no-underline hover:!text-champagne" href="/raum-anfragen/">Raum anfragen</a>.</p>
           </div>
 
           <Card class="border-white/5 bg-slate-mist/20 p-8 lg:col-span-8 md:p-10">
@@ -87,7 +87,7 @@ const labelClass =
               </div>
               <div>
                 <Button className="min-h-14 w-full rounded-sm bg-secondary px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest text-midnight shadow-glow hover:bg-champagne active:scale-95 sm:w-auto" type="submit">Nachricht per E-Mail senden</Button>
-                <p class="mt-4 font-body text-sm/6 text-role-on/60">Ihre Eingaben werden nicht auf dieser Website gespeichert. Mehr dazu im <a class="!text-secondary no-underline hover:!text-champagne" href="/datenschutz#kontakt">Datenschutz</a>.</p>
+                <p class="mt-4 font-body text-sm/6 text-role-on/60">Ihre Eingaben werden nicht auf dieser Website gespeichert. Mehr dazu im <a class="!text-secondary no-underline hover:!text-champagne" href="/datenschutz/#kontakt">Datenschutz</a>.</p>
               </div>
             </form>
           </Card>
@@ -149,7 +149,7 @@ const labelClass =
           <div data-google-map-consent class="flex min-h-80 flex-col items-center justify-center rounded-lg border border-white/10 bg-slate-mist/20 p-8 text-center">
             <p class="font-body text-base/7 text-role-on/70">Google Maps wird erst nach Ihrer Zustimmung geladen.</p>
             <button data-google-map-button aria-controls="contact-google-map" class="mt-6 inline-flex min-h-12 items-center justify-center rounded-sm bg-secondary px-6 py-3 font-body text-xs/4 font-semibold uppercase tracking-widest text-midnight transition hover:bg-champagne active:scale-95" type="button">Google Maps laden</button>
-            <p class="mt-4 max-w-sm font-body text-xs/5 text-role-on/55">Dabei erhält Google Verbindungsdaten und kann Cookies setzen. <a class="!text-secondary no-underline hover:!text-champagne" href="/datenschutz#drittanbieter">Mehr zum Datenschutz</a>.</p>
+            <p class="mt-4 max-w-sm font-body text-xs/5 text-role-on/55">Dabei erhält Google Verbindungsdaten und kann Cookies setzen. <a class="!text-secondary no-underline hover:!text-champagne" href="/datenschutz/#drittanbieter">Mehr zum Datenschutz</a>.</p>
             <noscript><a class="mt-4 !text-secondary no-underline hover:!text-champagne" href="https://www.google.com/maps/search/?api=1&query=Petruskirche%20Kiel-Wik%2C%20Weimarer%20Stra%C3%9Fe%201%2C%2024106%20Kiel" target="_blank" rel="noopener noreferrer">Google Maps öffnen <span aria-hidden="true">↗</span><span class="sr-only"> (öffnet in neuem Tab)</span></a></noscript>
           </div>
           <iframe id="contact-google-map" data-google-map data-src="https://www.google.com/maps?q=Petruskirche%20Kiel-Wik%2C%20Weimarer%20Stra%C3%9Fe%201%2C%2024106%20Kiel&output=embed" title="Google Maps – Petruskirche Kiel-Wik" class="aspect-[4/3] w-full rounded-lg border border-white/10 lg:aspect-[16/10]" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen hidden></iframe>
@@ -157,17 +157,17 @@ const labelClass =
       </div>
     </section>
   </main>
+
+  <script>
+    const consent = document.querySelector('[data-google-map-consent]') as HTMLElement;
+    const button = document.querySelector('[data-google-map-button]') as HTMLButtonElement;
+    const map = document.querySelector('[data-google-map]') as HTMLIFrameElement;
+
+    button.addEventListener('click', () => {
+      map.src = map.dataset.src!;
+      map.hidden = false;
+      map.focus();
+      consent.remove();
+    });
+  </script>
 </Layout>
-
-<script>
-  const consent = document.querySelector('[data-google-map-consent]') as HTMLElement;
-  const button = document.querySelector('[data-google-map-button]') as HTMLButtonElement;
-  const map = document.querySelector('[data-google-map]') as HTMLIFrameElement;
-
-  button.addEventListener('click', () => {
-    map.src = map.dataset.src!;
-    map.hidden = false;
-    map.focus();
-    consent.remove();
-  });
-</script>

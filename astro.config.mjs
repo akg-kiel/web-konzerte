@@ -7,5 +7,8 @@ export default defineConfig({
   integrations: [react()],
   vite: { server: { allowedHosts: ['.trycloudflare.com'] } },
   build: { client: '.' },
-  site: 'https://konzerte-petruskirche.de'
+  image: { remotePatterns: [{ protocol: 'https', hostname: 'akg-kiel.church.tools' }] },
+  session: false,
+  site: 'https://konzerte-petruskirche.de',
+  trailingSlash: 'always'
 });

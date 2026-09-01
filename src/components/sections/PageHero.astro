@@ -29,14 +29,18 @@ const hasCta = Astro.slots.has('cta');
     hasImage && (
       <>
         {typeof image === 'string' ? (
-          <img
+          <Image
             src={image}
             alt={imageAlt}
             class="absolute inset-0 h-full w-full object-cover"
             style={`object-position: ${imagePosition};`}
+            widths={[640, 960, 1280, 1600, 1920]}
             sizes="100vw"
+            inferSize
+            loading="eager"
             decoding="async"
             fetchpriority="high"
+            format="webp"
           />
         ) : (
           <Image

@@ -1,6 +1,9 @@
 ---
-import Card from '../ui/Card.astro';
+import { Image } from 'astro:assets';
+
+import fallbackImage from '../../assets/hero/l1130722-hero.jpg';
 import type { Concert, ConcertVariant } from '../../data/concerts';
+import Card from '../ui/Card.astro';
 
 interface Props {
   concert: Concert;
@@ -28,7 +31,7 @@ const compactTicketClass = `${actionBase} min-h-10 border-secondary/50 bg-transp
   {...rest}
   class:list={[
     'group group/card flex h-full flex-col transition-colors duration-300 hover:border-secondary/40 focus-within:border-secondary/40',
-    isArchive && 'opacity-70'
+    isArchive && 'bg-slate-mist/30'
   ]}
 >
   <a
@@ -39,15 +42,32 @@ const compactTicketClass = `${actionBase} min-h-10 border-secondary/50 bg-transp
   ></a>
 
   <div class="pointer-events-none relative aspect-[4/3] w-full shrink-0 overflow-hidden">
-    <img
-      src={concert.image}
-      alt={concert.imageAlt}
-      class="absolute inset-0 h-full w-full object-cover"
-      style={`object-position: ${concert.imagePosition};`}
-      sizes={imageSizes}
-      loading="lazy"
-      decoding="async"
-    />
+    {concert.image ? (
+      <Image
+        src={concert.image}
+        alt={concert.imageAlt}
+        class="absolute inset-0 h-full w-full object-cover"
+        style={`object-position: ${concert.imagePosition};`}
+        widths={[480, 720, 960]}
+        sizes={imageSizes}
+        inferSize
+        loading="lazy"
+        decoding="async"
+        format="webp"
+      />
+    ) : (
+      <Image
+        src={fallbackImage}
+        alt={concert.imageAlt}
+        class="absolute inset-0 h-full w-full object-cover"
+        style={`object-position: ${concert.imagePosition};`}
+        widths={[480, 720, 960]}
+        sizes={imageSizes}
+        loading="lazy"
+        decoding="async"
+        format="webp"
+      />
+    )}
     <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0),rgba(2,6,23,0.12))]" aria-hidden="true"></div>
   </div>
 
