@@ -122,6 +122,10 @@ main :is(p, address) a {
   text-underline-offset: 0.2em;
 }
 
+:target {
+  scroll-margin-top: 6rem;
+}
+
 @media (width < 64rem) {
   body:has([data-mobile-menu][open]) {
     overflow: hidden;

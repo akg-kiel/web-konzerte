@@ -11,6 +11,8 @@ interface Props {
   intro?: string;
   emptyMessage?: string;
   showHeaderLink?: boolean;
+  page?: number;
+  pageCount?: number;
 }
 
 const {
@@ -20,7 +22,9 @@ const {
   eyebrow = 'Programm',
   intro = '',
   emptyMessage,
-  showHeaderLink = variant === 'home'
+  showHeaderLink = variant === 'home',
+  page = 1,
+  pageCount = 1
 } = Astro.props;
 
 const titleId = `${id}-heading`;
@@ -32,6 +36,15 @@ const imageSizes = '(min-width: 1024px) 384px, (min-width: 768px) 45vw, calc(100
 
 const headerLinkClass =
   'items-center gap-2 font-body text-xs/4 font-semibold uppercase tracking-widest !text-role-on/70 no-underline transition-colors hover:!text-secondary';
+const paginationLinkClass =
+  'inline-flex min-h-12 items-center font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary no-underline hover:!text-champagne';
+const pageHref = (target: number) => {
+  const params = new URLSearchParams(Astro.url.searchParams);
+  if (target === 1) params.delete('page');
+  else params.set('page', String(target));
+  const query = params.toString();
+  return `${Astro.url.pathname}${query ? `?${query}` : ''}#${id}`;
+};
 ---
 
 <section
@@ -80,6 +93,18 @@ const headerLinkClass =
         </div>
       )
     }
+
+    {hasConcerts && pageCount > 1 && (
+      <nav class="mt-12 grid grid-cols-[1fr_auto_1fr] items-center gap-4 border-t border-white/10 pt-8" aria-label="Ergebnisseiten">
+        <span>
+          {page > 1 && <a class={paginationLinkClass} href={pageHref(page - 1)} rel="prev">← Zurück</a>}
+        </span>
+        <p class="font-body text-sm/6 text-role-on/70">Seite {page} von {pageCount}</p>
+        <span class="justify-self-end">
+          {page < pageCount && <a class={paginationLinkClass} href={pageHref(page + 1)} rel="next">Weiter →</a>}
+        </span>
+      </nav>
+    )}
 
     {showHeaderLink && (
       <a

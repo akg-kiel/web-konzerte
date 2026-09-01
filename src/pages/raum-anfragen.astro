@@ -140,7 +140,7 @@ const labelClass =
         <Card class="border-white/5 bg-midnight/70 p-8 md:p-10">
           <h2 id="inquiry-heading" class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Wunschtermin anfragen</h2>
           <p class="mt-6 max-w-2xl font-body text-base/7 text-role-on/70">
-            Wählen Sie Ihren Termin im Kalender und beschreiben Sie kurz Ihr Vorhaben. Wir prüfen die Verfügbarkeit und melden uns in der Regel innerhalb weniger Werktage. Mit <span class="text-secondary">*</span> markierte Felder sind Pflichtfelder.
+            Tragen Sie Ihren Wunschtermin ein und beschreiben Sie kurz Ihr Vorhaben. Der Kalender bietet zusätzlich eine unverbindliche Vorprüfung. Wir prüfen die Verfügbarkeit und melden uns in der Regel innerhalb weniger Werktage. Mit <span class="text-secondary">*</span> markierte Felder sind Pflichtfelder.
           </p>
 
           <form action="mailto:konzerte@akg-kiel.de?subject=Raumanfrage%20Petruskirche" method="post" enctype="text/plain" class="mt-10 space-y-10">
@@ -155,12 +155,16 @@ const labelClass =
                   <Label className={labelClass} htmlFor="attendees">Erwartete Besucherzahl</Label>
                   <Input className={inputClass} id="attendees" name="Erwartete Besucherzahl" min="1" max="450" inputMode="numeric" type="number" />
                 </div>
-                <div class="md:col-span-2">
-                  <AvailabilityCalendar client:visible />
+                <div>
+                  <Label className={labelClass} htmlFor="preferred-date">Wunschdatum <span class="text-secondary" aria-hidden="true">*</span></Label>
+                  <Input className={inputClass} id="preferred-date" name="Wunschdatum" required type="date" />
                 </div>
                 <div>
                   <Label className={labelClass} htmlFor="alternative-date">Alternativdatum</Label>
                   <Input className={inputClass} id="alternative-date" name="Alternativdatum" type="date" />
+                </div>
+                <div class="md:col-span-2">
+                  <AvailabilityCalendar client:load />
                 </div>
               </div>
             </fieldset>

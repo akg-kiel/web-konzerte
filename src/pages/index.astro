@@ -10,14 +10,17 @@ import Layout from '../layouts/Layout.astro';
 import { getConcerts, splitConcerts } from '../data/concerts';
 import churchExterior from '../assets/venue/petruskirche-exterior.webp';
 
-const { concerts } = await getConcerts(env);
-const { programmeConcerts } = splitConcerts(concerts);
+const result = await getConcerts(env);
+const { programmeConcerts } = splitConcerts(result.concerts);
 ---
 
 <Layout title="Konzerte in der Petruskirche Kiel" description="Konzertkirche Petruskirche Kiel: Programm, Besuchsplanung und Raum für Kulturveranstaltungen in besonderer Akustik.">
   <main class="min-h-screen bg-role-dominant text-role-on">
     <Hero />
-    <Concerts concerts={programmeConcerts.slice(0, 3)} />
+    <Concerts
+      concerts={programmeConcerts.slice(0, 3)}
+      emptyMessage={result.error ? 'Das aktuelle Konzertprogramm konnte gerade nicht geladen werden. Bitte versuchen Sie es später erneut.' : undefined}
+    />
 
     <section class="py-16 md:py-44" aria-label="Zitat über Musik">
       <div class="mx-auto flex w-full max-w-3xl flex-col items-center px-6 text-center md:px-8">

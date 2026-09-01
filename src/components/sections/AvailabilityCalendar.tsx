@@ -2,8 +2,6 @@ import { de } from 'date-fns/locale';
 import { useEffect, useMemo, useState } from 'react';
 
 import { Calendar, CalendarDayButton } from '@/components/ui/calendar';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import type { AvailabilityStatus } from '@/lib/availability';
 
 const labels: Record<AvailabilityStatus, string> = {
@@ -32,6 +30,7 @@ export default function AvailabilityCalendar() {
   const [today, setToday] = useState<Date>();
   const [statuses, setStatuses] = useState<Record<string, AvailabilityStatus>>({});
   const [selected, setSelected] = useState<Date>();
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const endMonth = useMemo(
     () => (today ? new Date(today.getFullYear() + 1, today.getMonth() + 1, 0) : undefined),
@@ -46,26 +45,44 @@ export default function AvailabilityCalendar() {
 
   useEffect(() => {
     if (!today || !endMonth) return;
+    const input = document.querySelector<HTMLInputElement>('#preferred-date');
+    if (!input) return;
+    input.min = dateKey(today);
+    input.max = dateKey(endMonth);
+    const update = () => setSelected(input.value ? parseDate(input.value) : undefined);
+    update();
+    input.addEventListener('input', update);
+    return () => input.removeEventListener('input', update);
+  }, [endMonth, today]);
+
+  useEffect(() => {
+    if (!today || !endMonth) return;
     const from = dateKey(new Date(today.getFullYear(), today.getMonth(), 1));
     const to = dateKey(endMonth);
+    setLoading(true);
+    setError(false);
     fetch(`/api/availability?from=${from}&to=${to}`)
       .then((response) => {
         if (!response.ok) throw new Error(String(response.status));
         return response.json() as Promise<{ statuses: Record<string, AvailabilityStatus> }>;
       })
       .then(({ statuses: result }) => setStatuses(result))
-      .catch(() => setError(true));
+      .catch(() => setError(true))
+      .finally(() => setLoading(false));
   }, [endMonth, today]);
 
-  const statusFor = (date: Date): AvailabilityStatus => statuses[dateKey(date)] ?? 'unknown';
+  const statusFor = (date: Date): AvailabilityStatus | undefined =>
+    loading || error ? undefined : (statuses[dateKey(date)] ?? 'unknown');
   const selectedStatus = selected ? statusFor(selected) : undefined;
+  const selectDate = (date: Date | undefined) => {
+    setSelected(date);
+    const input = document.querySelector<HTMLInputElement>('#preferred-date');
+    if (!input) return;
+    input.value = date ? dateKey(date) : '';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+  };
 
-  if (!today || !endMonth)
-    return (
-      <p className="rounded-lg border border-white/10 bg-slate-mist/20 p-6 font-body text-sm/6 text-role-on/70">
-        Verfügbarkeitskalender wird geladen …
-      </p>
-    );
+  if (!today || !endMonth) return null;
 
   return (
     <div className="space-y-6">
@@ -79,22 +96,29 @@ export default function AvailabilityCalendar() {
         </p>
       </div>
 
-      <div className="overflow-x-auto rounded-lg border border-white/10 bg-slate-mist/20 p-2 sm:p-4">
+      <div
+        className="relative left-1/2 w-dvw -translate-x-1/2 rounded-lg border border-white/10 bg-slate-mist/20 p-1 sm:static sm:w-auto sm:translate-x-0 sm:p-4"
+        aria-busy={loading}
+      >
         <Calendar
           mode="single"
           locale={de}
           selected={selected}
-          onSelect={setSelected}
+          onSelect={selectDate}
           startMonth={today}
           endMonth={endMonth}
           disabled={(date) => date < today}
           components={{
-            DayButton: (props) => (
-              <CalendarDayButton
-                {...props}
-                aria-label={`${props.day.date.toLocaleDateString('de-DE')}: ${labels[statusFor(props.day.date)]}`}
-              />
-            )
+            DayButton: (props) => {
+              const status = statusFor(props.day.date);
+              const date = props.day.date.toLocaleDateString('de-DE');
+              return (
+                <CalendarDayButton
+                  {...props}
+                  aria-label={status ? `${date}: ${labels[status]}` : date}
+                />
+              );
+            }
           }}
           modifiers={{
             available: (date) => statusFor(date) === 'available',
@@ -112,7 +136,7 @@ export default function AvailabilityCalendar() {
             unknown:
               '[&_button]:relative [&_button]:after:absolute [&_button]:after:bottom-1 [&_button]:after:h-1.5 [&_button]:after:w-1.5 [&_button]:after:rounded-full [&_button]:after:bg-role-muted'
           }}
-          className="mx-auto w-full max-w-sm bg-transparent text-on-surface"
+          className="mx-auto w-full max-w-sm bg-transparent p-0 text-on-surface"
         />
       </div>
 
@@ -128,34 +152,14 @@ export default function AvailabilityCalendar() {
         ))}
       </ul>
 
-      <div>
-        <Label
-          className="mb-2 block font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/70"
-          htmlFor="preferred-date"
-        >
-          Wunschdatum <span className="text-secondary">*</span>
-        </Label>
-        <Input
-          className="h-auto rounded-none border-0 border-b border-white/30 bg-transparent px-0 py-4 font-body text-base/6 text-on-surface focus-visible:ring-secondary"
-          id="preferred-date"
-          name="Wunschdatum"
-          type="date"
-          min={dateKey(today)}
-          max={dateKey(endMonth)}
-          value={selected ? dateKey(selected) : ''}
-          onChange={(event) =>
-            setSelected(event.target.value ? parseDate(event.target.value) : undefined)
-          }
-          required
-        />
-      </div>
-
       <p className="min-h-6 font-body text-sm/6 text-role-on/70" aria-live="polite">
         {error
           ? 'Die ChurchTools-Belegung konnte nicht geladen werden. Bitte fragen Sie Ihren Termin trotzdem unverbindlich an.'
-          : selected && selectedStatus
-            ? `${selected.toLocaleDateString('de-DE')}: ${labels[selectedStatus]}`
-            : 'Wählen Sie einen Tag für die unverbindliche Vorprüfung.'}
+          : loading
+            ? 'Verfügbarkeiten werden geladen …'
+            : selected && selectedStatus
+              ? `${selected.toLocaleDateString('de-DE')}: ${labels[selectedStatus]}`
+              : 'Wählen Sie einen Tag für die unverbindliche Vorprüfung.'}
       </p>
       <p className="rounded-sm border-l-2 border-secondary bg-secondary/5 py-3 pl-4 font-body text-sm/6 text-role-on/75">
         Unverbindliche Vorprüfung, endgültige Bestätigung nach Anfrage.

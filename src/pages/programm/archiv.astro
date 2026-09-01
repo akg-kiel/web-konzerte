@@ -13,6 +13,7 @@ import {
   getConcertFilters,
   getConcertSeason,
   getConcerts,
+  paginateConcerts,
   splitConcerts
 } from '../../data/concerts';
 
@@ -21,6 +22,7 @@ const result = await getConcerts(env);
 const { archiveConcerts } = splitConcerts(result.concerts);
 const filters = getConcertFilters(Astro.url.searchParams);
 const filteredConcerts = filterConcerts(archiveConcerts, filters);
+const { pageConcerts, page, pageCount } = paginateConcerts(filteredConcerts, Astro.url.searchParams);
 const emptyMessage = Object.values(filters).some(Boolean)
   ? 'Für diese Filter wurden keine Konzerte gefunden. Ändern Sie die Suche oder setzen Sie die Filter zurück.'
   : undefined;
@@ -69,8 +71,10 @@ if (result.error) Astro.response.status = 503;
 
     <Concerts
       id="archiv"
-      concerts={filteredConcerts}
+      concerts={pageConcerts}
       variant="archive"
+      page={page}
+      pageCount={pageCount}
       eyebrow="Vergangene Konzerte"
       emptyMessage={emptyMessage}
       showHeaderLink={false}
