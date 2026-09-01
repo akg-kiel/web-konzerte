@@ -94,6 +94,7 @@ try {
     'public, max-age=300, stale-if-error=86400'
   );
   assert.equal(splitConcerts(result.concerts, new Date('2027-08-07')).archiveConcerts.length, 1);
+  assert.equal(getConcertState(result.concerts[0], new Date(result.concerts[0].date.iso)), 'past');
   assert.equal(getConcertState(result.concerts[0], new Date('2027-08-07')), 'past');
   assert.equal(
     getConcertState(result.concerts[0], new Date('2027-08-01')),

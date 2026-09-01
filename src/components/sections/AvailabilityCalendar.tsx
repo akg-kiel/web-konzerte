@@ -30,6 +30,7 @@ export default function AvailabilityCalendar() {
   const [today, setToday] = useState<Date>();
   const [statuses, setStatuses] = useState<Record<string, AvailabilityStatus>>({});
   const [selected, setSelected] = useState<Date>();
+  const [month, setMonth] = useState<Date>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const endMonth = useMemo(
@@ -41,6 +42,7 @@ export default function AvailabilityCalendar() {
     const date = new Date();
     date.setHours(0, 0, 0, 0);
     setToday(date);
+    setMonth(date);
   }, []);
 
   useEffect(() => {
@@ -49,7 +51,11 @@ export default function AvailabilityCalendar() {
     if (!input) return;
     input.min = dateKey(today);
     input.max = dateKey(endMonth);
-    const update = () => setSelected(input.value ? parseDate(input.value) : undefined);
+    const update = () => {
+      const date = input.value && input.validity.valid ? parseDate(input.value) : undefined;
+      setSelected(date);
+      if (date) setMonth(date);
+    };
     update();
     input.addEventListener('input', update);
     return () => input.removeEventListener('input', update);
@@ -105,6 +111,8 @@ export default function AvailabilityCalendar() {
           locale={de}
           selected={selected}
           onSelect={selectDate}
+          month={month}
+          onMonthChange={setMonth}
           startMonth={today}
           endMonth={endMonth}
           disabled={(date) => date < today}

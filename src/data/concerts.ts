@@ -277,7 +277,7 @@ export async function getConcerts(environment: ChurchToolsEnvironment = {}) {
 }
 
 export function getConcertState(concert: Concert, now = new Date()): ConcertState {
-  if (new Date(concert.endIso ?? concert.date.iso) < now) return 'past';
+  if (new Date(concert.endIso ?? concert.date.iso) <= now) return 'past';
   return concert.ticketUrl ? 'upcoming-with-ticket' : 'upcoming-without-ticket';
 }
 
