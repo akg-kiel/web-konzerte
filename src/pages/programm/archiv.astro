@@ -43,7 +43,7 @@ if (result.error) Astro.response.status = 503;
       <a
         slot="cta"
         class="inline-flex min-h-12 items-center justify-center rounded-sm border border-white/20 px-6 py-3 font-body text-xs/4 font-semibold uppercase tracking-widest !text-role-on no-underline transition hover:border-secondary hover:!text-secondary"
-        href="/programm"
+        href="/programm/"
       >
         Aktuelles Programm
       </a>
@@ -53,7 +53,7 @@ if (result.error) Astro.response.status = 503;
       <div class="mx-auto w-full max-w-screen-2xl">
         <h2 id="archive-filter-heading" class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Archiv durchsuchen</h2>
         <ConcertFilters
-          action="/programm/archiv"
+          action="/programm/archiv/"
           anchor="archiv"
           filters={filters}
           seasons={seasons}

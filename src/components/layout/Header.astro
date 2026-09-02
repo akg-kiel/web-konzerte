@@ -6,10 +6,10 @@ import akgLogo from '../../assets/logos/logo-akg-250px.png';
 const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
 
 const navItems = [
-  { label: 'Programm', href: '/programm', match: '/programm' },
-  { label: 'Besuch planen', href: '/besuch-planen', match: '/besuch-planen' },
-  { label: 'Raum anfragen', href: '/raum-anfragen', match: '/raum-anfragen' },
-  { label: 'Kontakt', href: '/kontakt', match: '/kontakt' }
+  { label: 'Programm', href: '/programm/', match: '/programm' },
+  { label: 'Besuch planen', href: '/besuch-planen/', match: '/besuch-planen' },
+  { label: 'Raum anfragen', href: '/raum-anfragen/', match: '/raum-anfragen' },
+  { label: 'Kontakt', href: '/kontakt/', match: '/kontakt' }
 ];
 
 const isActive = (match: string) => Boolean(match) && (pathname === match || pathname.startsWith(`${match}/`));

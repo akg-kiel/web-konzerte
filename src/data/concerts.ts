@@ -23,7 +23,7 @@ export interface Concert {
   accessibility: string;
   ticketUrl?: string;
   detailsHref: string;
-  image: string;
+  image?: string;
   imageAlt: string;
   imagePosition: string;
 }
@@ -177,8 +177,8 @@ const mapAppointment = (row: ChurchToolsRow): Concert | undefined => {
     location,
     accessibility: metadata.accessibility ?? defaults.accessibility,
     ticketUrl,
-    detailsHref: `/programm/${slug}`,
-    image: safeUrl(appointment.image?.imageUrl) ?? '/og-image.jpg',
+    detailsHref: `/programm/${slug}/`,
+    image: safeUrl(appointment.image?.imageUrl),
     imageAlt:
       appointment.image?.description ??
       `Konzert „${appointment.title.trim()}“ in der Petruskirche Kiel`,

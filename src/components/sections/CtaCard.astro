@@ -7,17 +7,15 @@ interface Props {
   body: string;
   cta: string;
   icon: string;
-  ariaLabel?: string;
 }
 
-const { href, title, body, cta, icon, ariaLabel = `${title}: ${cta}` } = Astro.props;
+const { href, title, body, cta, icon } = Astro.props;
 ---
 
 <Card
   as="a"
   href={href}
   class="group flex min-h-full flex-col p-8 !text-role-on no-underline transition-colors duration-300 hover:border-secondary/40 hover:bg-slate-mist/30 focus-visible:border-secondary/50"
-  aria-label={ariaLabel}
 >
   <span class="mb-8 flex h-12 w-12 items-center justify-center rounded-sm bg-slate-mist text-xl/7 text-secondary transition-colors duration-300 group-hover:bg-secondary group-hover:text-midnight group-focus-visible:bg-secondary group-focus-visible:text-midnight" aria-hidden="true">
     {icon}

@@ -36,7 +36,7 @@ const seasonHref = (season: string) => {
   if (filters.from) params.set('from', filters.from);
   if (filters.to) params.set('to', filters.to);
   params.set('season', season);
-  return `/programm?${params}#programm`;
+  return `/programm/?${params}#programm`;
 };
 ---
 
@@ -73,12 +73,12 @@ const seasonHref = (season: string) => {
                 ))}
               </div>
             </div>
-            <a class="inline-flex min-h-12 items-center gap-2 self-start font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary no-underline transition hover:!text-champagne md:self-auto" href="/programm/archiv">
+            <a class="inline-flex min-h-12 items-center gap-2 self-start font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary no-underline transition hover:!text-champagne md:self-auto" href="/programm/archiv/">
               Zum Konzertarchiv <span aria-hidden="true">→</span>
             </a>
           </div>
           <ConcertFilters
-            action="/programm"
+            action="/programm/"
             anchor="programm"
             filters={filters}
             seasons={seasons.map(([season]) => season)}
@@ -116,7 +116,7 @@ const seasonHref = (season: string) => {
         <div>
           <h2 class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Barrierefreiheit</h2>
           <p class="mt-4 max-w-xl font-body text-base/7 text-role-on/70">Stufenloser Zugang, Plätze für Rollstühle und ein rollstuhlgerechtes WC sind vorhanden.</p>
-          <a class="mt-4 inline-flex font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary no-underline hover:!text-champagne" href="/besuch-planen#access-heading">Besucherinformationen →</a>
+          <a class="mt-4 inline-flex font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary no-underline hover:!text-champagne" href="/besuch-planen/#access-heading">Besucherinformationen →</a>
         </div>
       </div>
     </section>
