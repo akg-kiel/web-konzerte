@@ -7,6 +7,7 @@ export default defineConfig({
   integrations: [react()],
   vite: { server: { allowedHosts: ['.trycloudflare.com'] } },
   build: { client: '.' },
+  experimental: { clientPrerender: true },
   image: { remotePatterns: [{ protocol: 'https', hostname: 'akg-kiel.church.tools' }] },
   prefetch: { prefetchAll: true, defaultStrategy: 'hover' },
   session: false,

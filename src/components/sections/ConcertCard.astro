@@ -55,6 +55,7 @@ const compactTicketClass = `${actionBase} min-h-10 border-secondary/50 bg-transp
         loading="lazy"
         decoding="async"
         format="webp"
+        quality={70}
         onerror={`this.onerror=null;this.srcset='';this.src='${fallbackImage.src}';this.alt=''`}
       />
     ) : (
@@ -68,6 +69,7 @@ const compactTicketClass = `${actionBase} min-h-10 border-secondary/50 bg-transp
         loading="lazy"
         decoding="async"
         format="webp"
+        quality={70}
       />
     )}
     <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0),rgba(2,6,23,0.12))]" aria-hidden="true"></div>
