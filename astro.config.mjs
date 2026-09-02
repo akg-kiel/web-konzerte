@@ -8,6 +8,7 @@ export default defineConfig({
   vite: { server: { allowedHosts: ['.trycloudflare.com'] } },
   build: { client: '.' },
   image: { remotePatterns: [{ protocol: 'https', hostname: 'akg-kiel.church.tools' }] },
+  prefetch: { prefetchAll: true, defaultStrategy: 'hover' },
   session: false,
   site: 'https://konzerte-petruskirche.de',
   trailingSlash: 'always'
