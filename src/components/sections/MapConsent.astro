@@ -1,0 +1,65 @@
+---
+import { Button } from '../ui/button';
+
+interface Props {
+  id: string;
+  class?: string;
+}
+
+const { id, class: className } = Astro.props;
+const mapUrl = 'https://www.google.com/maps?q=Petruskirche%20Kiel-Wik%2C%20Weimarer%20Stra%C3%9Fe%201%2C%2024106%20Kiel&output=embed';
+const externalUrl = 'https://www.google.com/maps/search/?api=1&query=Petruskirche%20Kiel-Wik%2C%20Weimarer%20Stra%C3%9Fe%201%2C%2024106%20Kiel';
+---
+
+<div data-map-consent>
+  <div
+    data-map-prompt
+    class:list={[
+      'flex flex-col items-center justify-center rounded-lg border border-white/10 p-8 text-center',
+      className
+    ]}
+  >
+    <p class="font-body text-base/7 text-role-on/70">Google Maps wird erst nach Ihrer Zustimmung geladen.</p>
+    <Button
+      data-map-button
+      aria-controls={id}
+      className="mt-6 min-h-12 rounded-sm bg-secondary px-6 py-3 font-body text-xs/4 font-semibold uppercase tracking-widest text-midnight hover:bg-champagne active:scale-95"
+      type="button"
+    >
+      Google Maps laden
+    </Button>
+    <p class="mt-4 max-w-sm font-body text-xs/5 text-role-on/55">
+      Dabei erhält Google Verbindungsdaten und kann Cookies setzen. <a class="!text-secondary no-underline hover:!text-champagne" href="/datenschutz/#drittanbieter">Mehr zum Datenschutz</a>.
+    </p>
+    <noscript>
+      <a class="mt-4 !text-secondary no-underline hover:!text-champagne" href={externalUrl} target="_blank" rel="noopener noreferrer">Google Maps öffnen <span aria-hidden="true">↗</span><span class="sr-only"> (öffnet in neuem Tab)</span></a>
+    </noscript>
+  </div>
+  <iframe
+    id={id}
+    data-map
+    data-src={mapUrl}
+    title="Google Maps – Petruskirche Kiel-Wik"
+    class="aspect-[4/3] w-full rounded-lg border border-white/10 lg:aspect-[16/10]"
+    loading="lazy"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen
+    hidden
+  ></iframe>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-map-consent]').forEach((root) => {
+    const prompt = root.querySelector<HTMLElement>('[data-map-prompt]');
+    const button = root.querySelector<HTMLButtonElement>('[data-map-button]');
+    const map = root.querySelector<HTMLIFrameElement>('[data-map]');
+    if (!prompt || !button || !map) return;
+
+    button.addEventListener('click', () => {
+      map.src = map.dataset.src ?? '';
+      map.hidden = false;
+      prompt.remove();
+      map.focus();
+    });
+  });
+</script>

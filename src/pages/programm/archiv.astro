@@ -3,9 +3,10 @@ export const prerender = false;
 
 import { env } from 'cloudflare:workers';
 
-import ConcertFilters from '../../components/sections/ConcertFilters.astro';
+import ConcertFilters from '../../components/sections/ConcertFilters';
 import Concerts from '../../components/sections/Concerts.astro';
 import PageHero from '../../components/sections/PageHero.astro';
+import { ButtonLink } from '../../components/ui/button';
 import Layout from '../../layouts/Layout.astro';
 import {
   cacheProgramme,
@@ -13,6 +14,7 @@ import {
   getConcertFilters,
   getConcertSeason,
   getConcerts,
+  hasInvalidConcertDateRange,
   paginateConcerts,
   splitConcerts
 } from '../../data/concerts';
@@ -21,11 +23,16 @@ cacheProgramme(Astro.response);
 const result = await getConcerts(env);
 const { archiveConcerts } = splitConcerts(result.concerts);
 const filters = getConcertFilters(Astro.url.searchParams);
-const filteredConcerts = filterConcerts(archiveConcerts, filters);
-const { pageConcerts, page, pageCount } = paginateConcerts(filteredConcerts, Astro.url.searchParams);
-const emptyMessage = Object.values(filters).some(Boolean)
-  ? 'Für diese Filter wurden keine Konzerte gefunden. Ändern Sie die Suche oder setzen Sie die Filter zurück.'
+const rangeError = hasInvalidConcertDateRange(filters)
+  ? 'Das Startdatum muss vor dem Enddatum liegen.'
   : undefined;
+const filteredConcerts = rangeError ? [] : filterConcerts(archiveConcerts, filters);
+const { pageConcerts, page, pageCount } = paginateConcerts(filteredConcerts, Astro.url.searchParams);
+const emptyMessage = rangeError
+  ? 'Korrigieren Sie den ausgewählten Zeitraum.'
+  : Object.values(filters).some(Boolean)
+    ? 'Für diese Filter wurden keine Konzerte gefunden. Ändern Sie die Suche oder setzen Sie die Filter zurück.'
+    : undefined;
 const seasons = [...new Set(archiveConcerts.map(getConcertSeason))];
 if (result.error) Astro.response.status = 503;
 ---
@@ -40,13 +47,14 @@ if (result.error) Astro.response.status = 503;
       intro="Vergangene Konzerte, Mitwirkende und Programme aus der Konzertkirche Petruskirche."
     >
       Konzertarchiv
-      <a
+      <ButtonLink
         slot="cta"
-        class="inline-flex min-h-12 items-center justify-center rounded-sm border border-white/20 px-6 py-3 font-body text-xs/4 font-semibold uppercase tracking-widest !text-role-on no-underline transition hover:border-secondary hover:!text-secondary"
+        className="min-h-12 rounded-sm border-white/20 bg-transparent px-6 py-3 font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on hover:border-secondary hover:bg-transparent hover:text-secondary"
         href="/programm/"
+        variant="outline"
       >
         Aktuelles Programm
-      </a>
+      </ButtonLink>
     </PageHero>
 
     <section class="border-y border-white/5 bg-role-support px-6 py-12 md:px-8 lg:px-16" aria-labelledby="archive-filter-heading">
@@ -58,7 +66,9 @@ if (result.error) Astro.response.status = 503;
           filters={filters}
           seasons={seasons}
           matchCount={filteredConcerts.length}
+          rangeError={rangeError}
           totalCount={archiveConcerts.length}
+          client:load
         />
       </div>
     </section>

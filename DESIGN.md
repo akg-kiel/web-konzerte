@@ -35,6 +35,7 @@ Implementation lives in `src/styles/globals.css` and `tailwind.config.js`.
 ## Components
 
 - Reuse `Layout`, `Header`, `Footer`, `PageHero`, `Concerts`, `ConcertCard`, `CtaCard`, and `Card`.
+- Interactive primitives in `src/components/ui` wrap React Aria Components; pages import the local wrappers rather than `react-aria-components` directly.
 - Do not create one-off components or global class aliases for normal Tailwind utilities.
 - Local class constants are OK inside a component when they prevent duplicated button/card strings.
 

@@ -313,6 +313,9 @@ export function getConcertFilters(params: URLSearchParams): ConcertFilters {
   };
 }
 
+export const hasInvalidConcertDateRange = ({ from, to }: ConcertFilters) =>
+  Boolean(from && to && from > to);
+
 export function paginateConcerts(concerts: Concert[], params: URLSearchParams) {
   const pageCount = Math.max(1, Math.ceil(concerts.length / CONCERTS_PER_PAGE));
   const value = params.get('page') ?? '';
