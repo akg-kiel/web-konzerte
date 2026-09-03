@@ -5,6 +5,7 @@ import { env } from 'cloudflare:workers';
 
 import fallbackImage from '../../assets/hero/l1130722-hero.jpg';
 import PageHero from '../../components/sections/PageHero.astro';
+import { ButtonLink } from '../../components/ui/button';
 import Layout from '../../layouts/Layout.astro';
 import { cacheProgramme, getConcerts, getConcertState } from '../../data/concerts';
 
@@ -32,9 +33,9 @@ if (!concert) Astro.response.status = result.error ? 503 : 404;
         >
           {concert.title}
           {state === 'upcoming-with-ticket' && concert.ticketUrl && (
-            <a slot="cta" class="inline-flex min-h-14 items-center justify-center rounded-sm bg-secondary px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest !text-midnight no-underline shadow-glow transition hover:bg-champagne" href={concert.ticketUrl}>
+            <ButtonLink slot="cta" className="min-h-14 rounded-sm bg-secondary px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest text-midnight shadow-glow hover:bg-champagne" href={concert.ticketUrl}>
               Tickets kaufen
-            </a>
+            </ButtonLink>
           )}
         </PageHero>
 
@@ -78,9 +79,9 @@ if (!concert) Astro.response.status = result.error ? 503 : 404;
                 ) : (
                   <>
                     {state === 'upcoming-with-ticket' && concert.ticketUrl ? (
-                      <a class="inline-flex min-h-14 w-full items-center justify-center rounded-sm bg-secondary px-6 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest !text-midnight no-underline transition hover:bg-champagne" href={concert.ticketUrl}>
+                      <ButtonLink className="min-h-14 w-full rounded-sm bg-secondary px-6 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest text-midnight hover:bg-champagne" href={concert.ticketUrl}>
                         Tickets kaufen
-                      </a>
+                      </ButtonLink>
                     ) : (
                       <p class="font-body text-sm/6 text-role-on/70">Für diesen Termin sind derzeit keine Ticketinformationen hinterlegt.</p>
                     )}

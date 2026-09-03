@@ -4,6 +4,7 @@ import { Image } from 'astro:assets';
 import fallbackImage from '../../assets/hero/l1130722-hero.jpg';
 import type { Concert, ConcertVariant } from '../../data/concerts';
 import Card from '../ui/Card.astro';
+import { ButtonLink } from '../ui/button';
 
 interface Props {
   concert: Concert;
@@ -20,8 +21,8 @@ const titleId = `${concert.slug}-title`;
 
 const overlayLinkClass = 'absolute inset-0 z-10 rounded-lg no-underline';
 const actionBase = 'pointer-events-auto relative z-30 inline-flex items-center justify-center rounded-sm border font-body text-xs/4 font-semibold uppercase tracking-widest no-underline transition-colors active:scale-95 focus-visible:outline-offset-2';
-const compactDetailClass = `${actionBase} min-h-10 border-white/20 bg-transparent px-4 py-2 !text-role-on/70 hover:border-white/40 hover:bg-white/5 hover:!text-white`;
-const compactTicketClass = `${actionBase} min-h-10 border-secondary/50 bg-transparent px-4 py-2 !text-secondary hover:border-secondary hover:bg-secondary/10 hover:!text-champagne`;
+const compactDetailClass = `${actionBase} min-h-11 border-white/20 bg-transparent px-4 py-2 !text-role-on/70 hover:border-white/40 hover:bg-white/5 hover:!text-white`;
+const compactTicketClass = `${actionBase} min-h-11 border-secondary/50 bg-transparent px-4 py-2 !text-secondary hover:border-secondary hover:bg-secondary/10 hover:!text-champagne`;
 ---
 
 <Card
@@ -100,22 +101,24 @@ const compactTicketClass = `${actionBase} min-h-10 border-secondary/50 bg-transp
 
     <div class="mt-auto flex items-center justify-end border-t border-white/10 pt-6">
       <div class="flex flex-wrap justify-end gap-2">
-        <a
+        <ButtonLink
           href={concert.detailsHref}
-          class={compactDetailClass}
+          className={compactDetailClass}
           aria-label={`Details zu ${concert.title} ansehen`}
+          variant="outline"
         >
           Details
-        </a>
+        </ButtonLink>
         {!isArchive && concert.ticketUrl && (
-          <a
+          <ButtonLink
             id={`tickets-${concert.slug}`}
             href={concert.ticketUrl}
-            class={compactTicketClass}
+            className={compactTicketClass}
             aria-label={`Tickets für ${concert.title} kaufen`}
+            variant="outline"
           >
             Tickets
-          </a>
+          </ButtonLink>
         )}
       </div>
     </div>

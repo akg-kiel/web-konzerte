@@ -3,7 +3,7 @@ export const prerender = false;
 
 import { env } from 'cloudflare:workers';
 
-import ConcertFilters from '../components/sections/ConcertFilters.astro';
+import ConcertFilters from '../components/sections/ConcertFilters';
 import Concerts from '../components/sections/Concerts.astro';
 import PageHero from '../components/sections/PageHero.astro';
 import Layout from '../layouts/Layout.astro';
@@ -13,6 +13,7 @@ import {
   getConcertFilters,
   getConcertSeason,
   getConcerts,
+  hasInvalidConcertDateRange,
   paginateConcerts,
   splitConcerts
 } from '../data/concerts';
@@ -21,11 +22,16 @@ cacheProgramme(Astro.response);
 const result = await getConcerts(env);
 const { programmeConcerts } = splitConcerts(result.concerts);
 const filters = getConcertFilters(Astro.url.searchParams);
-const filteredConcerts = filterConcerts(programmeConcerts, filters);
-const { pageConcerts, page, pageCount } = paginateConcerts(filteredConcerts, Astro.url.searchParams);
-const emptyMessage = Object.values(filters).some(Boolean)
-  ? 'Für diese Filter wurden keine Konzerte gefunden. Ändern Sie die Suche oder setzen Sie die Filter zurück.'
+const rangeError = hasInvalidConcertDateRange(filters)
+  ? 'Das Startdatum muss vor dem Enddatum liegen.'
   : undefined;
+const filteredConcerts = rangeError ? [] : filterConcerts(programmeConcerts, filters);
+const { pageConcerts, page, pageCount } = paginateConcerts(filteredConcerts, Astro.url.searchParams);
+const emptyMessage = rangeError
+  ? 'Korrigieren Sie den ausgewählten Zeitraum.'
+  : Object.values(filters).some(Boolean)
+    ? 'Für diese Filter wurden keine Konzerte gefunden. Ändern Sie die Suche oder setzen Sie die Filter zurück.'
+    : undefined;
 if (result.error) Astro.response.status = 503;
 
 const seasonConcerts = filterConcerts(programmeConcerts, { ...filters, season: '' });
@@ -83,7 +89,9 @@ const seasonHref = (season: string) => {
             filters={filters}
             seasons={seasons.map(([season]) => season)}
             matchCount={filteredConcerts.length}
+            rangeError={rangeError}
             totalCount={programmeConcerts.length}
+            client:load
           />
         </div>
     </section>

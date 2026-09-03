@@ -4,10 +4,9 @@ import { Image } from 'astro:assets';
 import AvailabilityCalendar from '../components/sections/AvailabilityCalendar';
 import PageHero from '../components/sections/PageHero.astro';
 import Card from '../components/ui/Card.astro';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
-import { Label } from '../components/ui/label';
-import { Textarea } from '../components/ui/textarea';
+import { Button, ButtonLink } from '../components/ui/button';
+import { Form } from '../components/ui/form';
+import { TextField } from '../components/ui/text-field';
 import Layout from '../layouts/Layout.astro';
 import orgelMikrofon from '../assets/concerts/orgel-mikrofon.jpg';
 import sinfonieFenster from '../assets/concerts/sinfonie-fenster.jpg';
@@ -48,16 +47,16 @@ const labelClass =
       imagePosition="52% 45%"
     >
       Raum anfragen
-      <a slot="cta" class="inline-flex min-h-12 items-center justify-center rounded-sm bg-secondary px-6 py-3 font-body text-xs/4 font-semibold uppercase tracking-widest !text-midnight no-underline transition hover:bg-champagne active:scale-95" href="#anfrage">Termin anfragen</a>
-      <a slot="cta" class="inline-flex min-h-12 items-center justify-center rounded-sm border border-white/30 px-6 py-3 font-body text-xs/4 font-semibold uppercase tracking-widest !text-on-surface no-underline transition hover:border-secondary hover:!text-secondary" href="#technik">Technische Daten</a>
+      <ButtonLink slot="cta" className="min-h-12 rounded-sm bg-secondary px-6 py-3 font-body text-xs/4 font-semibold uppercase tracking-widest text-midnight hover:bg-champagne active:scale-95" href="#anfrage">Termin anfragen</ButtonLink>
+      <ButtonLink slot="cta" className="min-h-12 rounded-sm border-white/30 bg-transparent px-6 py-3 font-body text-xs/4 font-semibold uppercase tracking-widest text-on-surface hover:border-secondary hover:bg-transparent hover:text-secondary" href="#technik" variant="outline">Technische Daten</ButtonLink>
     </PageHero>
 
     <nav aria-label="Inhalte dieser Seite" class="border-b border-white/10 bg-surface/60">
       <div class="mx-auto flex w-full max-w-screen-2xl flex-wrap gap-x-8 gap-y-2 px-6 py-6 font-body text-sm/6 md:px-8 lg:px-16">
-        <a class="min-h-10 content-center !text-role-on/70 no-underline hover:!text-secondary" href="#technik">Technik &amp; Räume</a>
-        <a class="min-h-10 content-center !text-role-on/70 no-underline hover:!text-secondary" href="#ablauf">Auf- &amp; Abbau</a>
-        <a class="min-h-10 content-center !text-role-on/70 no-underline hover:!text-secondary" href="#konditionen">Konditionen</a>
-        <a class="min-h-10 content-center !text-role-on/70 no-underline hover:!text-secondary" href="#anfrage">Anfrage</a>
+        <a class="min-h-11 content-center !text-role-on/70 no-underline hover:!text-secondary" href="#technik">Technik &amp; Räume</a>
+        <a class="min-h-11 content-center !text-role-on/70 no-underline hover:!text-secondary" href="#ablauf">Auf- &amp; Abbau</a>
+        <a class="min-h-11 content-center !text-role-on/70 no-underline hover:!text-secondary" href="#konditionen">Konditionen</a>
+        <a class="min-h-11 content-center !text-role-on/70 no-underline hover:!text-secondary" href="#anfrage">Anfrage</a>
       </div>
     </nav>
 
@@ -114,7 +113,7 @@ const labelClass =
             <p class="mt-2 font-body text-base/7 text-role-on/70">Der Abbau erfolgt im vereinbarten Zeitfenster. Räume und Ausstattung werden anschließend gemeinsam kontrolliert.</p>
           </Card>
         </div>
-        <p class="mt-8 max-w-3xl rounded-sm border-l-2 border-secondary bg-secondary/5 py-4 pl-6 font-body text-base/7 text-role-on/75">
+        <p class="mt-8 max-w-3xl rounded-sm border-l border-secondary bg-secondary/5 py-4 pl-6 font-body text-base/7 text-role-on/75">
           Vorhandene Ausstattung ist nur nach schriftlicher Bestätigung Teil der Nutzung. Zusätzlich benötigte Miettechnik wird abgestimmt und im Angebot ausgewiesen.
         </p>
       </div>
@@ -143,28 +142,14 @@ const labelClass =
             Tragen Sie Ihren Wunschtermin ein und beschreiben Sie kurz Ihr Vorhaben. Der Kalender bietet zusätzlich eine unverbindliche Vorprüfung. Wir prüfen die Verfügbarkeit und melden uns in der Regel innerhalb weniger Werktage. Mit <span class="text-secondary">*</span> markierte Felder sind Pflichtfelder.
           </p>
 
-          <form action="mailto:konzerte@akg-kiel.de?subject=Raumanfrage%20Petruskirche" method="post" enctype="text/plain" class="mt-10 space-y-10">
+          <Form action="mailto:konzerte@akg-kiel.de?subject=Raumanfrage%20Petruskirche" method="post" encType="text/plain" className="mt-10 space-y-10">
             <fieldset class="space-y-8 border-0 p-0">
               <legend class="mb-2 font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Ihre Veranstaltung</legend>
               <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-                <div>
-                  <Label className={labelClass} htmlFor="event-type">Art der Veranstaltung <span class="text-secondary" aria-hidden="true">*</span></Label>
-                  <Input className={inputClass} id="event-type" name="Art der Veranstaltung" required type="text" />
-                </div>
-                <div>
-                  <Label className={labelClass} htmlFor="attendees">Erwartete Besucherzahl</Label>
-                  <Input className={inputClass} id="attendees" name="Erwartete Besucherzahl" min="1" max="450" inputMode="numeric" type="number" />
-                </div>
-                <div>
-                  <Label className={labelClass} htmlFor="preferred-date">Wunschdatum <span class="text-secondary" aria-hidden="true">*</span></Label>
-                  <Input className={inputClass} id="preferred-date" name="Wunschdatum" required type="date" />
-                </div>
-                <div>
-                  <Label className={labelClass} htmlFor="alternative-date">Alternativdatum</Label>
-                  <Input className={inputClass} id="alternative-date" name="Alternativdatum" type="date" />
-                </div>
+                <TextField inputClassName={inputClass} isRequired label="Art der Veranstaltung" labelClassName={labelClass} name="Art der Veranstaltung" />
+                <TextField inputClassName={inputClass} label="Erwartete Besucherzahl" labelClassName={labelClass} name="Erwartete Besucherzahl" min={1} max={450} inputMode="numeric" type="number" />
                 <div class="md:col-span-2">
-                  <AvailabilityCalendar client:idle />
+                  <AvailabilityCalendar client:load />
                 </div>
               </div>
             </fieldset>
@@ -172,27 +157,15 @@ const labelClass =
             <fieldset class="space-y-8 border-0 border-t border-white/10 p-0 pt-10">
               <legend class="mb-2 font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Kontakt</legend>
               <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-                <div>
-                  <Label className={labelClass} htmlFor="name">Name / Organisation <span class="text-secondary" aria-hidden="true">*</span></Label>
-                  <Input className={inputClass} id="name" name="Name / Organisation" autoComplete="organization" required type="text" />
-                </div>
-                <div>
-                  <Label className={labelClass} htmlFor="email">E-Mail <span class="text-secondary" aria-hidden="true">*</span></Label>
-                  <Input className={inputClass} id="email" name="E-Mail" autoComplete="email" required type="email" />
-                </div>
-                <div>
-                  <Label className={labelClass} htmlFor="phone">Telefon</Label>
-                  <Input className={inputClass} id="phone" name="Telefon" autoComplete="tel" type="tel" />
-                </div>
+                <TextField inputClassName={inputClass} isRequired label="Name / Organisation" labelClassName={labelClass} name="Name / Organisation" autoComplete="organization" />
+                <TextField inputClassName={inputClass} isRequired label="E-Mail" labelClassName={labelClass} name="E-Mail" autoComplete="email" type="email" />
+                <TextField inputClassName={inputClass} label="Telefon" labelClassName={labelClass} name="Telefon" autoComplete="tel" type="tel" />
               </div>
             </fieldset>
 
             <fieldset class="space-y-8 border-0 border-t border-white/10 p-0 pt-10">
               <legend class="mb-2 font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Planung</legend>
-              <div>
-                <Label className={labelClass} htmlFor="technical-requirements">Technische Anforderungen &amp; Bemerkungen</Label>
-                <Textarea className="min-h-36 resize-y rounded-none border-0 border-b border-white/30 bg-transparent px-0 py-4 font-body text-base/6 text-on-surface focus-visible:ring-secondary" id="technical-requirements" name="Technische Anforderungen und Bemerkungen" rows={5} />
-              </div>
+              <TextField inputClassName="min-h-36 resize-y rounded-none border-0 border-b border-white/30 bg-transparent px-0 py-4 font-body text-base/6 text-on-surface focus-visible:ring-secondary" label="Technische Anforderungen & Bemerkungen" labelClassName={labelClass} name="Technische Anforderungen und Bemerkungen" multiline rows={5} />
             </fieldset>
 
             <div>
@@ -203,7 +176,7 @@ const labelClass =
                 Beim Absenden öffnet sich Ihr E-Mail-Programm. Es werden keine Formulardaten auf dieser Website gespeichert. Hinweise finden Sie im <a class="!text-secondary no-underline hover:!text-champagne" href="/datenschutz/">Datenschutz</a>. Alternativ erreichen Sie uns unter <a class="!text-secondary no-underline hover:!text-champagne" href="mailto:konzerte@akg-kiel.de">konzerte@akg-kiel.de</a>.
               </p>
             </div>
-          </form>
+          </Form>
         </Card>
       </div>
     </section>

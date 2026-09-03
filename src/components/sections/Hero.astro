@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 
 import heroStage from '../../assets/hero/l1130722-hero.jpg';
+import { ButtonLink } from '../ui/button';
 ---
 
 <section
@@ -55,18 +56,19 @@ import heroStage from '../../assets/hero/l1130722-hero.jpg';
       </p>
 
       <div class="mt-10 flex flex-col gap-4 sm:flex-row">
-        <a
-          class="inline-flex min-h-14 items-center justify-center rounded-sm bg-secondary px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest !text-midnight no-underline transition hover:bg-role-accent active:scale-95"
+        <ButtonLink
+          className="min-h-14 rounded-sm bg-secondary px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest text-midnight hover:bg-role-accent active:scale-95"
           href="#naechste-konzerte"
         >
           Programm ansehen
-        </a>
-        <a
-          class="inline-flex min-h-14 items-center justify-center rounded-sm border border-white/10 bg-slate-mist/90 px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest !text-white no-underline shadow-sm backdrop-blur-xl transition hover:bg-white/10 active:scale-95"
+        </ButtonLink>
+        <ButtonLink
+          className="min-h-14 rounded-sm border-white/10 bg-slate-mist/90 px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest text-white shadow-sm backdrop-blur-xl hover:bg-white/10 active:scale-95"
           href="/besuch-planen/"
+          variant="outline"
         >
           Besuch planen
-        </a>
+        </ButtonLink>
       </div>
     </div>
   </div>

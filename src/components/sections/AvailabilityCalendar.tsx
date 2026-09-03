@@ -1,7 +1,13 @@
-import { de } from 'date-fns/locale';
+import {
+  endOfMonth,
+  startOfMonth,
+  today as getToday,
+  type CalendarDate
+} from '@internationalized/date';
 import { useEffect, useMemo, useState } from 'react';
 
-import { Calendar, CalendarDayButton } from '@/components/ui/calendar';
+import { Calendar } from '@/components/ui/calendar';
+import { DateField } from '@/components/ui/date-field';
 import type { AvailabilityStatus } from '@/lib/availability';
 
 const labels: Record<AvailabilityStatus, string> = {
@@ -18,80 +24,73 @@ const colors: Record<AvailabilityStatus, string> = {
   unknown: 'bg-role-muted'
 };
 
-const dateKey = (date: Date) =>
-  `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-
-const parseDate = (value: string) => {
-  const [year, month, day] = value.split('-').map(Number);
-  return new Date(year, month - 1, day, 12);
-};
+const venueTimeZone = 'Europe/Berlin';
+const inputClass =
+  'h-auto rounded-none border-0 border-b border-white/30 bg-transparent px-0 py-4 font-body text-base/6 text-on-surface focus-within:ring-secondary';
+const labelClass =
+  'mb-2 block font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/70';
 
 export default function AvailabilityCalendar() {
-  const [today, setToday] = useState<Date>();
+  const today = useMemo(() => getToday(venueTimeZone), []);
   const [statuses, setStatuses] = useState<Record<string, AvailabilityStatus>>({});
-  const [selected, setSelected] = useState<Date>();
-  const [month, setMonth] = useState<Date>();
+  const [selected, setSelected] = useState<CalendarDate | null>(null);
+  const [focused, setFocused] = useState(today);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const endMonth = useMemo(
-    () => (today ? new Date(today.getFullYear() + 1, today.getMonth() + 1, 0) : undefined),
-    [today]
-  );
+  const endDate = useMemo(() => endOfMonth(today.add({ years: 1 })), [today]);
 
   useEffect(() => {
-    const date = new Date();
-    date.setHours(0, 0, 0, 0);
-    setToday(date);
-    setMonth(date);
-  }, []);
-
-  useEffect(() => {
-    if (!today || !endMonth) return;
-    const input = document.querySelector<HTMLInputElement>('#preferred-date');
-    if (!input) return;
-    input.min = dateKey(today);
-    input.max = dateKey(endMonth);
-    const update = () => {
-      const date = input.value && input.validity.valid ? parseDate(input.value) : undefined;
-      setSelected(date);
-      if (date) setMonth(date);
-    };
-    update();
-    input.addEventListener('input', update);
-    return () => input.removeEventListener('input', update);
-  }, [endMonth, today]);
-
-  useEffect(() => {
-    if (!today || !endMonth) return;
-    const from = dateKey(new Date(today.getFullYear(), today.getMonth(), 1));
-    const to = dateKey(endMonth);
+    const controller = new AbortController();
+    const from = startOfMonth(today).toString();
     setLoading(true);
     setError(false);
-    fetch(`/api/availability?from=${from}&to=${to}`)
+    fetch(`/api/availability?from=${from}&to=${endDate}`, { signal: controller.signal })
       .then((response) => {
         if (!response.ok) throw new Error(String(response.status));
         return response.json() as Promise<{ statuses: Record<string, AvailabilityStatus> }>;
       })
       .then(({ statuses: result }) => setStatuses(result))
-      .catch(() => setError(true))
-      .finally(() => setLoading(false));
-  }, [endMonth, today]);
+      .catch((reason: unknown) => {
+        if (!(reason instanceof DOMException && reason.name === 'AbortError')) setError(true);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
+    return () => controller.abort();
+  }, [endDate, today]);
 
-  const statusFor = (date: Date): AvailabilityStatus | undefined =>
-    loading || error ? undefined : (statuses[dateKey(date)] ?? 'unknown');
+  const statusFor = (date: CalendarDate): AvailabilityStatus | undefined =>
+    loading || error ? undefined : (statuses[date.toString()] ?? 'unknown');
   const selectedStatus = selected ? statusFor(selected) : undefined;
-  const selectDate = (date: Date | undefined) => {
+  const selectDate = (date: CalendarDate | null) => {
     setSelected(date);
-    const input = document.querySelector<HTMLInputElement>('#preferred-date');
-    if (!input) return;
-    input.value = date ? dateKey(date) : '';
-    input.dispatchEvent(new Event('input', { bubbles: true }));
+    if (date) setFocused(date);
   };
 
-  if (!today || !endMonth) return null;
-
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+        <DateField
+          inputClassName={inputClass}
+          isRequired
+          label="Wunschdatum"
+          labelClassName={labelClass}
+          maxValue={endDate}
+          minValue={today}
+          name="Wunschdatum"
+          value={selected}
+          onChange={selectDate}
+        />
+        <DateField
+          inputClassName={inputClass}
+          label="Alternativdatum"
+          labelClassName={labelClass}
+          maxValue={endDate}
+          minValue={today}
+          name="Alternativdatum"
+        />
+      </div>
+
       <div>
         <span className="mb-2 block font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/70">
           Verfügbarkeit prüfen
@@ -107,44 +106,18 @@ export default function AvailabilityCalendar() {
         aria-busy={loading}
       >
         <Calendar
-          mode="single"
-          locale={de}
-          selected={selected}
-          onSelect={selectDate}
-          month={month}
-          onMonthChange={setMonth}
-          startMonth={today}
-          endMonth={endMonth}
-          disabled={(date) => date < today}
-          components={{
-            DayButton: (props) => {
-              const status = statusFor(props.day.date);
-              const date = props.day.date.toLocaleDateString('de-DE');
-              return (
-                <CalendarDayButton
-                  {...props}
-                  aria-label={status ? `${date}: ${labels[status]}` : date}
-                />
-              );
-            }
+          aria-label="Verfügbarkeit auswählen"
+          className="mx-auto max-w-sm bg-transparent p-0"
+          focusedValue={focused}
+          getDateStatus={(date) => {
+            const status = statusFor(date);
+            return status ? { className: colors[status], label: labels[status] } : undefined;
           }}
-          modifiers={{
-            available: (date) => statusFor(date) === 'available',
-            coordination: (date) => statusFor(date) === 'coordination',
-            occupied: (date) => statusFor(date) === 'occupied',
-            unknown: (date) => statusFor(date) === 'unknown'
-          }}
-          modifiersClassNames={{
-            available:
-              '[&_button]:relative [&_button]:after:absolute [&_button]:after:bottom-1 [&_button]:after:h-1.5 [&_button]:after:w-1.5 [&_button]:after:rounded-full [&_button]:after:bg-emerald-400',
-            coordination:
-              '[&_button]:relative [&_button]:after:absolute [&_button]:after:bottom-1 [&_button]:after:h-1.5 [&_button]:after:w-1.5 [&_button]:after:rounded-full [&_button]:after:bg-amber-400',
-            occupied:
-              '[&_button]:relative [&_button]:after:absolute [&_button]:after:bottom-1 [&_button]:after:h-1.5 [&_button]:after:w-1.5 [&_button]:after:rounded-full [&_button]:after:bg-red-400',
-            unknown:
-              '[&_button]:relative [&_button]:after:absolute [&_button]:after:bottom-1 [&_button]:after:h-1.5 [&_button]:after:w-1.5 [&_button]:after:rounded-full [&_button]:after:bg-role-muted'
-          }}
-          className="mx-auto w-full max-w-sm bg-transparent p-0 text-on-surface"
+          maxValue={endDate}
+          minValue={today}
+          value={selected}
+          onChange={selectDate}
+          onFocusChange={setFocused}
         />
       </div>
 
@@ -166,10 +139,10 @@ export default function AvailabilityCalendar() {
           : loading
             ? 'Verfügbarkeiten werden geladen …'
             : selected && selectedStatus
-              ? `${selected.toLocaleDateString('de-DE')}: ${labels[selectedStatus]}`
+              ? `${selected.toDate(venueTimeZone).toLocaleDateString('de-DE')}: ${labels[selectedStatus]}`
               : 'Wählen Sie einen Tag für die unverbindliche Vorprüfung.'}
       </p>
-      <p className="rounded-sm border-l-2 border-secondary bg-secondary/5 py-3 pl-4 font-body text-sm/6 text-role-on/75">
+      <p className="rounded-sm border-l border-secondary bg-secondary/5 py-3 pl-4 font-body text-sm/6 text-role-on/75">
         Unverbindliche Vorprüfung, endgültige Bestätigung nach Anfrage.
       </p>
     </div>

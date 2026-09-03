@@ -8,6 +8,7 @@ import {
   getConcertSeason,
   getConcertState,
   getConcerts,
+  hasInvalidConcertDateRange,
   paginateConcerts,
   splitConcerts
 } from '../src/data/concerts.ts';
@@ -157,6 +158,15 @@ try {
       )
     ).map(({ slug }) => slug),
     [result.concerts[0].slug]
+  );
+
+  assert.equal(
+    hasInvalidConcertDateRange({ search: '', season: '', from: '2028-02-01', to: '2028-01-01' }),
+    true
+  );
+  assert.equal(
+    hasInvalidConcertDateRange({ search: '', season: '', from: '2028-01-01', to: '2028-02-01' }),
+    false
   );
 
   const manyConcerts = Array.from({ length: CONCERTS_PER_PAGE * 2 + 1 }, (_, index) => ({
