@@ -14,13 +14,19 @@ export interface ConcertDate {
 export interface Concert {
   slug: string;
   title: string;
-  programme: string;
+  subtitle?: string;
+  shortDescription?: string;
+  longDescription?: string;
+  programme?: string;
   programmeNotes?: string;
   performers?: string;
   date: ConcertDate;
   endIso?: string;
-  location: string;
-  accessibility: string;
+  location?: string;
+  accessibility?: string;
+  admission?: string;
+  durationMinutes?: number;
+  intermission?: 'Mit Pause' | 'Ohne Pause';
   ticketUrl?: string;
   detailsHref: string;
   image?: string;
@@ -57,9 +63,7 @@ interface ChurchToolsRow {
 
 const defaults = {
   baseUrl: 'https://akg-kiel.church.tools',
-  calendarIds: '3',
-  location: 'Konzertkirche Petruskirche Kiel',
-  accessibility: 'Stufenloser Zugang, Rollstuhlplätze und rollstuhlgerechtes WC vorhanden.'
+  calendarIds: '3'
 };
 
 const dateParts = new Intl.DateTimeFormat('de-DE', {
@@ -86,23 +90,45 @@ const berlinDate = new Intl.DateTimeFormat('sv-SE', {
 });
 
 const fieldNames: Record<string, string> = {
+  program: 'programme',
   programm: 'programme',
+  untertitel: 'subtitle',
+  kurzbeschreibung: 'shortDescription',
+  langbeschreibung: 'longDescription',
   programmhinweise: 'programmeNotes',
   mitwirkende: 'performers',
-  barrierefreiheit: 'accessibility'
+  barrierefreiheit: 'accessibility',
+  einlass: 'admission',
+  pause: 'intermission',
+  ort: 'location'
 };
 
-const parseMetadata = (description = '') =>
-  Object.fromEntries(
-    description.split('\n').flatMap((line) => {
-      const match = line.match(/^([^:]+):\s*(.+)$/);
-      const key = match?.[1]
-        .trim()
-        .toLocaleLowerCase('de-DE')
-        .replaceAll(/[^a-zäöü]/g, '');
-      return match && key && fieldNames[key] ? [[fieldNames[key], match[2].trim()]] : [];
-    })
-  ) as Record<string, string>;
+const parseMetadata = (description = '') => {
+  const metadata: Record<string, string> = {};
+  let section: string | null | undefined;
+  for (const line of description.split(/\r?\n/)) {
+    const heading = line.match(/^\s*---\s*(.*?)\s*$/);
+    const field = line.match(/^([^:]+):\s*(.+)$/);
+    const label = heading?.[1] ?? field?.[1];
+    const key = label
+      ?.trim()
+      .toLocaleLowerCase('de-DE')
+      .replaceAll(/[^a-zäöü]/g, '');
+    if (heading) {
+      section = (key ? fieldNames[key] : undefined) ?? null;
+      if (section) metadata[section] = '';
+    } else if (section) {
+      metadata[section] += `${line}\n`;
+    } else if (section === undefined && field && key && fieldNames[key]) {
+      metadata[fieldNames[key]] = field[2].trim();
+    }
+  }
+  return Object.fromEntries(
+    Object.entries(metadata)
+      .map(([key, value]) => [key, value.trim()])
+      .filter(([, value]) => value)
+  );
+};
 
 const safeUrl = (value?: string | null) => {
   if (!value) return undefined;
@@ -153,14 +179,10 @@ const mapAppointment = (row: ChurchToolsRow): Concert | undefined => {
 
   const metadata = parseMetadata(appointment.description ?? '');
   const ticketUrl = safeUrl(appointment.link);
+  const image = safeUrl(appointment.image?.imageUrl);
   const date = formatDate(startDate, appointment.allDay);
-  const address = appointment.address;
-  const location =
-    (address
-      ? [address.name, address.street, [address.zip, address.city].filter(Boolean).join(' ')]
-          .filter(Boolean)
-          .join(', ')
-      : '') || defaults.location;
+  const durationMinutes = endDate ? (Date.parse(endDate) - Date.parse(startDate)) / 60_000 : NaN;
+  const pause = metadata.intermission?.toLocaleLowerCase('de-DE');
   const focus = appointment.image?.imageOption?.focus;
   const focusX = Number(focus?.x ?? 0.5) * 100;
   const focusY = Number(focus?.y ?? 0.5) * 100;
@@ -169,16 +191,30 @@ const mapAppointment = (row: ChurchToolsRow): Concert | undefined => {
   return {
     slug,
     title: appointment.title.trim(),
-    programme: metadata.programme ?? 'Weitere Informationen zu diesem Konzert folgen.',
+    subtitle: metadata.subtitle,
+    shortDescription: metadata.shortDescription,
+    longDescription: metadata.longDescription,
+    programme: metadata.programme,
     programmeNotes: metadata.programmeNotes,
     performers: metadata.performers,
     date,
     endIso: endDate && !Number.isNaN(Date.parse(endDate)) ? endDate : undefined,
-    location,
-    accessibility: metadata.accessibility ?? defaults.accessibility,
+    location: metadata.location,
+    accessibility: metadata.accessibility,
+    admission: metadata.admission,
+    durationMinutes:
+      !appointment.allDay && Number.isFinite(durationMinutes) && durationMinutes > 0
+        ? Math.max(1, Math.round(durationMinutes))
+        : undefined,
+    intermission:
+      pause === 'true' || pause === 'ja' || pause === 'mit pause'
+        ? 'Mit Pause'
+        : pause === 'false' || pause === 'nein' || pause === 'ohne pause'
+          ? 'Ohne Pause'
+          : undefined,
     ticketUrl,
     detailsHref: `/programm/${slug}/`,
-    image: safeUrl(appointment.image?.imageUrl),
+    image: image?.startsWith('https:') ? image : undefined,
     imageAlt:
       appointment.image?.description ??
       `Konzert „${appointment.title.trim()}“ in der Petruskirche Kiel`,
@@ -346,7 +382,15 @@ export function filterConcerts(concerts: Concert[], filters: ConcertFilters) {
       (!filters.from || date >= filters.from) &&
       (!filters.to || date <= filters.to) &&
       (!query ||
-        [concert.title, concert.programme, concert.programmeNotes, concert.performers]
+        [
+          concert.title,
+          concert.subtitle,
+          concert.shortDescription,
+          concert.longDescription,
+          concert.programme,
+          concert.programmeNotes,
+          concert.performers
+        ]
           .filter(Boolean)
           .join('\n')
           .toLocaleLowerCase('de-DE')
