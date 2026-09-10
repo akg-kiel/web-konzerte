@@ -32,7 +32,9 @@ Object.defineProperty(globalThis, 'caches', {
 let startDate = '2027-08-06T17:30:00Z';
 let endDate = 'invalid';
 let allDay = false;
-let description = 'Programm: Bach und Brahms\nMitwirkende: Testchor\nPreis: Eintritt frei\nAnsprechpartner: Nicht veröffentlichen';
+let imageUrl = 'https://example.org/concert.jpg';
+let description =
+  'Programm: Bach und Brahms\nMitwirkende: Testchor\nPreis: Eintritt frei\nAnsprechpartner: Nicht veröffentlichen';
 const calendarFetch = async () => {
   fetchCalls += 1;
   return new Response(
@@ -46,7 +48,7 @@ const calendarFetch = async () => {
               description,
               allDay,
               image: {
-                imageUrl: 'https://example.org/concert.jpg',
+                imageUrl,
                 imageOption: { focus: { x: 0.25, y: 0.75 } }
               },
               link: 'javascript:alert(1)',
@@ -75,6 +77,7 @@ try {
   assert.equal(result.concerts[0].durationMinutes, undefined);
   assert.equal(result.concerts[0].endIso, undefined);
   assert.equal(result.concerts[0].imagePosition, '25% 75%');
+  assert.equal(result.concerts[0].image, imageUrl);
   assert.match(result.concerts[0].slug, /-42-2027-08-06$/);
   await getConcerts();
   assert.equal(fetchCalls, 1);
@@ -190,8 +193,15 @@ try {
   assert.equal(lastPage.pageConcerts.length, 1);
 
   globalThis.fetch = calendarFetch;
+  for (const unsafeImage of ['http://example.org/concert.jpg', 'javascript:alert(1)', 'invalid']) {
+    cachedResponse = undefined;
+    imageUrl = unsafeImage;
+    assert.equal((await getConcerts()).concerts[0].image, undefined);
+  }
+  imageUrl = 'https://example.org/concert.jpg';
   cachedResponse = undefined;
-  description = '---Kurzbeschreibung\nEin Abend für alle.\n---Langbeschreibung\nErster Absatz.\n\nZweiter Absatz.\n---Program\nHaydn';
+  description =
+    '---Kurzbeschreibung\nEin Abend für alle.\n---Langbeschreibung\nErster Absatz.\n\nZweiter Absatz.\n---Program\nHaydn';
   const described = (await getConcerts()).concerts[0];
   assert.equal(described.shortDescription, 'Ein Abend für alle.');
   assert.equal(described.longDescription, 'Erster Absatz.\n\nZweiter Absatz.');
@@ -202,11 +212,16 @@ try {
   for (const heading of ['---Program', '---Programm']) {
     cachedResponse = undefined;
     description = `Interne Notiz\r\n${heading}\r\nHaydn\r\n\r\nDvořák\r\n---Untertitel\r\nMusik, die Brücken baut\r\n---Intern\r\nNicht veröffentlichen`;
-    const { concerts: [concert] } = await getConcerts();
+    const {
+      concerts: [concert]
+    } = await getConcerts();
     assert.equal(concert.programme, 'Haydn\n\nDvořák');
     assert.equal(concert.subtitle, 'Musik, die Brücken baut');
     assert.equal(JSON.stringify(concert).includes('Nicht veröffentlichen'), false);
-    assert.equal(filterConcerts([concert], { search: 'Brücken', season: '', from: '', to: '' }).length, 1);
+    assert.equal(
+      filterConcerts([concert], { search: 'Brücken', season: '', from: '', to: '' }).length,
+      1
+    );
   }
   cachedResponse = undefined;
   description = '---Program\n\n---Untertitel\n---Kurzbeschreibung\n---Langbeschreibung\n';
@@ -228,7 +243,17 @@ try {
   assert.equal(details.durationMinutes, 90);
   assert.equal(details.intermission, 'Mit Pause');
 
-  for (const [value, expected] of [['true', 'Mit Pause'], ['false', 'Ohne Pause'], ['TRUE', 'Mit Pause'], ['False', 'Ohne Pause'], ['ja', 'Mit Pause'], ['nein', 'Ohne Pause'], ['Ohne Pause', 'Ohne Pause'], ['', undefined], ['unbekannt', undefined]]) {
+  for (const [value, expected] of [
+    ['true', 'Mit Pause'],
+    ['false', 'Ohne Pause'],
+    ['TRUE', 'Mit Pause'],
+    ['False', 'Ohne Pause'],
+    ['ja', 'Mit Pause'],
+    ['nein', 'Ohne Pause'],
+    ['Ohne Pause', 'Ohne Pause'],
+    ['', undefined],
+    ['unbekannt', undefined]
+  ]) {
     cachedResponse = undefined;
     description = `---Pause\n${value}`;
     assert.equal((await getConcerts()).concerts[0].intermission, expected);

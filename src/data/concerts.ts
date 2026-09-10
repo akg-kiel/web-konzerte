@@ -110,7 +110,10 @@ const parseMetadata = (description = '') => {
     const heading = line.match(/^\s*---\s*(.*?)\s*$/);
     const field = line.match(/^([^:]+):\s*(.+)$/);
     const label = heading?.[1] ?? field?.[1];
-    const key = label?.trim().toLocaleLowerCase('de-DE').replaceAll(/[^a-zäöü]/g, '');
+    const key = label
+      ?.trim()
+      .toLocaleLowerCase('de-DE')
+      .replaceAll(/[^a-zäöü]/g, '');
     if (heading) {
       section = (key ? fieldNames[key] : undefined) ?? null;
       if (section) metadata[section] = '';
@@ -121,7 +124,9 @@ const parseMetadata = (description = '') => {
     }
   }
   return Object.fromEntries(
-    Object.entries(metadata).map(([key, value]) => [key, value.trim()]).filter(([, value]) => value)
+    Object.entries(metadata)
+      .map(([key, value]) => [key, value.trim()])
+      .filter(([, value]) => value)
   );
 };
 
@@ -174,6 +179,7 @@ const mapAppointment = (row: ChurchToolsRow): Concert | undefined => {
 
   const metadata = parseMetadata(appointment.description ?? '');
   const ticketUrl = safeUrl(appointment.link);
+  const image = safeUrl(appointment.image?.imageUrl);
   const date = formatDate(startDate, appointment.allDay);
   const durationMinutes = endDate ? (Date.parse(endDate) - Date.parse(startDate)) / 60_000 : NaN;
   const pause = metadata.intermission?.toLocaleLowerCase('de-DE');
@@ -196,13 +202,19 @@ const mapAppointment = (row: ChurchToolsRow): Concert | undefined => {
     location: metadata.location,
     accessibility: metadata.accessibility,
     admission: metadata.admission,
-    durationMinutes: !appointment.allDay && Number.isFinite(durationMinutes) && durationMinutes > 0
-      ? Math.max(1, Math.round(durationMinutes)) : undefined,
-    intermission: pause === 'true' || pause === 'ja' || pause === 'mit pause' ? 'Mit Pause'
-      : pause === 'false' || pause === 'nein' || pause === 'ohne pause' ? 'Ohne Pause' : undefined,
+    durationMinutes:
+      !appointment.allDay && Number.isFinite(durationMinutes) && durationMinutes > 0
+        ? Math.max(1, Math.round(durationMinutes))
+        : undefined,
+    intermission:
+      pause === 'true' || pause === 'ja' || pause === 'mit pause'
+        ? 'Mit Pause'
+        : pause === 'false' || pause === 'nein' || pause === 'ohne pause'
+          ? 'Ohne Pause'
+          : undefined,
     ticketUrl,
     detailsHref: `/programm/${slug}/`,
-    image: safeUrl(appointment.image?.imageUrl),
+    image: image?.startsWith('https:') ? image : undefined,
     imageAlt:
       appointment.image?.description ??
       `Konzert „${appointment.title.trim()}“ in der Petruskirche Kiel`,
@@ -370,7 +382,15 @@ export function filterConcerts(concerts: Concert[], filters: ConcertFilters) {
       (!filters.from || date >= filters.from) &&
       (!filters.to || date <= filters.to) &&
       (!query ||
-        [concert.title, concert.subtitle, concert.shortDescription, concert.longDescription, concert.programme, concert.programmeNotes, concert.performers]
+        [
+          concert.title,
+          concert.subtitle,
+          concert.shortDescription,
+          concert.longDescription,
+          concert.programme,
+          concert.programmeNotes,
+          concert.performers
+        ]
           .filter(Boolean)
           .join('\n')
           .toLocaleLowerCase('de-DE')

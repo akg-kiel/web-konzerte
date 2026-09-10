@@ -78,6 +78,7 @@ Eintritt frei. Keine Anmeldung erforderlich.
 ---Pause
 Ohne Pause
 ---Ort
+Nikolaikirche Kiel
 ---Mitwirkende
 Hile Trio
 ---Barrierefreiheit

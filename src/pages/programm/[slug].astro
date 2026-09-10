@@ -3,6 +3,7 @@ export const prerender = false;
 
 import { env } from 'cloudflare:workers';
 
+import fallbackImage from '../../assets/hero/l1130722-hero.jpg';
 import { ButtonLink } from '../../components/ui/button';
 import Layout from '../../layouts/Layout.astro';
 import { cacheProgramme, getConcerts, getConcertState } from '../../data/concerts';
@@ -77,8 +78,14 @@ const info = concert ? [
 
         {concert.image && (
           <aside class="w-full max-w-lg justify-self-center lg:sticky lg:top-28 lg:col-span-5" aria-label="Veranstaltungsbild">
-            <a href={concert.image} aria-label={`Veranstaltungsbild zu ${concert.title} in voller Größe öffnen`} class="block rounded-lg focus-visible:outline-offset-4">
-              <img src={concert.image} alt={concert.imageAlt} class="h-auto w-full rounded-lg object-contain" decoding="async" fetchpriority="high" />
+            <a href={concert.image} aria-label={`Veranstaltungsbild zu ${concert.title} in voller Größe öffnen`} class="block aspect-[3/4] rounded-lg focus-visible:outline-offset-4">
+              <img
+                src={concert.image}
+                alt={concert.imageAlt}
+                class="h-full w-full rounded-lg object-contain"
+                decoding="async"
+                onerror={`this.onerror=null;this.srcset='';this.src='${fallbackImage.src}';this.alt='';this.parentElement.href=this.src`}
+              />
             </a>
           </aside>
         )}

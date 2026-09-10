@@ -15,6 +15,7 @@ interface Props {
 
 const { concert, imageSizes, variant = 'home', ...rest } = Astro.props;
 
+const imageQuality = 80;
 const description = concert.shortDescription ?? concert.programme;
 const isHome = variant === 'home';
 const isArchive = variant === 'archive';
@@ -57,7 +58,7 @@ const compactTicketClass = `${actionBase} min-h-11 border-secondary/50 bg-transp
         loading="lazy"
         decoding="async"
         format="webp"
-        quality={90}
+        quality={imageQuality}
         onerror={`this.onerror=null;this.srcset='';this.src='${fallbackImage.src}';this.alt=''`}
       />
     ) : (
@@ -71,7 +72,7 @@ const compactTicketClass = `${actionBase} min-h-11 border-secondary/50 bg-transp
         loading="lazy"
         decoding="async"
         format="webp"
-        quality={70}
+        quality={imageQuality}
       />
     )}
     <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0),rgba(2,6,23,0.12))]" aria-hidden="true"></div>
