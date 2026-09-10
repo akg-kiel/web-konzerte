@@ -42,7 +42,7 @@ const hasCta = Astro.slots.has('cta');
             sizes="100vw"
             priority
             format="webp"
-            quality={70}
+            quality={90}
             onerror={`this.onerror=null;this.srcset='';this.src='${fallbackImage.src}';this.alt=''`}
           />
         ) : (
