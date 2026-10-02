@@ -9,13 +9,20 @@ export async function resolveConcertImage(concert: Concert): Promise<Concert> {
   )
     return concert;
 
+  let timeout: ReturnType<typeof setTimeout> | undefined;
   try {
     const url = new URL(concert.image);
     if (url.origin !== 'https://akg-kiel.church.tools') return concert;
-    const { width, height } = await inferRemoteSize(concert.image, {
-      domains: [],
-      remotePatterns: [{ protocol: 'https', hostname: 'akg-kiel.church.tools' }]
-    });
+    // ponytail: Astro's probe has no AbortSignal; bound SSR wait until it supports cancellation.
+    const { width, height } = await Promise.race([
+      inferRemoteSize(concert.image, {
+        domains: [],
+        remotePatterns: [{ protocol: 'https', hostname: 'akg-kiel.church.tools' }]
+      }),
+      new Promise<never>((_, reject) => {
+        timeout = setTimeout(() => reject(new Error('Image dimension inference timed out')), 3000);
+      })
+    ]);
     const imageAspectRatio = getImageAspectRatio(width, height);
     if (imageAspectRatio) {
       return {
@@ -26,6 +33,8 @@ export async function resolveConcertImage(concert: Concert): Promise<Concert> {
     }
   } catch {
     // An unavailable poster must not prevent the rest of the page from rendering.
+  } finally {
+    clearTimeout(timeout);
   }
   return { ...concert, image: undefined, imagePosition: '50% 50%' };
 }

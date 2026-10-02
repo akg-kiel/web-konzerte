@@ -15,6 +15,7 @@ const result = await getConcerts(env);
 const matchedConcert = result.concerts.find(({ slug }) => slug === Astro.params.slug);
 const concert = matchedConcert ? await resolveConcertImage(matchedConcert) : undefined;
 const posterUrl = matchedConcert?.image;
+const posterSizes = '(min-width: 1536px) 672px, (min-width: 1024px) calc(50vw - 96px), (min-width: 768px) calc(100vw - 64px), calc(100vw - 48px)';
 const isPast = concert && getConcertState(concert) === 'past';
 if (!concert) Astro.response.status = result.error ? 503 : 404;
 const dateLabel = concert ? new Intl.DateTimeFormat('de-DE', {
@@ -40,7 +41,7 @@ const hasDetails = hasDescription || info.length > 0;
 
         <div class="mt-4 grid items-start gap-8 lg:mt-8 lg:grid-cols-12 lg:gap-16">
           {posterUrl && (
-            <a href={posterUrl} aria-label={`Plakat zu ${concert.title} vollständig ansehen`} class="group block min-w-0 no-underline focus-visible:outline-offset-4 lg:col-span-7">
+            <a href={posterUrl} aria-label={`Plakat zu ${concert.title} vollständig ansehen`} class="group block min-w-0 no-underline focus-visible:outline-offset-4 lg:col-span-6">
               <span class="block aspect-[4/3] overflow-hidden rounded-lg">
                 {concert.image ? <Image
                   src={concert.image}
@@ -50,7 +51,7 @@ const hasDetails = hasDescription || info.length > 0;
                   width={960}
                   height={Math.max(1, Math.round(960 / (concert.imageAspectRatio ?? 4 / 3)))}
                   widths={[480, 720, 960]}
-                  sizes="(min-width: 1536px) 784px, (min-width: 1024px) 55vw, (min-width: 768px) calc(100vw - 64px), calc(100vw - 48px)"
+                  sizes={posterSizes}
                   format="webp"
                   quality={80}
                   loading="eager"
@@ -62,7 +63,7 @@ const hasDetails = hasDescription || info.length > 0;
                   alt=""
                   class="h-full w-full object-cover"
                   widths={[480, 720, 960]}
-                  sizes="(min-width: 1024px) 55vw, calc(100vw - 48px)"
+                  sizes={posterSizes}
                   format="webp"
                   quality={80}
                   loading="eager"
@@ -74,7 +75,7 @@ const hasDetails = hasDescription || info.length > 0;
             </a>
           )}
 
-          <header class:list={['min-w-0', posterUrl ? 'lg:col-span-5' : 'lg:col-span-8']}>
+          <header class:list={['min-w-0', posterUrl ? 'lg:col-span-6' : 'lg:col-span-8']}>
             {isPast && <p class="mb-4 font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/70">Vergangenes Konzert</p>}
             <h1 id="concert-title" class="break-words font-display text-3xl/tight font-normal tracking-tight text-white sm:text-4xl/tight lg:text-5xl/tight">{concert.title}</h1>
             <time datetime={concert.date.iso} class="mt-6 block font-body text-lg/7 font-semibold text-secondary">
@@ -99,7 +100,7 @@ const hasDetails = hasDescription || info.length > 0;
         </div>
 
         {hasDetails && <div class="mt-12 grid gap-12 border-t border-white/10 pt-12 lg:mt-16 lg:grid-cols-12 lg:gap-16">
-          {hasDescription && <div class="min-w-0 space-y-8 lg:col-span-7">
+          {hasDescription && <div class="min-w-0 space-y-8 lg:col-span-6">
             {concert.subtitle && <p class="whitespace-pre-line font-body text-xl/8 text-role-on/85">{concert.subtitle}</p>}
             {concert.shortDescription && <p class="whitespace-pre-line font-body text-lg/8 text-role-on/85">{concert.shortDescription}</p>}
             {concert.longDescription && <div class="whitespace-pre-line font-body text-lg/8 text-role-on/70">{concert.longDescription}</div>}
@@ -120,7 +121,7 @@ const hasDetails = hasDescription || info.length > 0;
           </div>}
 
           {info.length > 0 && (
-            <section class:list={['min-w-0', hasDescription ? 'lg:col-span-5' : 'lg:col-span-12']} aria-labelledby="concert-info-heading">
+            <section class:list={['min-w-0', hasDescription ? 'lg:col-span-6' : 'lg:col-span-12']} aria-labelledby="concert-info-heading">
               <h2 id="concert-info-heading" class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Ihr Konzertbesuch</h2>
               <dl class:list={['mt-6 grid gap-6', !hasDescription && 'sm:grid-cols-2 lg:grid-cols-3']}>
                 {info.map(([label, value]) => (
