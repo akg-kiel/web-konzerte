@@ -29,7 +29,13 @@ Object.defineProperty(globalThis, 'caches', {
     }
   }
 });
-globalThis.fetch = async () => {
+let startDate = '2027-08-06T17:30:00Z';
+let endDate = 'invalid';
+let allDay = false;
+let imageUrl = 'https://example.org/concert.jpg';
+let description =
+  'Programm: Bach und Brahms\nMitwirkende: Testchor\nPreis: Eintritt frei\nAnsprechpartner: Nicht veröffentlichen';
+const calendarFetch = async () => {
   fetchCalls += 1;
   return new Response(
     JSON.stringify({
@@ -39,16 +45,16 @@ globalThis.fetch = async () => {
             base: {
               id: 42,
               title: 'Testkonzert',
-              description:
-                'Programm: Bach und Brahms\nMitwirkende: Testchor\nPreis: Eintritt frei\nAnsprechpartner: Nicht veröffentlichen',
+              description,
+              allDay,
               image: {
-                imageUrl: 'https://example.org/concert.jpg',
+                imageUrl,
                 imageOption: { focus: { x: 0.25, y: 0.75 } }
               },
               link: 'javascript:alert(1)',
               address: {}
             },
-            calculated: { startDate: '2027-08-06T17:30:00Z', endDate: 'invalid' }
+            calculated: { startDate, endDate }
           }
         }
       ]
@@ -56,6 +62,8 @@ globalThis.fetch = async () => {
     { headers: { 'content-type': 'application/json' } }
   );
 };
+
+globalThis.fetch = calendarFetch;
 
 try {
   const result = await getConcerts();
@@ -65,9 +73,11 @@ try {
   assert.equal(result.concerts[0].performers, 'Testchor');
   assert.equal('price' in result.concerts[0], false);
   assert.equal(result.concerts[0].ticketUrl, undefined);
-  assert.equal(result.concerts[0].location, 'Konzertkirche Petruskirche Kiel');
+  assert.equal(result.concerts[0].location, undefined);
+  assert.equal(result.concerts[0].durationMinutes, undefined);
   assert.equal(result.concerts[0].endIso, undefined);
   assert.equal(result.concerts[0].imagePosition, '25% 75%');
+  assert.equal(result.concerts[0].image, imageUrl);
   assert.match(result.concerts[0].slug, /-42-2027-08-06$/);
   await getConcerts();
   assert.equal(fetchCalls, 1);
@@ -181,6 +191,85 @@ try {
   const lastPage = paginateConcerts(manyConcerts, new URLSearchParams({ page: '999' }));
   assert.equal(lastPage.page, 3);
   assert.equal(lastPage.pageConcerts.length, 1);
+
+  globalThis.fetch = calendarFetch;
+  for (const unsafeImage of ['http://example.org/concert.jpg', 'javascript:alert(1)', 'invalid']) {
+    cachedResponse = undefined;
+    imageUrl = unsafeImage;
+    assert.equal((await getConcerts()).concerts[0].image, undefined);
+  }
+  imageUrl = 'https://example.org/concert.jpg';
+  cachedResponse = undefined;
+  description =
+    '---Kurzbeschreibung\nEin Abend für alle.\n---Langbeschreibung\nErster Absatz.\n\nZweiter Absatz.\n---Program\nHaydn';
+  const described = (await getConcerts()).concerts[0];
+  assert.equal(described.shortDescription, 'Ein Abend für alle.');
+  assert.equal(described.longDescription, 'Erster Absatz.\n\nZweiter Absatz.');
+  assert.equal(described.programme, 'Haydn');
+  for (const search of ['Abend', 'Zweiter']) {
+    assert.equal(filterConcerts([described], { search, season: '', from: '', to: '' }).length, 1);
+  }
+  for (const heading of ['---Program', '---Programm']) {
+    cachedResponse = undefined;
+    description = `Interne Notiz\r\n${heading}\r\nHaydn\r\n\r\nDvořák\r\n---Untertitel\r\nMusik, die Brücken baut\r\n---Intern\r\nNicht veröffentlichen`;
+    const {
+      concerts: [concert]
+    } = await getConcerts();
+    assert.equal(concert.programme, 'Haydn\n\nDvořák');
+    assert.equal(concert.subtitle, 'Musik, die Brücken baut');
+    assert.equal(JSON.stringify(concert).includes('Nicht veröffentlichen'), false);
+    assert.equal(
+      filterConcerts([concert], { search: 'Brücken', season: '', from: '', to: '' }).length,
+      1
+    );
+  }
+  cachedResponse = undefined;
+  description = '---Program\n\n---Untertitel\n---Kurzbeschreibung\n---Langbeschreibung\n';
+  const empty = await getConcerts();
+  assert.equal(empty.concerts[0].programme, undefined);
+  assert.equal(empty.concerts[0].subtitle, undefined);
+  assert.equal(empty.concerts[0].shortDescription, undefined);
+  assert.equal(empty.concerts[0].longDescription, undefined);
+  assert.equal(empty.concerts[0].accessibility, undefined);
+  assert.equal(empty.concerts[0].admission, undefined);
+  assert.equal(empty.concerts[0].intermission, undefined);
+
+  description = '---Einlass\n19:00 Uhr\n---Ort\nNikolaikirche\n---Pause\nMit Pause';
+  endDate = '2027-08-06T19:00:00Z';
+  cachedResponse = undefined;
+  const details = (await getConcerts()).concerts[0];
+  assert.equal(details.admission, '19:00 Uhr');
+  assert.equal(details.location, 'Nikolaikirche');
+  assert.equal(details.durationMinutes, 90);
+  assert.equal(details.intermission, 'Mit Pause');
+
+  for (const [value, expected] of [
+    ['true', 'Mit Pause'],
+    ['false', 'Ohne Pause'],
+    ['TRUE', 'Mit Pause'],
+    ['False', 'Ohne Pause'],
+    ['ja', 'Mit Pause'],
+    ['nein', 'Ohne Pause'],
+    ['Ohne Pause', 'Ohne Pause'],
+    ['', undefined],
+    ['unbekannt', undefined]
+  ]) {
+    cachedResponse = undefined;
+    description = `---Pause\n${value}`;
+    assert.equal((await getConcerts()).concerts[0].intermission, expected);
+  }
+  for (const end of [undefined, 'invalid', startDate, '2027-08-06T16:00:00Z']) {
+    cachedResponse = undefined;
+    endDate = end;
+    assert.equal((await getConcerts()).concerts[0].durationMinutes, undefined);
+  }
+  cachedResponse = undefined;
+  startDate = '2027-08-06T23:30:00Z';
+  endDate = '2027-08-07T01:00:00Z';
+  assert.equal((await getConcerts()).concerts[0].durationMinutes, 90);
+  cachedResponse = undefined;
+  allDay = true;
+  assert.equal((await getConcerts()).concerts[0].durationMinutes, undefined);
 } finally {
   globalThis.fetch = originalFetch;
   console.error = originalConsoleError;

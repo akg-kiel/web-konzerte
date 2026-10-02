@@ -14,6 +14,7 @@ interface Props {
 }
 
 const { eyebrow, intro, subtitle, image, imageAlt = '', imagePosition = 'center center' } = Astro.props;
+const imageQuality = 80;
 const hasImage = Boolean(image);
 const hasCta = Astro.slots.has('cta');
 ---
@@ -42,7 +43,7 @@ const hasCta = Astro.slots.has('cta');
             sizes="100vw"
             priority
             format="webp"
-            quality={70}
+            quality={imageQuality}
             onerror={`this.onerror=null;this.srcset='';this.src='${fallbackImage.src}';this.alt=''`}
           />
         ) : (
@@ -55,7 +56,7 @@ const hasCta = Astro.slots.has('cta');
             sizes="100vw"
             priority
             format="webp"
-            quality={70}
+            quality={imageQuality}
           />
         )}
         <div

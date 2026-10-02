@@ -42,10 +42,10 @@ cp .dev.vars.example .dev.vars # lokale Entwicklung
 
 Native ChurchTools-Felder werden so verwendet:
 
-- Titel, Beginn und Ende → Titel und Termin
+- Titel, Beginn und Ende → Titel, Termin und Dauer in Minuten (gesamte Zeitspanne inklusive etwaiger Pause). Ohne gültiges Ende nach Beginn sowie bei ganztägigen Terminen entfällt die Dauer.
 - Link → Ticketlink
 - Bild inklusive Fokuspunkt → Konzertbild
-- Adresse → Veranstaltungsort; ohne Adresse gilt die Petruskirche
+- Die Petruskirche ist der Standardort und wird nicht eigens angezeigt. Abweichende Orte über `---Ort` angeben; das native Adressfeld wird nicht angezeigt.
 
 Zusätzliche öffentliche Angaben kommen als einzelne `Feld: Wert`-Zeilen in die ChurchTools-Beschreibung:
 
@@ -56,4 +56,37 @@ Mitwirkende: Chor, Ensemble oder Solist:innen
 Barrierefreiheit: Abweichende Hinweise für diesen Termin
 ```
 
-Andere Beschreibungszeilen werden bewusst nicht veröffentlicht, damit interne Aufbauzeiten und Kontaktdaten nicht auf der Website landen.
+Alternativ werden mehrzeilige Abschnitte unterstützt:
+
+```text
+---Untertitel
+Musik, die Brücken baut
+---Kurzbeschreibung
+Ein Konzertabend mit dem Hile Trio für Menschen mit und ohne Behinderung.
+---Langbeschreibung
+Hier steht die ausführliche Beschreibung des Konzerts.
+
+Weitere Absätze sind möglich.
+---Program
+Joseph Haydn – Klaviertrio D-Dur, Hob. XV:7
+
+Antonín Dvořák – Klaviertrio Nr. 4 e-Moll, op. 90 „Dumky“
+---Programmhinweise
+Eintritt frei. Keine Anmeldung erforderlich.
+---Einlass
+15:30 Uhr
+---Pause
+Ohne Pause
+---Ort
+Nikolaikirche Kiel
+---Mitwirkende
+Hile Trio
+---Barrierefreiheit
+Kostenloser Fahrdienst nach vorheriger Anmeldung.
+---Intern
+Dieser Abschnitt wird nicht veröffentlicht.
+```
+
+`---Programm` wird ebenfalls akzeptiert. Jeder Abschnitt reicht bis zur nächsten `---`-Überschrift; alle Zeilen darin sind öffentlich, auch Kontaktangaben. Unbekannte Abschnitte und Text vor dem ersten Abschnitt (außer den bisherigen `Feld: Wert`-Angaben) werden nicht veröffentlicht. Innerhalb eines Abschnitts ist `Feld: Wert` normaler Text; zum Feldwechsel eine neue `---`-Überschrift verwenden. Der Untertitel erscheint auf Konzertkarten und Detailseiten. `---Kurzbeschreibung` erscheint auf den Konzertkarten und der Detailseite; fehlt sie, nutzen Karten wie bisher das Programm. `---Langbeschreibung` erscheint ausschließlich auf der Detailseite und unterstützt mehrere Absätze. Beide Beschreibungen sind unabhängig von `---Program` und `---Programmhinweise`, werden durchsucht und bei leerem Inhalt ausgeblendet.
+
+`---Pause` akzeptiert `true` / `false`, `Mit Pause` / `Ohne Pause` oder `ja` / `nein` (Groß-/Kleinschreibung egal). Leer oder unbekannt bedeutet keine Anzeige. Alle optionalen Angaben bleiben bei leerem Inhalt ausgeblendet, ohne Ersatztext oder pauschale Einlass-/Barrierefreiheitsangaben. `---Einlass` ist frei formulierbar, z. B. `15:30 Uhr` oder `30 Minuten vor Beginn`. Das Veranstaltungsbild steht auf der Detailseite unbeschnitten neben dem Text, auf kleinen Bildschirmen darunter; es lässt sich in voller Größe öffnen.

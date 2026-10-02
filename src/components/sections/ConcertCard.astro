@@ -15,6 +15,8 @@ interface Props {
 
 const { concert, imageSizes, variant = 'home', ...rest } = Astro.props;
 
+const imageQuality = 80;
+const description = concert.shortDescription ?? concert.programme;
 const isHome = variant === 'home';
 const isArchive = variant === 'archive';
 const titleId = `${concert.slug}-title`;
@@ -56,7 +58,7 @@ const compactTicketClass = `${actionBase} min-h-11 border-secondary/50 bg-transp
         loading="lazy"
         decoding="async"
         format="webp"
-        quality={70}
+        quality={imageQuality}
         onerror={`this.onerror=null;this.srcset='';this.src='${fallbackImage.src}';this.alt=''`}
       />
     ) : (
@@ -70,7 +72,7 @@ const compactTicketClass = `${actionBase} min-h-11 border-secondary/50 bg-transp
         loading="lazy"
         decoding="async"
         format="webp"
-        quality={70}
+        quality={imageQuality}
       />
     )}
     <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0),rgba(2,6,23,0.12))]" aria-hidden="true"></div>
@@ -91,12 +93,13 @@ const compactTicketClass = `${actionBase} min-h-11 border-secondary/50 bg-transp
     >
       {concert.title}
     </h3>
-    <p class:list={[
-      '!mb-6 max-w-none font-body text-sm/relaxed text-role-on/70 sm:text-base/relaxed',
+    {concert.subtitle && <p class="mb-4 whitespace-pre-line font-body text-base/relaxed text-role-on/80">{concert.subtitle}</p>}
+    {description && <p class:list={[
+      '!mb-6 max-w-none whitespace-pre-line font-body text-sm/relaxed text-role-on/70 sm:text-base/relaxed',
       isHome && 'min-h-20 line-clamp-3'
     ]}>
-      {concert.programme}
-    </p>
+      {description}
+    </p>}
     {concert.performers && <p class="!mb-6 font-body text-sm/6 text-role-on/70"><span class="font-semibold text-role-on/90">Mitwirkende:</span> {concert.performers}</p>}
 
     <div class="mt-auto flex items-center justify-end border-t border-white/10 pt-6">
