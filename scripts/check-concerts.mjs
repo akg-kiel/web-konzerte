@@ -350,6 +350,30 @@ try {
     assert.equal((await resolveConcertImage(unresolved)).image, undefined);
   }
 
+  const originalSetTimeout = globalThis.setTimeout;
+  const originalClearTimeout = globalThis.clearTimeout;
+  let deadlineCleared = false;
+  try {
+    globalThis.fetch = () => new Promise(() => {});
+    globalThis.setTimeout = (callback, milliseconds) => {
+      assert.equal(milliseconds, 3000);
+      queueMicrotask(callback);
+      return 42;
+    };
+    globalThis.clearTimeout = (deadline) => {
+      assert.equal(deadline, 42);
+      deadlineCleared = true;
+    };
+    const timedOut = await resolveConcertImage(unresolved);
+    assert.equal(timedOut.image, undefined);
+    assert.equal(timedOut.imagePosition, '50% 50%');
+    assert.equal(timedOut.title, unresolved.title);
+    assert.equal(deadlineCleared, true);
+  } finally {
+    globalThis.setTimeout = originalSetTimeout;
+    globalThis.clearTimeout = originalClearTimeout;
+  }
+
   globalThis.fetch = calendarFetch;
   for (const foreignImage of [
     'https://example.org/concert.jpg?fit=crop&w=50',
