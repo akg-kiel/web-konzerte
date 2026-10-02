@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 
 import fallbackImage from '../../assets/hero/l1130722-hero.jpg';
+import { resolveConcertImage } from '../../data/concert-images';
 import type { Concert, ConcertVariant } from '../../data/concerts';
 import Card from '../ui/Card.astro';
 import { ButtonLink } from '../ui/button';
@@ -13,12 +14,14 @@ interface Props {
   [key: string]: unknown;
 }
 
-const { concert, imageSizes, variant = 'home', ...rest } = Astro.props;
+const { concert: sourceConcert, imageSizes, variant = 'home', ...rest } = Astro.props;
+const concert = await resolveConcertImage(sourceConcert);
 
 const imageQuality = 80;
 const description = concert.shortDescription ?? concert.programme;
 const isHome = variant === 'home';
 const isArchive = variant === 'archive';
+const imageRatio = concert.imageAspectRatio ?? 4 / 3;
 const titleId = `${concert.slug}-title`;
 
 const overlayLinkClass = 'absolute inset-0 z-10 rounded-lg no-underline';
@@ -52,21 +55,20 @@ const compactTicketClass = `${actionBase} min-h-11 border-secondary/50 bg-transp
         class="absolute inset-0 h-full w-full object-cover"
         style={`object-position: ${concert.imagePosition};`}
         width={960}
-        height={720}
+        height={Math.max(1, Math.round(960 / imageRatio))}
         widths={[480, 720, 960]}
         sizes={imageSizes}
         loading="lazy"
         decoding="async"
         format="webp"
         quality={imageQuality}
-        onerror={`this.onerror=null;this.srcset='';this.src='${fallbackImage.src}';this.alt=''`}
+        onerror={`this.onerror=null;this.srcset='';this.src='${fallbackImage.src}';this.alt='';this.style.objectPosition='50% 50%'`}
       />
     ) : (
       <Image
         src={fallbackImage}
         alt=""
         class="absolute inset-0 h-full w-full object-cover"
-        style={`object-position: ${concert.imagePosition};`}
         widths={[480, 720, 960]}
         sizes={imageSizes}
         loading="lazy"
@@ -100,8 +102,6 @@ const compactTicketClass = `${actionBase} min-h-11 border-secondary/50 bg-transp
     ]}>
       {description}
     </p>}
-    {concert.performers && <p class="!mb-6 font-body text-sm/6 text-role-on/70"><span class="font-semibold text-role-on/90">Mitwirkende:</span> {concert.performers}</p>}
-
     <div class="mt-auto flex items-center justify-end border-t border-white/10 pt-6">
       <div class="flex flex-wrap justify-end gap-2">
         <ButtonLink

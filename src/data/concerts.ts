@@ -30,6 +30,8 @@ export interface Concert {
   ticketUrl?: string;
   detailsHref: string;
   image?: string;
+  imageAspectRatio?: number;
+  imageFocus?: { x: number; y: number };
   imageAlt: string;
   imagePosition: string;
 }
@@ -48,6 +50,7 @@ interface ChurchToolsAppointment {
   image?: {
     imageUrl?: string;
     description?: string | null;
+    imageMetadata?: { aspectRatio?: number; width?: number; height?: number };
     imageOption?: { focus?: { x?: number | string; y?: number | string } };
   } | null;
   link?: string | null;
@@ -165,6 +168,44 @@ const formatDate = (iso: string, allDay = false): ConcertDate => {
   };
 };
 
+const normalizeFocus = (value?: number | string) => {
+  const coordinate =
+    typeof value === 'number' || (typeof value === 'string' && value.trim()) ? Number(value) : NaN;
+  return Number.isFinite(coordinate) ? Math.min(1, Math.max(0, coordinate)) : 0.5;
+};
+
+export const getImageAspectRatio = (width?: number, height?: number) => {
+  const ratio =
+    typeof width === 'number' && typeof height === 'number' && width > 0 && height > 0
+      ? width / height
+      : NaN;
+  return Number.isSafeInteger(width) &&
+    Number.isSafeInteger(height) &&
+    Number.isFinite(ratio) &&
+    ratio > 0
+    ? ratio
+    : undefined;
+};
+
+const positionInCardCrop = (focus: number, visible: number) =>
+  Math.min(100, Math.max(0, ((focus - visible / 2) / (1 - visible)) * 100));
+
+export function getConcertImagePosition(focus: Concert['imageFocus'], imageRatio?: number) {
+  const focusX = normalizeFocus(focus?.x);
+  const focusY = normalizeFocus(focus?.y);
+  // Center the CT focal point within the 4:3 crop, clamped to the image edges.
+  const cardRatio = 4 / 3;
+  const positionX =
+    imageRatio && imageRatio > cardRatio
+      ? positionInCardCrop(focusX, cardRatio / imageRatio)
+      : focusX * 100;
+  const positionY =
+    imageRatio && imageRatio < cardRatio
+      ? positionInCardCrop(focusY, imageRatio / cardRatio)
+      : focusY * 100;
+  return `${positionX}% ${positionY}%`;
+}
+
 const mapAppointment = (row: ChurchToolsRow): Concert | undefined => {
   const appointment = row.appointment?.base;
   const startDate = row.appointment?.calculated?.startDate;
@@ -180,12 +221,23 @@ const mapAppointment = (row: ChurchToolsRow): Concert | undefined => {
   const metadata = parseMetadata(appointment.description ?? '');
   const ticketUrl = safeUrl(appointment.link);
   const image = safeUrl(appointment.image?.imageUrl);
+  const imageUrl = image ? new URL(image) : undefined;
+  if (imageUrl?.origin === defaults.baseUrl && imageUrl.pathname.startsWith('/images/')) {
+    // ChurchTools returns a 150px square thumbnail unless width and height are requested explicitly.
+    imageUrl.searchParams.set('fit', 'max');
+    imageUrl.searchParams.set('h', '0');
+    imageUrl.searchParams.set('w', '1200');
+  }
   const date = formatDate(startDate, appointment.allDay);
   const durationMinutes = endDate ? (Date.parse(endDate) - Date.parse(startDate)) / 60_000 : NaN;
   const pause = metadata.intermission?.toLocaleLowerCase('de-DE');
   const focus = appointment.image?.imageOption?.focus;
-  const focusX = Number(focus?.x ?? 0.5) * 100;
-  const focusY = Number(focus?.y ?? 0.5) * 100;
+  const imageFocus = { x: normalizeFocus(focus?.x), y: normalizeFocus(focus?.y) };
+  const { aspectRatio: ratio, width, height } = appointment.image?.imageMetadata ?? {};
+  const imageRatio =
+    ratio && Number.isFinite(ratio) && ratio >= 0.25 && ratio <= 4
+      ? ratio
+      : getImageAspectRatio(width, height);
   const slug = `${slugify(appointment.title)}-${appointment.id}-${startDate.slice(0, 10)}`;
 
   return {
@@ -214,11 +266,13 @@ const mapAppointment = (row: ChurchToolsRow): Concert | undefined => {
           : undefined,
     ticketUrl,
     detailsHref: `/programm/${slug}/`,
-    image: image?.startsWith('https:') ? image : undefined,
+    image: imageUrl?.protocol === 'https:' ? imageUrl.href : undefined,
+    imageAspectRatio: imageRatio,
+    imageFocus,
     imageAlt:
       appointment.image?.description ??
       `Konzert „${appointment.title.trim()}“ in der Petruskirche Kiel`,
-    imagePosition: `${Number.isFinite(focusX) ? focusX : 50}% ${Number.isFinite(focusY) ? focusY : 50}%`
+    imagePosition: getConcertImagePosition(imageFocus, imageRatio)
   };
 };
 
