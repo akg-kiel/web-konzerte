@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 
+import { resolveConcertImage } from '../src/data/concert-images.ts';
 import {
   CONCERTS_PER_PAGE,
   cacheProgramme,
@@ -33,6 +34,11 @@ let startDate = '2027-08-06T17:30:00Z';
 let endDate = 'invalid';
 let allDay = false;
 let imageUrl = 'https://example.org/concert.jpg';
+let imageAspectRatio;
+let imageWidth;
+let imageHeight;
+let focusX = 0.25;
+let focusY = 0.75;
 let description =
   'Programm: Bach und Brahms\nMitwirkende: Testchor\nPreis: Eintritt frei\nAnsprechpartner: Nicht veröffentlichen';
 const calendarFetch = async () => {
@@ -49,7 +55,12 @@ const calendarFetch = async () => {
               allDay,
               image: {
                 imageUrl,
-                imageOption: { focus: { x: 0.25, y: 0.75 } }
+                imageMetadata: {
+                  aspectRatio: imageAspectRatio,
+                  width: imageWidth,
+                  height: imageHeight
+                },
+                imageOption: { focus: { x: focusX, y: focusY } }
               },
               link: 'javascript:alert(1)',
               address: {}
@@ -78,6 +89,7 @@ try {
   assert.equal(result.concerts[0].endIso, undefined);
   assert.equal(result.concerts[0].imagePosition, '25% 75%');
   assert.equal(result.concerts[0].image, imageUrl);
+  assert.equal(result.concerts[0].imageAspectRatio, undefined);
   assert.match(result.concerts[0].slug, /-42-2027-08-06$/);
   await getConcerts();
   assert.equal(fetchCalls, 1);
@@ -193,7 +205,173 @@ try {
   assert.equal(lastPage.pageConcerts.length, 1);
 
   globalThis.fetch = calendarFetch;
-  for (const unsafeImage of ['http://example.org/concert.jpg', 'javascript:alert(1)', 'invalid']) {
+  cachedResponse = undefined;
+  imageUrl = 'https://akg-kiel.church.tools/images/30637/hash?foo=bar&w=50';
+  imageAspectRatio = 0.7085;
+  const imageConcert = (await getConcerts()).concerts[0];
+  assert.equal(
+    imageConcert.image,
+    'https://akg-kiel.church.tools/images/30637/hash?foo=bar&w=1200&fit=max&h=0'
+  );
+  assert.equal(imageConcert.imageAspectRatio, 0.7085);
+  assert.equal(imageConcert.imagePosition, '25% 100%');
+  cachedResponse = undefined;
+  focusY = 0.20299;
+  assert.equal((await getConcerts()).concerts[0].imagePosition, '25% 0%');
+  cachedResponse = undefined;
+  focusY = 0.35;
+  assert.equal(
+    Math.round(Number.parseFloat((await getConcerts()).concerts[0].imagePosition.split(' ')[1])),
+    18
+  );
+  cachedResponse = undefined;
+  focusY = 0.75;
+  imageAspectRatio = 1.5;
+  assert.equal((await getConcerts()).concerts[0].imagePosition, '0% 75%');
+
+  for (const ratio of [undefined, 0.7085, 1.5]) {
+    imageAspectRatio = ratio;
+    for (const focus of ['Infinity', '-Infinity', 'NaN', 'invalid', '', ' ', undefined]) {
+      cachedResponse = undefined;
+      focusX = focus;
+      focusY = focus;
+      const concert = (await getConcerts()).concerts[0];
+      assert.equal(concert.imagePosition, '50% 50%');
+      assert.deepEqual(concert.imageFocus, { x: 0.5, y: 0.5 });
+    }
+    for (const [x, y, expected] of [
+      [-10, 10, '0% 100%'],
+      ['10', '-10', '100% 0%']
+    ]) {
+      cachedResponse = undefined;
+      focusX = x;
+      focusY = y;
+      assert.equal((await getConcerts()).concerts[0].imagePosition, expected);
+    }
+  }
+  focusX = 0.25;
+  focusY = 0.35;
+  imageWidth = 1451;
+  imageHeight = 2048;
+  for (const ratio of [undefined, 0, -1, 0.2, 4.1, 'invalid', '0.7085']) {
+    cachedResponse = undefined;
+    imageAspectRatio = ratio;
+    const concert = (await getConcerts()).concerts[0];
+    assert.equal(concert.imageAspectRatio, 1451 / 2048);
+    assert.equal(Math.round(Number.parseFloat(concert.imagePosition.split(' ')[1])), 18);
+    globalThis.fetch = async () => {
+      throw new Error('Valid intrinsic dimensions must not trigger image inference');
+    };
+    assert.equal(await resolveConcertImage(concert), concert);
+    globalThis.fetch = calendarFetch;
+  }
+
+  imageAspectRatio = undefined;
+  for (const [width, height] of [
+    [0, 2048],
+    [-1, 2048],
+    [1451, 0],
+    [1451, -1],
+    ['1451', 2048],
+    [1451, '2048'],
+    [Infinity, 2048],
+    [1451.5, 2048],
+    [1e-300, 2048],
+    [1451, 1e-300],
+    [1e100, 2048],
+    [1451, NaN],
+    [undefined, undefined]
+  ]) {
+    cachedResponse = undefined;
+    imageWidth = width;
+    imageHeight = height;
+    assert.equal((await getConcerts()).concerts[0].imageAspectRatio, undefined);
+  }
+
+  // A PNG's initial IHDR bytes are sufficient for Astro's streaming dimension probe.
+  const portraitHeader = Buffer.from(
+    '89504e470d0a1a0a0000000d49484452000002bc000003e80806000000',
+    'hex'
+  );
+  let posterBytes = portraitHeader;
+  let imageFetchCalls = 0;
+  const imageFetch = async (request, options) => {
+    imageFetchCalls += 1;
+    assert.equal(request.url, imageConcert.image);
+    assert.equal(options.redirect, 'manual');
+    const response = new Response(posterBytes);
+    Object.defineProperty(response, 'url', { value: request.url });
+    return response;
+  };
+  imageWidth = undefined;
+  imageHeight = undefined;
+  for (const ratio of [undefined, 0, -1, 0.2, 4.1, 'invalid']) {
+    cachedResponse = undefined;
+    imageAspectRatio = ratio;
+    const unresolved = (await getConcerts()).concerts[0];
+    assert.equal(unresolved.imageAspectRatio, undefined);
+    assert.equal(unresolved.imagePosition, '25% 35%');
+    globalThis.fetch = imageFetch;
+    const resolved = await resolveConcertImage(unresolved);
+    assert.equal(resolved.image, imageConcert.image);
+    assert.equal(resolved.imageAspectRatio, 0.7);
+    assert.equal(Math.round(Number.parseFloat(resolved.imagePosition.split(' ')[1])), 18);
+    assert.equal(unresolved.imageAspectRatio, undefined);
+    assert.equal(await resolveConcertImage(resolved), resolved);
+    globalThis.fetch = calendarFetch;
+  }
+  assert.equal(imageFetchCalls, 6);
+
+  cachedResponse = undefined;
+  const unresolved = (await getConcerts()).concerts[0];
+  for (const invalidBytes of [Buffer.from('not an image'), Buffer.alloc(24)]) {
+    posterBytes = invalidBytes;
+    globalThis.fetch = imageFetch;
+    const failed = await resolveConcertImage(unresolved);
+    assert.equal(failed.image, undefined);
+    assert.equal(failed.imagePosition, '50% 50%');
+    assert.equal(failed.title, unresolved.title);
+  }
+  for (const dimensionOffset of [16, 20]) {
+    posterBytes = Buffer.from(portraitHeader);
+    posterBytes.writeUInt32BE(0, dimensionOffset);
+    globalThis.fetch = imageFetch;
+    assert.equal((await resolveConcertImage(unresolved)).image, undefined);
+  }
+  for (const failure of [
+    async () => {
+      throw new Error('Offline');
+    },
+    async () => new Response(null, { status: 503 }),
+    async () =>
+      new Response(null, { status: 302, headers: { Location: 'https://example.org/poster.png' } })
+  ]) {
+    globalThis.fetch = failure;
+    assert.equal((await resolveConcertImage(unresolved)).image, undefined);
+  }
+
+  globalThis.fetch = calendarFetch;
+  for (const foreignImage of [
+    'https://example.org/concert.jpg?fit=crop&w=50',
+    'https://other.church.tools/images/30637/hash?w=50',
+    'https://akg-kiel.church.tools.example.org/images/30637/hash?w=50'
+  ]) {
+    cachedResponse = undefined;
+    imageUrl = foreignImage;
+    const foreignConcert = (await getConcerts()).concerts[0];
+    assert.equal(foreignConcert.image, foreignImage);
+    globalThis.fetch = async () => {
+      throw new Error('Foreign images must not trigger inference');
+    };
+    assert.equal(await resolveConcertImage(foreignConcert), foreignConcert);
+    globalThis.fetch = calendarFetch;
+  }
+  for (const unsafeImage of [
+    'http://example.org/concert.jpg',
+    'javascript:alert(1)',
+    'data:image/png;base64,AA==',
+    'invalid'
+  ]) {
     cachedResponse = undefined;
     imageUrl = unsafeImage;
     assert.equal((await getConcerts()).concerts[0].image, undefined);
