@@ -1,3 +1,5 @@
+import { eventDate, factualText, safeUrl } from './concert-seo.ts';
+
 export type ConcertVariant = 'home' | 'programme' | 'archive';
 export type ConcertState = 'past' | 'upcoming-with-ticket' | 'upcoming-without-ticket';
 
@@ -20,9 +22,11 @@ export interface Concert {
   programme?: string;
   programmeNotes?: string;
   performers?: string;
+  organizer?: string;
   date: ConcertDate;
   endIso?: string;
   location?: string;
+  address?: { street?: string; zip?: string; city?: string };
   accessibility?: string;
   admission?: string;
   durationMinutes?: number;
@@ -100,13 +104,15 @@ const fieldNames: Record<string, string> = {
   langbeschreibung: 'longDescription',
   programmhinweise: 'programmeNotes',
   mitwirkende: 'performers',
+  veranstalter: 'organizer',
   barrierefreiheit: 'accessibility',
   einlass: 'admission',
   pause: 'intermission',
   ort: 'location'
 };
 
-const parseMetadata = (description = '') => {
+const parseMetadata = (description: unknown = '') => {
+  if (typeof description !== 'string') return {};
   const metadata: Record<string, string> = {};
   let section: string | null | undefined;
   for (const line of description.split(/\r?\n/)) {
@@ -128,19 +134,9 @@ const parseMetadata = (description = '') => {
   }
   return Object.fromEntries(
     Object.entries(metadata)
-      .map(([key, value]) => [key, value.trim()])
+      .map(([key, value]) => [key, factualText(value)])
       .filter(([, value]) => value)
   );
-};
-
-const safeUrl = (value?: string | null) => {
-  if (!value) return undefined;
-  try {
-    const url = new URL(value);
-    return ['http:', 'https:'].includes(url.protocol) ? url.href : undefined;
-  } catch {
-    return undefined;
-  }
 };
 
 const slugify = (value: string) =>
@@ -211,14 +207,33 @@ const mapAppointment = (row: ChurchToolsRow): Concert | undefined => {
   const startDate = row.appointment?.calculated?.startDate;
   const endDate = row.appointment?.calculated?.endDate;
   if (
-    !appointment?.id ||
-    !appointment.title?.trim() ||
+    !appointment ||
+    !Number.isSafeInteger(appointment.id) ||
+    appointment.id <= 0 ||
+    typeof appointment.title !== 'string' ||
+    !appointment.title.trim() ||
     !startDate ||
-    Number.isNaN(Date.parse(startDate))
+    !eventDate(startDate)
   )
     return undefined;
 
   const metadata = parseMetadata(appointment.description ?? '');
+  const addressName = factualText(appointment.address?.name);
+  const location = metadata.location ?? addressName;
+  // A conflicting (or unnamed) CT address cannot establish the chosen venue's address.
+  const addressMatches =
+    addressName && location?.toLocaleLowerCase('de-DE') === addressName.toLocaleLowerCase('de-DE');
+  const address = addressMatches
+    ? {
+        street: factualText(appointment.address?.street),
+        zip: factualText(appointment.address?.zip),
+        city: factualText(appointment.address?.city)
+      }
+    : undefined;
+  const validEnd =
+    endDate && eventDate(endDate) && Date.parse(endDate) >= Date.parse(startDate)
+      ? endDate
+      : undefined;
   const ticketUrl = safeUrl(appointment.link);
   const image = safeUrl(appointment.image?.imageUrl);
   const imageUrl = image ? new URL(image) : undefined;
@@ -228,8 +243,8 @@ const mapAppointment = (row: ChurchToolsRow): Concert | undefined => {
     imageUrl.searchParams.set('h', '0');
     imageUrl.searchParams.set('w', '1200');
   }
-  const date = formatDate(startDate, appointment.allDay);
-  const durationMinutes = endDate ? (Date.parse(endDate) - Date.parse(startDate)) / 60_000 : NaN;
+  const date = formatDate(startDate, appointment.allDay || !startDate.includes('T'));
+  const durationMinutes = validEnd ? (Date.parse(validEnd) - Date.parse(startDate)) / 60_000 : NaN;
   const pause = metadata.intermission?.toLocaleLowerCase('de-DE');
   const focus = appointment.image?.imageOption?.focus;
   const imageFocus = { x: normalizeFocus(focus?.x), y: normalizeFocus(focus?.y) };
@@ -249,13 +264,15 @@ const mapAppointment = (row: ChurchToolsRow): Concert | undefined => {
     programme: metadata.programme,
     programmeNotes: metadata.programmeNotes,
     performers: metadata.performers,
+    organizer: metadata.organizer,
     date,
-    endIso: endDate && !Number.isNaN(Date.parse(endDate)) ? endDate : undefined,
-    location: metadata.location,
+    endIso: validEnd,
+    location,
+    address: address && Object.values(address).some(Boolean) ? address : undefined,
     accessibility: metadata.accessibility,
     admission: metadata.admission,
     durationMinutes:
-      !appointment.allDay && Number.isFinite(durationMinutes) && durationMinutes > 0
+      date.time !== 'Termin folgt' && Number.isFinite(durationMinutes) && durationMinutes > 0
         ? Math.max(1, Math.round(durationMinutes))
         : undefined,
     intermission:
@@ -271,7 +288,7 @@ const mapAppointment = (row: ChurchToolsRow): Concert | undefined => {
     imageFocus,
     imageAlt:
       appointment.image?.description ??
-      `Konzert „${appointment.title.trim()}“ in der Petruskirche Kiel`,
+      `Konzert „${appointment.title.trim()}“${location ? ` – ${location}` : ''}`,
     imagePosition: getConcertImagePosition(imageFocus, imageRatio)
   };
 };
@@ -364,6 +381,25 @@ export async function getConcerts(environment: ChurchToolsEnvironment = {}) {
     );
     return { concerts: [], error: true };
   }
+}
+
+const slugIdentity = (slug?: string) => {
+  const match = slug?.match(/^(?:[a-z0-9]+(?:-[a-z0-9]+)*)?-([1-9]\d*)-(\d{4}-\d{2}-\d{2})$/);
+  if (!match || !Number.isSafeInteger(Number(match[1])) || !eventDate(match[2])) return undefined;
+  return { id: match[1], date: match[2] };
+};
+
+export function resolveConcertSlug(concerts: Concert[], requestedSlug?: string) {
+  const exact = concerts.find(({ slug }) => slug === requestedSlug);
+  if (exact) return { concert: exact };
+  const requested = slugIdentity(requestedSlug);
+  if (!requested) return undefined;
+  // Recurrences share a CT base ID; the calculated occurrence date disambiguates them.
+  const candidates = concerts.filter(({ slug }) => slugIdentity(slug)?.id === requested.id);
+  const dated = candidates.filter(({ slug }) => slugIdentity(slug)?.date === requested.date);
+  const concert =
+    dated.length === 1 ? dated[0] : candidates.length === 1 ? candidates[0] : undefined;
+  return concert ? { concert, redirectTo: concert.detailsHref } : undefined;
 }
 
 export function getConcertState(concert: Concert, now = new Date()): ConcertState {

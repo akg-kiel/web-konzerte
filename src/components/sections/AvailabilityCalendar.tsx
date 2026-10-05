@@ -96,7 +96,7 @@ export default function AvailabilityCalendar() {
           Verfügbarkeit prüfen
         </span>
         <p className="font-body text-sm/6 text-role-on/60">
-          Der Status berücksichtigt den Veranstaltungsort sowie Bewirtungs-, Backstage-, Neben- und
+          Die Vorprüfung berücksichtigt den Kirchenraum sowie Bewirtungs-, Backstage-, Neben- und
           Bürobereiche.
         </p>
       </div>
@@ -143,7 +143,7 @@ export default function AvailabilityCalendar() {
               : 'Wählen Sie einen Tag für die unverbindliche Vorprüfung.'}
       </p>
       <p className="rounded-sm border-l border-secondary bg-secondary/5 py-3 pl-4 font-body text-sm/6 text-role-on/75">
-        Unverbindliche Vorprüfung, endgültige Bestätigung nach Anfrage.
+        Die Vorprüfung ist unverbindlich; die endgültige Bestätigung erfolgt nach Ihrer Anfrage.
       </p>
     </div>
   );
