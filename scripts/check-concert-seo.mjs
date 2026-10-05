@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { getConcerts, resolveConcertSlug } from '../src/data/concerts.ts';
+import { getConcerts, getConcertState, resolveConcertSlug } from '../src/data/concerts.ts';
 import {
   concertAddressLabel,
   eventDate,
@@ -279,6 +279,10 @@ try {
   assert.equal(getConcertEvent(unknownTime, site).endDate, '2027-08-07');
   assert.equal(getConcertEvent(dates[0], site).startDate, '2027-08-06');
   assert.equal(getConcertEvent(dates[0], site).endDate, '2027-08-06');
+  assert.equal(getConcertState(dates[0], new Date('2027-08-06T20:00:00Z')), 'upcoming-with-ticket');
+  assert.equal(getConcertState(dates[0], new Date('2027-08-06T22:00:00Z')), 'past');
+  assert.equal(getConcertState(dates[2], new Date('2027-08-08T20:00:00Z')), 'upcoming-with-ticket');
+  assert.equal(getConcertState(dates[2], new Date('2027-08-08T22:00:00Z')), 'past');
   assert.equal(dates[1].endIso, undefined);
   assert.equal(getConcertEvent(dates[2], site).startDate, '2027-08-07');
   assert.equal(getConcertEvent(dates[2], site).endDate, '2027-08-08');

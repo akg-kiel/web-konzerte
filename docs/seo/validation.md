@@ -11,11 +11,13 @@ Checked 2026-10-05 on `t3code/prelaunch-seo-and-copy`. This is an implementation
 - Native Chromium against that explicitly recorded local URL: poster details at requested 1280/768/375/430 widths, plus home/programme/archive/visit/room-request/contact/imprint/privacy and a future no-ticket detail at desktop/mobile. One H1, no horizontal overflow/broken images/contrast-detector failures; 4:3 responsive focal poster, eager/high-priority loading, full-poster link and centered image-failure fallback retained. Past no-ticket action is “Aktuelle Konzerte”; future no-ticket action is “Besuch planen”.
 - Bounded browser inspection found date-year placeholders at approximately 4.36:1 contrast. Raising the shared date segment opacity from 50% to 60% removed the failure in the confirmation round. Geometry overlap detections came from intentional hero-photo overlays and full-card hit areas, not intersecting reading text. This is not a full accessibility certification or performance audit.
 
+- A follow-up regression caught date-only/all-day concerts moving to the archive at the start of their final calendar day. The shared state helper now compares Berlin calendar dates when the time is unknown; timed events retain exact end-time handling. Same-day, multi-day and Berlin-midnight checks passed, followed by another full `pnpm quality` run. No visual changes or extra polishing round were needed.
+
 ## Cloudflare preview only
 
-Version: `086fa6ba-1ebe-47cd-abac-df130e8f8b20`.
+Initial accepted version: `086fa6ba-1ebe-47cd-abac-df130e8f8b20`. Final preview after the calendar-day state regression fix: `b476a571-ba92-45a2-b9ec-3f36a273c836`.
 
-- Immutable URL: https://086fa6ba-web-konzerte.noah-zepner.workers.dev
+- Immutable URL: https://b476a571-web-konzerte.noah-zepner.workers.dev
 - Alias: https://prelaunch-seo-copy-web-konzerte.noah-zepner.workers.dev
 - Uploaded with `--keep-vars`; no production-traffic deployment or trigger/domain changes.
 - HTTP acceptance passed on 16 paths spanning static/SSR/filtered/paginated HTML, sitemap, robots, renamed/ambiguous/error details, fonts, JS and PDF. Effective preview header is `X-Robots-Tag: noindex`; Cloudflare preview responses do not preserve the exact local `noindex, follow` value. SSR also contains noindex metadata. Prerendered HTML intentionally retains production index metadata; the effective preview response header forbids indexing.
@@ -29,4 +31,4 @@ Version: `086fa6ba-1ebe-47cd-abac-df130e8f8b20`.
 - AKG-88/94: missing ChurchTools facts and Google Rich Results acceptance remain open; see [event-data.md](event-data.md). No external-validator approval is claimed.
 - Copy facts/legal approval/parking confirmations remain listed in [../copy-audit.md](../copy-audit.md). Old-host mappings/redirect rollout remain in [../migration/README.md](../migration/README.md).
 
-Temporary evidence: `/tmp/web-konzerte-prelaunch-quality-final.log`, `/tmp/web-konzerte-ui-report.json`, `/tmp/web-konzerte-prelaunch-http.json`, `/tmp/web-konzerte-prelaunch-remote-http.json`. Local preview was stopped after acceptance. Production promotion requires a separate merge/deployment decision.
+Temporary evidence: `/tmp/web-konzerte-prelaunch-quality-calendar.log`, `/tmp/web-konzerte-ui-report.json`, `/tmp/web-konzerte-prelaunch-http.json`, `/tmp/web-konzerte-prelaunch-remote-http.json`. Local preview was stopped after acceptance. Production promotion requires a separate merge/deployment decision.

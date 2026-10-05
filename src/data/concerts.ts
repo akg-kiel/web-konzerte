@@ -403,7 +403,13 @@ export function resolveConcertSlug(concerts: Concert[], requestedSlug?: string) 
 }
 
 export function getConcertState(concert: Concert, now = new Date()): ConcertState {
-  if (new Date(concert.endIso ?? concert.date.iso) <= now) return 'past';
+  const end = new Date(concert.endIso ?? concert.date.iso);
+  // An unknown time does not establish that the concert ended at midnight.
+  const past =
+    concert.date.time === 'Termin folgt'
+      ? berlinDate.format(end) < berlinDate.format(now)
+      : end <= now;
+  if (past) return 'past';
   return concert.ticketUrl ? 'upcoming-with-ticket' : 'upcoming-without-ticket';
 }
 
