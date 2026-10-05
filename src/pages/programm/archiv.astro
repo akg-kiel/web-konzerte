@@ -8,6 +8,7 @@ import Concerts from '../../components/sections/Concerts.astro';
 import PageHero from '../../components/sections/PageHero.astro';
 import { ButtonLink } from '../../components/ui/button';
 import Layout from '../../layouts/Layout.astro';
+import { getProgrammeSeo } from '../../lib/seo';
 import {
   cacheProgramme,
   filterConcerts,
@@ -28,6 +29,7 @@ const rangeError = hasInvalidConcertDateRange(filters)
   : undefined;
 const filteredConcerts = rangeError ? [] : filterConcerts(archiveConcerts, filters);
 const { pageConcerts, page, pageCount } = paginateConcerts(filteredConcerts, Astro.url.searchParams);
+const seo = getProgrammeSeo(Astro.site!, Astro.url, filters, page);
 const emptyMessage = rangeError
   ? 'Korrigieren Sie den ausgewählten Zeitraum.'
   : Object.values(filters).some(Boolean)
@@ -38,6 +40,7 @@ if (result.error) Astro.response.status = 503;
 ---
 
 <Layout
+  {...seo}
   title="Konzertarchiv · Konzertkirche Petruskirche"
   description="Vergangene Konzerte und Programme der Konzertkirche Petruskirche Kiel."
 >

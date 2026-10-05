@@ -2,25 +2,30 @@
 import Footer from '../components/layout/Footer.astro';
 import Header from '../components/layout/Header.astro';
 import '../styles/globals.css';
+import { getCanonicalUrl, isProductionHost } from '../lib/seo';
 
 interface Props {
   title?: string;
   description?: string;
   ogImage?: string;
   canonicalUrl?: string;
+  noindex?: boolean;
 }
 
 const {
   title = 'Kieler Konzertkirche · Konzerte in der Petruskirche',
   description = 'Konzerte in der Petruskirche Kiel: klassische Musik, Raumklang und besondere Programme in architektonischer Atmosphäre.',
   ogImage = '/og-image.jpg',
-  canonicalUrl
+  canonicalUrl,
+  noindex = false
 } = Astro.props;
 
 const siteName = 'Kieler Konzertkirche';
-const siteUrl = Astro.site ?? Astro.url;
-const currentUrl = new URL(Astro.url.pathname, siteUrl);
-const canonicalHref = canonicalUrl ?? currentUrl.href;
+const siteUrl = Astro.site!;
+const canonicalHref = getCanonicalUrl(siteUrl, canonicalUrl ?? Astro.url.pathname);
+const robots = noindex || (Astro.response.status ?? 200) >= 400 ||
+  (!Astro.isPrerendered && !isProductionHost(Astro.url, siteUrl))
+  ? 'noindex, follow' : 'index, follow';
 const ogImageUrl = new URL(ogImage, siteUrl).href;
 /* eslint-disable astro/no-set-html-directive -- trusted JSON-LD serialized here */
 const websiteSchema = JSON.stringify({
@@ -40,7 +45,7 @@ const websiteSchema = JSON.stringify({
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="author" content={siteName} />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={robots} />
     <link rel="canonical" href={canonicalHref} />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

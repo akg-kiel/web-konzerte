@@ -53,7 +53,7 @@ const DateField = React.forwardRef<HTMLDivElement, DateFieldProps>(
           {(segment) => (
             <DateSegment
               segment={segment}
-              className="rounded-sm px-0.5 outline-none data-[focused]:bg-secondary data-[focused]:text-midnight data-[placeholder]:text-role-on/50"
+              className="rounded-sm px-0.5 outline-none data-[focused]:bg-secondary data-[focused]:text-midnight data-[placeholder]:text-role-on/60"
             />
           )}
         </DateInput>

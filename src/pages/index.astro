@@ -15,7 +15,7 @@ const result = await getConcerts(env);
 const { programmeConcerts } = splitConcerts(result.concerts);
 ---
 
-<Layout title="Konzerte in der Petruskirche Kiel" description="Konzertkirche Petruskirche Kiel: Programm, Besuchsplanung und Raum für Kulturveranstaltungen in besonderer Akustik.">
+<Layout title="Konzerte in Kiel | Petruskirche – Kiels Konzertkirche" description="Konzerte in Kiel: Programm der Petruskirche, Besuchsinformationen und Raum für Kulturveranstaltungen in besonderer Akustik.">
   <main class="min-h-screen bg-role-dominant text-role-on">
     <Hero />
     <HomeConcerts server:defer>
@@ -45,10 +45,10 @@ const { programmeConcerts } = splitConcerts(result.concerts);
           <h2 id="architecture-heading" class="block font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Architektur &amp; Raumklang</h2>
           <div class="mt-6 grid max-w-2xl gap-6 font-body text-base/7 text-role-on/70 md:max-w-none md:text-lg/8">
             <p>
-              Die Petruskirche in Kiel-Wik besticht nicht nur durch ihre neugotische Architektur, sondern vor allem durch eine Akustik, die Stimmen, Orgel und Ensembleklang besonders klar trägt.
+              Die Petruskirche in Kiel-Wik verbindet Jugendstilarchitektur mit einer Akustik, die Stimmen, Orgel und Ensembleklang klar trägt.
             </p>
             <p>
-              Der weite Kirchenraum bietet mit seinen hohen Gewölben den Resonanzkörper für orchestrale Werke, während die intime Atmosphäre des Altarraums kammermusikalischen Darbietungen einen besonderen Rahmen verleiht.
+              Der offene Dachstuhl und die Holzbalkenkonstruktion prägen den Klang des Kirchenraums. Hier finden Orchester und kammermusikalische Besetzungen ihren Platz.
             </p>
           </div>
         </div>
@@ -56,7 +56,7 @@ const { programmeConcerts } = splitConcerts(result.concerts);
           <Card as="figure" class="aspect-[4/5] bg-slate-mist/30 shadow-panel">
             <Image
               src={churchExterior}
-              alt="Außenansicht der Petruskirche Kiel mit neugotischer Backsteinarchitektur"
+              alt="Außenansicht der Petruskirche Kiel mit Jugendstilarchitektur aus Backstein"
               class="h-full w-full object-cover object-[50%_42%]"
               widths={[480, 640, 960]}
               loading="lazy"
@@ -69,13 +69,13 @@ const { programmeConcerts } = splitConcerts(result.concerts);
 
     <section class="bg-midnight py-20 md:py-32" aria-labelledby="service-heading">
       <div class="mx-auto w-full max-w-screen-2xl px-6 md:px-8 lg:px-16">
-        <h2 id="service-heading" class="block font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary mb-8 max-w-3xl md:mb-10">Ihren Besuch &amp; Events planen</h2>
+        <h2 id="service-heading" class="block font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary mb-8 max-w-3xl md:mb-10">Besuch und Veranstaltung planen</h2>
         <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
           <CtaCard
             href="/besuch-planen/"
             icon="i"
             title="Besuch planen"
-            body="Alles Wichtige für Ihren Konzertbesuch: Anfahrt, Parkmöglichkeiten in der Kieler Wik sowie Informationen zur Barrierefreiheit."
+            body="Alles Wichtige für Ihren Konzertbesuch: Anfahrt, Parkmöglichkeiten in der Kieler Wik und Hinweise zur Barrierefreiheit."
             cta="Besucherinfos ansehen"
           />
 
@@ -83,8 +83,8 @@ const { programmeConcerts } = splitConcerts(result.concerts);
             href="/f%C3%BCr-veranstalter/"
             icon="◇"
             title="Raum anfragen"
-            body="Sie möchten die Petruskirche für eigene Kulturveranstaltungen, Konzerte oder Aufnahmen nutzen? Informieren Sie sich über Technik, Akustik und Konditionen."
-            cta="Jetzt unverbindlich anfragen"
+            body="Sie möchten die Petruskirche für eigene Kulturveranstaltungen, Konzerte oder Aufnahmen nutzen? Hier finden Sie Technik, Akustik, Konditionen und Anfrageformular."
+            cta="Raum anfragen"
           />
         </div>
       </div>

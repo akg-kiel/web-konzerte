@@ -7,6 +7,7 @@ import ConcertFilters from '../components/sections/ConcertFilters';
 import Concerts from '../components/sections/Concerts.astro';
 import PageHero from '../components/sections/PageHero.astro';
 import Layout from '../layouts/Layout.astro';
+import { getProgrammeSeo } from '../lib/seo';
 import {
   cacheProgramme,
   filterConcerts,
@@ -27,6 +28,7 @@ const rangeError = hasInvalidConcertDateRange(filters)
   : undefined;
 const filteredConcerts = rangeError ? [] : filterConcerts(programmeConcerts, filters);
 const { pageConcerts, page, pageCount } = paginateConcerts(filteredConcerts, Astro.url.searchParams);
+const seo = getProgrammeSeo(Astro.site!, Astro.url, filters, page);
 const emptyMessage = rangeError
   ? 'Korrigieren Sie den ausgewählten Zeitraum.'
   : Object.values(filters).some(Boolean)
@@ -47,15 +49,16 @@ const seasonHref = (season: string) => {
 ---
 
 <Layout
-  title="Programm & Tickets · Konzertkirche Petruskirche"
-  description="Programm und Tickets der Konzertkirche Petruskirche Kiel: Klassik, Chor, Musical, Orgel und Crossover im Kirchenraum."
+  {...seo}
+  title="Konzerte in Kiel | Programm der Petruskirche"
+  description="Aktuelle Konzerte in Kiel: Programm der Petruskirche mit Klassik, Chor, Musical, Orgel und Crossover sowie Ticketlinks, sobald der Vorverkauf startet."
 >
   <main class="min-h-screen bg-midnight text-role-on">
     <PageHero
-      eyebrow="Konzerte in Kiel-Wik"
-      intro="Alle kommenden Konzerte in der Petruskirche auf einen Blick – chronologisch sortiert, mit Ticketlinks, sobald der Vorverkauf startet."
+      eyebrow="Konzertprogramm"
+      intro="Das Konzertprogramm der Petruskirche – Konzerte in Kiel, chronologisch sortiert, mit Detailseiten und Ticketlinks, sobald der Vorverkauf startet."
     >
-      Programm &amp; Tickets
+      Konzerte in Kiel
     </PageHero>
 
     <section class="border-y border-white/5 bg-surface/50 py-12" aria-labelledby="seasons-heading">
@@ -108,7 +111,7 @@ const seasonHref = (season: string) => {
       variant="programme"
       page={page}
       pageCount={pageCount}
-      eyebrow="Alle Termine"
+      eyebrow="Alle Konzerte"
       intro=""
       emptyMessage={emptyMessage}
       showHeaderLink={false}
@@ -124,7 +127,7 @@ const seasonHref = (season: string) => {
         <div>
           <h2 class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Barrierefreiheit</h2>
           <p class="mt-4 max-w-xl font-body text-base/7 text-role-on/70">Stufenloser Zugang, Plätze für Rollstühle und ein rollstuhlgerechtes WC sind vorhanden.</p>
-          <a class="mt-4 inline-flex font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary no-underline hover:!text-champagne" href="/besuch-planen/#access-heading">Besucherinformationen →</a>
+          <a class="mt-4 inline-flex font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary no-underline hover:!text-champagne" href="/besuch-planen/#access-heading">Besuch planen →</a>
         </div>
       </div>
     </section>

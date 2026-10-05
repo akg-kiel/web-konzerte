@@ -7,37 +7,55 @@ import { Image } from 'astro:assets';
 import fallbackImage from '../../assets/hero/l1130722-hero.jpg';
 import { ButtonLink } from '../../components/ui/button';
 import Layout from '../../layouts/Layout.astro';
-import { cacheProgramme, getConcerts, getConcertState } from '../../data/concerts';
+import { cacheProgramme, getConcerts, getConcertState, resolveConcertSlug } from '../../data/concerts';
 import { resolveConcertImage } from '../../data/concert-images';
+import { concertAddressLabel, getConcertEvent, getConcertLocationHref, getConcertMetadata, serializeEvent } from '../../data/concert-seo';
 
 cacheProgramme(Astro.response);
 const result = await getConcerts(env);
-const matchedConcert = result.concerts.find(({ slug }) => slug === Astro.params.slug);
+const resolved = resolveConcertSlug(result.concerts, Astro.params.slug);
+if (resolved?.redirectTo) return Astro.redirect(resolved.redirectTo, 301);
+const matchedConcert = resolved?.concert;
 const concert = matchedConcert ? await resolveConcertImage(matchedConcert) : undefined;
 const posterUrl = matchedConcert?.image;
 const posterSizes = '(min-width: 1536px) 672px, (min-width: 1024px) calc(50vw - 96px), (min-width: 768px) calc(100vw - 64px), calc(100vw - 48px)';
 const isPast = concert && getConcertState(concert) === 'past';
 if (!concert) Astro.response.status = result.error ? 503 : 404;
+const metadata = concert ? getConcertMetadata(concert, result.concerts) : undefined;
+const canonicalUrl = concert ? new URL(concert.detailsHref, Astro.site ?? Astro.url).href : undefined;
+const event = concert ? getConcertEvent(concert, Astro.site ?? Astro.url, Boolean(isPast)) : undefined;
+/* eslint-disable astro/no-set-html-directive -- Event JSON-LD escapes script terminators in serializeEvent */
+const eventSchema = serializeEvent(event);
+const locationHref = concert ? getConcertLocationHref(concert) : undefined;
+const addressLabel = concert ? concertAddressLabel(concert) : '';
+const endLabel = event?.endDate ? new Intl.DateTimeFormat('de-DE', {
+  timeZone: 'Europe/Berlin', day: 'numeric', month: 'long', year: 'numeric',
+  ...(event.endDate.includes('T') ? { hour: '2-digit', minute: '2-digit' } : {})
+}).format(new Date(event.endDate)) : undefined;
 const dateLabel = concert ? new Intl.DateTimeFormat('de-DE', {
   timeZone: 'Europe/Berlin', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
 }).format(new Date(concert.date.iso)) : '';
 const info = concert ? [
   ['Dauer', concert.durationMinutes ? `${concert.durationMinutes} Minuten (Beginn bis Ende)` : undefined],
   ['Pause', concert.intermission],
-  ['Barrierefreiheit', concert.accessibility]
+  ['Barrierefreiheit', concert.accessibility],
+  ['Veranstalter', concert.organizer]
 ].filter(([, value]) => value) : [];
 const hasDescription = concert && Boolean(concert.subtitle || concert.shortDescription || concert.longDescription || concert.programme || concert.programmeNotes || concert.performers);
 const hasDetails = hasDescription || info.length > 0;
 ---
 
 <Layout
-  title={concert ? `${concert.title} · Konzertkirche Petruskirche` : 'Konzert nicht gefunden · Konzertkirche Petruskirche'}
-  description={concert ? `${concert.title} am ${concert.date.display} – ${concert.location ?? 'Konzertkirche Petruskirche Kiel'}.` : 'Das angefragte Konzert wurde nicht gefunden.'}
+  title={metadata?.title ?? (result.error ? 'Programm vorübergehend nicht erreichbar · Konzertkirche Petruskirche' : 'Konzert nicht gefunden · Konzertkirche Petruskirche')}
+  description={metadata?.description ?? (result.error ? 'Die Konzertdaten können gerade nicht geladen werden. Bitte versuchen Sie es später erneut.' : 'Das angefragte Konzert wurde nicht gefunden.')}
+  ogImage={concert?.image}
+  canonicalUrl={canonicalUrl}
 >
+  {eventSchema && <script is:inline type="application/ld+json" set:html={eventSchema}></script>}
   <main class="min-h-screen bg-midnight text-role-on">
     {concert ? (
       <article class="mx-auto w-full max-w-screen-2xl px-6 pb-20 pt-24 md:px-8 lg:px-16 lg:pt-32">
-        <a class="inline-flex min-h-11 items-center gap-2 font-body text-sm/6 text-role-on/70 no-underline hover:text-secondary" href={isPast ? '/programm/archiv/' : '/programm/'}><span aria-hidden="true">←</span> {isPast ? 'Konzertarchiv' : 'Alle Konzerte'}</a>
+        <a class="inline-flex min-h-11 items-center gap-2 font-body text-sm/6 text-role-on/70 no-underline hover:text-secondary" href={isPast ? '/programm/archiv/' : '/programm/'}><span aria-hidden="true">←</span> {isPast ? 'Konzertarchiv' : 'Zum Programm'}</a>
 
         <div class="mt-4 grid items-start gap-8 lg:mt-8 lg:grid-cols-12 lg:gap-16">
           {posterUrl && (
@@ -80,10 +98,16 @@ const hasDetails = hasDescription || info.length > 0;
             <h1 id="concert-title" class="break-words font-display text-3xl/tight font-normal tracking-tight text-white sm:text-4xl/tight lg:text-5xl/tight">{concert.title}</h1>
             <time datetime={concert.date.iso} class="mt-6 block font-body text-lg/7 font-semibold text-secondary">
               <span class="block">{dateLabel}</span>
-              <span class="mt-2 block text-base/7 font-normal text-role-on/85">{concert.date.time === 'Termin folgt' ? 'Termin folgt' : `Beginn ${concert.date.time} Uhr`}</span>
+              <span class="mt-2 block text-base/7 font-normal text-role-on/85">{concert.date.time === 'Termin folgt' ? 'Uhrzeit folgt' : `Beginn ${concert.date.time} Uhr`}</span>
             </time>
+            {endLabel && <p class="mt-2 font-body text-base/7 text-role-on/85">Ende: <time datetime={event?.endDate}>{endLabel}{event?.endDate?.includes('T') ? ' Uhr' : ''}</time></p>}
             {concert.admission && <p class="mt-2 whitespace-pre-line font-body text-base/7 text-role-on/85">Einlass: {concert.admission}</p>}
-            {concert.location && <p class="mt-6 whitespace-pre-line font-body text-base/7 text-role-on/85"><span class="font-semibold text-white">Ort:</span> {concert.location}</p>}
+            <p class="mt-6 whitespace-pre-line font-body text-base/7 text-role-on/85">
+              <span class="font-semibold text-white">Ort:</span> {locationHref ? <a href={locationHref} class="underline underline-offset-4 hover:text-secondary">{concert.location}</a> : 'Noch nicht angegeben.'}
+              {addressLabel && <span class="block">{addressLabel}</span>}
+            </p>
+            {!locationHref && <a class="inline-flex min-h-11 items-center font-body text-sm/6 text-role-on/70 underline underline-offset-4 hover:text-secondary" href="/besuch-planen/#anfahrt">Informationen zur Petruskirche</a>}
+            {!hasDescription && <p class="mt-6 font-body text-lg/8 text-role-on/85">{metadata?.description}</p>}
             <div class="mt-8 flex flex-wrap items-center gap-4">
               {isPast ? (
                 <ButtonLink variant="outline" className="min-h-12 rounded-sm border-white/20 px-6 font-body text-sm/6 text-role-on hover:border-secondary hover:text-secondary" href="/programm/">Aktuelle Konzerte</ButtonLink>
