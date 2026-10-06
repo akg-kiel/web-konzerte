@@ -32,6 +32,7 @@ const labelClass =
 
 export default function AvailabilityCalendar() {
   const today = useMemo(() => getToday(venueTimeZone), []);
+  const [hydrated, setHydrated] = useState(false);
   const [statuses, setStatuses] = useState<Record<string, AvailabilityStatus>>({});
   const [selected, setSelected] = useState<CalendarDate | null>(null);
   const [focused, setFocused] = useState(today);
@@ -40,6 +41,7 @@ export default function AvailabilityCalendar() {
   const endDate = useMemo(() => endOfMonth(today.add({ years: 1 })), [today]);
 
   useEffect(() => {
+    setHydrated(true);
     const controller = new AbortController();
     const from = startOfMonth(today).toString();
     setLoading(true);
@@ -66,6 +68,31 @@ export default function AvailabilityCalendar() {
     setSelected(date);
     if (date) setFocused(date);
   };
+
+  if (!hydrated)
+    return (
+      <div className="space-y-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+          {['Wunschdatum', 'Alternativdatum'].map((name) => (
+            <label className={labelClass} key={name}>
+              {name}
+              {name === 'Wunschdatum' && ' *'}
+              <input
+                className={`mt-2 block w-full ${inputClass}`}
+                max={endDate.toString()}
+                min={today.toString()}
+                name={name}
+                required={name === 'Wunschdatum'}
+                type="date"
+              />
+            </label>
+          ))}
+        </div>
+        <p className="font-body text-sm/6 text-role-on/70">
+          Die endgültige Verfügbarkeit wird nach Ihrer unverbindlichen Anfrage geprüft.
+        </p>
+      </div>
+    );
 
   return (
     <div className="space-y-8">

@@ -26,14 +26,6 @@ const documents = [
   { title: 'Technik-Rider', description: 'Die vollständige Aufstellung von Mischpult, Beschallung, Monitoring, Mikrofonen und Lichttechnik.', href: '/downloads/technik-rider-petruskirche.pdf' }
 ];
 
-const rentalDetails = [
-  ['Preis', 'Die Kosten richten sich nach Dauer, Besucherzahl, Technik-, Personal- und Reinigungsbedarf. Sie erhalten nach der Anfrage ein individuelles schriftliches Angebot.'],
-  ['Verfügbarkeit', 'Termine werden einzeln geprüft. Wählen Sie unten Wunsch- und Alternativdatum; verbindlich reserviert ist der Raum erst nach schriftlicher Bestätigung.'],
-  ['Mietbedingungen', 'Art, Ablauf und Nutzungszeiten der Veranstaltung werden vorab vereinbart. Maßgeblich sind das abschließende Angebot und der Nutzungsvertrag.'],
-  ['Technische Anforderungen', 'Bitte senden Sie frühzeitig Bühnenplan, Besetzung sowie Bedarf an Strom, Ton und Licht. Fremdtechnik darf nur nach Abstimmung eingesetzt werden.'],
-  ['Versicherung', 'Veranstaltende haften für verursachte Schäden. Ob ein Nachweis einer Veranstalterhaftpflicht erforderlich ist, wird vor Vertragsschluss geklärt.']
-];
-
 const inputClass =
   'h-auto rounded-none border-0 border-b border-white/30 bg-transparent px-0 py-4 font-body text-base/6 text-on-surface focus-visible:ring-secondary';
 const labelClass =
@@ -42,7 +34,7 @@ const labelClass =
 
 <Layout
   title="Raum anfragen · Konzertkirche Petruskirche"
-  description="Technische Informationen, Konditionen und Terminanfrage für Konzerte und Kulturveranstaltungen in der Petruskirche Kiel."
+  description="Technische Informationen, Pläne und Terminanfrage für Konzerte und Kulturveranstaltungen in der Petruskirche Kiel."
 >
   <main class="min-h-screen bg-midnight text-role-on">
     <PageHero
@@ -61,8 +53,6 @@ const labelClass =
       <div class="mx-auto flex w-full max-w-screen-2xl flex-wrap gap-x-8 gap-y-2 px-6 py-6 font-body text-sm/6 md:px-8 lg:px-16">
         <a class="min-h-11 content-center !text-role-on/70 no-underline hover:!text-secondary" href="#technik">Technik &amp; Räume</a>
         <a class="min-h-11 content-center !text-role-on/70 no-underline hover:!text-secondary" href="#downloads">Pläne &amp; Downloads</a>
-        <a class="min-h-11 content-center !text-role-on/70 no-underline hover:!text-secondary" href="#ablauf">Auf- &amp; Abbau</a>
-        <a class="min-h-11 content-center !text-role-on/70 no-underline hover:!text-secondary" href="#konditionen">Konditionen</a>
         <a class="min-h-11 content-center !text-role-on/70 no-underline hover:!text-secondary" href="#anfrage">Anfrage</a>
       </div>
     </nav>
@@ -120,52 +110,14 @@ const labelClass =
       </div>
     </section>
 
-    <section id="ablauf" class="scroll-mt-24 border-y border-white/5 bg-surface py-16 md:py-24" aria-labelledby="process-heading">
-      <div class="mx-auto w-full max-w-screen-2xl px-6 md:px-8 lg:px-16">
-        <h2 id="process-heading" class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Aufbau, Veranstaltung, Abbau</h2>
-        <div class="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
-          <Card as="article" class="bg-slate-mist/30 p-8">
-            <p class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">01 · Vorplanung</p>
-            <h3 class="mt-4 font-body text-lg/7 font-semibold text-on-surface">Technik abstimmen</h3>
-            <p class="mt-2 font-body text-base/7 text-role-on/70">Bühnenplan, Instrumente, Fremdtechnik, Personal und Zeitfenster werden vor dem Termin schriftlich festgehalten.</p>
-          </Card>
-          <Card as="article" class="bg-slate-mist/30 p-8">
-            <p class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">02 · Anlieferung</p>
-            <h3 class="mt-4 font-body text-lg/7 font-semibold text-on-surface">Zugang einweisen</h3>
-            <p class="mt-2 font-body text-base/7 text-role-on/70">Anfahrt, Ladeweg, Türmaße und nutzbare Flächen klären wir bei Bedarf in einem Vor-Ort-Termin. Eine verantwortliche Person begleitet die Anlieferung.</p>
-          </Card>
-          <Card as="article" class="bg-slate-mist/30 p-8">
-            <p class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">03 · Rückgabe</p>
-            <h3 class="mt-4 font-body text-lg/7 font-semibold text-on-surface">Gemeinsam abnehmen</h3>
-            <p class="mt-2 font-body text-base/7 text-role-on/70">Der Abbau erfolgt im vereinbarten Zeitfenster. Räume und Ausstattung werden anschließend gemeinsam kontrolliert.</p>
-          </Card>
-        </div>
-        <p class="mt-8 max-w-3xl rounded-sm border-l border-secondary bg-secondary/5 py-4 pl-6 font-body text-base/7 text-role-on/75">
-          Vorhandene Ausstattung ist nur nach schriftlicher Bestätigung Teil der Nutzung. Zusätzlich benötigte Miettechnik wird abgestimmt und im Angebot ausgewiesen.
-        </p>
-      </div>
-    </section>
-
-    <section id="konditionen" class="scroll-mt-24 py-16 md:py-24" aria-labelledby="rental-heading">
-      <div class="mx-auto w-full max-w-screen-2xl px-6 md:px-8 lg:px-16">
-        <h2 id="rental-heading" class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Preise und Bedingungen</h2>
-        <p class="mt-6 max-w-3xl font-body text-lg/8 text-role-on/70">Jede Veranstaltung wird individuell geplant. So zahlen Sie nur für die Räume, Technik und Leistungen, die tatsächlich benötigt werden.</p>
-        <dl class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {rentalDetails.map(([title, text]) => (
-            <Card class="bg-slate-mist/30 p-8">
-              <dt class="font-body text-lg/7 font-semibold text-on-surface">{title}</dt>
-              <dd class="mt-3 font-body text-base/7 text-role-on/70">{text}</dd>
-            </Card>
-          ))}
-        </dl>
-      </div>
-    </section>
-
     <section id="anfrage" class="scroll-mt-24 border-t border-white/5 bg-surface py-16 md:py-24" aria-labelledby="inquiry-heading">
       <div class="mx-auto w-full max-w-4xl px-6 md:px-8">
         <Card class="border-white/5 bg-midnight/70 p-8 md:p-10">
           <h2 id="inquiry-heading" class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Wunschtermin anfragen</h2>
           <p class="mt-6 max-w-2xl font-body text-base/7 text-role-on/70">
+            Jede Veranstaltung wird individuell geplant. So zahlen Sie nur für die Räume, Technik und Leistungen, die tatsächlich benötigt werden.
+          </p>
+          <p class="mt-4 max-w-2xl font-body text-base/7 text-role-on/70">
             Tragen Sie Ihren Wunschtermin ein und beschreiben Sie kurz Ihr Vorhaben. Der Kalender zeigt eine unverbindliche Vorprüfung. Wir prüfen die Verfügbarkeit und melden uns in der Regel innerhalb weniger Werktage. Mit <span class="text-secondary">*</span> markierte Felder sind Pflichtfelder.
           </p>
 

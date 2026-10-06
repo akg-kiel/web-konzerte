@@ -74,23 +74,28 @@ export const GET: APIRoute = async ({ request }) => {
           if (!response.ok) throw new Error(`bookings ${response.status}`);
           const payload = (await response.json()) as {
             data?: Array<{
-              base?: { statusId?: number; startDate?: string; endDate?: string };
-              calculated?: { startDate?: string; endDate?: string };
+              booking?: {
+                base?: { statusId?: number; startDate?: string; endDate?: string };
+                calculated?: { startDate?: string; endDate?: string };
+              };
             }>;
           };
-          return (payload.data ?? []).flatMap((booking): BookingSlot[] => {
-            const startDate = booking.calculated?.startDate ?? booking.base?.startDate;
-            const endDate = booking.calculated?.endDate ?? booking.base?.endDate;
-            const statusId = Number(booking.base?.statusId);
-            return startDate && endDate && (statusId === 1 || statusId === 2)
-              ? [
-                  {
-                    group,
-                    statusId,
-                    startDate,
-                    endDate
-                  }
-                ]
+          if (!Array.isArray(payload.data)) throw new Error('invalid bookings response');
+          return payload.data.flatMap(({ booking }): BookingSlot[] => {
+            const startDate = booking?.calculated?.startDate ?? booking?.base?.startDate;
+            const endDate = booking?.calculated?.endDate ?? booking?.base?.endDate;
+            const statusId = Number(booking?.base?.statusId);
+            if (
+              !startDate ||
+              !endDate ||
+              !Number.isFinite(Date.parse(startDate)) ||
+              !Number.isFinite(Date.parse(endDate)) ||
+              Date.parse(endDate) <= Date.parse(startDate) ||
+              ![1, 2, 3].includes(statusId)
+            )
+              throw new Error('invalid booking');
+            return statusId === 1 || statusId === 2
+              ? [{ group, statusId, startDate, endDate }]
               : [];
           });
         })
