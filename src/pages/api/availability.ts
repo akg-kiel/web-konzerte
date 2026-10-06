@@ -12,6 +12,16 @@ const resources: Array<{ id: number; group: BookingSlot['group'] }> = [
     group: 'secondary' as const
   }))
 ];
+
+const parseChurchToolsDateTime = (value: string | undefined) => {
+  if (!value) return NaN;
+  const match =
+    /^(\d{4}-\d{2}-\d{2})T(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d+)?)?(?:Z|[+-](?:[01]\d|2[0-3]):[0-5]\d)$/.exec(
+      value
+    );
+  if (!match || !Number.isFinite(parseIsoDate(match[1]))) return NaN;
+  return Date.parse(value);
+};
 export const GET: APIRoute = async ({ request }) => {
   const url = new URL(request.url);
   const from = url.searchParams.get('from') ?? '';
@@ -84,18 +94,18 @@ export const GET: APIRoute = async ({ request }) => {
           return payload.data.flatMap(({ booking }): BookingSlot[] => {
             const startDate = booking?.calculated?.startDate ?? booking?.base?.startDate;
             const endDate = booking?.calculated?.endDate ?? booking?.base?.endDate;
+            const startTime = parseChurchToolsDateTime(startDate);
+            const endTime = parseChurchToolsDateTime(endDate);
             const statusId = Number(booking?.base?.statusId);
             if (
-              !startDate ||
-              !endDate ||
-              !Number.isFinite(Date.parse(startDate)) ||
-              !Number.isFinite(Date.parse(endDate)) ||
-              Date.parse(endDate) <= Date.parse(startDate) ||
+              !Number.isFinite(startTime) ||
+              !Number.isFinite(endTime) ||
+              endTime <= startTime ||
               ![1, 2, 3].includes(statusId)
             )
               throw new Error('invalid booking');
             return statusId === 1 || statusId === 2
-              ? [{ group, statusId, startDate, endDate }]
+              ? [{ group, statusId, startDate: startDate!, endDate: endDate! }]
               : [];
           });
         })

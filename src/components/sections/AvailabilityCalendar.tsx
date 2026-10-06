@@ -1,10 +1,11 @@
 import {
   endOfMonth,
+  parseDate,
   startOfMonth,
   today as getToday,
   type CalendarDate
 } from '@internationalized/date';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Calendar } from '@/components/ui/calendar';
 import { DateField } from '@/components/ui/date-field';
@@ -35,12 +36,28 @@ export default function AvailabilityCalendar() {
   const [hydrated, setHydrated] = useState(false);
   const [statuses, setStatuses] = useState<Record<string, AvailabilityStatus>>({});
   const [selected, setSelected] = useState<CalendarDate | null>(null);
+  const [alternative, setAlternative] = useState<CalendarDate | null>(null);
   const [focused, setFocused] = useState(today);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const desiredInputRef = useRef<HTMLInputElement>(null);
+  const alternativeInputRef = useRef<HTMLInputElement>(null);
   const endDate = useMemo(() => endOfMonth(today.add({ years: 1 })), [today]);
 
   useEffect(() => {
+    const nativeDate = (value = '') => {
+      try {
+        return value ? parseDate(value) : null;
+      } catch {
+        return null;
+      }
+    };
+    const desiredDate = nativeDate(desiredInputRef.current?.value);
+    if (desiredDate) {
+      setSelected(desiredDate);
+      setFocused(desiredDate);
+    }
+    setAlternative(nativeDate(alternativeInputRef.current?.value));
     setHydrated(true);
     const controller = new AbortController();
     const from = startOfMonth(today).toString();
@@ -73,20 +90,29 @@ export default function AvailabilityCalendar() {
     return (
       <div className="space-y-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-          {['Wunschdatum', 'Alternativdatum'].map((name) => (
-            <label className={labelClass} key={name}>
-              {name}
-              {name === 'Wunschdatum' && ' *'}
-              <input
-                className={`mt-2 block w-full ${inputClass}`}
-                max={endDate.toString()}
-                min={today.toString()}
-                name={name}
-                required={name === 'Wunschdatum'}
-                type="date"
-              />
-            </label>
-          ))}
+          <label className={labelClass}>
+            Wunschdatum *
+            <input
+              ref={desiredInputRef}
+              className={`mt-2 block w-full ${inputClass}`}
+              max={endDate.toString()}
+              min={today.toString()}
+              name="Wunschdatum"
+              required
+              type="date"
+            />
+          </label>
+          <label className={labelClass}>
+            Alternativdatum
+            <input
+              ref={alternativeInputRef}
+              className={`mt-2 block w-full ${inputClass}`}
+              max={endDate.toString()}
+              min={today.toString()}
+              name="Alternativdatum"
+              type="date"
+            />
+          </label>
         </div>
         <p className="font-body text-sm/6 text-role-on/70">
           Die endgültige Verfügbarkeit wird nach Ihrer unverbindlichen Anfrage geprüft.
@@ -115,6 +141,8 @@ export default function AvailabilityCalendar() {
           maxValue={endDate}
           minValue={today}
           name="Alternativdatum"
+          value={alternative}
+          onChange={setAlternative}
         />
       </div>
 
