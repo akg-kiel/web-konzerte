@@ -1,9 +1,7 @@
 import assert from 'node:assert/strict';
-import { existsSync, readFileSync } from 'node:fs';
-import { registerHooks } from 'node:module';
+import { register } from 'node:module';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import ts from 'typescript';
 
 import { classifyAvailability, parseIsoDate } from '../src/lib/availability.ts';
 
@@ -56,40 +54,11 @@ const invalidBuffer = classifyAvailability(
 assert.equal(invalidBuffer['2027-01-03'], 'coordination');
 
 // Exercise the real route with mock server-only bindings and ChurchTools responses.
-const hooks = registerHooks({
-  resolve(specifier, context, nextResolve) {
-    if (specifier === 'cloudflare:workers')
-      return { url: 'test:cloudflare-workers', shortCircuit: true };
-    if (specifier.startsWith('@/')) {
-      const file = new URL(`../src/${specifier.slice(2)}`, import.meta.url);
-      for (const extension of ['.tsx', '.ts'])
-        if (existsSync(new URL(file.href + extension)))
-          return { url: file.href + extension, shortCircuit: true };
-    }
-    return nextResolve(
-      specifier === '../../lib/availability' ? `${specifier}.ts` : specifier,
-      context
-    );
-  },
-  load(url, context, nextLoad) {
-    if (url === 'test:cloudflare-workers')
-      return { format: 'module', source: 'export const env = {};', shortCircuit: true };
-    if (url.endsWith('.tsx'))
-      return {
-        format: 'module',
-        source: ts.transpileModule(readFileSync(new URL(url), 'utf8'), {
-          compilerOptions: { module: ts.ModuleKind.ESNext, jsx: ts.JsxEmit.ReactJSX }
-        }).outputText,
-        shortCircuit: true
-      };
-    return nextLoad(url, context);
-  }
-});
+register(new URL('./check-availability-loader.mjs', import.meta.url));
 const { env } = await import('cloudflare:workers');
 const { GET } = await import('../src/pages/api/availability.ts');
 const { default: AvailabilityCalendar } =
   await import('../src/components/sections/AvailabilityCalendar.tsx');
-hooks.deregister();
 const fallback = renderToStaticMarkup(createElement(AvailabilityCalendar));
 const inputs = fallback.match(/<input[^>]*>/g) ?? [];
 assert.equal(inputs.length, 2);
@@ -110,22 +79,22 @@ const nextMonth = month.toISOString().slice(0, 7);
 month.setUTCMonth(month.getUTCMonth() + 1, 0);
 const to = month.toISOString().slice(0, 10);
 const currentMonth = from.slice(0, 7);
-const row = (day, statusId = 2) => ({
+const row = (day, statusId = 2, zone = 'Z') => ({
   booking: {
     base: { statusId, title: 'Private mock booking', startDate: '2000-01-01T00:00:00Z' },
-    calculated: { startDate: `${day}T10:00:00Z`, endDate: `${day}T12:00:00Z` }
+    calculated: { startDate: `${day}T10:00:00${zone}`, endDate: `${day}T12:00:00${zone}` }
   }
 });
 let failure;
-let cached;
+const cached = new Map();
 let calls = 0;
 Object.defineProperty(globalThis, 'caches', {
   configurable: true,
   value: {
     default: {
-      match: async () => cached?.clone(),
-      put: async (_key, response) => {
-        cached = response.clone();
+      match: async (key) => cached.get(key.url)?.clone(),
+      put: async (key, response) => {
+        cached.set(key.url, response.clone());
       }
     }
   }
@@ -145,18 +114,34 @@ globalThis.fetch = async (input, options) => {
   assert(resourceIds.includes(id));
   if (failure === 'denied') return new Response(null, { status: 403 });
   if (failure === 'malformed') return Response.json({ data: [{}] });
+  if (failure === 'impossible-start') return Response.json({ data: [row('2026-02-30')] });
+  if (failure === 'impossible-end')
+    return Response.json({
+      data: [
+        {
+          booking: {
+            base: { statusId: 2 },
+            calculated: { startDate: '2026-02-28T10:00:00Z', endDate: '2026-02-30T12:00:00Z' }
+          }
+        }
+      ]
+    });
+  if (failure === 'malformed-datetime')
+    return Response.json({ data: [row(`${currentMonth}-16`, 2, 'Z trailing')] });
   if (failure === 'missing-data') return Response.json({});
   return Response.json({
     data:
       id === 4
         ? [row(`${currentMonth}-10`), row(`${nextMonth}-10`), row(`${currentMonth}-14`, 1)]
         : id === 15
-          ? [row(`${currentMonth}-12`)]
+          ? [row(`${currentMonth}-12`, 2, '+01:00')]
           : []
   });
 };
-const request = () =>
-  GET({ request: new Request(`https://example.org/api/availability/?from=${from}&to=${to}`) });
+const request = (suffix = '') =>
+  GET({
+    request: new Request(`https://example.org/api/availability/?from=${from}&to=${to}${suffix}`)
+  });
 try {
   const response = await request();
   assert.equal(response.status, 200);
@@ -170,14 +155,23 @@ try {
   assert.equal(calls, 12);
   assert.equal((await request()).status, 200);
   assert.equal(calls, 12, 'Successful availability uses cache');
+  assert.equal((await request('&probe=1')).status, 200);
+  assert.equal(calls, 24, 'Distinct availability URLs use distinct cache entries');
   console.error = () => {};
-  for (failure of ['denied', 'malformed', 'missing-data']) {
-    cached = undefined;
+  for (failure of [
+    'denied',
+    'malformed',
+    'impossible-start',
+    'impossible-end',
+    'malformed-datetime',
+    'missing-data'
+  ]) {
+    cached.clear();
     const failed = await request();
     assert.equal(failed.status, 503);
     assert.equal(failed.headers.get('Cache-Control'), 'no-store');
     assert.equal('statuses' in (await failed.json()), false);
-    assert.equal(cached, undefined, 'Upstream failures must not cache fabricated free dates');
+    assert.equal(cached.size, 0, 'Upstream failures must not cache fabricated free dates');
   }
   delete env.CHURCHTOOLS_TOKEN;
   assert.equal((await request()).status, 503);
