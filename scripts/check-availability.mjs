@@ -93,6 +93,9 @@ const allDayRow = (startDate, endDate = startDate, statusId = 2) => ({
   }
 });
 let fixtureBookings;
+let filterFixtureBookings = false;
+let expectedDaysBefore = 1;
+let expectedDaysAfter = 1;
 let failure;
 const cached = new Map();
 let calls = 0;
@@ -115,8 +118,14 @@ globalThis.fetch = async (input, options) => {
   if (url.pathname === '/api/resource/masterdata')
     return Response.json({ data: { resources: resourceIds.map((id) => ({ id })) } });
   assert.equal(url.pathname, '/api/bookings');
-  assert.equal(url.searchParams.get('from'), from);
-  assert.equal(url.searchParams.get('to'), to);
+  assert.equal(
+    url.searchParams.get('from'),
+    new Date(parseIsoDate(from) - expectedDaysBefore * 86_400_000).toISOString().slice(0, 10)
+  );
+  assert.equal(
+    url.searchParams.get('to'),
+    new Date(parseIsoDate(to) + expectedDaysAfter * 86_400_000).toISOString().slice(0, 10)
+  );
   assert.deepEqual(url.searchParams.getAll('status_ids[]'), ['1', '2']);
   const id = Number(url.searchParams.get('resource_ids[]'));
   assert(resourceIds.includes(id));
@@ -137,7 +146,16 @@ globalThis.fetch = async (input, options) => {
   if (failure === 'malformed-datetime')
     return Response.json({ data: [row(`${currentMonth}-16`, 2, 'Z trailing')] });
   if (failure === 'missing-data') return Response.json({});
-  if (fixtureBookings) return Response.json({ data: id === 4 ? fixtureBookings : [] });
+  if (fixtureBookings) {
+    const rows = filterFixtureBookings
+      ? fixtureBookings.filter(
+          ({ booking }) =>
+            booking.calculated.startDate.slice(0, 10) <= url.searchParams.get('to') &&
+            booking.calculated.endDate.slice(0, 10) >= url.searchParams.get('from')
+        )
+      : fixtureBookings;
+    return Response.json({ data: id === 4 ? rows : [] });
+  }
   return Response.json({
     data:
       id === 4
@@ -169,6 +187,7 @@ try {
   // Civil booking end dates include the supplied final day; timed ends remain exclusive.
   console.error = () => {};
   env.CHURCHTOOLS_EVENT_BUFFER_HOURS = '0';
+  expectedDaysBefore = expectedDaysAfter = 0;
   for (const [start, end, expectedDays] of [
     ['2026-01-14', '2026-01-14', ['2026-01-14']],
     ['2026-07-14', '2026-07-14', ['2026-07-14']],
@@ -193,6 +212,7 @@ try {
   cached.clear();
   assert.equal((await (await request()).json()).statuses['2026-10-15'], 'coordination');
   env.CHURCHTOOLS_EVENT_BUFFER_HOURS = '12';
+  expectedDaysBefore = expectedDaysAfter = 1;
   fixtureBookings = [allDayRow('2026-10-15')];
   cached.clear();
   const buffered = await (await request()).json();
@@ -204,6 +224,86 @@ try {
   ];
   cached.clear();
   assert.equal((await (await request()).json()).statuses['2026-10-15'], 'occupied');
+  // The mock CT server excludes bookings outside its queried civil-date window.
+  filterFixtureBookings = true;
+  for (const [startDate, endDate] of [
+    ['2026-11-10T12:00:00+01:00', '2026-11-10T14:00:00+01:00'],
+    ['2026-11-12T08:00:00+01:00', '2026-11-12T10:00:00+01:00']
+  ]) {
+    fixtureBookings = [{ booking: { base: { statusId: 2 }, calculated: { startDate, endDate } } }];
+    for (const [start, end] of [
+      ['2026-11-11', '2026-11-11'],
+      ['2026-11-11', '2026-11-12'],
+      ['2026-11-01', '2026-11-30']
+    ]) {
+      from = start;
+      to = end;
+      cached.clear();
+      const boundaryResponse = await request();
+      assert.equal(boundaryResponse.status, 200);
+      const { statuses: boundaryStatuses } = await boundaryResponse.json();
+      assert.equal(
+        boundaryStatuses['2026-11-11'],
+        'coordination',
+        'Buffer status must not depend on the requested window'
+      );
+      assert.equal(
+        Object.keys(boundaryStatuses).length,
+        (parseIsoDate(to) - parseIsoDate(from)) / 86_400_000 + 1,
+        'Only requested days may be returned'
+      );
+    }
+  }
+  env.CHURCHTOOLS_EVENT_BUFFER_HOURS = '48';
+  for (const [day, bookingDay, zone, before, after] of [
+    ['2026-03-30', '2026-03-27', '+01:00', 3, 2],
+    ['2026-10-26', '2026-10-24', '+02:00', 2, 2]
+  ]) {
+    from = to = day;
+    expectedDaysBefore = before;
+    expectedDaysAfter = after;
+    fixtureBookings = [
+      {
+        booking: {
+          base: { statusId: 2 },
+          calculated: {
+            startDate: `${bookingDay}T01:00:00${zone}`,
+            endDate: `${bookingDay}T01:30:00${zone}`
+          }
+        }
+      }
+    ];
+    if (day === '2026-03-30')
+      fixtureBookings[0].booking.calculated = {
+        startDate: `${bookingDay}T23:00:00${zone}`,
+        endDate: `${bookingDay}T23:30:00${zone}`
+      };
+    cached.clear();
+    assert.equal(
+      (await (await request()).json()).statuses[day],
+      'coordination',
+      '48h buffer must follow elapsed hours across DST'
+    );
+  }
+  for (const [start, end, buffer] of [
+    ['0000-12-31', '0001-01-01', '12'],
+    ['9999-12-31', '9999-12-31', '0'],
+    ['0001-01-01', '0001-01-01', '12'],
+    ['9999-12-30', '9999-12-30', '48']
+  ]) {
+    from = start;
+    to = end;
+    env.CHURCHTOOLS_EVENT_BUFFER_HOURS = buffer;
+    cached.clear();
+    const previousCalls = calls;
+    assert.equal((await request()).status, 400, 'Unrepresentable padded windows must be rejected');
+    assert.equal(calls, previousCalls, 'Invalid calendar bounds must not reach ChurchTools');
+  }
+  filterFixtureBookings = false;
+  env.CHURCHTOOLS_EVENT_BUFFER_HOURS = '12';
+  expectedDaysBefore = expectedDaysAfter = 1;
+  from = '2026-10-13';
+  to = '2026-10-17';
   for (const invalid of [
     allDayRow('2026-02-30'),
     allDayRow('2026-10-15', '2026-10-14'),

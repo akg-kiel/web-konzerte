@@ -1,4 +1,4 @@
-import { parseDate } from '@internationalized/date';
+import { parseDate, toCalendarDate, toZoned } from '@internationalized/date';
 import { env } from 'cloudflare:workers';
 import type { APIRoute } from 'astro';
 
@@ -6,6 +6,7 @@ import { classifyAvailability, parseIsoDate, type BookingSlot } from '../../lib/
 
 export const prerender = false;
 
+const venueTimeZone = 'Europe/Berlin';
 const resources: Array<{ id: number; group: BookingSlot['group'] }> = [
   { id: 4, group: 'venue' },
   ...[15, 21, 16, 18, 19, 20, 39, 22, 23, 24].map((id) => ({
@@ -32,6 +33,8 @@ export const GET: APIRoute = async ({ request }) => {
   if (
     !Number.isFinite(fromTime) ||
     !Number.isFinite(toTime) ||
+    from < '0001-01-01' ||
+    to >= '9999-12-31' ||
     toTime < fromTime ||
     toTime - fromTime > 400 * 86_400_000
   )
@@ -59,6 +62,26 @@ export const GET: APIRoute = async ({ request }) => {
   try {
     if (new URL(baseUrl).protocol !== 'https:')
       throw new Error('CHURCHTOOLS_BASE_URL must use HTTPS');
+    const configuredBuffer = Number(env.CHURCHTOOLS_EVENT_BUFFER_HOURS ?? 12);
+    const bufferHours =
+      Number.isFinite(configuredBuffer) && configuredBuffer >= 0 ? configuredBuffer : 12;
+    // Fetch bookings whose buffers overlap the requested Berlin days, including across DST.
+    const bookingFrom = toCalendarDate(
+      toZoned(parseDate(from), venueTimeZone).subtract({ hours: bufferHours })
+    ).toString();
+    const bookingTo = toCalendarDate(
+      toZoned(parseDate(to).add({ days: 1 }), venueTimeZone)
+        .add({ hours: bufferHours })
+        .subtract({ milliseconds: 1 })
+    ).toString();
+    if (
+      !Number.isFinite(parseIsoDate(bookingFrom)) ||
+      !Number.isFinite(parseIsoDate(bookingTo)) ||
+      bookingFrom < '0001-01-01' ||
+      bookingFrom > from ||
+      bookingTo < to
+    )
+      return Response.json({ error: 'Ungültiger Zeitraum' }, { status: 400 });
     const headers = { Authorization: `Login ${env.CHURCHTOOLS_TOKEN}` };
     const masterResponse = await fetch(`${baseUrl}/api/resource/masterdata`, {
       headers,
@@ -76,8 +99,8 @@ export const GET: APIRoute = async ({ request }) => {
       await Promise.all(
         resources.map(async ({ id, group }) => {
           const bookingUrl = new URL('/api/bookings', baseUrl);
-          bookingUrl.searchParams.set('from', from);
-          bookingUrl.searchParams.set('to', to);
+          bookingUrl.searchParams.set('from', bookingFrom);
+          bookingUrl.searchParams.set('to', bookingTo);
           bookingUrl.searchParams.append('resource_ids[]', String(id));
           bookingUrl.searchParams.append('status_ids[]', '1');
           bookingUrl.searchParams.append('status_ids[]', '2');
@@ -104,10 +127,10 @@ export const GET: APIRoute = async ({ request }) => {
               Number.isFinite(parseIsoDate(startDate ?? '')) &&
               Number.isFinite(parseIsoDate(endDate ?? ''));
             const startTime = dateOnly
-              ? parseDate(startDate!).toDate('Europe/Berlin').getTime()
+              ? parseDate(startDate!).toDate(venueTimeZone).getTime()
               : parseChurchToolsDateTime(startDate);
             const endTime = dateOnly
-              ? parseDate(endDate!).add({ days: 1 }).toDate('Europe/Berlin').getTime()
+              ? parseDate(endDate!).add({ days: 1 }).toDate(venueTimeZone).getTime()
               : parseChurchToolsDateTime(endDate);
             const statusId = booking?.base?.statusId;
             if (
@@ -134,13 +157,12 @@ export const GET: APIRoute = async ({ request }) => {
 
     const reliableDate = new Date();
     reliableDate.setUTCDate(reliableDate.getUTCDate() + 365);
-    const configuredBuffer = Number(env.CHURCHTOOLS_EVENT_BUFFER_HOURS ?? 12);
     const statuses = classifyAvailability(
       from,
       to,
       bookings,
       reliableDate.toISOString().slice(0, 10),
-      Number.isFinite(configuredBuffer) ? configuredBuffer : 12
+      bufferHours
     );
     const response = Response.json(
       { statuses },
