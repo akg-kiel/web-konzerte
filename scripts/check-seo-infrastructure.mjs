@@ -16,18 +16,21 @@ import {
   getRobotsTxt,
   getSitemapResponse,
   getStaticPagePaths,
+  INDEXING_ENABLED,
   isProductionHost
 } from '../src/lib/seo.ts';
 
 const config = await readFile('astro.config.mjs', 'utf8');
 const site = new URL(config.match(/site:\s*'([^']+)'/)[1]);
-assert.equal(site.href, 'https://konzerte-petruskirche.de/');
+assert.equal(site.href, 'https://petruskirche.events/');
+assert.equal(INDEXING_ENABLED, false, 'Indexing requires a separate launch approval');
 const preview = new URL('https://version-web-konzerte.example.workers.dev/');
 assert.equal(isProductionHost(site, site), true);
 for (const host of [
   preview.href,
   'http://localhost:4321/',
-  'https://konzerte-petruskirche.de.evil/'
+  'https://petruskirche.events.evil/',
+  'https://konzerte-petruskirche.de/'
 ]) {
   assert.equal(isProductionHost(new URL(host), site), false);
 }
@@ -205,8 +208,19 @@ for (const path of [
   assert.equal(guarded.headers.get('X-Robots-Tag'), 'noindex, follow');
   assert.equal(guarded.headers.get('ETag'), 'unchanged');
   assert.deepEqual(new Uint8Array(await guarded.arrayBuffer()), body);
+  assert.equal(
+    applyRobotsPolicy(new Response('preview'), new URL(path, preview), site, true).headers.get(
+      'X-Robots-Tag'
+    ),
+    'noindex, follow'
+  );
   const production = new Response('public');
-  assert.equal(applyRobotsPolicy(production, new URL(path, site), site), production);
+  assert.equal(
+    applyRobotsPolicy(production, new URL(path, site), site).headers.get('X-Robots-Tag'),
+    'noindex, follow',
+    'The canonical host must remain noindex before launch approval'
+  );
+  assert.equal(applyRobotsPolicy(production, new URL(path, site), site, true), production);
   assert.equal(production.headers.get('X-Robots-Tag'), null);
 }
 for (const status of [404, 503]) {
@@ -214,6 +228,12 @@ for (const status of [404, 503]) {
   assert.equal(guarded.status, status);
   assert.equal(guarded.headers.get('X-Robots-Tag'), 'noindex, follow');
   assert.equal(guarded.headers.get('Cloudflare-CDN-Cache-Control'), 'no-store');
+  assert.equal(
+    applyRobotsPolicy(new Response('error', { status }), site, site, true).headers.get(
+      'X-Robots-Tag'
+    ),
+    'noindex, follow'
+  );
 }
 for (const path of [
   '/api/availability/',
@@ -223,7 +243,9 @@ for (const path of [
   '/__astro_prerender'
 ]) {
   assert.equal(
-    applyRobotsPolicy(new Response('{}'), new URL(path, site), site).headers.get('X-Robots-Tag'),
+    applyRobotsPolicy(new Response('{}'), new URL(path, site), site, true).headers.get(
+      'X-Robots-Tag'
+    ),
     'noindex, follow'
   );
 }
@@ -243,6 +265,8 @@ assert(getRobotsTxt(site, preview).includes(`Sitemap: ${site}sitemap.xml`));
 
 const wrangler = await readFile('wrangler.toml', 'utf8');
 assert.match(wrangler, /main = "\.\/src\/worker\.ts"/);
+assert.match(wrangler, /workers_dev = false/);
+assert.match(wrangler, /preview_urls = true/);
 assert.match(wrangler, /\[assets\][\s\S]*run_worker_first = true/);
 const worker = await readFile('src/worker.ts', 'utf8');
 assert.match(worker, /@astrojs\/cloudflare\/handler/);
@@ -253,6 +277,7 @@ const layout = await readFile('src/layouts/Layout.astro', 'utf8');
 assert.match(layout, /getCanonicalUrl\(siteUrl, canonicalUrl \?\? Astro.url.pathname\)/);
 assert.match(layout, /\(Astro.response.status \?\? 200\) >= 400/);
 assert.match(layout, /!Astro.isPrerendered/);
+assert.match(layout, /!INDEXING_ENABLED/);
 for (const page of ['src/pages/programm.astro', 'src/pages/programm/archiv.astro']) {
   const source = await readFile(page, 'utf8');
   assert.match(source, /getProgrammeSeo\(Astro.site!, Astro.url, filters, page\)/);
@@ -266,13 +291,16 @@ if (process.argv.includes('--built')) {
   assert.equal(generated.assets.run_worker_first, true);
   assert.equal(generated.assets.binding, 'ASSETS');
   assert.equal(generated.assets.directory, '..');
+  assert.equal(generated.workers_dev, false);
+  assert.equal(generated.preview_urls, true);
   for (const path of paths.filter((path) => !path.startsWith('/programm/'))) {
     const html = await readFile(`dist${path}index.html`, 'utf8');
     assert(html.includes(`rel="canonical" href="${getCanonicalUrl(site, path)}"`));
-    assert(html.includes('name="robots" content="index, follow"'));
+    assert(html.includes('name="robots" content="noindex, follow"'));
+    assert(!html.includes('konzerte-petruskirche.de'));
   }
   console.log('SEO generated asset routing and static HTML checks passed.');
 }
 console.log(
-  'SEO offline checks passed (canonical pagination/filters, runtime sitemap, robots, preview asset policy).'
+  'SEO offline checks passed (petruskirche.events canonicals, pre-launch noindex, pagination/filters, sitemap, robots).'
 );

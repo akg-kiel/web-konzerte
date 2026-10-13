@@ -11,6 +11,6 @@ export default defineConfig({
   image: { remotePatterns: [{ protocol: 'https', hostname: 'akg-kiel.church.tools' }] },
   prefetch: { prefetchAll: true, defaultStrategy: 'hover' },
   session: false,
-  site: 'https://konzerte-petruskirche.de',
+  site: 'https://petruskirche.events',
   trailingSlash: 'always'
 });

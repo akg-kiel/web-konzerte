@@ -1,6 +1,8 @@
 name = "web-konzerte"
 main = "./src/worker.ts"
 compatibility_date = "2026-01-19"
+workers_dev = false
+preview_urls = true
 
 [vars]
 CHURCHTOOLS_BASE_URL = "https://akg-kiel.church.tools"

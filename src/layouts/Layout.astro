@@ -2,7 +2,7 @@
 import Footer from '../components/layout/Footer.astro';
 import Header from '../components/layout/Header.astro';
 import '../styles/globals.css';
-import { getCanonicalUrl, isProductionHost } from '../lib/seo';
+import { getCanonicalUrl, INDEXING_ENABLED, isProductionHost } from '../lib/seo';
 
 interface Props {
   title?: string;
@@ -23,7 +23,7 @@ const {
 const siteName = 'Kieler Konzertkirche';
 const siteUrl = Astro.site!;
 const canonicalHref = getCanonicalUrl(siteUrl, canonicalUrl ?? Astro.url.pathname);
-const robots = noindex || (Astro.response.status ?? 200) >= 400 ||
+const robots = !INDEXING_ENABLED || noindex || (Astro.response.status ?? 200) >= 400 ||
   (!Astro.isPrerendered && !isProductionHost(Astro.url, siteUrl))
   ? 'noindex, follow' : 'index, follow';
 const ogImageUrl = new URL(ogImage, siteUrl).href;

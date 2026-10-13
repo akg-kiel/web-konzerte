@@ -1,6 +1,8 @@
 import { CONCERTS_PER_PAGE, cacheProgramme, splitConcerts } from '../data/concerts.ts';
 import type { Concert, ConcertFilters } from '../data/concerts.ts';
 
+// A canonical domain is not launch approval. Enable only after explicit indexing release.
+export const INDEXING_ENABLED = false;
 export const isProductionHost = (requestUrl: URL, site: URL) => requestUrl.host === site.host;
 
 // Even an existing absolute canonical override must resolve on the configured site.
@@ -36,9 +38,17 @@ const technicalPaths = ['/api/', '/_actions/', '/_server-islands/', '/__astro'];
 const isTechnicalPath = (path: string) =>
   technicalPaths.some((prefix) => path.startsWith(prefix) || path === prefix.replace(/\/$/, ''));
 
-export function applyRobotsPolicy(response: Response, url: URL, site: URL) {
+export function applyRobotsPolicy(
+  response: Response,
+  url: URL,
+  site: URL,
+  indexingEnabled = INDEXING_ENABLED
+) {
   const noindex =
-    !isProductionHost(url, site) || isTechnicalPath(url.pathname) || response.status >= 400;
+    !indexingEnabled ||
+    !isProductionHost(url, site) ||
+    isTechnicalPath(url.pathname) ||
+    response.status >= 400;
   if (!noindex) return response;
   // Asset binding responses can have immutable headers; retain the streamed body.
   const result = new Response(response.body, response);
