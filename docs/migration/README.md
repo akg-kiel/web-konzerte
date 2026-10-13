@@ -33,7 +33,7 @@ Repeated series such as Alte Bekannte, Bläserphilharmonie, Weihnachtsoratorium,
 
 ## Rollout dependencies
 
-- Confirm the final domain under AKG-83. The configured `https://konzerte-petruskirche.de` currently fails DNS resolution; live target validation is not complete.
+- The owner confirmed `https://petruskirche.events` as the main domain on 2026-10-13. It is connected as a public noindex pre-launch site; canonical configuration is updated in this change. Production/indexing release and migration target acceptance remain separate. The inventory above is the 2026-10-05 snapshot, not an updated or approved redirect table.
 - Review and approve the explicit mapping required by AKG-89 before AKG-91.
 - Redirects must execute on the old `akg-kiel.de` host/repository, not here.
 - Preserve working detail links after ChurchTools title/date corrections; current slugs include both. Backwards-compatible identity resolution is being checked separately.
