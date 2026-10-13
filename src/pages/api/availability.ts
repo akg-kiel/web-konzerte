@@ -1,3 +1,4 @@
+import { parseDate } from '@internationalized/date';
 import { env } from 'cloudflare:workers';
 import type { APIRoute } from 'astro';
 
@@ -14,7 +15,7 @@ const resources: Array<{ id: number; group: BookingSlot['group'] }> = [
 ];
 
 const parseChurchToolsDateTime = (value: string | undefined) => {
-  if (!value) return NaN;
+  if (typeof value !== 'string') return NaN;
   const match =
     /^(\d{4}-\d{2}-\d{2})T(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d+)?)?(?:Z|[+-](?:[01]\d|2[0-3]):[0-5]\d)$/.exec(
       value
@@ -50,7 +51,10 @@ export const GET: APIRoute = async ({ request }) => {
 
   const baseUrl = (env.CHURCHTOOLS_BASE_URL ?? 'https://akg-kiel.church.tools').replace(/\/$/, '');
   if (!env.CHURCHTOOLS_TOKEN)
-    return Response.json({ error: 'Verfügbarkeit derzeit nicht abrufbar' }, { status: 503 });
+    return Response.json(
+      { error: 'Verfügbarkeit derzeit nicht abrufbar' },
+      { status: 503, headers: { 'Cache-Control': 'no-store' } }
+    );
 
   try {
     if (new URL(baseUrl).protocol !== 'https:')
@@ -92,20 +96,36 @@ export const GET: APIRoute = async ({ request }) => {
           };
           if (!Array.isArray(payload.data)) throw new Error('invalid bookings response');
           return payload.data.flatMap(({ booking }): BookingSlot[] => {
-            const startDate = booking?.calculated?.startDate ?? booking?.base?.startDate;
-            const endDate = booking?.calculated?.endDate ?? booking?.base?.endDate;
-            const startTime = parseChurchToolsDateTime(startDate);
-            const endTime = parseChurchToolsDateTime(endDate);
-            const statusId = Number(booking?.base?.statusId);
+            const dates = booking?.calculated ?? booking?.base;
+            const startDate = dates?.startDate;
+            const endDate = dates?.endDate;
+            // CT's resource view includes the end day; use Berlin midnight boundaries, not 24h.
+            const dateOnly =
+              Number.isFinite(parseIsoDate(startDate ?? '')) &&
+              Number.isFinite(parseIsoDate(endDate ?? ''));
+            const startTime = dateOnly
+              ? parseDate(startDate!).toDate('Europe/Berlin').getTime()
+              : parseChurchToolsDateTime(startDate);
+            const endTime = dateOnly
+              ? parseDate(endDate!).add({ days: 1 }).toDate('Europe/Berlin').getTime()
+              : parseChurchToolsDateTime(endDate);
+            const statusId = booking?.base?.statusId;
             if (
               !Number.isFinite(startTime) ||
               !Number.isFinite(endTime) ||
               endTime <= startTime ||
-              ![1, 2, 3].includes(statusId)
+              ![1, 2, 3].includes(statusId ?? NaN)
             )
               throw new Error('invalid booking');
             return statusId === 1 || statusId === 2
-              ? [{ group, statusId, startDate: startDate!, endDate: endDate! }]
+              ? [
+                  {
+                    group,
+                    statusId,
+                    startDate: new Date(startTime).toISOString(),
+                    endDate: new Date(endTime).toISOString()
+                  }
+                ]
               : [];
           });
         })
