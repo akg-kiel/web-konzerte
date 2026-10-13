@@ -7,6 +7,7 @@ import { classifyAvailability, parseIsoDate } from '../src/lib/availability.ts';
 
 assert.equal(Number.isFinite(parseIsoDate('2024-02-29')), true);
 assert.equal(Number.isNaN(parseIsoDate('2026-02-30')), true);
+assert.equal(Number.isNaN(parseIsoDate(['2026-03-29'])), true);
 
 const statuses = classifyAvailability(
   '2027-01-01',
@@ -73,11 +74,11 @@ const originalConsoleError = console.error;
 const resourceIds = [4, 15, 21, 16, 18, 19, 20, 39, 22, 23, 24];
 const month = new Date();
 month.setUTCDate(1);
-const from = month.toISOString().slice(0, 10);
+let from = month.toISOString().slice(0, 10);
 month.setUTCMonth(month.getUTCMonth() + 1);
 const nextMonth = month.toISOString().slice(0, 7);
 month.setUTCMonth(month.getUTCMonth() + 1, 0);
-const to = month.toISOString().slice(0, 10);
+let to = month.toISOString().slice(0, 10);
 const currentMonth = from.slice(0, 7);
 const row = (day, statusId = 2, zone = 'Z') => ({
   booking: {
@@ -85,6 +86,13 @@ const row = (day, statusId = 2, zone = 'Z') => ({
     calculated: { startDate: `${day}T10:00:00${zone}`, endDate: `${day}T12:00:00${zone}` }
   }
 });
+const allDayRow = (startDate, endDate = startDate, statusId = 2) => ({
+  booking: {
+    base: { allDay: true, statusId, startDate: '2000-01-01', endDate: '2000-01-01' },
+    calculated: { startDate, endDate }
+  }
+});
+let fixtureBookings;
 let failure;
 const cached = new Map();
 let calls = 0;
@@ -129,6 +137,7 @@ globalThis.fetch = async (input, options) => {
   if (failure === 'malformed-datetime')
     return Response.json({ data: [row(`${currentMonth}-16`, 2, 'Z trailing')] });
   if (failure === 'missing-data') return Response.json({});
+  if (fixtureBookings) return Response.json({ data: id === 4 ? fixtureBookings : [] });
   return Response.json({
     data:
       id === 4
@@ -157,7 +166,69 @@ try {
   assert.equal(calls, 12, 'Successful availability uses cache');
   assert.equal((await request('&probe=1')).status, 200);
   assert.equal(calls, 24, 'Distinct availability URLs use distinct cache entries');
+  // Civil booking end dates include the supplied final day; timed ends remain exclusive.
   console.error = () => {};
+  env.CHURCHTOOLS_EVENT_BUFFER_HOURS = '0';
+  for (const [start, end, expectedDays] of [
+    ['2026-01-14', '2026-01-14', ['2026-01-14']],
+    ['2026-07-14', '2026-07-14', ['2026-07-14']],
+    ['2026-03-29', '2026-03-29', ['2026-03-29']],
+    ['2026-10-25', '2026-10-25', ['2026-10-25']],
+    ['2026-03-28', '2026-03-30', ['2026-03-28', '2026-03-29', '2026-03-30']]
+  ]) {
+    from = new Date(parseIsoDate(start) - 86_400_000).toISOString().slice(0, 10);
+    to = new Date(parseIsoDate(end) + 86_400_000).toISOString().slice(0, 10);
+    fixtureBookings = [allDayRow(start, end)];
+    cached.clear();
+    const allDayResponse = await request();
+    assert.equal(allDayResponse.status, 200, 'Documented all-day bookings must not fail closed');
+    const { statuses: allDayStatuses } = await allDayResponse.json();
+    assert.equal(allDayStatuses[from], 'available', 'No spill into the preceding Berlin day');
+    assert.equal(allDayStatuses[to], 'available', 'No spill into the following Berlin day');
+    for (const day of expectedDays) assert.equal(allDayStatuses[day], 'occupied');
+  }
+  from = '2026-10-13';
+  to = '2026-10-17';
+  fixtureBookings = [allDayRow('2026-10-15', '2026-10-15', 1)];
+  cached.clear();
+  assert.equal((await (await request()).json()).statuses['2026-10-15'], 'coordination');
+  env.CHURCHTOOLS_EVENT_BUFFER_HOURS = '12';
+  fixtureBookings = [allDayRow('2026-10-15')];
+  cached.clear();
+  const buffered = await (await request()).json();
+  assert.equal(buffered.statuses['2026-10-14'], 'coordination');
+  assert.equal(buffered.statuses['2026-10-15'], 'occupied');
+  assert.equal(buffered.statuses['2026-10-16'], 'coordination');
+  fixtureBookings = [
+    { booking: { base: { statusId: 2, startDate: '2026-10-15', endDate: '2026-10-15' } } }
+  ];
+  cached.clear();
+  assert.equal((await (await request()).json()).statuses['2026-10-15'], 'occupied');
+  for (const invalid of [
+    allDayRow('2026-02-30'),
+    allDayRow('2026-10-15', '2026-10-14'),
+    allDayRow('2026-10-15', '2026-10-16T12:00:00Z'),
+    allDayRow('2026-10-15 trailing'),
+    allDayRow(['2026-10-15'], ['2026-10-15']),
+    allDayRow(['2026-10-15T10:00:00Z'], ['2026-10-15T12:00:00Z']),
+    allDayRow('2026-10-15', '2026-10-15', [3]),
+    allDayRow('2026-10-15', '2026-10-15', true),
+    allDayRow('2026-10-15', '2026-10-15', '2'),
+    {
+      booking: {
+        base: { statusId: 2, startDate: '2026-10-14T10:00:00Z', endDate: '2026-10-16T12:00:00Z' },
+        calculated: { startDate: '2026-10-15T10:00:00Z' }
+      }
+    }
+  ]) {
+    fixtureBookings = [invalid];
+    cached.clear();
+    const invalidResponse = await request();
+    assert.equal(invalidResponse.status, 503);
+    assert.equal(invalidResponse.headers.get('Cache-Control'), 'no-store');
+    assert.equal(cached.size, 0, 'Invalid all-day or partial calculated dates must not be cached');
+  }
+  fixtureBookings = undefined;
   for (failure of [
     'denied',
     'malformed',
@@ -174,7 +245,9 @@ try {
     assert.equal(cached.size, 0, 'Upstream failures must not cache fabricated free dates');
   }
   delete env.CHURCHTOOLS_TOKEN;
-  assert.equal((await request()).status, 503);
+  const missingCredentials = await request();
+  assert.equal(missingCredentials.status, 503);
+  assert.equal(missingCredentials.headers.get('Cache-Control'), 'no-store');
 } finally {
   globalThis.fetch = originalFetch;
   console.error = originalConsoleError;
