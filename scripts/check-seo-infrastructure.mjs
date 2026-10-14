@@ -290,7 +290,25 @@ for (const page of ['src/pages/programm.astro', 'src/pages/programm/archiv.astro
 const programme = await readFile('src/pages/programm.astro', 'utf8');
 assert(!programme.includes('Saisonübersicht'));
 assert(!programme.includes('chronologisch sortiert'));
-assert.match(programme, /slot="cta"[\s\S]*?href="\/programm\/archiv\/"/);
+assert.match(
+  programme,
+  /intro="Klassik, Chor, Musical und Crossover – die nächsten Konzerte in der Petruskirche\."/
+);
+for (const page of ['src/pages/programm.astro', 'src/pages/programm/archiv.astro']) {
+  const source = await readFile(page, 'utf8');
+  assert(
+    !source.includes('slot="cta"'),
+    'Programme navigation belongs by the search, not in the hero'
+  );
+  assert.match(source, /<ProgrammeNavigation\s*\/>/);
+}
+const navigation = await readFile('src/components/sections/ProgrammeNavigation.astro', 'utf8');
+assert.match(navigation, /aria-label="Konzertprogramm"/);
+assert.match(navigation, /Astro\.url\.pathname === href/);
+assert.match(navigation, /aria-current=/);
+for (const text of ['/programm/', '/programm/archiv/', 'Aktuelle Konzerte', 'Konzertarchiv']) {
+  assert(navigation.includes(text));
+}
 const filters = await readFile('src/components/sections/ConcertFilters.tsx', 'utf8');
 assert(!/Saison|name="season"|<Select/.test(filters));
 assert.match(

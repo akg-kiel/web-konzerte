@@ -6,7 +6,7 @@ import { env } from 'cloudflare:workers';
 import ConcertFilters from '../components/sections/ConcertFilters';
 import Concerts from '../components/sections/Concerts.astro';
 import PageHero from '../components/sections/PageHero.astro';
-import { ButtonLink } from '../components/ui/button';
+import ProgrammeNavigation from '../components/sections/ProgrammeNavigation.astro';
 import Layout from '../layouts/Layout.astro';
 import { getProgrammeSeo } from '../lib/seo';
 import {
@@ -44,20 +44,16 @@ if (result.error) Astro.response.status = 503;
   description="Aktuelle Konzerte in Kiel: Programm der Petruskirche mit Klassik, Chor, Musical, Orgel und Crossover sowie Ticketlinks, sobald der Vorverkauf startet."
 >
   <main class="min-h-screen bg-midnight text-role-on">
-    <PageHero eyebrow="Konzertprogramm">
+    <PageHero
+      eyebrow="Konzertprogramm"
+      intro="Klassik, Chor, Musical und Crossover – die nächsten Konzerte in der Petruskirche."
+    >
       Konzerte in Kiel
-      <ButtonLink
-        slot="cta"
-        className="min-h-12 rounded-sm px-6 py-3 font-body text-base/6 font-semibold"
-        href="/programm/archiv/"
-        variant="secondary"
-      >
-        Konzertarchiv
-      </ButtonLink>
     </PageHero>
 
     <section class="border-y border-white/5 bg-surface/50 py-12" aria-label="Konzertsuche">
         <div class="mx-auto w-full max-w-screen-2xl px-6 md:px-8 lg:px-16">
+          <ProgrammeNavigation />
           <ConcertFilters
             action="/programm/"
             anchor="programm"

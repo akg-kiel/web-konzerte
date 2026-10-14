@@ -41,11 +41,11 @@ Parent integrated the following programme copy after the SEO owner released the 
 - Description: `Aktuelle Konzerte in Kiel: Programm der Petruskirche mit Klassik, Chor, Musical, Orgel und Crossover sowie Ticketlinks, sobald der Vorverkauf startet.`
 - Eyebrow: `Konzertprogramm`
 - H1: `Konzerte in Kiel`
-- Intro: removed in AKG-118 following direct preview feedback; no replacement filler. The hero links prominently to `Konzertarchiv`.
+- Intro (AKG-118, clarified feedback): `Klassik, Chor, Musical und Crossover – die nächsten Konzerte in der Petruskirche.` Replaces the old explanation of sorting, detail pages and ticket links; it is not removed entirely.
 - Concerts section heading/eyebrow: `Alle Konzerte`
 - Venue/access link text: `Besuch planen →` instead of `Besucherinformationen →`
 
-Rationale: the central landing page keeps its own title/H1; existing cards provide the concert details. AKG-118 removes the redundant explanatory intro and season filtering, while retaining text/date search and making the archive directly accessible from the hero.
+Rationale: the central landing page keeps its own title/H1; existing cards provide the concert details. AKG-118 removes season filtering and rewrites the introduction around the existing programme genres. Following clarified feedback and Mobbin research, `Aktuelle Konzerte` / `Konzertarchiv` form a quiet, underlined route navigation above search on both pages, not a prominent hero CTA. Real links and `aria-current="page"` preserve native navigation without JavaScript. Reference: [Unity events](https://mobbin.com/screens/0d59fbdc-b2d3-4530-bced-188f1d5a4881), with current/recorded navigation above its filters. Text/date search remains unchanged.
 
 ## Programme/detail wording proposals for parent / programme owner
 
