@@ -16,3 +16,24 @@ const links = [
     </a>
   ))}
 </nav>
+
+<script>
+  import type { TransitionBeforeSwapEvent } from 'astro:transitions/client';
+
+  let position: { left: number; top: number } | undefined;
+  document.addEventListener('astro:before-swap', (event) => {
+    const transition = event as TransitionBeforeSwapEvent;
+    position = transition.navigationType !== 'traverse' &&
+      transition.sourceElement?.closest('nav[aria-label="Konzertprogramm"]')
+      ? { left: scrollX, top: scrollY }
+      : undefined;
+  });
+  document.addEventListener('astro:after-swap', () => {
+    if (!position) return;
+    window.scrollTo({ ...position, behavior: 'instant' });
+    document.querySelector<HTMLAnchorElement>(
+      'nav[aria-label="Konzertprogramm"] a[aria-current="page"]'
+    )?.focus({ preventScroll: true });
+    position = undefined;
+  });
+</script>

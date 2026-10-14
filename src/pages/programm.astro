@@ -2,11 +2,11 @@
 export const prerender = false;
 
 import { env } from 'cloudflare:workers';
+import { ClientRouter } from 'astro:transitions';
 
 import ConcertFilters from '../components/sections/ConcertFilters';
 import Concerts from '../components/sections/Concerts.astro';
-import PageHero from '../components/sections/PageHero.astro';
-import ProgrammeNavigation from '../components/sections/ProgrammeNavigation.astro';
+import ProgrammeHeader from '../components/sections/ProgrammeHeader.astro';
 import Layout from '../layouts/Layout.astro';
 import { getProgrammeSeo } from '../lib/seo';
 import {
@@ -40,31 +40,23 @@ if (result.error) Astro.response.status = 503;
 
 <Layout
   {...seo}
+  clientNavigation
   title="Konzerte in Kiel | Programm der Petruskirche"
   description="Aktuelle Konzerte in Kiel: Programm der Petruskirche mit Klassik, Chor, Musical, Orgel und Crossover sowie Ticketlinks, sobald der Vorverkauf startet."
 >
+  <ClientRouter slot="head" fallback="swap" />
   <main class="min-h-screen bg-midnight text-role-on">
-    <PageHero
-      eyebrow="Konzertprogramm"
-      intro="Klassik, Chor, Musical und Crossover – die nächsten Konzerte in der Petruskirche."
-    >
-      Konzerte in Kiel
-    </PageHero>
-
-    <section class="border-y border-white/5 bg-surface/50 py-12" aria-label="Konzertsuche">
-        <div class="mx-auto w-full max-w-screen-2xl px-6 md:px-8 lg:px-16">
-          <ProgrammeNavigation />
-          <ConcertFilters
-            action="/programm/"
-            anchor="programm"
-            filters={filters}
-            matchCount={filteredConcerts.length}
-            rangeError={rangeError}
-            totalCount={programmeConcerts.length}
-            client:load
-          />
-        </div>
-    </section>
+    <ProgrammeHeader>
+      <ConcertFilters
+        action="/programm/"
+        anchor="programm"
+        filters={filters}
+        matchCount={filteredConcerts.length}
+        rangeError={rangeError}
+        totalCount={programmeConcerts.length}
+        client:load
+      />
+    </ProgrammeHeader>
 
     {result.error && (
       <p class="mx-auto my-12 w-[calc(100%-3rem)] max-w-screen-2xl rounded-sm border border-secondary/40 bg-secondary/10 px-6 py-4 font-body text-base/7 text-role-on" role="alert">

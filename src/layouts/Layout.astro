@@ -10,6 +10,7 @@ interface Props {
   ogImage?: string;
   canonicalUrl?: string;
   noindex?: boolean;
+  clientNavigation?: boolean;
 }
 
 const {
@@ -17,7 +18,8 @@ const {
   description = 'Konzerte in der Petruskirche Kiel: klassische Musik, Raumklang und besondere Programme in architektonischer Atmosphäre.',
   ogImage = '/og-image.jpg',
   canonicalUrl,
-  noindex = false
+  noindex = false,
+  clientNavigation = false
 } = Astro.props;
 
 const siteName = 'Kieler Konzertkirche';
@@ -39,7 +41,15 @@ const websiteSchema = JSON.stringify({
 ---
 
 <!doctype html>
-<html lang="de" dir="ltr" class="min-h-full overflow-x-clip scroll-smooth bg-midnight scheme-dark motion-reduce:scroll-auto">
+<html
+  lang="de"
+  dir="ltr"
+  transition:animate={clientNavigation ? 'none' : undefined}
+  class:list={[
+    'min-h-full overflow-x-clip bg-midnight scheme-dark motion-reduce:scroll-auto',
+    clientNavigation ? 'scroll-auto' : 'scroll-smooth'
+  ]}
+>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -88,6 +98,7 @@ const websiteSchema = JSON.stringify({
     <meta name="twitter:image" content={ogImageUrl} />
 
     <title>{title}</title>
+    <slot name="head" />
 
     <script is:inline type="application/ld+json" set:html={websiteSchema}></script>
   </head>

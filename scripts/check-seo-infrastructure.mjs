@@ -290,22 +290,23 @@ for (const page of ['src/pages/programm.astro', 'src/pages/programm/archiv.astro
 const programme = await readFile('src/pages/programm.astro', 'utf8');
 assert(!programme.includes('Saisonübersicht'));
 assert(!programme.includes('chronologisch sortiert'));
+const programmeHeader = await readFile('src/components/sections/ProgrammeHeader.astro', 'utf8');
 assert.match(
-  programme,
-  /intro="Klassik, Chor, Musical und Crossover – die nächsten Konzerte in der Petruskirche\."/
+  programmeHeader,
+  /intro="Klassik, Chor, Musical und Crossover – Konzerte in der Petruskirche\."/
 );
+assert.match(programmeHeader, /<ProgrammeNavigation\s*\/>/);
 for (const page of ['src/pages/programm.astro', 'src/pages/programm/archiv.astro']) {
   const source = await readFile(page, 'utf8');
   assert(
     !source.includes('slot="cta"'),
     'Programme navigation belongs by the search, not in the hero'
   );
-  assert.match(source, /<ProgrammeNavigation\s*\/>/);
+  assert.match(source, /<ProgrammeHeader>/);
+  assert.match(source, /<ClientRouter\s/);
 }
 const navigation = await readFile('src/components/sections/ProgrammeNavigation.astro', 'utf8');
 assert.match(navigation, /aria-label="Konzertprogramm"/);
-assert.match(navigation, /Astro\.url\.pathname === href/);
-assert.match(navigation, /aria-current=/);
 for (const text of ['/programm/', '/programm/archiv/', 'Aktuelle Konzerte', 'Konzertarchiv']) {
   assert(navigation.includes(text));
 }
@@ -318,6 +319,30 @@ assert.match(
 );
 assert.match(await readFile('src/pages/sitemap.xml.ts', 'utf8'), /await getConcerts\(env\)/);
 assert.match(await readFile('src/pages/robots.txt.ts', 'utf8'), /prerender = false/);
+
+const originFlag = process.argv.find((arg) => arg.startsWith('--origin='));
+if (originFlag !== undefined) {
+  const origin = new URL(originFlag.slice('--origin='.length));
+  for (const path of ['/programm/', '/programm/archiv/']) {
+    const url = new URL(path, origin);
+    const response = await fetch(url, { signal: AbortSignal.timeout(10_000) });
+    assert.equal(response.status, 200);
+    const html = await response.text();
+    const renderedNavigation = [...html.matchAll(/<nav\b([^>]*)>([\s\S]*?)<\/nav>/g)].find(
+      ([, attributes]) => /\baria-label="Konzertprogramm"/.test(attributes)
+    )?.[2];
+    assert(renderedNavigation, `${path}: programme navigation is missing`);
+    const links = [...renderedNavigation.matchAll(/<a\b([^>]*)>/g)];
+    const current = links.filter(([, attributes]) => /\baria-current="page"/.test(attributes));
+    assert.equal(current.length, 1, `${path}: exactly one link must be current`);
+    const href = current[0][1].match(/\bhref="([^"]+)"/)?.[1];
+    assert(href, `${path}: current link must have a destination`);
+    const destination = new URL(href, url);
+    assert.equal(destination.origin, url.origin);
+    assert.equal(destination.pathname, path, `${path}: the current link must point to this route`);
+  }
+  console.log('Rendered programme navigation checks passed for both routes.');
+}
 
 if (process.argv.includes('--built')) {
   const generated = JSON.parse(await readFile('dist/server/wrangler.json', 'utf8'));
