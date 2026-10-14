@@ -13,7 +13,6 @@ import {
   cacheProgramme,
   filterConcerts,
   getConcertFilters,
-  getConcertSeason,
   getConcerts,
   hasInvalidConcertDateRange,
   paginateConcerts,
@@ -35,7 +34,6 @@ const emptyMessage = rangeError
   : Object.values(filters).some(Boolean)
     ? 'Für diese Filter wurden keine Konzerte gefunden. Ändern Sie die Suche oder setzen Sie die Filter zurück.'
     : undefined;
-const seasons = [...new Set(archiveConcerts.map(getConcertSeason))];
 if (result.error) Astro.response.status = 503;
 ---
 
@@ -52,22 +50,21 @@ if (result.error) Astro.response.status = 503;
       Konzertarchiv
       <ButtonLink
         slot="cta"
-        className="min-h-12 rounded-sm border-white/20 bg-transparent px-6 py-3 font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on hover:border-secondary hover:bg-transparent hover:text-secondary"
+        className="min-h-12 rounded-sm border-secondary/60 bg-transparent px-6 py-3 font-body text-base/6 font-semibold text-secondary hover:border-secondary hover:bg-secondary/10 hover:text-champagne"
         href="/programm/"
         variant="outline"
       >
-        Aktuelles Programm
+        Aktuelle Konzerte
       </ButtonLink>
     </PageHero>
 
     <section class="border-y border-white/5 bg-role-support px-6 py-12 md:px-8 lg:px-16" aria-labelledby="archive-filter-heading">
       <div class="mx-auto w-full max-w-screen-2xl">
-        <h2 id="archive-filter-heading" class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Archiv durchsuchen</h2>
+        <h2 id="archive-filter-heading" class="mb-8 font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Archiv durchsuchen</h2>
         <ConcertFilters
           action="/programm/archiv/"
           anchor="archiv"
           filters={filters}
-          seasons={seasons}
           matchCount={filteredConcerts.length}
           rangeError={rangeError}
           totalCount={archiveConcerts.length}

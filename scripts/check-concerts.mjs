@@ -6,7 +6,6 @@ import {
   cacheProgramme,
   filterConcerts,
   getConcertFilters,
-  getConcertSeason,
   getConcertState,
   getConcerts,
   hasInvalidConcertDateRange,
@@ -151,21 +150,20 @@ try {
     ...result.concerts[0],
     date: { ...result.concerts[0].date, iso: '2027-06-30T22:30:00Z' }
   };
-  assert.equal(getConcertSeason(midnightConcert), '2027/28');
   assert.equal(
     filterConcerts([midnightConcert], {
       search: '',
-      season: '',
       from: '2027-07-01',
       to: '2027-07-01'
     }).length,
     1
   );
+  const legacyFilters = getConcertFilters(new URLSearchParams({ season: '2027/28' }));
+  assert.deepEqual(legacyFilters, { search: '', from: '', to: '' });
   assert.deepEqual(
-    filterConcerts(concerts, { search: '', season: '2027/28', from: '', to: '' }).map(
-      ({ slug }) => slug
-    ),
-    [result.concerts[0].slug, 'mozart-2028']
+    filterConcerts(concerts, legacyFilters).map(({ slug }) => slug),
+    concerts.map(({ slug }) => slug),
+    'Legacy season URLs must not invisibly filter concerts'
   );
   assert.deepEqual(
     filterConcerts(
@@ -183,11 +181,11 @@ try {
   );
 
   assert.equal(
-    hasInvalidConcertDateRange({ search: '', season: '', from: '2028-02-01', to: '2028-01-01' }),
+    hasInvalidConcertDateRange({ search: '', from: '2028-02-01', to: '2028-01-01' }),
     true
   );
   assert.equal(
-    hasInvalidConcertDateRange({ search: '', season: '', from: '2028-01-01', to: '2028-02-01' }),
+    hasInvalidConcertDateRange({ search: '', from: '2028-01-01', to: '2028-02-01' }),
     false
   );
 
@@ -409,7 +407,7 @@ try {
   assert.equal(described.longDescription, 'Erster Absatz.\n\nZweiter Absatz.');
   assert.equal(described.programme, 'Haydn');
   for (const search of ['Abend', 'Zweiter']) {
-    assert.equal(filterConcerts([described], { search, season: '', from: '', to: '' }).length, 1);
+    assert.equal(filterConcerts([described], { search, from: '', to: '' }).length, 1);
   }
   for (const heading of ['---Program', '---Programm']) {
     cachedResponse = undefined;
@@ -420,10 +418,7 @@ try {
     assert.equal(concert.programme, 'Haydn\n\nDvořák');
     assert.equal(concert.subtitle, 'Musik, die Brücken baut');
     assert.equal(JSON.stringify(concert).includes('Nicht veröffentlichen'), false);
-    assert.equal(
-      filterConcerts([concert], { search: 'Brücken', season: '', from: '', to: '' }).length,
-      1
-    );
+    assert.equal(filterConcerts([concert], { search: 'Brücken', from: '', to: '' }).length, 1);
   }
   cachedResponse = undefined;
   description = '---Program\n\n---Untertitel\n---Kurzbeschreibung\n---Langbeschreibung\n';

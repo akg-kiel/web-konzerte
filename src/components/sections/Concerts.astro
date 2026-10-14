@@ -40,6 +40,7 @@ const paginationLinkClass =
   'inline-flex min-h-12 items-center font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary no-underline hover:!text-champagne';
 const pageHref = (target: number) => {
   const params = new URLSearchParams(Astro.url.searchParams);
+  params.delete('season');
   if (target === 1) params.delete('page');
   else params.set('page', String(target));
   const query = params.toString();
