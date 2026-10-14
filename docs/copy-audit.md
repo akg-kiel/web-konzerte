@@ -41,11 +41,11 @@ Parent integrated the following programme copy after the SEO owner released the 
 - Description: `Aktuelle Konzerte in Kiel: Programm der Petruskirche mit Klassik, Chor, Musical, Orgel und Crossover sowie Ticketlinks, sobald der Vorverkauf startet.`
 - Eyebrow: `Konzertprogramm`
 - H1: `Konzerte in Kiel`
-- Intro: `Das Konzertprogramm der Petruskirche – Konzerte in Kiel, chronologisch sortiert, mit Detailseiten und Ticketlinks, sobald der Vorverkauf startet.`
+- Intro: removed in AKG-118 following direct preview feedback; no replacement filler. The hero links prominently to `Konzertarchiv`.
 - Concerts section heading/eyebrow: `Alle Konzerte`
 - Venue/access link text: `Besuch planen →` instead of `Besucherinformationen →`
 
-Rationale: central landing page gets its own title/H1/intro, primary keyword appears in Title/H1/intro, and existing cards already provide internal links to relevant detail pages.
+Rationale: the central landing page keeps its own title/H1; existing cards provide the concert details. AKG-118 removes the redundant explanatory intro and season filtering, while retaining text/date search and making the archive directly accessible from the hero.
 
 ## Programme/detail wording proposals for parent / programme owner
 

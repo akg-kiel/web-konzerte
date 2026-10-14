@@ -139,6 +139,10 @@ try {
       assert.equal(seoFor(query).canonicalUrl, `${site.origin}${path}`);
       assert.equal(seoFor(query).noindex, true);
     }
+    const legacySeason = seoFor('?season=2027%2F28&page=2');
+    assert.equal(legacySeason.canonicalUrl, `${site.origin}${path}?page=2`);
+    assert.equal(legacySeason.noindex, true);
+    assert.deepEqual(legacySeason.pageConcerts, seoFor('?page=2').pageConcerts);
     assert.equal(seoFor('?page=1').canonicalUrl, `${site.origin}${path}`);
     assert.equal(seoFor('?page=1').noindex, false);
     assert.equal(seoFor('?page=2&utm_source=test').canonicalUrl, `${site.origin}${path}?page=2`);
@@ -283,6 +287,17 @@ for (const page of ['src/pages/programm.astro', 'src/pages/programm/archiv.astro
   assert.match(source, /getProgrammeSeo\(Astro.site!, Astro.url, filters, page\)/);
   assert.match(source, /<Layout\s+\{\.\.\.seo\}/);
 }
+const programme = await readFile('src/pages/programm.astro', 'utf8');
+assert(!programme.includes('Saisonübersicht'));
+assert(!programme.includes('chronologisch sortiert'));
+assert.match(programme, /slot="cta"[\s\S]*?href="\/programm\/archiv\/"/);
+const filters = await readFile('src/components/sections/ConcertFilters.tsx', 'utf8');
+assert(!/Saison|name="season"|<Select/.test(filters));
+assert.match(
+  await readFile('src/components/sections/Concerts.astro', 'utf8'),
+  /params\.delete\('season'\)/,
+  'Pagination must not propagate removed season filters'
+);
 assert.match(await readFile('src/pages/sitemap.xml.ts', 'utf8'), /await getConcerts\(env\)/);
 assert.match(await readFile('src/pages/robots.txt.ts', 'utf8'), /prerender = false/);
 

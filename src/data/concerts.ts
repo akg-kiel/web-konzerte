@@ -423,7 +423,6 @@ export function splitConcerts(concerts: Concert[], now = new Date()) {
 
 export interface ConcertFilters {
   search: string;
-  season: string;
   from: string;
   to: string;
 }
@@ -436,10 +435,8 @@ const validDate = (value: string) =>
 export function getConcertFilters(params: URLSearchParams): ConcertFilters {
   const from = params.get('from') ?? '';
   const to = params.get('to') ?? '';
-  const season = params.get('season') ?? '';
   return {
     search: (params.get('q') ?? '').trim().slice(0, 100),
-    season: /^\d{4}\/\d{2}$/.test(season) ? season : '',
     from: validDate(from) ? from : '',
     to: validDate(to) ? to : ''
   };
@@ -463,18 +460,11 @@ export function paginateConcerts(concerts: Concert[], params: URLSearchParams) {
 
 const getConcertDate = (concert: Concert) => berlinDate.format(new Date(concert.date.iso));
 
-export function getConcertSeason(concert: Concert) {
-  const [year, month] = getConcertDate(concert).split('-').map(Number);
-  const start = month >= 7 ? year : year - 1;
-  return `${start}/${String(start + 1).slice(-2)}`;
-}
-
 export function filterConcerts(concerts: Concert[], filters: ConcertFilters) {
   const query = filters.search.toLocaleLowerCase('de-DE');
   return concerts.filter((concert) => {
     const date = getConcertDate(concert);
     return (
-      (!filters.season || getConcertSeason(concert) === filters.season) &&
       (!filters.from || date >= filters.from) &&
       (!filters.to || date <= filters.to) &&
       (!query ||

@@ -18,11 +18,11 @@ export function getCanonicalUrl(site: URL, path: string) {
 export function getProgrammeSeo(site: URL, url: URL, filters: ConcertFilters, page: number) {
   const params = new URLSearchParams();
   if (filters.search) params.set('q', filters.search);
-  if (filters.season) params.set('season', filters.season);
   if (filters.from) params.set('from', filters.from);
   if (filters.to) params.set('to', filters.to);
   if (page > 1) params.set('page', String(page));
   const query = params.toString();
+  // Old season links no longer filter; keep them out of the search index.
   const filterKeys = ['q', 'season', 'from', 'to'];
   return {
     canonicalUrl: getCanonicalUrl(site, url.pathname + (query ? `?${query}` : '')),
