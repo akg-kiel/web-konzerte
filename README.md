@@ -106,3 +106,12 @@ Erst nach ausdrücklicher Launch-Freigabe `INDEXING_ENABLED` samt der expliziten
 Konzertdetails erhalten eigene Metadaten und faktenbasierte, sicher serialisierte Event-Daten. Alte title-basierte Detail-Slugs können über CT-ID und Occurrence-Datum auf die aktuelle URL umleiten; mehrdeutige Wiederholungen bleiben 404. Datenvertrag, Quelldatenlücken und ausstehende Rich-Results-Abnahme: [docs/seo/event-data.md](docs/seo/event-data.md). Copy-Abnahme: [docs/copy-audit.md](docs/copy-audit.md). Legacy-Host-Migration: [docs/migration/README.md](docs/migration/README.md).
 
 `pnpm test` prüft Mapping/Bilder, Verfügbarkeit und SEO/Weiterleitungen offline. `pnpm build` prüft zusätzlich die generierte Worker-Konfiguration und statisches SEO-Markup. Produktionsdomain, externe Validatoren und tatsächliche Deployments werden dadurch nicht als bestanden bestätigt.
+
+Programm und Archiv teilen Kopfbereich und Such-Wrapper. Nur diese beiden Ansichten verwenden Astros Client-Router; beim Wechsel bleiben Scrollposition und Fokus erhalten. Direkte URLs und Links ohne JavaScript funktionieren weiter. Gegen einen laufenden Preview-Server lassen sich die gerenderten aktiven Links und der echte Browserwechsel separat prüfen (Chromium muss vorhanden sein):
+
+```sh
+node --experimental-strip-types scripts/check-seo-infrastructure.mjs --origin=http://127.0.0.1:4321
+CHROME_BIN=/path/to/chromium node scripts/check-programme-navigation.mjs --origin=http://127.0.0.1:4321
+```
+
+Der Browsercheck prüft bei 320 bis 1920 Pixeln denselben Wrapper, Scrollposition, Fokus und Zurück/Vorwärts ohne neuen Dokument-Request.
