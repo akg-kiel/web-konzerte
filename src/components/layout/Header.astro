@@ -4,6 +4,7 @@ import { Image } from 'astro:assets';
 import akgLogo from '../../assets/logos/logo-akg-250px.png';
 
 const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+const { preparedProgramme = false } = Astro.props;
 
 const navItems = [
   { label: 'Programm', href: '/programm/', match: '/programm' },
@@ -49,6 +50,7 @@ const mobileLinkClass =
                   : 'inline-flex min-h-11 items-center text-role-on/80 no-underline transition hover:text-secondary'
               ]}
               href={item.href}
+              data-astro-prefetch={preparedProgramme && item.href === '/programm/' ? 'false' : undefined}
               aria-current={active ? 'page' : undefined}
             >
               {item.label}
@@ -78,6 +80,7 @@ const mobileLinkClass =
                 <a
                   class:list={[mobileLinkClass, isActive(item.match) && 'text-secondary']}
                   href={item.href}
+                  data-astro-prefetch={preparedProgramme && item.href === '/programm/' ? 'false' : undefined}
                   aria-current={isActive(item.match) ? 'page' : undefined}
                 >
                   {item.label}

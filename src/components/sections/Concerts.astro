@@ -13,6 +13,9 @@ interface Props {
   showHeaderLink?: boolean;
   page?: number;
   pageCount?: number;
+  url?: URL;
+  anchor?: string;
+  cardIdPrefix?: string;
 }
 
 const {
@@ -24,7 +27,10 @@ const {
   emptyMessage,
   showHeaderLink = variant === 'home',
   page = 1,
-  pageCount = 1
+  pageCount = 1,
+  url = Astro.url,
+  anchor = id,
+  cardIdPrefix
 } = Astro.props;
 
 const titleId = `${id}-heading`;
@@ -39,12 +45,12 @@ const headerLinkClass =
 const paginationLinkClass =
   'inline-flex min-h-12 items-center font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary no-underline hover:!text-champagne';
 const pageHref = (target: number) => {
-  const params = new URLSearchParams(Astro.url.searchParams);
+  const params = new URLSearchParams(url.searchParams);
   params.delete('season');
   if (target === 1) params.delete('page');
   else params.set('page', String(target));
   const query = params.toString();
-  return `${Astro.url.pathname}${query ? `?${query}` : ''}#${id}`;
+  return `${url.pathname}${query ? `?${query}` : ''}#${anchor}`;
 };
 ---
 
@@ -82,7 +88,7 @@ const pageHref = (target: number) => {
       hasConcerts ? (
         <div class:list={gridClass}>
           {concerts.map((concert) => (
-            <ConcertCard concert={concert} imageSizes={imageSizes} variant={variant} />
+            <ConcertCard concert={concert} imageSizes={imageSizes} variant={variant} idPrefix={cardIdPrefix} />
           ))}
         </div>
       ) : (

@@ -54,6 +54,7 @@ try {
   let sequence = 0;
   let sessionId;
   let documentRequests = 0;
+  let programmeRequests = 0;
   socket.addEventListener('message', ({ data }) => {
     const message = JSON.parse(data);
     if (message.id) {
@@ -64,12 +65,19 @@ try {
       if (message.error) request.reject(new Error(message.error.message));
       else request.resolve(message.result);
     } else if (message.method === 'Runtime.exceptionThrown') {
-      errors.push(message.params.exceptionDetails.text);
-    } else if (
-      message.method === 'Network.requestWillBeSent' &&
-      message.params.type === 'Document'
-    ) {
-      documentRequests++;
+      errors.push(
+        message.params.exceptionDetails.exception?.description ??
+          message.params.exceptionDetails.text
+      );
+    } else if (message.method === 'Network.requestWillBeSent') {
+      if (message.params.type === 'Document') documentRequests++;
+      const url = new URL(message.params.request.url);
+      if (
+        url.origin === origin.origin &&
+        ['/programm/', '/programm/archiv/'].includes(url.pathname)
+      ) {
+        programmeRequests++;
+      }
     }
   });
   const call = (method, params = {}, session = sessionId) =>
@@ -128,6 +136,40 @@ try {
       }
     }
   };
+  const checkView = async (path) => {
+    const data = await evaluate(`(() => {
+      const panels = [...document.querySelectorAll('[data-programme-panel]')];
+      const visible = panels.filter(p => !p.hidden);
+      const ids = [...document.querySelectorAll('[id]')].map(e => e.id);
+      const description = document.head.querySelector('meta[name="description"]').content;
+      return { visible: visible.map(p => p.dataset.programmePath), inert: panels.every(p => p.inert === p.hidden),
+        count: document.querySelector('[data-programme-count]').textContent.trim(), expectedCount: visible[0]?.dataset.programmeSummary,
+        formPath: new URL(document.querySelector('form[role="search"]').action).pathname,
+        title: document.title, canonical: document.head.querySelector('link[rel="canonical"]').href,
+        og: document.head.querySelector('meta[property="og:url"]').content,
+        descriptions: [document.head.querySelector('meta[property="og:description"]').content, document.head.querySelector('meta[name="twitter:description"]').content, JSON.parse(document.head.querySelector('script[type="application/ld+json"]').textContent).description].every(d => d === description),
+        metadataCount: document.head.querySelectorAll('[data-page-meta]').length,
+        noPrefetch: [...document.querySelectorAll('a[href="/programm/"], a[href="/programm/archiv/"]')].every(a => a.dataset.astroPrefetch === 'false'),
+        uniqueIds: new Set(ids).size === ids.length, h1: document.querySelectorAll('h1').length };
+    })()`);
+    assert.deepEqual(data.visible, [path]);
+    assert(data.inert, 'Inactive views must be inert');
+    assert(data.uniqueIds, 'Prepared views must not duplicate card or heading IDs');
+    assert(data.descriptions, 'Social and structured descriptions must match the page');
+    assert(data.noPrefetch, 'Prepared routes must not prefetch programme HTML from any navigation');
+    assert.equal(data.h1, 1);
+    assert.equal(data.count, data.expectedCount);
+    assert.equal(data.formPath, path);
+    assert.equal(data.canonical, `https://petruskirche.events${path}`);
+    assert.equal(data.og, data.canonical);
+    assert.equal(data.metadataCount, 17);
+    assert.equal(
+      data.title,
+      path === '/programm/'
+        ? 'Konzerte in Kiel | Programm der Petruskirche'
+        : 'Konzertarchiv · Konzertkirche Petruskirche'
+    );
+  };
   const { targetId } = await call('Target.createTarget', { url: 'about:blank' }, null);
   sessionId = (await call('Target.attachToTarget', { targetId, flatten: true }, null)).sessionId;
   await call('Page.enable');
@@ -145,11 +187,12 @@ try {
       `location.pathname === '/programm/' && document.readyState === 'complete' && !!document.querySelector('nav[aria-label="Konzertprogramm"]')`
     );
     await evaluate(
-      `document.fonts.ready.then(() => { window.__programmeDocument = crypto.randomUUID(); scrollTo({ top: 180, behavior: 'instant' }); })`
+      `document.fonts.ready.then(() => { window.__programmeDocument = crypto.randomUUID(); window.__programmeBody = document.body; window.__programmeForm = document.querySelector('form[role="search"]'); scrollTo({ top: 180, behavior: 'instant' }); })`
     );
     await delay(150);
     const before = await measure();
     const requestCount = documentRequests;
+    const programmeCount = programmeRequests;
     for (const path of ['/programm/archiv/', '/programm/']) {
       const position = await evaluate(
         `(() => { const a = document.querySelector('nav[aria-label="Konzertprogramm"] a[href="${path}"]'); const r = a.getBoundingClientRect(); return { x: r.x + r.width / 2, y: r.y + r.height / 2, hit: a.contains(document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2)) }; })()`
@@ -175,10 +218,26 @@ try {
       await evaluate('document.fonts.ready');
       await delay(150);
       compare(before, await measure(), path);
+      await checkView(path);
+      assert.equal(
+        programmeRequests,
+        programmeCount,
+        'Switching programme views must not fetch HTML'
+      );
+      assert(
+        await evaluate('document.body === window.__programmeBody'),
+        'The page body must be preserved'
+      );
+      assert(
+        await evaluate(
+          'document.querySelector(\'form[role="search"]\') === window.__programmeForm'
+        ),
+        'The search form must not be recreated'
+      );
       assert.equal(
         documentRequests,
         requestCount,
-        'Tab switches must use fetch, not document navigation'
+        'Tab switches must remain in the current document'
       );
       assert(
         await evaluate(
@@ -197,12 +256,91 @@ try {
       );
       await delay(150);
       compare(before, await measure(), path);
+      await checkView(path);
       assert.equal(documentRequests, requestCount);
+      assert.equal(programmeRequests, programmeCount);
     }
     console.log(
-      `Programme navigation: ${width}px, stable wrapper/scroll, no document reload, back/forward passed.`
+      `Programme navigation: ${width}px, stable wrapper/scroll, no HTML fetch/body/form swap, metadata and back/forward passed.`
     );
   }
+  // Same-task interruption must settle on the last link without an intermediate server path.
+  const rapidCount = programmeRequests;
+  await evaluate(`(() => {
+    document.querySelector('input[name="q"]').value = 'unsubmitted draft';
+    document.querySelector('input[name="from"]').value = '2031-01-01';
+    for (const path of ['/programm/archiv/', '/programm/', '/programm/archiv/', '/programm/']) document.querySelector('nav[aria-label="Konzertprogramm"] a[href="'+path+'"]').click();
+  })()`);
+  await delay(300);
+  await checkView('/programm/');
+  assert.equal(programmeRequests, rapidCount);
+  assert(
+    await evaluate(
+      "[...document.querySelectorAll('form[role=search] input')].every(i => i.value === '')"
+    )
+  );
+
+  // A query entry has separate prepared base views; selecting a section clears its filters.
+  await call('Page.navigate', { url: new URL('/programm/?q=Christmas', origin).href });
+  await wait(
+    "document.readyState === 'complete' && document.querySelector('input[name=q]')?.value === 'Christmas'"
+  );
+  await delay(100);
+  const queryCount = programmeRequests;
+  await evaluate(
+    'document.querySelector(\'nav[aria-label=Konzertprogramm] a[href="/programm/archiv/"]\').click()'
+  );
+  await wait("location.pathname === '/programm/archiv/' && location.search === ''");
+  await checkView('/programm/archiv/');
+  assert.equal(programmeRequests, queryCount);
+  await evaluate('history.back()');
+  await wait(
+    "location.search === '?q=Christmas' && document.querySelector('input[name=q]')?.value === 'Christmas'"
+  );
+  assert(programmeRequests > queryCount, 'Query history must still use the server loader');
+
+  // Expired views must re-enter SSR instead of presenting an old programme snapshot.
+  await evaluate(
+    "document.querySelector('[data-programme-surface]').dataset.programmeExpires = '0'"
+  );
+  const expiredCount = programmeRequests;
+  await evaluate(
+    'document.querySelector(\'nav[aria-label=Konzertprogramm] a[href="/programm/archiv/"]\').click()'
+  );
+  await wait("location.pathname === '/programm/archiv/' && location.search === ''");
+  await checkView('/programm/archiv/');
+  assert(programmeRequests > expiredCount);
+  // Preserving the body must not leave the main menu covering the new section.
+  await evaluate(
+    `(() => { const menu = document.querySelector('[data-mobile-menu]'); menu.open = true; menu.querySelector('a[href="/programm/"]').click(); })()`
+  );
+  await wait(
+    "location.pathname === '/programm/' && document.querySelector('nav[aria-label=Konzertprogramm] [aria-current=page]')?.pathname === '/programm/'"
+  );
+  await checkView('/programm/');
+  assert(
+    await evaluate(
+      "!document.querySelector('[data-mobile-menu]').open && getComputedStyle(document.querySelector('#page-content')).visibility !== 'hidden'"
+    )
+  );
+  assert(
+    await evaluate(
+      "document.activeElement === document.querySelector('nav[aria-label=Konzertprogramm] [aria-current=page]')"
+    )
+  );
+
+  // A local request that interrupts an ordinary SSR navigation must not use its old surface.
+  await evaluate(
+    `(() => { const form = document.querySelector('form[role=search]'); form.querySelector('input[name=q]').value = 'Christmas'; form.requestSubmit(); document.querySelector('nav[aria-label=Konzertprogramm] a[href="/programm/archiv/"]').click(); })()`
+  );
+  await wait(
+    "location.pathname === '/programm/archiv/' && location.search === '' && document.querySelector('nav[aria-label=Konzertprogramm] [aria-current=page]')?.pathname === '/programm/archiv/'"
+  );
+  await delay(300);
+  await checkView('/programm/archiv/');
+  console.log(
+    'Rapid clicks/draft reset, query history, expiry fallback, mobile menu, and SSR interruption passed.'
+  );
   assert.deepEqual(errors, []);
 } finally {
   socket?.close();

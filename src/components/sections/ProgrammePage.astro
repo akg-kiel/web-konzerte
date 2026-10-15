@@ -1,0 +1,98 @@
+---
+import { env } from 'cloudflare:workers';
+import { ClientRouter } from 'astro:transitions';
+
+import PageMetadata from '../layout/PageMetadata.astro';
+import Layout from '../../layouts/Layout.astro';
+import { getProgrammeSeo } from '../../lib/seo';
+import {
+  cacheProgramme, filterConcerts, getConcertFilters, getConcerts, getProgrammeExpiry,
+  hasInvalidConcertDateRange, paginateConcerts, splitConcerts
+} from '../../data/concerts';
+import ConcertFilters from './ConcertFilters.astro';
+import Concerts from './Concerts.astro';
+import ProgrammeHeader from './ProgrammeHeader.astro';
+
+interface Props { archive?: boolean }
+const { archive = false } = Astro.props;
+cacheProgramme(Astro.response);
+// An expired local view must not be refreshed from another stale HTML snapshot.
+Astro.response.headers.set('Cloudflare-CDN-Cache-Control', 'public, max-age=0');
+const result = await getConcerts(env);
+const now = new Date();
+const { programmeConcerts, archiveConcerts } = splitConcerts(result.concerts, now);
+const baseViews = [
+  { key: 'programme', path: '/programm/', anchor: 'programm', variant: 'programme' as const,
+    title: 'Konzerte in Kiel | Programm der Petruskirche',
+    description: 'Aktuelle Konzerte in Kiel: Programm der Petruskirche mit Klassik, Chor, Musical, Orgel und Crossover sowie Ticketlinks, sobald der Vorverkauf startet.',
+    concerts: programmeConcerts, eyebrow: 'Alle Konzerte' },
+  { key: 'archive', path: '/programm/archiv/', anchor: 'archiv', variant: 'archive' as const,
+    title: 'Konzertarchiv · Konzertkirche Petruskirche',
+    description: 'Vergangene Konzerte und Programme der Konzertkirche Petruskirche Kiel.',
+    concerts: archiveConcerts, eyebrow: 'Vergangene Konzerte' }
+];
+const active = baseViews[archive ? 1 : 0];
+const filters = getConcertFilters(Astro.url.searchParams);
+const rangeError = hasInvalidConcertDateRange(filters) ? 'Das Startdatum muss vor dem Enddatum liegen.' : undefined;
+const filteredConcerts = rangeError ? [] : filterConcerts(active.concerts, filters);
+const pagination = paginateConcerts(filteredConcerts, Astro.url.searchParams);
+const { page } = pagination;
+const seo = getProgrammeSeo(Astro.site!, Astro.url, filters, page);
+const hasResultView = Boolean(rangeError || Object.values(filters).some(Boolean) || page > 1);
+const emptyMessage = rangeError
+  ? 'Korrigieren Sie den ausgewählten Zeitraum.'
+  : Object.values(filters).some(Boolean)
+    ? 'Für diese Filter wurden keine Konzerte gefunden. Ändern Sie die Suche oder setzen Sie die Filter zurück.'
+    : undefined;
+const views = baseViews.map((view) => ({
+  ...view, ...paginateConcerts(view.concerts, new URLSearchParams()),
+  id: hasResultView && view === active ? `${view.anchor}-base` : view.anchor,
+  url: new URL(view.path, Astro.url), visible: !hasResultView && view === active,
+  emptyMessage: undefined as string | undefined
+}));
+if (hasResultView) views.push({
+  ...active, ...pagination, key: 'query', id: active.anchor, url: Astro.url,
+  visible: true, emptyMessage
+});
+if (result.error) Astro.response.status = 503;
+---
+
+<Layout {...seo} title={active.title} description={active.description} clientNavigation>
+  <ClientRouter slot="head" fallback="swap" />
+  <main data-programme-surface data-programme-rendered-at={now.getTime()} data-programme-expires={result.error ? 0 : getProgrammeExpiry(result.concerts, now)} class="min-h-screen bg-midnight text-role-on">
+    <ProgrammeHeader>
+      <ConcertFilters action={active.path} anchor={active.anchor} filters={filters} matchCount={filteredConcerts.length} rangeError={rangeError} totalCount={active.concerts.length} />
+    </ProgrammeHeader>
+    {result.error && (
+      <p class="mx-auto my-12 w-[calc(100%-3rem)] max-w-screen-2xl rounded-sm border border-secondary/40 bg-secondary/10 px-6 py-4 font-body text-base/7 text-role-on" role="alert">
+        {archive ? 'Das Konzertarchiv' : 'Das Konzertprogramm'} kann gerade nicht geladen werden. Bitte versuchen Sie es später erneut.
+      </p>
+    )}
+    {views.map((view) => (
+      <div data-programme-panel={view.key} data-programme-path={view.path} data-programme-anchor={view.anchor} data-programme-summary={`${view.concerts.length} ${view.concerts.length === 1 ? 'Konzert' : 'Konzerte'} gefunden`} hidden={!view.visible} inert={!view.visible}>
+        <Concerts id={view.id} cardIdPrefix={view.key} anchor={view.anchor} url={view.url} concerts={view.pageConcerts} variant={view.variant} page={view.page} pageCount={view.pageCount} eyebrow={view.eyebrow} intro="" emptyMessage={view.emptyMessage} showHeaderLink={false} />
+        {view.variant === 'programme' && (
+          <section class="border-t border-white/5 bg-surface py-16 md:py-20" aria-labelledby={`venue-heading-${view.key}`}>
+            <div class="mx-auto grid w-full max-w-screen-2xl gap-8 px-6 md:grid-cols-2 md:px-8 lg:px-16">
+              <div>
+                <h2 id={`venue-heading-${view.key}`} class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Veranstaltungsort</h2>
+                <p class="mt-4 font-display text-2xl/tight text-white">Konzertkirche Petruskirche</p>
+                <p class="mt-2 font-body text-base/7 text-role-on/70">Weimarer Straße 1 · 24106 Kiel</p>
+              </div>
+              <div>
+                <h2 class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Barrierefreiheit</h2>
+                <p class="mt-4 max-w-xl font-body text-base/7 text-role-on/70">Stufenloser Zugang, Plätze für Rollstühle und ein rollstuhlgerechtes WC sind vorhanden.</p>
+                <a class="mt-4 inline-flex font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary no-underline hover:!text-champagne" href="/besuch-planen/#access-heading">Besuch planen →</a>
+              </div>
+            </div>
+          </section>
+        )}
+      </div>
+    ))}
+    {baseViews.map((view) => (
+      <template data-programme-head={view.path}>
+        <PageMetadata title={view.title} description={view.description} canonicalUrl={view.path} />
+      </template>
+    ))}
+  </main>
+</Layout>

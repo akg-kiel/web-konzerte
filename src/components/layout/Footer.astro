@@ -4,6 +4,7 @@ import { Image } from 'astro:assets';
 import akgLogo from '../../assets/logos/logo-akg-250px.png';
 
 const currentYear = new Date().getFullYear();
+const { preparedProgramme = false } = Astro.props;
 
 const footerLinks = [
   { label: 'Home', href: '/' },
@@ -74,6 +75,7 @@ const legalLinks = [
               <li>
                 <a
                   href={link.href}
+                  data-astro-prefetch={preparedProgramme && link.href === '/programm/' ? 'false' : undefined}
                   target={link.external ? '_blank' : undefined}
                   rel={link.external ? 'noopener noreferrer' : undefined}
                   class:list={[

@@ -278,16 +278,15 @@ assert.match(worker, /applyRobotsPolicy\(response/);
 assert.match(worker, /astro:config\/server/);
 assert(!worker.includes('NODE_ENV'));
 const layout = await readFile('src/layouts/Layout.astro', 'utf8');
-assert.match(layout, /getCanonicalUrl\(siteUrl, canonicalUrl \?\? Astro.url.pathname\)/);
-assert.match(layout, /\(Astro.response.status \?\? 200\) >= 400/);
-assert.match(layout, /!Astro.isPrerendered/);
-assert.match(layout, /!INDEXING_ENABLED/);
-for (const page of ['src/pages/programm.astro', 'src/pages/programm/archiv.astro']) {
-  const source = await readFile(page, 'utf8');
-  assert.match(source, /getProgrammeSeo\(Astro.site!, Astro.url, filters, page\)/);
-  assert.match(source, /<Layout\s+\{\.\.\.seo\}/);
-}
-const programme = await readFile('src/pages/programm.astro', 'utf8');
+assert.match(layout, /<PageMetadata\s/);
+const metadata = await readFile('src/components/layout/PageMetadata.astro', 'utf8');
+assert.match(metadata, /getCanonicalUrl\(siteUrl, canonicalUrl \?\? Astro.url.pathname\)/);
+assert.match(metadata, /\(Astro.response.status \?\? 200\) >= 400/);
+assert.match(metadata, /!Astro.isPrerendered/);
+assert.match(metadata, /!INDEXING_ENABLED/);
+const programme = await readFile('src/components/sections/ProgrammePage.astro', 'utf8');
+assert.match(programme, /getProgrammeSeo\(Astro.site!, Astro.url, filters, page\)/);
+assert.match(programme, /<Layout\s+\{\.\.\.seo\}/);
 assert(!programme.includes('Saisonübersicht'));
 assert(!programme.includes('chronologisch sortiert'));
 const programmeHeader = await readFile('src/components/sections/ProgrammeHeader.astro', 'utf8');
@@ -302,15 +301,16 @@ for (const page of ['src/pages/programm.astro', 'src/pages/programm/archiv.astro
     !source.includes('slot="cta"'),
     'Programme navigation belongs by the search, not in the hero'
   );
-  assert.match(source, /<ProgrammeHeader>/);
-  assert.match(source, /<ClientRouter\s/);
+  assert.match(source, /<ProgrammePage(?:\s|\s*\/)/);
 }
+assert.match(programme, /<ProgrammeHeader>/);
+assert.match(programme, /<ClientRouter\s/);
 const navigation = await readFile('src/components/sections/ProgrammeNavigation.astro', 'utf8');
 assert.match(navigation, /aria-label="Konzertprogramm"/);
 for (const text of ['/programm/', '/programm/archiv/', 'Aktuelle Konzerte', 'Konzertarchiv']) {
   assert(navigation.includes(text));
 }
-const filters = await readFile('src/components/sections/ConcertFilters.tsx', 'utf8');
+const filters = await readFile('src/components/sections/ConcertFilters.astro', 'utf8');
 assert(!/Saison|name="season"|<Select/.test(filters));
 assert.match(
   await readFile('src/components/sections/Concerts.astro', 'utf8'),

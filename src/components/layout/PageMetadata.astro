@@ -1,0 +1,57 @@
+---
+import { getCanonicalUrl, INDEXING_ENABLED, isProductionHost } from '../../lib/seo';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  canonicalUrl?: string;
+  noindex?: boolean;
+}
+
+const {
+  title = 'Kieler Konzertkirche · Konzerte in der Petruskirche',
+  description = 'Konzerte in der Petruskirche Kiel: klassische Musik, Raumklang und besondere Programme in architektonischer Atmosphäre.',
+  ogImage = '/og-image.jpg',
+  canonicalUrl,
+  noindex = false
+} = Astro.props;
+
+const siteName = 'Kieler Konzertkirche';
+const siteUrl = Astro.site!;
+const canonicalHref = getCanonicalUrl(siteUrl, canonicalUrl ?? Astro.url.pathname);
+const robots = !INDEXING_ENABLED || noindex || (Astro.response.status ?? 200) >= 400 ||
+  (!Astro.isPrerendered && !isProductionHost(Astro.url, siteUrl))
+  ? 'noindex, follow' : 'index, follow';
+const ogImageUrl = new URL(ogImage, siteUrl).href;
+/* eslint-disable astro/no-set-html-directive -- trusted JSON-LD serialized here */
+const websiteSchema = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: siteName,
+  url: siteUrl.href,
+  description,
+  inLanguage: 'de'
+}).replaceAll('<', '\\u003c');
+---
+
+<meta name="description" content={description} data-page-meta />
+<meta name="author" content={siteName} data-page-meta />
+<meta name="robots" content={robots} data-page-meta />
+<link rel="canonical" href={canonicalHref} data-page-meta />
+
+<meta property="og:type" content="website" data-page-meta />
+<meta property="og:url" content={canonicalHref} data-page-meta />
+<meta property="og:title" content={title} data-page-meta />
+<meta property="og:description" content={description} data-page-meta />
+<meta property="og:image" content={ogImageUrl} data-page-meta />
+<meta property="og:site_name" content={siteName} data-page-meta />
+<meta property="og:locale" content="de_DE" data-page-meta />
+
+<meta name="twitter:card" content="summary_large_image" data-page-meta />
+<meta name="twitter:title" content={title} data-page-meta />
+<meta name="twitter:description" content={description} data-page-meta />
+<meta name="twitter:image" content={ogImageUrl} data-page-meta />
+
+<title data-page-meta>{title}</title>
+<script is:inline type="application/ld+json" set:html={websiteSchema} data-page-meta></script>
