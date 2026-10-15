@@ -150,6 +150,8 @@ try {
         descriptions: [document.head.querySelector('meta[property="og:description"]').content, document.head.querySelector('meta[name="twitter:description"]').content, JSON.parse(document.head.querySelector('script[type="application/ld+json"]').textContent).description].every(d => d === description),
         metadataCount: document.head.querySelectorAll('[data-page-meta]').length,
         noPrefetch: [...document.querySelectorAll('a[href="/programm/"], a[href="/programm/archiv/"]')].every(a => a.dataset.astroPrefetch === 'false'),
+        cardBackgrounds: [...new Set(panels.flatMap(p => [...p.querySelectorAll('article')].map(card => getComputedStyle(card).backgroundColor)))],
+        archivedTickets: panels.filter(p => p.dataset.programmePath === '/programm/archiv/').reduce((count, p) => count + p.querySelectorAll('a[id^="tickets-"]').length, 0),
         uniqueIds: new Set(ids).size === ids.length, h1: document.querySelectorAll('h1').length };
     })()`);
     assert.deepEqual(data.visible, [path]);
@@ -158,6 +160,12 @@ try {
     assert(data.descriptions, 'Social and structured descriptions must match the page');
     assert(data.noPrefetch, 'Prepared routes must not prefetch programme HTML from any navigation');
     assert.equal(data.h1, 1);
+    assert.equal(
+      data.cardBackgrounds.length,
+      1,
+      'Programme and archive cards must share a background'
+    );
+    assert.equal(data.archivedTickets, 0, 'Archived concerts must not offer ticket actions');
     assert.equal(data.count, data.expectedCount);
     assert.equal(data.formPath, path);
     assert.equal(data.canonical, `https://petruskirche.events${path}`);
