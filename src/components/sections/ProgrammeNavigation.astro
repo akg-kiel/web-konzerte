@@ -23,10 +23,22 @@ const links = [
 
   const localDocuments = new WeakMap<Document, string>();
   const invalidated = new WeakSet<HTMLElement>();
+  let visibilityEpoch = 0;
+  const startedAt = new WeakMap<HTMLElement, { start: number; visibility: number }>();
   const surfaceNow = () => document.querySelector<HTMLElement>('[data-programme-surface]');
+  const remember = (surface: HTMLElement | null, start: number, visibility = visibilityEpoch) => {
+    if (surface && !startedAt.has(surface)) startedAt.set(surface, { start, visibility });
+  };
+  // Request start is conservative: rendering, transfer and module loading consume the TTL too.
+  remember(surfaceNow(), 0);
+  document.addEventListener('astro:page-load', () => remember(surfaceNow(), 0));
+  // Also invalidate incoming SSR bodies: some monotonic clocks pause during device sleep.
+  document.addEventListener('visibilitychange', () => visibilityEpoch++);
   const fresh = (surface: HTMLElement) => {
-    const now = Date.now();
-    return now >= Number(surface.dataset.programmeRenderedAt) && now < Number(surface.dataset.programmeExpires);
+    const timing = startedAt.get(surface);
+    const ttl = Number(surface.dataset.programmeExpires) - Number(surface.dataset.programmeRenderedAt);
+    return !invalidated.has(surface) && !document.hidden && timing !== undefined &&
+      timing.visibility === visibilityEpoch && ttl > 0 && performance.now() - timing.start < ttl;
   };
 
   document.addEventListener('astro:before-preparation', (event) => {
@@ -36,10 +48,17 @@ const links = [
     const template = surface.querySelector<HTMLTemplateElement>(`template[data-programme-head="${preparation.to.pathname}"]`);
     if (
       preparation.to.origin !== location.origin || preparation.to.search || preparation.to.hash ||
-      preparation.formData || !template || !fresh(surface) || invalidated.has(surface)
+      preparation.formData || !template || !fresh(surface)
     ) {
       // A pending full swap may replace this body. Do not prepare a local navigation against it.
       invalidated.add(surface);
+      const start = performance.now();
+      const visibility = visibilityEpoch;
+      const load = preparation.loader;
+      preparation.loader = async () => {
+        await load();
+        remember(preparation.newDocument.querySelector<HTMLElement>('[data-programme-surface]'), start, visibility);
+      };
       return;
     }
     preparation.loader = async () => {

@@ -341,6 +341,147 @@ try {
   console.log(
     'Rapid clicks/draft reset, query history, expiry fallback, mobile menu, and SSR interruption passed.'
   );
+  // Device clock offsets must neither disable local switches nor extend their lifetime.
+  for (const offset of [-600_000, 600_000]) {
+    const { identifier } = await call('Page.addScriptToEvaluateOnNewDocument', {
+      source: `const realNow = Date.now; Date.now = () => realNow() + ${offset};`
+    });
+    await call('Page.navigate', { url: new URL('/programm/', origin).href });
+    await wait(
+      "document.readyState === 'complete' && !!document.querySelector('[data-programme-surface]')"
+    );
+    await evaluate(
+      "window.__clockBody = document.body; const s = document.querySelector('[data-programme-surface]'); s.dataset.programmeExpires = String(Number(s.dataset.programmeRenderedAt) + 300000)"
+    );
+    const clockCount = programmeRequests;
+    await evaluate(
+      'document.querySelector(\'nav[aria-label=Konzertprogramm] a[href="/programm/archiv/"]\').click()'
+    );
+    await wait(
+      "location.pathname === '/programm/archiv/' && document.querySelector('nav[aria-label=Konzertprogramm] [aria-current=page]')?.pathname === '/programm/archiv/'"
+    );
+    await checkView('/programm/archiv/');
+    assert.equal(
+      programmeRequests,
+      clockCount,
+      `Clock offset ${offset} must not trigger HTML navigation`
+    );
+    assert(await evaluate('document.body === window.__clockBody'));
+    await call('Page.removeScriptToEvaluateOnNewDocument', { identifier });
+  }
+
+  // Lifetime starts before the first click and is never renewed by local switches.
+  await call('Page.navigate', { url: new URL('/programm/', origin).href });
+  await wait(
+    "document.readyState === 'complete' && !!document.querySelector('[data-programme-surface]')"
+  );
+  await evaluate(
+    "const s = document.querySelector('[data-programme-surface]'); s.dataset.programmeExpires = String(Number(s.dataset.programmeRenderedAt) + 100)"
+  );
+  await delay(150);
+  const agedCount = programmeRequests;
+  await evaluate(
+    'document.querySelector(\'nav[aria-label=Konzertprogramm] a[href="/programm/archiv/"]\').click()'
+  );
+  await wait(
+    "location.pathname === '/programm/archiv/' && document.querySelector('nav[aria-label=Konzertprogramm] [aria-current=page]')?.pathname === '/programm/archiv/'"
+  );
+  assert(programmeRequests > agedCount, 'An already aged surface must reload on its first switch');
+  const { identifier: monotonicScript } = await call('Page.addScriptToEvaluateOnNewDocument', {
+    source:
+      "window.__testNow = 0; Object.defineProperty(performance, 'now', { configurable: true, value: () => window.__testNow });"
+  });
+  await call('Page.navigate', { url: new URL('/programm/', origin).href });
+  await wait(
+    "document.readyState === 'complete' && !!document.querySelector('[data-programme-surface]')"
+  );
+  await evaluate(
+    "window.__testNow = 10000; const s = document.querySelector('[data-programme-surface]'); s.dataset.programmeExpires = String(Number(s.dataset.programmeRenderedAt) + 20000)"
+  );
+  const retainedCount = programmeRequests;
+  await evaluate(
+    'document.querySelector(\'nav[aria-label=Konzertprogramm] a[href="/programm/archiv/"]\').click()'
+  );
+  await wait(
+    "location.pathname === '/programm/archiv/' && document.querySelector('nav[aria-label=Konzertprogramm] [aria-current=page]')?.pathname === '/programm/archiv/'"
+  );
+  assert.equal(programmeRequests, retainedCount);
+  await evaluate('window.__testNow = 20001');
+  await evaluate(
+    'document.querySelector(\'nav[aria-label=Konzertprogramm] a[href="/programm/"]\').click()'
+  );
+  await wait(
+    "location.pathname === '/programm/' && document.querySelector('nav[aria-label=Konzertprogramm] [aria-current=page]')?.pathname === '/programm/'"
+  );
+  assert(programmeRequests > retainedCount, 'Local swaps must not renew the lifetime');
+  await call('Page.removeScriptToEvaluateOnNewDocument', { identifier: monotonicScript });
+  await call('Page.navigate', { url: new URL('/programm/', origin).href });
+  await wait(
+    "document.readyState === 'complete' && !!document.querySelector('[data-programme-surface]')"
+  );
+
+  // Hidden pages cannot keep a stale snapshot if the monotonic device clock pauses in sleep.
+  await evaluate(
+    "Object.defineProperty(document, 'hidden', { configurable: true, value: true }); document.dispatchEvent(new Event('visibilitychange')); delete document.hidden"
+  );
+  const hiddenCount = programmeRequests;
+  await evaluate(
+    'document.querySelector(\'nav[aria-label=Konzertprogramm] a[href="/programm/archiv/"]\').click()'
+  );
+  await wait(
+    "location.pathname === '/programm/archiv/' && document.querySelector('nav[aria-label=Konzertprogramm] [aria-current=page]')?.pathname === '/programm/archiv/'"
+  );
+  assert(programmeRequests > hiddenCount, 'Hidden snapshots must re-enter the server path');
+
+  // Hide/show after a default loader finishes but before its incoming body is installed.
+  await evaluate(`document.addEventListener('astro:before-preparation', event => {
+    const load = event.loader;
+    event.loader = async () => {
+      await load();
+      Object.defineProperty(document, 'hidden', { configurable: true, value: true });
+      document.dispatchEvent(new Event('visibilitychange'));
+      delete document.hidden;
+      document.dispatchEvent(new Event('visibilitychange'));
+    };
+  }, { once: true });
+  const form = document.querySelector('form[role=search]'); form.querySelector('input[name=q]').value = 'Christmas'; form.requestSubmit();`);
+  await wait(
+    "new URLSearchParams(location.search).get('q') === 'Christmas' && document.querySelector('input[name=q]')?.value === 'Christmas'"
+  );
+  const incomingCount = programmeRequests;
+  await evaluate(
+    'document.querySelector(\'nav[aria-label=Konzertprogramm] a[href="/programm/archiv/"]\').click()'
+  );
+  await wait(
+    "location.pathname === '/programm/archiv/' && document.querySelector('nav[aria-label=Konzertprogramm] [aria-current=page]')?.pathname === '/programm/archiv/'"
+  );
+  assert(
+    programmeRequests > incomingCount,
+    'Visibility changes must invalidate incoming SSR snapshots too'
+  );
+  const { identifier: hiddenScript } = await call('Page.addScriptToEvaluateOnNewDocument', {
+    source: "Object.defineProperty(document, 'hidden', { configurable: true, value: true });"
+  });
+  await call('Page.navigate', { url: new URL('/programm/', origin).href });
+  await wait(
+    "document.readyState === 'complete' && !!document.querySelector('[data-programme-surface]')"
+  );
+  await call('Page.removeScriptToEvaluateOnNewDocument', { identifier: hiddenScript });
+  await evaluate("delete document.hidden; document.dispatchEvent(new Event('visibilitychange'))");
+  const initiallyHiddenCount = programmeRequests;
+  await evaluate(
+    'document.querySelector(\'nav[aria-label=Konzertprogramm] a[href="/programm/archiv/"]\').click()'
+  );
+  await wait(
+    "location.pathname === '/programm/archiv/' && document.querySelector('nav[aria-label=Konzertprogramm] [aria-current=page]')?.pathname === '/programm/archiv/'"
+  );
+  assert(
+    programmeRequests > initiallyHiddenCount,
+    'Initially hidden snapshots must re-enter the server path'
+  );
+  console.log(
+    'Client clock offsets, deterministic expiry without renewal, and incoming/hidden invalidation passed.'
+  );
   assert.deepEqual(errors, []);
 } finally {
   socket?.close();

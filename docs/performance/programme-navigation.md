@@ -26,6 +26,10 @@ Der Einstieg verschiebt Arbeit nach vorn: HTML wächst von 87.260 auf 151.886 By
 
 Frühere Messungen mit einer Worker-Kopie unter `/tmp` gegen den ursprünglichen Projektpfad hatten ungleiche Asset-Latenzen. Sie sind kein belastbarer Vergleich des ersten Seitenaufbaus.
 
+## Review-Nachtrag vom 15. Oktober 2026
+
+Die Gültigkeitsdauer verwendet `performance.now()` statt des absoluten Geräte-Datums. Sie beginnt beim Abruf (initial bei Navigationsbeginn), nicht beim ersten Klick oder erneut bei einem lokalen Swap; Render-/Transferzeit verlängert das Budget nicht. Verborgene Dokumente werden wegen möglicher pausierender Geräteuhren im Schlafmodus konservativ invalidiert. Der Browsercheck umfasst Geräteuhren ±10 Minuten, Ablauf vor dem ersten Klick, unverlängerte Laufzeit nach einem Swap und die Hintergrund-Invalidierung. Die oben genannten Messungen stammen weiterhin vom 14. Oktober.
+
 ## Abnahme und Grenzen
 
 - `pnpm quality` und `git diff --check` grün.
