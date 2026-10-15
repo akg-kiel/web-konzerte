@@ -9,6 +9,7 @@ const links = [
   {links.map(({ href, label }) => (
     <a
       href={href}
+      data-astro-prefetch="false"
       aria-current={Astro.url.pathname === href ? 'page' : undefined}
       class="inline-flex min-h-12 items-center whitespace-nowrap border-b-2 border-transparent py-3 font-body text-base/6 font-semibold text-role-on/80 no-underline transition-colors hover:text-champagne focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-secondary aria-[current=page]:border-secondary aria-[current=page]:text-secondary"
     >
@@ -18,22 +19,107 @@ const links = [
 </nav>
 
 <script>
-  import type { TransitionBeforeSwapEvent } from 'astro:transitions/client';
+  import type { TransitionBeforePreparationEvent, TransitionBeforeSwapEvent } from 'astro:transitions/client';
+
+  const localDocuments = new WeakMap<Document, string>();
+  const invalidated = new WeakSet<HTMLElement>();
+  const surfaceNow = () => document.querySelector<HTMLElement>('[data-programme-surface]');
+  const fresh = (surface: HTMLElement) => {
+    const now = Date.now();
+    return now >= Number(surface.dataset.programmeRenderedAt) && now < Number(surface.dataset.programmeExpires);
+  };
+
+  document.addEventListener('astro:before-preparation', (event) => {
+    const preparation = event as TransitionBeforePreparationEvent;
+    const surface = surfaceNow();
+    if (!surface) return;
+    const template = surface.querySelector<HTMLTemplateElement>(`template[data-programme-head="${preparation.to.pathname}"]`);
+    if (
+      preparation.to.origin !== location.origin || preparation.to.search || preparation.to.hash ||
+      preparation.formData || !template || !fresh(surface) || invalidated.has(surface)
+    ) {
+      // A pending full swap may replace this body. Do not prepare a local navigation against it.
+      invalidated.add(surface);
+      return;
+    }
+    preparation.loader = async () => {
+      const next = document.implementation.createHTMLDocument();
+      next.head.replaceChildren(template.content.cloneNode(true));
+      preparation.newDocument = next;
+      localDocuments.set(next, preparation.to.pathname);
+    };
+  });
+
+  const activate = (surface: HTMLElement, path: string) => {
+    const panels = [...surface.querySelectorAll<HTMLElement>('[data-programme-panel]')];
+    const target = panels.find((panel) => panel.dataset.programmePath === path && panel.dataset.programmePanel !== 'query');
+    const form = surface.querySelector<HTMLFormElement>('form[role="search"]');
+    if (!target || !form) return false;
+    for (const panel of panels) {
+      panel.hidden = panel !== target;
+      panel.inert = panel.hidden;
+      const results = panel.querySelector<HTMLElement>('section[id]');
+      if (results) results.id = panel === target ? panel.dataset.programmeAnchor! : `${panel.dataset.programmeAnchor}-${panel.dataset.programmePanel}`;
+    }
+    for (const link of surface.querySelectorAll<HTMLAnchorElement>('nav[aria-label="Konzertprogramm"] a')) {
+      if (link.pathname === path) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    }
+    form.action = `${path}#${target.dataset.programmeAnchor}`;
+    for (const input of form.querySelectorAll<HTMLInputElement>('input')) {
+      input.defaultValue = '';
+      input.removeAttribute('aria-invalid');
+      input.removeAttribute('aria-describedby');
+    }
+    form.reset();
+    const reset = form.querySelector<HTMLAnchorElement>('[data-filter-reset]')!;
+    reset.href = form.action;
+    reset.hidden = true;
+    form.querySelector<HTMLElement>('#concert-date-error')!.hidden = true;
+    form.querySelector<HTMLElement>('[data-programme-count]')!.textContent = target.dataset.programmeSummary!;
+    const search = form.querySelector<HTMLInputElement>('[data-concert-search]')!;
+    search.dispatchEvent(new Event('input', { bubbles: true }));
+    return true;
+  };
 
   let position: { left: number; top: number } | undefined;
+  let menuNavigation = false;
   document.addEventListener('astro:before-swap', (event) => {
     const transition = event as TransitionBeforeSwapEvent;
     position = transition.navigationType !== 'traverse' &&
       transition.sourceElement?.closest('nav[aria-label="Konzertprogramm"]')
       ? { left: scrollX, top: scrollY }
       : undefined;
+    menuNavigation = Boolean(transition.sourceElement?.closest('[data-mobile-menu]'));
+    const path = localDocuments.get(transition.newDocument);
+    if (!path) return;
+    // Native skipTransition rejects ready even though the DOM update succeeds.
+    void transition.viewTransition.ready.catch((error: unknown) => {
+      if (!(error instanceof DOMException) || error.name !== 'AbortError') throw error;
+    });
+    transition.viewTransition.skipTransition();
+    transition.swap = () => {
+      const surface = surfaceNow();
+      // A head-only document must never reach Astro's body swap, even after an interruption.
+      if (!surface || !fresh(surface) || !activate(surface, path)) {
+        if (!transition.signal.aborted) location.replace(transition.to.href);
+        return;
+      }
+      const menu = document.querySelector<HTMLDetailsElement>('[data-mobile-menu]');
+      if (menu) menu.open = false;
+      document.head.querySelectorAll('[data-page-meta]').forEach((node) => node.remove());
+      while (transition.newDocument.head.firstChild) document.head.appendChild(transition.newDocument.head.firstChild);
+      document.querySelectorAll('.astro-route-announcer').forEach((node) => node.remove());
+    };
   });
   document.addEventListener('astro:after-swap', () => {
-    if (!position) return;
-    window.scrollTo({ ...position, behavior: 'instant' });
-    document.querySelector<HTMLAnchorElement>(
-      'nav[aria-label="Konzertprogramm"] a[aria-current="page"]'
-    )?.focus({ preventScroll: true });
+    if (position) window.scrollTo({ ...position, behavior: 'instant' });
+    if (position || menuNavigation) {
+      document.querySelector<HTMLAnchorElement>(
+        'nav[aria-label="Konzertprogramm"] a[aria-current="page"]'
+      )?.focus({ preventScroll: true });
+    }
     position = undefined;
+    menuNavigation = false;
   });
 </script>

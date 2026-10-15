@@ -1,0 +1,75 @@
+---
+
+import type { ConcertFilters } from '../../data/concerts';
+
+interface Props {
+  action: string;
+  anchor: string;
+  filters: ConcertFilters;
+  matchCount: number;
+  rangeError?: string;
+  totalCount: number;
+}
+const { action, anchor, filters, matchCount, rangeError, totalCount } = Astro.props;
+const hasFilters = Boolean(filters.search || filters.from || filters.to);
+const inputClass = 'flex h-12 min-h-12 w-full rounded-sm border border-white/20 bg-midnight/60 px-4 py-3 font-body text-base text-white outline-none transition placeholder:text-role-on/60 focus-visible:border-secondary focus-visible:ring-2 focus-visible:ring-secondary/40';
+const labelClass = 'font-body text-sm/6 font-semibold text-role-on/80';
+---
+
+<form action={`${action}#${anchor}`} method="get" role="search" aria-label="Konzerte filtern">
+  <div class="grid gap-6 lg:grid-cols-2">
+    <div>
+      <label for="concert-search" class={labelClass}>Suche</label>
+      <div class="relative mt-2">
+        <input id="concert-search" data-concert-search class={`${inputClass} pr-12`} type="search" name="q" maxlength="100" value={filters.search} placeholder="Titel, Programm oder Mitwirkende" />
+        <button hidden type="button" data-clear-search aria-label="Suche leeren" class="absolute inset-y-0 right-0 inline-flex w-11 items-center justify-center bg-transparent p-0 text-role-on/60 hover:text-secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m18 6-12 12M6 6l12 12" /></svg>
+        </button>
+      </div>
+    </div>
+    <div class="grid gap-4 sm:grid-cols-2">
+      {(['from', 'to'] as const).map((name) => (
+        <div>
+          <label for={`concert-${name}`} class={labelClass}>{name === 'from' ? 'Von' : 'Bis'}</label>
+          <input id={`concert-${name}`} class={`${inputClass} mt-2`} type="date" name={name} value={filters[name]} aria-invalid={rangeError ? 'true' : undefined} aria-describedby={rangeError ? 'concert-date-error' : undefined} />
+        </div>
+      ))}
+    </div>
+  </div>
+  <p id="concert-date-error" hidden={!rangeError} class="mt-4 font-body text-sm/6 text-red-300" role="alert">{rangeError}</p>
+  <div class="mt-6 flex flex-wrap items-center gap-4">
+    <button class="min-h-12 rounded-sm bg-secondary px-6 py-3 font-body text-xs/4 font-semibold uppercase tracking-widest text-midnight hover:bg-champagne focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary" type="submit">Filtern</button>
+    <a hidden={!hasFilters} data-filter-reset class="inline-flex min-h-12 items-center bg-transparent px-0 font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary no-underline hover:text-champagne focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-secondary" href={`${action}#${anchor}`}>Filter zurücksetzen</a>
+    <p data-programme-count class="ml-auto font-body text-sm/6 text-role-on/70" aria-live="polite">
+      {matchCount} {matchCount === 1 ? 'Konzert' : 'Konzerte'} gefunden{matchCount !== totalCount && ` (von ${totalCount})`}
+    </p>
+  </div>
+</form>
+
+<style>
+  input[data-enhanced]::-webkit-search-cancel-button { -webkit-appearance: none; }
+</style>
+
+<script>
+  const enhanceSearch = () => {
+    const input = document.querySelector<HTMLInputElement>('[data-concert-search]');
+    const clear = document.querySelector<HTMLButtonElement>('[data-clear-search]');
+    if (input && clear) {
+      input.dataset.enhanced = '';
+      clear.hidden = !input.value;
+    }
+  };
+  document.addEventListener('input', (event) => {
+    if (event.target instanceof HTMLInputElement && event.target.matches('[data-concert-search]')) enhanceSearch();
+  });
+  document.addEventListener('click', (event) => {
+    if (!(event.target instanceof Element) || !event.target.closest('[data-clear-search]')) return;
+    const input = document.querySelector<HTMLInputElement>('[data-concert-search]');
+    if (!input) return;
+    input.value = '';
+    input.focus();
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+  document.addEventListener('astro:page-load', enhanceSearch);
+  enhanceSearch();
+</script>

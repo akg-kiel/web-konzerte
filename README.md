@@ -36,7 +36,7 @@ pnpm wrangler secret put CHURCHTOOLS_TOKEN
 cp .dev.vars.example .dev.vars # lokale Entwicklung
 ```
 
-`.dev.vars` wird nicht eingecheckt. Die Programm-, Archiv- und Detailseiten werden am Cloudflare-Edge fünf Minuten gecacht; bei Fehlern kann die letzte erfolgreiche Antwort bis zu 24 Stunden weiter ausgeliefert werden. Programm und Archiv liefern serverseitig höchstens 18 Konzerte pro Ergebnisseite aus. Erfolgreiche Antworten des Verfügbarkeitsendpunkts werden fünf Minuten gecacht. Ist kein Cache vorhanden und ChurchTools nicht erreichbar, antwortet er mit einem klaren 503-Fehler. Der öffentliche Verfügbarkeitsstatus enthält keine Buchungstitel, Personen oder internen Notizen.
+`.dev.vars` wird nicht eingecheckt. Die ChurchTools-Antworten werden am Cloudflare-Edge fünf Minuten gecacht; bei Fehlern kann die letzte erfolgreiche Datenantwort bis zu 24 Stunden weiter verwendet werden. Programm und Archiv liefern serverseitig höchstens 18 Konzerte pro Ergebnisseite aus. Ihre ersten Ergebnisseiten werden gemeinsam vorbereitet; bei einem gefilterten Einstieg kommt die angefragte Ergebnisansicht hinzu. Nur die aktive Ansicht ist sichtbar und zugänglich. Programm-/Archiv-HTML wird nicht frisch im Browser/CDN gehalten, damit eine abgelaufene lokale Ansicht nicht durch dieselbe alte HTML-Kopie ersetzt wird. Erfolgreiche Antworten des Verfügbarkeitsendpunkts werden fünf Minuten gecacht. Ist kein Cache vorhanden und ChurchTools nicht erreichbar, antwortet er mit einem klaren 503-Fehler. Der öffentliche Verfügbarkeitsstatus enthält keine Buchungstitel, Personen oder internen Notizen.
 
 Das CT-Abruffenster umfasst zusätzlich die tatsächlichen Kirchenraum-Pufferstunden vor und nach den angefragten Berliner Kalendertagen, auch über Zeitumstellungen. Die Antwort enthält trotzdem nur den angefragten Zeitraum; ein Einzeltermin darf nicht anders bewertet werden als derselbe Tag im Monatsfenster.
 
@@ -107,11 +107,11 @@ Konzertdetails erhalten eigene Metadaten und faktenbasierte, sicher serialisiert
 
 `pnpm test` prüft Mapping/Bilder, Verfügbarkeit und SEO/Weiterleitungen offline. `pnpm build` prüft zusätzlich die generierte Worker-Konfiguration und statisches SEO-Markup. Produktionsdomain, externe Validatoren und tatsächliche Deployments werden dadurch nicht als bestanden bestätigt.
 
-Programm und Archiv teilen Kopfbereich und Such-Wrapper. Nur diese beiden Ansichten verwenden Astros Client-Router; beim Wechsel bleiben Scrollposition und Fokus erhalten. Direkte URLs und Links ohne JavaScript funktionieren weiter. Gegen einen laufenden Preview-Server lassen sich die gerenderten aktiven Links und der echte Browserwechsel separat prüfen (Chromium muss vorhanden sein):
+`ProgrammePage.astro` teilt Kopfbereich, natives GET-Suchformular und die vorbereiteten Programm-/Archivansichten. Ein frischer Bereichswechsel verwendet Astros Loader-/Swap-Hooks, ohne HTML-Abruf, Body-Austausch oder Formular-Hydration; Astro verwaltet weiterhin URLs, Metadaten, History und Ankündigungen. Die lokale Ansicht gilt höchstens fünf Minuten und nie über einen bekannten Konzertende-/Berliner Tageswechsel hinaus. Abgelaufene Ansichten, Fehler, Suchanfragen und Pagination verwenden weiter den normalen Serverpfad. Scrollposition/Fokus, direkte URLs und Links ohne JavaScript bleiben erhalten. Nur diese beiden Seiten verwenden den Client-Router. Gegen einen laufenden Preview-Server lassen sich die gerenderten aktiven Links und der echte Browserwechsel separat prüfen (Chromium muss vorhanden sein):
 
 ```sh
 node --experimental-strip-types scripts/check-seo-infrastructure.mjs --origin=http://127.0.0.1:4321
 CHROME_BIN=/path/to/chromium node scripts/check-programme-navigation.mjs --origin=http://127.0.0.1:4321
 ```
 
-Der Browsercheck prüft bei 320 bis 1920 Pixeln denselben Wrapper, Scrollposition, Fokus und Zurück/Vorwärts ohne neuen Dokument-Request.
+Der Browsercheck prüft bei 320 bis 1920 Pixeln denselben Wrapper, Scrollposition, Fokus und Zurück/Vorwärts ohne HTML-/Dokument-Request, Body-Austausch oder neues Suchformular. Einstiegskosten, kontrollierte Vergleichsmessungen und die Grenzen der lokalen Abnahme stehen in [docs/performance/programme-navigation.md](docs/performance/programme-navigation.md).

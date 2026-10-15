@@ -8,6 +8,7 @@ import {
   getConcertFilters,
   getConcertState,
   getConcerts,
+  getProgrammeExpiry,
   hasInvalidConcertDateRange,
   paginateConcerts,
   splitConcerts
@@ -128,6 +129,36 @@ try {
       new Date('2027-08-01')
     ),
     'upcoming-with-ticket'
+  );
+
+  const nearStart = new Date('2027-08-06T17:29:30Z');
+  assert.equal(getProgrammeExpiry(result.concerts, nearStart), Date.parse('2027-08-06T17:30:00Z'));
+  assert.equal(getProgrammeExpiry([], nearStart), nearStart.getTime() + 300_000);
+  for (const [endIso, boundary] of [
+    ['2027-03-27T23:00:00Z', '2027-03-28T22:00:00Z'],
+    ['2027-10-30T22:00:00Z', '2027-10-31T23:00:00Z']
+  ]) {
+    const concert = {
+      ...result.concerts[0],
+      endIso,
+      date: { ...result.concerts[0].date, time: 'Termin folgt' }
+    };
+    const before = new Date(Date.parse(boundary) - 1);
+    assert.equal(
+      getProgrammeExpiry([concert], before),
+      Date.parse(boundary),
+      'Expire at the next Berlin civil day, including DST'
+    );
+    const after = new Date(boundary);
+    assert.equal(getProgrammeExpiry([concert], after), after.getTime() + 300_000);
+  }
+  assert.equal(
+    getProgrammeExpiry(
+      [{ ...result.concerts[0], endIso: '2027-08-06T18:30:00Z' }],
+      new Date('2027-08-06T18:29:59Z')
+    ),
+    Date.parse('2027-08-06T18:30:00Z'),
+    'Known timed ends, rather than starts, invalidate the prepared views'
   );
 
   const concerts = [

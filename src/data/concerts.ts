@@ -1,3 +1,5 @@
+import { parseDate, toZoned } from '@internationalized/date';
+
 import { eventDate, factualText, safeUrl } from './concert-seo.ts';
 
 export type ConcertVariant = 'home' | 'programme' | 'archive';
@@ -411,6 +413,25 @@ export function getConcertState(concert: Concert, now = new Date()): ConcertStat
       : end <= now;
   if (past) return 'past';
   return concert.ticketUrl ? 'upcoming-with-ticket' : 'upcoming-without-ticket';
+}
+
+export function getProgrammeExpiry(concerts: Concert[], now = new Date()) {
+  let expires = now.getTime() + 300_000;
+  const today = berlinDate.format(now);
+  let endsToday = false;
+  for (const concert of concerts) {
+    const end = new Date(concert.endIso ?? concert.date.iso);
+    if (concert.date.time === 'Termin folgt') {
+      endsToday ||= berlinDate.format(end) === today;
+    } else if (end.getTime() > now.getTime()) {
+      expires = Math.min(expires, end.getTime());
+    }
+  }
+  if (endsToday) {
+    const midnight = toZoned(parseDate(today), 'Europe/Berlin').add({ days: 1 }).toDate().getTime();
+    expires = Math.min(expires, midnight);
+  }
+  return expires;
 }
 
 export function splitConcerts(concerts: Concert[], now = new Date()) {
