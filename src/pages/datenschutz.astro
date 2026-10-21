@@ -1,7 +1,11 @@
 ---
+import { env } from 'cloudflare:workers';
+
+import { getContactSettings } from '../lib/contact-mail';
 import PageHero from '../components/sections/PageHero.astro';
 import Layout from '../layouts/Layout.astro';
 
+const contact = getContactSettings(env);
 const linkClass = '!text-secondary no-underline hover:!text-champagne';
 const headingClass = 'font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary';
 const textClass = 'mt-6 space-y-4 font-body text-base/7 text-role-on/75';
@@ -97,8 +101,15 @@ const textClass = 'mt-6 space-y-4 font-body text-base/7 text-role-on/75';
               Rechtsgrundlage ist § 6 DSG-EKD. Bei Anfragen zu Verträgen oder Veranstaltungen erfolgt die Verarbeitung außerdem zur Durchführung vorvertraglicher oder vertraglicher Maßnahmen; im Übrigen beruht sie auf unserem berechtigten Interesse an der Beantwortung Ihrer Anfrage.
             </p>
             <p>
-              Die Formulare auf den Seiten „Raum anfragen“ und „Kontakt“ übermitteln keine Formulardaten an diese Website. Beim Absenden wird lediglich Ihr eigenes E-Mail-Programm geöffnet; erst wenn Sie die Nachricht dort versenden, werden die eingegebenen Daten über Ihren E-Mail-Anbieter an uns übertragen.
+              {contact.enabled
+                ? 'Die Formulare auf den Seiten „Raum anfragen“ und „Kontakt“ übermitteln Ihre Eingaben verschlüsselt an den Cloudflare Worker dieser Website. Dort werden sie geprüft und über Cloudflare Email Service als E-Mail an den Konzertkontakt weitergeleitet. Verarbeitet werden die von Ihnen angegebenen Kontakt-, Nachrichten- und gegebenenfalls Veranstaltungsdaten. Die Website führt kein eigenes Anfragearchiv; die Bearbeitung erfolgt im zuständigen E-Mail-Postfach.'
+                : 'Die Formulare auf den Seiten „Raum anfragen“ und „Kontakt“ übermitteln keine Formulardaten an diese Website. Beim Absenden wird lediglich Ihr eigenes E-Mail-Programm geöffnet; erst wenn Sie die Nachricht dort versenden, werden die eingegebenen Daten über Ihren E-Mail-Anbieter an uns übertragen.'}
             </p>
+            {contact.enabled && (
+              <p>
+                Zur Abwehr automatisierter Anfragen wird auf diesen beiden Formularseiten Cloudflare Turnstile geladen. Dabei erhält Cloudflare technische Verbindungs-, Browser- und Prüfdaten, insbesondere Ihre IP-Adresse und das Ergebnis der Spamprüfung. Der Worker prüft das Ergebnis vor jedem Versand. Die E-Mail-Adresse aus Ihrem Formular wird als Antwortadresse verwendet. Sie können uns alternativ unmittelbar per E-Mail kontaktieren. Weitere Angaben zur Verarbeitung finden Sie in der <a class={linkClass} href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Datenschutzerklärung von Cloudflare ↗</a>.
+              </p>
+            )}
             <p>
               Anfragedaten löschen wir nach abschließender Bearbeitung, grundsätzlich spätestens nach zehn Tagen. Daten bleiben länger gespeichert, wenn gesetzliche Aufbewahrungspflichten bestehen oder sie für einen Vertrag oder die Abwehr von Rechtsansprüchen benötigt werden. Unverschlüsselte E-Mails können auf dem Übertragungsweg grundsätzlich von Dritten eingesehen werden; senden Sie daher keine besonders sensiblen Angaben per E-Mail.
             </p>
@@ -109,7 +120,9 @@ const textClass = 'mt-6 space-y-4 font-body text-base/7 text-role-on/75';
           <h2 id="cookies-heading" class={headingClass}>Cookies, Analyse und lokale Inhalte</h2>
           <div class={textClass}>
             <p>
-              Diese Website setzt selbst keine Cookies ein, speichert keine Informationen im lokalen Browserspeicher und verwendet keine Analyse-, Werbe- oder Profilingdienste. Google Maps kann erst nach Ihrer gesonderten Zustimmung Cookies oder ähnliche Speichertechniken verwenden.
+              {contact.enabled
+                ? 'Für die technische Bereitstellung und die Spamprüfung werden Dienste von Cloudflare eingesetzt. Für das Kontaktformular legen wir keine eigene Kopie Ihrer Angaben in Cookies oder im lokalen Browserspeicher an. Google Maps kann erst nach Ihrer gesonderten Zustimmung Cookies oder ähnliche Speichertechniken verwenden.'
+                : 'Diese Website setzt selbst keine Cookies ein, speichert keine Informationen im lokalen Browserspeicher und verwendet keine Analyse-, Werbe- oder Profilingdienste. Google Maps kann erst nach Ihrer gesonderten Zustimmung Cookies oder ähnliche Speichertechniken verwenden.'}
             </p>
             <p>
               Schriften, Bilder und sonstige Seitendateien werden von unserem eigenen Hosting ausgeliefert. Beim bloßen Seitenaufruf werden keine Inhalte von Google Fonts, Google Maps oder sozialen Netzwerken geladen.
@@ -166,10 +179,12 @@ const textClass = 'mt-6 space-y-4 font-body text-base/7 text-role-on/75';
           <h2 id="security-heading" class={headingClass}>Datensicherheit und Aktualität</h2>
           <div class={textClass}>
             <p>
-              Die Übertragung dieser Website ist durch TLS verschlüsselt. Die statische Bereitstellung ohne Benutzerkonten, Tracking und serverseitiges Kontaktformular begrenzt die auf der Website verarbeiteten Daten auf das technisch notwendige Maß.
+              {contact.enabled
+                ? 'Die Übertragung dieser Website und Ihrer Formulareingaben ist durch TLS verschlüsselt. Die Formulare prüfen Pflichtangaben und Eingabegrenzen sowie das Ergebnis der Spamprüfung vor dem Versand. Besonders sensible Angaben sollten Sie nicht über die Formulare oder unverschlüsselte E-Mails übermitteln.'
+                : 'Die Übertragung dieser Website ist durch TLS verschlüsselt. Die statische Bereitstellung ohne Benutzerkonten, Tracking und serverseitiges Kontaktformular begrenzt die auf der Website verarbeiteten Daten auf das technisch notwendige Maß.'}
             </p>
             <p>Wir aktualisieren diese Hinweise, wenn sich Funktionen, Dienstleister oder rechtliche Anforderungen ändern.</p>
-            <p class="text-role-on/60">Stand: August 2026</p>
+            <p class="text-role-on/60">Stand: {contact.enabled ? 'Oktober' : 'August'} 2026</p>
           </div>
         </section>
       </div>

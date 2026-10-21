@@ -1,6 +1,11 @@
 ---
+import { env } from 'cloudflare:workers';
+
+import { getContactSettings } from '../lib/contact-mail';
 import PageHero from '../components/sections/PageHero.astro';
 import Layout from '../layouts/Layout.astro';
+
+const { email } = getContactSettings(env);
 ---
 
 <Layout
@@ -64,7 +69,7 @@ import Layout from '../layouts/Layout.astro';
             <strong class="font-semibold text-on-surface">Konzertkirche Petruskirche</strong><br />
             Weimarer Straße 1<br />
             24106 Kiel<br />
-            <a class="mt-4 inline-block !text-secondary no-underline hover:!text-champagne" href="mailto:konzerte@akg-kiel.de">konzerte@akg-kiel.de</a>
+            <a class="mt-4 inline-block !text-secondary no-underline hover:!text-champagne" href={`mailto:${email}`}>{email}</a>
           </address>
         </div>
       </aside>

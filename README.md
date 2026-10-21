@@ -25,6 +25,38 @@ OpenDesign: `mise run od` baut `dist/` und kopiert es in den OpenDesign-Ordner.
 
 Produktion: Cloudflare Worker mit statischen Seiten und serverseitig gerenderten Programmseiten in `dist/`.
 
+## Kontaktformulare
+
+Direkter Versand über Cloudflare Email Service ist für Kontakt und Raumanfrage vorbereitet,
+aber mit `CONTACT_FORMS_ENABLED = "false"` ausdrücklich deaktiviert. Bis zur bestätigten
+Umstellung bleiben die öffentliche Adresse `konzerte@akg-kiel.de` und der bisherige
+Mailprogramm-Versand erhalten. Neue Zieladresse ist `kontakt@petruskirche.events`;
+Gemeinde- und Datenschutzadressen werden nicht ersetzt. Die getrennte Absender-Subdomain
+`formmail.petruskirche.events` ist seit 16.10.2026 für Email Routing eingerichtet;
+eine einzelne native Testmail an die verifizierte Testadresse wurde von Cloudflare
+angenommen und ihr Empfang vom Nutzer bestätigt. Anschließend hat der Nutzer auch
+beide vollständigen Formularpfade mit echtem Binding und Turnstile in der isolierten
+Vorschau erfolgreich getestet und den Empfang bestätigt. Die Produktivformulare
+bleiben aus. Die neue Zieladresse ist inzwischen bei Cloudflare verifiziert;
+die Vorschau sendet fest dorthin. Formularzustellung und Antwortidentität an der
+neuen Adresse sind ebenfalls vom Nutzer bestätigt. Formale Freigaben und die
+Produktivumschaltung bleiben separat.
+Öffentliche Adresse (`CONTACT_EMAIL`) und fester Deployment-Empfänger
+(`CONTACT_RECIPIENT`, passend zur Binding-Beschränkung) sind getrennt. Der Nutzer
+hat Turnstile eingerichtet und das Secret privat gespeichert; eine isolierte
+Formularvorschau ist in der Checkliste dokumentiert. Sie darf nicht auf Produktion
+promotet werden.
+
+[Vorbereitung und Aktivierungscheckliste](docs/email-forms.md) beschreibt Alias/Weiterleitung,
+Empfangs-/Antworttest, Versanddomain, Turnstile, Datenschutzfreigabe und die gesonderte
+Zustellungsabnahme. Die ursprüngliche Codevorbereitung änderte keine DNS-/Postfächer
+und verschickte keine echten Mails. Die anschließend ausdrücklich freigegebene
+Subdomain-Einrichtung und einzelne Testmail sind dort getrennt dokumentiert;
+IONOS-MX/SPF blieben unverändert. Das spätere Secret-Konfigurationsdeployment
+führte der Nutzer im Dashboard aus; der noch lokale Formularcode wurde nur als
+getrennte Testversion hochgeladen, nicht für produktiven Traffic aktiviert.
+Der Offlinecheck verwendet weiterhin nur Mocks.
+
 ## ChurchTools
 
 Das Programm kommt zur Laufzeit aus dem in ChurchTools als `#5 – Konzerte` angezeigten Kalender unter `https://akg-kiel.church.tools`. Seine REST-API-ID ist `3`; Basis-URL und API-ID stehen in `wrangler.toml`.
@@ -105,7 +137,7 @@ Erst nach ausdrücklicher Launch-Freigabe `INDEXING_ENABLED` samt der expliziten
 
 Konzertdetails erhalten eigene Metadaten und faktenbasierte, sicher serialisierte Event-Daten. Alte title-basierte Detail-Slugs können über CT-ID und Occurrence-Datum auf die aktuelle URL umleiten; mehrdeutige Wiederholungen bleiben 404. Datenvertrag, Quelldatenlücken und ausstehende Rich-Results-Abnahme: [docs/seo/event-data.md](docs/seo/event-data.md). Copy-Abnahme: [docs/copy-audit.md](docs/copy-audit.md). Legacy-Host-Migration: [docs/migration/README.md](docs/migration/README.md).
 
-`pnpm test` prüft Mapping/Bilder, Verfügbarkeit und SEO/Weiterleitungen offline. `pnpm build` prüft zusätzlich die generierte Worker-Konfiguration und statisches SEO-Markup. Produktionsdomain, externe Validatoren und tatsächliche Deployments werden dadurch nicht als bestanden bestätigt.
+`pnpm test` prüft Mapping/Bilder, Verfügbarkeit, Formularsicherheit und SEO/Weiterleitungen offline. `pnpm build` prüft zusätzlich die generierte Worker-Konfiguration und statisches SEO-Markup. Produktionsdomain, externe Validatoren und tatsächliche Deployments werden dadurch nicht als bestanden bestätigt.
 
 `ProgrammePage.astro` teilt Kopfbereich, natives GET-Suchformular und die vorbereiteten Programm-/Archivansichten. Ein frischer Bereichswechsel verwendet Astros Loader-/Swap-Hooks, ohne HTML-Abruf, Body-Austausch oder Formular-Hydration; Astro verwaltet weiterhin URLs, Metadaten, History und Ankündigungen. Die lokale Ansicht gilt höchstens fünf Minuten und nie über einen bekannten Konzertende-/Berliner Tageswechsel hinaus. Ihre Laufzeit wird monoton ab Abrufbeginn gemessen, unabhängig von der Geräteuhr; ausgeblendete Dokumente werden vorsorglich invalidiert. Abgelaufene Ansichten, Fehler, Suchanfragen und Pagination verwenden weiter den normalen Serverpfad. Scrollposition/Fokus, direkte URLs und Links ohne JavaScript bleiben erhalten. Nur diese beiden Seiten verwenden den Client-Router. Gegen einen laufenden Preview-Server lassen sich die gerenderten aktiven Links und der echte Browserwechsel separat prüfen (Chromium muss vorhanden sein):
 

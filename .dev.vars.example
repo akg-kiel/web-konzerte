@@ -1,2 +1,4 @@
 # Read-only Login-Token mit Leserechten für Kalender #5 sowie Ressourcen und Buchungen.
 CHURCHTOOLS_TOKEN=
+# Only a placeholder. Store the real Turnstile secret privately; never commit it.
+TURNSTILE_SECRET=

@@ -1,9 +1,12 @@
 ---
 import { Image } from 'astro:assets';
+import { env } from 'cloudflare:workers';
 
+import { getContactSettings } from '../../lib/contact-mail';
 import akgLogo from '../../assets/logos/logo-akg-250px.png';
 
 const currentYear = new Date().getFullYear();
+const { email } = getContactSettings(env);
 const { preparedProgramme = false } = Astro.props;
 
 const footerLinks = [
@@ -57,8 +60,8 @@ const legalLinks = [
           Weimarer Straße 1 · 24106 Kiel
         </p>
         <p class="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-x-6">
-          <a href="mailto:konzerte@akg-kiel.de" class="text-role-on/75 no-underline hover:text-secondary">
-            konzerte@akg-kiel.de
+          <a href={`mailto:${email}`} class="text-role-on/75 no-underline hover:text-secondary">
+            {email}
           </a>
           <a href="tel:+4943116456" class="text-role-on/75 no-underline hover:text-secondary">
             Gemeindebüro 0431 16 456
