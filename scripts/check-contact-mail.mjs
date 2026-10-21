@@ -465,7 +465,57 @@ try {
   ]) {
     await rejected({ ...data, [name]: data[name] + '\0' });
   }
-  for (const value of ['0', '651', '-1', '1.5', '1e2', '+2', '01', 'NaN'])
+  for (const [input, normalized] of [
+    ['050', '50'],
+    ['01', '1'],
+    ['000650', '650'],
+    ['50.0', '50'],
+    ['1e2', '100'],
+    ['5e1', '50'],
+    ['.5e2', '50'],
+    ['6.5E+2', '650'],
+    [' 050 ', '50'],
+    ['0'.repeat(2048) + '50', '50']
+  ]) {
+    const mock = mocks({ kind: 'booking' });
+    await check(
+      await handleContactRequest(
+        request({ ...booking, 'Erwartete Besucherzahl': input }),
+        mock.env,
+        mock.fetcher
+      ),
+      200
+    );
+    assert.equal(mock.verified.length, 1);
+    assert.equal(mock.sent.length, 1);
+    assert.equal(mock.sent[0].text.match(/Erwartete Besucherzahl:\n([^\n]*)/)?.[1], normalized);
+  }
+  for (const value of [
+    '0',
+    '000',
+    '651',
+    '0651',
+    '-1',
+    '1.5',
+    '1e-1',
+    '6.51e2',
+    '1e999',
+    '+2',
+    'NaN',
+    'Infinity',
+    '0x1',
+    '0b1',
+    '0o1',
+    '50x',
+    '1e',
+    '1_0',
+    '5 0',
+    '\n050',
+    '050\r',
+    '\t050',
+    '050\0',
+    '050\u2028'
+  ])
     await rejected({ ...booking, 'Erwartete Besucherzahl': value });
   for (const name of ['Wunschdatum', 'Alternativdatum']) {
     for (const date of [
