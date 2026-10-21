@@ -8,6 +8,18 @@ preview_urls = true
 CHURCHTOOLS_BASE_URL = "https://akg-kiel.church.tools"
 CHURCHTOOLS_CALENDAR_IDS = "3"
 CHURCHTOOLS_EVENT_BUFFER_HOURS = "12"
+# Activate only after mailbox, sending domain, Turnstile and privacy acceptance.
+CONTACT_EMAIL = "konzerte@akg-kiel.de"
+CONTACT_RECIPIENT = "kontakt@petruskirche.events"
+CONTACT_FORMS_ENABLED = "false"
+TURNSTILE_SITE_KEY = "0x4AAAAAAFYSiGJkDlkkBnTK"
+TURNSTILE_HOSTNAMES = "petruskirche.events"
+
+[[send_email]]
+name = "MAILER"
+destination_address = "kontakt@petruskirche.events"
+allowed_sender_addresses = ["formular@formmail.petruskirche.events"]
+remote = false
 
 [assets]
 directory = "./dist"

@@ -2,10 +2,10 @@
 import { Image } from 'astro:assets';
 
 import AvailabilityCalendar from '../components/sections/AvailabilityCalendar';
+import MailForm from '../components/sections/MailForm.astro';
 import PageHero from '../components/sections/PageHero.astro';
 import Card from '../components/ui/Card.astro';
-import { Button, ButtonLink } from '../components/ui/button';
-import { Form } from '../components/ui/form';
+import { ButtonLink } from '../components/ui/button';
 import { TextField } from '../components/ui/text-field';
 import Layout from '../layouts/Layout.astro';
 import orgelMikrofon from '../assets/concerts/orgel-mikrofon.jpg';
@@ -121,11 +121,11 @@ const labelClass =
             Tragen Sie Ihren Wunschtermin ein und beschreiben Sie kurz Ihr Vorhaben. Der Kalender zeigt eine unverbindliche Vorprüfung. Wir prüfen die Verfügbarkeit und melden uns in der Regel innerhalb weniger Werktage. Mit <span class="text-secondary">*</span> markierte Felder sind Pflichtfelder.
           </p>
 
-          <Form action="mailto:konzerte@akg-kiel.de?subject=Raumanfrage%20Petruskirche" method="post" encType="text/plain" className="mt-10 space-y-10">
+          <MailForm kind="booking" class="mt-10">
             <fieldset class="space-y-8 border-0 p-0">
               <legend class="mb-2 font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Ihre Veranstaltung</legend>
               <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-                <TextField inputClassName={inputClass} isRequired label="Art der Veranstaltung" labelClassName={labelClass} name="Art der Veranstaltung" />
+                <TextField inputClassName={inputClass} isRequired label="Art der Veranstaltung" labelClassName={labelClass} name="Art der Veranstaltung" maxLength={160} />
                 <TextField inputClassName={inputClass} label="Erwartete Besucherzahl" labelClassName={labelClass} name="Erwartete Besucherzahl" min={1} max={650} inputMode="numeric" type="number" />
                 <div class="md:col-span-2">
                   <AvailabilityCalendar client:load />
@@ -136,26 +136,18 @@ const labelClass =
             <fieldset class="space-y-8 border-0 border-t border-white/10 p-0 pt-10">
               <legend class="mb-2 font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Kontakt</legend>
               <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-                <TextField inputClassName={inputClass} isRequired label="Name / Organisation" labelClassName={labelClass} name="Name / Organisation" autoComplete="organization" />
-                <TextField inputClassName={inputClass} isRequired label="E-Mail" labelClassName={labelClass} name="E-Mail" autoComplete="email" type="email" />
-                <TextField inputClassName={inputClass} label="Telefon" labelClassName={labelClass} name="Telefon" autoComplete="tel" type="tel" />
+                <TextField inputClassName={inputClass} isRequired label="Name / Organisation" labelClassName={labelClass} name="Name / Organisation" autoComplete="organization" maxLength={160} />
+                <TextField inputClassName={inputClass} isRequired label="E-Mail" labelClassName={labelClass} name="E-Mail" autoComplete="email" type="email" maxLength={254} />
+                <TextField inputClassName={inputClass} label="Telefon" labelClassName={labelClass} name="Telefon" autoComplete="tel" type="tel" maxLength={60} />
               </div>
             </fieldset>
 
             <fieldset class="space-y-8 border-0 border-t border-white/10 p-0 pt-10">
               <legend class="mb-2 font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Planung</legend>
-              <TextField inputClassName="min-h-36 resize-y rounded-none border-0 border-b border-white/30 bg-transparent px-0 py-4 font-body text-base/6 text-on-surface focus-visible:ring-secondary" label="Technische Anforderungen und Bemerkungen" labelClassName={labelClass} name="Technische Anforderungen und Bemerkungen" multiline rows={5} />
+              <TextField inputClassName="min-h-36 resize-y rounded-none border-0 border-b border-white/30 bg-transparent px-0 py-4 font-body text-base/6 text-on-surface focus-visible:ring-secondary" label="Technische Anforderungen und Bemerkungen" labelClassName={labelClass} name="Technische Anforderungen und Bemerkungen" maxLength={5000} multiline rows={5} />
             </fieldset>
 
-            <div>
-              <Button className="min-h-14 w-full rounded-sm bg-secondary px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest text-midnight shadow-glow hover:bg-champagne active:scale-95 md:w-auto" type="submit">
-                Anfrage per E-Mail senden
-              </Button>
-              <p class="mt-4 font-body text-sm/6 text-role-on/60">
-                Beim Absenden öffnet sich Ihr E-Mail-Programm. Es werden keine Formulardaten auf dieser Website gespeichert. Hinweise finden Sie im <a class="!text-secondary no-underline hover:!text-champagne" href="/datenschutz/">Datenschutz</a>. Alternativ erreichen Sie uns unter <a class="!text-secondary no-underline hover:!text-champagne" href="mailto:konzerte@akg-kiel.de">konzerte@akg-kiel.de</a>.
-              </p>
-            </div>
-          </Form>
+          </MailForm>
         </Card>
       </div>
     </section>

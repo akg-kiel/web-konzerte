@@ -60,6 +60,17 @@ export default function AvailabilityCalendar() {
     setAlternative(nativeDate(alternativeInputRef.current?.value));
     setHydrated(true);
     const controller = new AbortController();
+    const form = desiredInputRef.current?.form;
+    const resetDates = (event: Event) => {
+      // React Aria restores hydrated initial values; clear after its reset listeners.
+      queueMicrotask(() => {
+        if (event.defaultPrevented || controller.signal.aborted) return;
+        setSelected(null);
+        setAlternative(null);
+        setFocused(today);
+      });
+    };
+    form?.addEventListener('reset', resetDates);
     const from = startOfMonth(today).toString();
     setLoading(true);
     setError(false);
@@ -75,7 +86,10 @@ export default function AvailabilityCalendar() {
       .finally(() => {
         if (!controller.signal.aborted) setLoading(false);
       });
-    return () => controller.abort();
+    return () => {
+      controller.abort();
+      form?.removeEventListener('reset', resetDates);
+    };
   }, [endDate, today]);
 
   const statusFor = (date: CalendarDate): AvailabilityStatus | undefined =>
