@@ -1,9 +1,68 @@
 # Kontaktadresse und direkter Formularversand
 
-Vorbereitung für AKG-119, Stand 19. Oktober 2026. **Produktivformulare nicht aktiviert.**
-Die native Einzeltestmail und anschließend die vollständigen Kontakt- und
-Raumanfrage-Tests mit echtem Turnstile wurden zugestellt und vom Nutzer bestätigt.
-Die Produktivfreigabe sowie die unten genannten Einzelprüfungen bleiben separat.
+AKG-119, Stand 21. Oktober 2026. Die Implementierung ist mit PR #42 gemergt.
+Empfang beider Formulararten und Antworten unter der neuen Identität wurden in der
+isolierten Vorschau vom Nutzer bestätigt.
+
+## Aktivierungsfreigabe vom 21. Oktober
+
+Der Nutzer hat nach ausdrücklicher Rückfrage die Aktivierung beider Formulare auf
+`petruskirche.events` sowie je eine gekennzeichnete Testnachricht an
+`kontakt@petruskirche.events` genehmigt, **obwohl die Datenschutz-/Rechtstextprüfung
+in AKG-113 noch offen ist**. Das ist eine Betriebsfreigabe, keine rechtliche Abnahme
+oder Indexierungsfreigabe. `noindex` bleibt bestehen; keine IONOS-, Mailbox-,
+ChurchTools-, Secret- oder Tarifänderung.
+
+Die Aktivierungskonfiguration setzt die öffentliche Konzertadresse auf
+`kontakt@petruskirche.events` und `CONTACT_FORMS_ENABLED = "true"`.
+Interaktive Managed-Turnstile-Prüfungen bleiben beim Menschen; kein CAPTCHA-Bypass,
+keine gefälschten Erfolgstokens und keine automatische Versandwiederholung.
+
+### Veröffentlichung und aktuelle Abnahme
+
+Am 21. Oktober um 13:20:44 UTC wurde die eigens für den Produktionshost gebaute
+Version `6adbebf5-0092-499c-a434-218e6e43bd02` auf 100 % aktiviert (Deployment
+`f6ca9a92-78dc-4d20-8494-b5ab662ea2ec`). Die vorherige Standby-Version
+`2fc53b55-7d32-40d0-bf2e-b1ec783b1e05` ist als Rückfallziel festgehalten. Keine
+Vorschauversion mit abweichender Hostliste wurde promotet.
+
+Vor dem Trafficwechsel wurden die tatsächliche Candidate-Version und ihre Bindings
+geprüft, nicht nur Workers `/settings`. Nachher wurden die konkrete aktive Version,
+100-%-Zuordnung, Secret-Namen/-Typen, übrige Bindings/ChurchTools-Variablen,
+Domain, Worker-URL-Einstellungen und Cron verglichen. IONOS-MX/SPF und die
+getrennten Sender-DNS-Einträge wurden autoritativ unverändert bestätigt.
+ChurchTools- und Turnstile-Secretwerte wurden nicht ausgelesen oder in Berichte
+übernommen; die bestehende Wrangler-Anmeldung wurde nur prozessintern genutzt.
+
+- `pnpm quality`, Upload-Dry-Run und unabhängiges fokussiertes Review bestanden.
+- Lokaler Browser mit 24 abgefangenen synthetischen POSTs bei 375/1280 px:
+  Pending/Fehler, Datums-/Vollreset, Containerbestätigung, Fokus, reduzierte Bewegung
+  und Außeninteraktion bestanden; keine echte Nachricht.
+- Der erweiterte Buildcheck prüft tatsächliches Formular-Markup, Adresse,
+  Versandmodus und den passenden Datenschutztext gegen die Buildkonfiguration.
+  Aktiv- und tatsächliche bisherige Standby-HTML-Ausgabe bestanden; absichtlich
+  inkonsistente Konfiguration/HTML wurde abgewiesen.
+- Live-GET auf acht öffentlichen Pfaden: 200, weiterhin `noindex, follow`;
+  aktive Kontakt-/Raumformulare und neue Konzertadresse bestätigt. Der
+  Datenschutztext beschreibt nun den direkten Worker-/Turnstile-/E-Mail-Pfad.
+- Live-Ablehnungen ohne erfolgreichen Versandpfad: GET 405, fehlender Token 400,
+  tatsächlicher ungültiger Siteverify-Token 403, Empfänger-Manipulation 400,
+  Cross-Origin 403, falscher Inhaltstyp 415, tatsächlicher Body über 64 KiB 413
+  und nicht erlaubter Vorschauhost 403. Fehler bleiben `no-store`/`noindex`.
+- Verfügbarkeitsreferenz 11.11.2026 liefert weiterhin 200/`coordination`.
+
+**Noch offen:** Das echte Widget auf der Hauptdomain zeigt eine interaktive
+menschliche Bestätigung; diese wurde nicht automatisiert. Daher wurden bei der
+Aktivierung noch **null** der zwei genehmigten Testnachrichten abgesandt.
+Je eine gekennzeichnete Kontakt-/Raumanfrage muss mit echter Verifikation versandt
+und ihr Eingang bestätigt werden. Reale Replay-/Ablauf-/Aktionsabnahme und Analyse
+der tatsächlichen Reply-To-/SPF-/DKIM-/DMARC-/Spamwerte bleiben gesondert offen.
+Der frühere Vorschauempfang ist kein Hauptdomain-Zustellbeleg. AKG-113 bleibt offen.
+
+Die Aktivierung wird als eigener Konfigurations-PR gesichert. Solange dieser nicht
+in `main` gemergt ist, enthält `main` weiterhin die Standby-Werte aus PR #42;
+ein erneuter Main-Build könnte die Formulare wieder deaktivieren. Veröffentlichung
+ist keine zusätzliche Git-Merge-Freigabe.
 
 ## Isolierter Versandtest vom 16. Oktober
 
@@ -35,7 +94,7 @@ Upgrade, kein öffentliches Formular aktiviert, keine echten Besucherdaten.
 Diese Einzelzustellung ist kein Beleg für zukünftige Zustellgarantien,
 DKIM-/DMARC-Headerwerte oder die vollständige Formular-/Turnstile-Funktion.
 
-## Aktuelle Formularvorschau
+## Isolierte Formularabnahme vom 16.–18. Oktober
 
 Der Nutzer hat das Managed-Turnstile-Widget im Dashboard erstellt und
 `TURNSTILE_SECRET` im bestehenden Worker `web-konzerte` als Secret gespeichert.
@@ -43,13 +102,13 @@ Geprüft wurden nur Binding-Name und -Typ, niemals der geheime Wert.
 
 Die isolierte Vorschau liegt unter
 `https://mailtest-web-konzerte.noah-zepner.workers.dev` mit den Pfaden
-`/kontakt/` und `/für-veranstalter/`. Nur dort sind die Formulare freigeschaltet:
-`CONTACT_RECIPIENT` und das native Mailbinding sind seit 18. Oktober fest auf
+`/kontakt/` und `/für-veranstalter/`. Dort wurden die Formulare zunächst isoliert
+freigeschaltet. `CONTACT_RECIPIENT` und das native Mailbinding wurden am 18. Oktober auf
 `kontakt@petruskirche.events` beschränkt. Cloudflare bestätigt diese Destination
 seit 16. Oktober, 13:50:15 UTC; der Status wurde am 18. Oktober lesend geprüft.
-Die öffentlich sichtbare Adresse bleibt bis zur gesondert freigegebenen
-Umstellung `konzerte@akg-kiel.de`. Die Server-Hostliste enthält ausschließlich den
-exakten Vorschauhost. Der Nutzer bestätigte anschließend mit „Ja passt alles“
+Die öffentlich sichtbare Adresse blieb bis zur gesonderten Aktivierung
+`konzerte@akg-kiel.de`. Die Server-Hostliste dieser Testversion enthält ausschließlich
+den exakten Vorschauhost. Der Nutzer bestätigte anschließend mit „Ja passt alles“
 die erbetenen Tests beider Formulare an die neue Adresse sowie eine Antwort
 mit Absender `kontakt@petruskirche.events` an die eigene Besucher-Testadresse.
 Damit sind auch der neue Zustellweg und die Antwortidentität funktional
@@ -60,7 +119,8 @@ Nachricht automatisch versandt.
 sind keine Traffic-Promotion. Der aktive Produktivstand und dessen Bindings
 werden anhand der Deployment-Version geprüft: Workers `/settings` zeigt nach
 einem Upload bereits die letzte hochgeladene Version, nicht zwingend die aktive.
-Die produktive Kontaktseite bleibt Mailprogramm-basiert und `noindex`.
+Die produktive Kontaktseite blieb während dieser Vorschauprüfung Mailprogramm-basiert
+und `noindex`.
 
 Die echte Sicherheitsprüfung deckte einen Laufzeitfehler mit `redirect: "error"`
 auf. Der Handler verwendet jetzt `manual` und verwirft jeden Redirect, ohne das
@@ -81,15 +141,15 @@ Spamklassifikation, echte Replay-/Ablaufabnahme oder garantierte zukünftige
 Zustellung. Es wurde kein weiterer automatischer Versand ausgelöst und nichts
 produktiv aktiviert.
 
-## Sicherer Ausgangszustand
+## Historischer Ausgangszustand vor der Aktivierung
 
-In `wrangler.toml` bleiben `CONTACT_EMAIL = "konzerte@akg-kiel.de"`,
-`CONTACT_FORMS_ENABLED = "false"` gesetzt. Der vom Nutzer bereitgestellte öffentliche
+Bis einschließlich PR #42 waren in `wrangler.toml`
+`CONTACT_EMAIL = "konzerte@akg-kiel.de"`, `CONTACT_FORMS_ENABLED = "false"` gesetzt. Der vom Nutzer bereitgestellte öffentliche
 Turnstile-Sitekey ist inzwischen hinterlegt; das private Secret ist im Worker
 gespeichert und im echten Formularpfad der isolierten Vorschau erfolgreich genutzt.
-Beide Formulare öffnen dadurch weiterhin das Mailprogramm. Die neue Adresse
-wird noch nicht öffentlich als erreichbar ausgegeben. Es wird kein Turnstile
-von diesen Formularen geladen; `/api/contact/` verweigert den Versand.
+Damit öffneten beide Formulare nur das Mailprogramm, die neue Adresse wurde noch
+nicht öffentlich ausgegeben und Turnstile nicht geladen. `/api/contact/` verweigerte
+den Versand. Dieser Zustand ist die Rückfalloption bei einer fehlgeschlagenen Aktivierung.
 
 Vorbereitet sind:
 
@@ -229,8 +289,9 @@ TURNSTILE_HOSTNAMES = "petruskirche.events"
 Die übrigen Variablen und Bindings, insbesondere ChurchTools, `ASSETS`, `IMAGES`,
 `workers_dev = false`, `preview_urls = true` und Prelaunch-`noindex`, erhalten.
 Secret-Vorhandensein am exakten Worker/Ziel prüfen, ohne Werte auszulesen.
-Build und Qualitätsprüfung durchführen. Merge und Veröffentlichung brauchen
-jeweils eine gesonderte Freigabe; diese Vorbereitung erteilt keine davon.
+Build und Qualitätsprüfung durchführen. Merge und Veröffentlichung sind getrennte Vorgänge. Die ausdrückliche
+Veröffentlichungsfreigabe vom 21. Oktober ist oben dokumentiert; sie ist keine
+zusätzliche Git-Merge- oder Rechtsfreigabe.
 
 Anschließend mit **ausdrücklich genehmigten Testnachrichten** beide Formulare
 auf einer passenden Vorschau und danach auf der Hauptdomain abnehmen:
@@ -279,11 +340,11 @@ node --experimental-strip-types scripts/check-contact-mail.mjs
 ```
 
 Der Offlinecheck ersetzt Mailer und Siteverify durch synthetische Mocks und
-blockiert echten Netzwerkzugriff. Für die Browserabnahme wird ausschließlich
-in einer isolierten lokalen Kopie die aktive Konfiguration mit synthetischem
-Sitekey gebaut. Ein Browserstub ersetzt Turnstile und die Formularantworten.
+blockiert echten Netzwerkzugriff. Die Browserabnahme läuft ausschließlich gegen
+einen lokalen Preview der gebauten aktiven Konfiguration. Browserstubs ersetzen
+Turnstile und alle Formularantworten; jeder POST wird vor dem Netzwerk abgefangen.
 Das ist Funktions-/Fehlerprüfung, kein Beleg realer Mailzustellung oder echter
-Turnstile-Validierung. Die Produktionskonfiguration bleibt ausgeschaltet.
+Turnstile-Validierung. Lokales `remote = false` bleibt erhalten.
 
 Der optionale Browsercheck für eine solche aktive lokale Testkopie blockiert
 alle echten Formular-POSTs und ersetzt Turnstile sowie den Versand:
