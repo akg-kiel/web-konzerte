@@ -28,6 +28,8 @@ assert.equal(privacy.includes('übermitteln keine Formulardaten an diese Website
 if (enabled) {
   assert.equal(config.vars.TURNSTILE_HOSTNAMES, 'petruskirche.events');
   assert(config.vars.TURNSTILE_SITE_KEY.trim());
+  assert.equal(config.vars.CONTACT_EMAIL, 'kontakt@petruskirche.events');
+  assert.equal(config.vars.CONTACT_RECIPIENT, 'kontakt@petruskirche.events');
   const mailer = config.send_email.find(({ name }) => name === 'MAILER');
   assert.equal(mailer.destination_address, config.vars.CONTACT_RECIPIENT);
   assert.deepEqual(mailer.allowed_sender_addresses, ['formular@formmail.petruskirche.events']);
