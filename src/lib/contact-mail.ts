@@ -160,13 +160,18 @@ export async function handleContactRequest(
 
   const values: Record<string, string> = {};
   for (const [name, min, max, multiline] of spec) {
-    const value = form.get(name) ?? '';
+    const rawValue = form.get(name) ?? '';
+    // Native number inputs allow leading zeros, decimals and exponents; bound the canonical count.
+    const value =
+      name === 'Erwartete Besucherzahl' && /^(?:\d+|\d*\.\d+)(?:e[+-]?\d+)?$/i.test(rawValue.trim())
+        ? String(Number(rawValue))
+        : rawValue;
     /* eslint-disable no-control-regex -- Body fields allow tabs/newlines; headers allow no controls. */
     const controls = multiline
       ? /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f-\u009f]/u
       : /[\u0000-\u001f\u007f-\u009f\u2028\u2029]/u;
     /* eslint-enable no-control-regex */
-    if (value.length > max || value.trim().length < min || controls.test(value))
+    if (value.length > max || value.trim().length < min || controls.test(rawValue))
       return respond(400, invalid);
     values[name] = multiline ? value : value.trim();
   }
