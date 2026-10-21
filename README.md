@@ -27,35 +27,27 @@ Produktion: Cloudflare Worker mit statischen Seiten und serverseitig gerenderten
 
 ## Kontaktformulare
 
-Direkter Versand über Cloudflare Email Service ist für Kontakt und Raumanfrage vorbereitet,
-aber mit `CONTACT_FORMS_ENABLED = "false"` ausdrücklich deaktiviert. Bis zur bestätigten
-Umstellung bleiben die öffentliche Adresse `konzerte@akg-kiel.de` und der bisherige
-Mailprogramm-Versand erhalten. Neue Zieladresse ist `kontakt@petruskirche.events`;
-Gemeinde- und Datenschutzadressen werden nicht ersetzt. Die getrennte Absender-Subdomain
-`formmail.petruskirche.events` ist seit 16.10.2026 für Email Routing eingerichtet;
-eine einzelne native Testmail an die verifizierte Testadresse wurde von Cloudflare
-angenommen und ihr Empfang vom Nutzer bestätigt. Anschließend hat der Nutzer auch
-beide vollständigen Formularpfade mit echtem Binding und Turnstile in der isolierten
-Vorschau erfolgreich getestet und den Empfang bestätigt. Die Produktivformulare
-bleiben aus. Die neue Zieladresse ist inzwischen bei Cloudflare verifiziert;
-die Vorschau sendet fest dorthin. Formularzustellung und Antwortidentität an der
-neuen Adresse sind ebenfalls vom Nutzer bestätigt. Formale Freigaben und die
-Produktivumschaltung bleiben separat.
-Öffentliche Adresse (`CONTACT_EMAIL`) und fester Deployment-Empfänger
-(`CONTACT_RECIPIENT`, passend zur Binding-Beschränkung) sind getrennt. Der Nutzer
-hat Turnstile eingerichtet und das Secret privat gespeichert; eine isolierte
-Formularvorschau ist in der Checkliste dokumentiert. Sie darf nicht auf Produktion
-promotet werden.
+Die Quellkonfiguration aktiviert den direkten Versand für Kontakt und Raumanfrage
+mit `CONTACT_FORMS_ENABLED = "true"`. Öffentliche Konzertadresse und fester Empfänger
+sind `kontakt@petruskirche.events`; Gemeinde-, Technik- und Datenschutzadressen bleiben
+eigenständig. Der Besucher bestimmt ausschließlich `Reply-To`, niemals den Empfänger.
+Der technische Absender bleibt `formular@formmail.petruskirche.events` auf der getrennten
+Cloudflare-Routing-Subdomain. Die Hauptdomain behält IONOS-MX/SPF.
 
-[Vorbereitung und Aktivierungscheckliste](docs/email-forms.md) beschreibt Alias/Weiterleitung,
-Empfangs-/Antworttest, Versanddomain, Turnstile, Datenschutzfreigabe und die gesonderte
-Zustellungsabnahme. Die ursprüngliche Codevorbereitung änderte keine DNS-/Postfächer
-und verschickte keine echten Mails. Die anschließend ausdrücklich freigegebene
-Subdomain-Einrichtung und einzelne Testmail sind dort getrennt dokumentiert;
-IONOS-MX/SPF blieben unverändert. Das spätere Secret-Konfigurationsdeployment
-führte der Nutzer im Dashboard aus; der noch lokale Formularcode wurde nur als
-getrennte Testversion hochgeladen, nicht für produktiven Traffic aktiviert.
-Der Offlinecheck verwendet weiterhin nur Mocks.
+Empfang, beide vollständigen Formularpfade mit echtem Turnstile und Antworten unter
+der neuen Identität wurden in der isolierten Vorschau vom Nutzer bestätigt. Am
+21.10.2026 hat der Nutzer ausdrücklich die Aktivierung auf der Hauptdomain und je
+eine gekennzeichnete Testnachricht genehmigt, obwohl die formale Datenschutz- und
+Rechtstextfreigabe in AKG-113 noch offen ist. Das ist keine rechtliche Freigabe;
+Prelaunch-`noindex` bleibt bestehen.
+
+[Versand, Aktivierung und Abnahme](docs/email-forms.md) dokumentiert den konkreten
+Veröffentlichungs-/Prüfstand und die verbleibenden Freigaben. Nicht die alte
+Testversion mit Vorschau-Hostliste auf Produktion promoten: statisches HTML und
+Worker-Konfiguration gemeinsam neu bauen und prüfen. Bestehende Secrets erhalten;
+`TURNSTILE_SECRET` niemals auslesen. Adresse/Flag allein im Dashboard ändern reicht
+für das vorgerenderte HTML nicht. Offline- und lokale Browserchecks verwenden Mocks
+und senden keine echten Nachrichten.
 
 ## ChurchTools
 
