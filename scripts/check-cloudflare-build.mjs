@@ -36,7 +36,8 @@ assert(privacy.includes('id="programm"'));
 const imprint = await readFile('dist/impressum/index.html', 'utf8');
 assert(imprint.includes('Körperschaft des öffentlichen Rechts'));
 assert(imprint.includes('durch den Kirchengemeinderat'));
-assert.doesNotMatch(imprint, /vertreten durch Pastor/);
+assert.doesNotMatch(imprint, /vertreten durch Pastor|Vorsitzender ist/);
+assert(imprint.includes('https://akg-kiel.de/impressum'));
 if (enabled) {
   assert.equal(config.vars.TURNSTILE_HOSTNAMES, 'petruskirche.events');
   assert(config.vars.TURNSTILE_SITE_KEY.trim());
