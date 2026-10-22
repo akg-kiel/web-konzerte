@@ -271,15 +271,21 @@ dieser Einrichtungswege war zu pauschal.
 ### 4. Datenschutz freigeben
 
 Die bedingten Texte in `src/pages/datenschutz.astro` sind ein technischer
-Textentwurf, **keine rechtliche Freigabe**. Vor Aktivierung im Rahmen von AKG-113
-insbesondere prüfen:
+Textentwurf, **keine rechtliche Freigabe**. Für die qualifizierte Freigabe im
+Rahmen von AKG-113 weiterhin insbesondere prüfen:
 
 - kirchliche Rechtsgrundlage und nötige Hinweise/Einwilligungen für Turnstile;
 - Auftragsverarbeitung, Datenempfänger, Drittlandübermittlungen und Garantien;
 - Speicher-/Löschfristen beim Mailanbieter und bei Cloudflare, einschließlich
   technischer Protokolle und nicht zustellbarer Nachrichten;
-- die bereits bestehende Aussage zur Löschung binnen zehn Tagen. Sie wurde hier
-  nicht als tatsächlicher Betreiberprozess bestätigt.
+- die tatsächliche Löschung in Postfach, weiteren Kopien und Sicherungen. Die
+  unbelegte Zehn-Tage-Zusage wurde im DSG-EKD-Textentwurf vom 22. Oktober 2026 durch zweckbezogene Kriterien ersetzt; deren praktische
+  Umsetzung und die Providerfristen sind damit nicht bestätigt.
+
+Die DSG-EKD-Vorprüfung, Quellen und offenen Entscheidungen stehen im
+[Copy-Audit](copy-audit.md#dsg-ekd-vorprüfung-akg-113). Sie ersetzen weder die
+qualifizierte Prüfung noch die Betreiberfreigabe. Die zuvor ausdrücklich
+genehmigte Formularaktivierung wird durch diese reine Textarbeit nicht verändert.
 
 Nach Aktivierung darf die Datenschutzerklärung nicht mehr behaupten, das
 Formular öffne lediglich ein Mailprogramm oder verarbeite keine Daten auf dem

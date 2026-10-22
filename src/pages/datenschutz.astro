@@ -31,7 +31,9 @@ const textClass = 'mt-6 space-y-4 font-body text-base/7 text-role-on/75';
             <li><a class={linkClass} href="#verantwortlicher">Verantwortlicher</a></li>
             <li><a class={linkClass} href="#datenschutzkontakt">Datenschutzkontakt</a></li>
             <li><a class={linkClass} href="#website">Hosting</a></li>
+            <li><a class={linkClass} href="#programm">Programm &amp; Verfügbarkeit</a></li>
             <li><a class={linkClass} href="#kontakt">Kontaktaufnahme</a></li>
+            {contact.enabled && <li><a class={linkClass} href="#turnstile">Spamprüfung</a></li>}
             <li><a class={linkClass} href="#cookies">Cookies &amp; Analyse</a></li>
             <li><a class={linkClass} href="#drittanbieter">Google Maps</a></li>
             <li><a class={linkClass} href="#rechte">Ihre Rechte</a></li>
@@ -46,13 +48,14 @@ const textClass = 'mt-6 space-y-4 font-body text-base/7 text-role-on/75';
           <div class={textClass}>
             <address class="not-italic">
               <strong class="font-semibold text-on-surface">Ev.-Luth. Apostel-Kirchengemeinde Kiel</strong><br />
+              Körperschaft des öffentlichen Rechts<br />
               Adalbertstraße 10<br />
               24106 Kiel<br />
               Telefon: <a class={linkClass} href="tel:+4943116456">0431 16 456</a><br />
               E-Mail: <a class={linkClass} href="mailto:kontakt@akg-kiel.de">kontakt@akg-kiel.de</a>
             </address>
             <p>
-              Verantwortlich ist die Kirchengemeinde nach dem Datenschutzgesetz der Evangelischen Kirche in Deutschland (DSG-EKD). Soweit die Datenschutz-Grundverordnung anwendbar ist, gelten ergänzend deren Bestimmungen.
+              Die Kirchengemeinde wird durch den Kirchengemeinderat vertreten. Für die Verarbeitung personenbezogener Daten durch die Kirchengemeinde gelten das Datenschutzgesetz der Evangelischen Kirche in Deutschland (DSG-EKD) und die einschlägigen kirchlichen Ausführungsbestimmungen.
             </p>
           </div>
         </section>
@@ -62,7 +65,7 @@ const textClass = 'mt-6 space-y-4 font-body text-base/7 text-role-on/75';
           <div class={textClass}>
             <address class="not-italic">
               <strong class="font-semibold text-on-surface">Örtlich Beauftragter für den Datenschutz</strong><br />
-              Michael G. Schmidt<br />
+              Michael Georg Schmidt<br />
               Falckstraße 9<br />
               24103 Kiel<br />
               Telefon: <a class={linkClass} href="tel:+494312402336">0431 2402-336</a><br />
@@ -76,17 +79,34 @@ const textClass = 'mt-6 space-y-4 font-body text-base/7 text-role-on/75';
           <h2 id="website-heading" class={headingClass}>Aufruf der Website und Hosting</h2>
           <div class={textClass}>
             <p>
-              Beim Aufruf der Website übermittelt Ihr Browser technisch notwendige Daten an unseren Hosting-Dienstleister. Dazu können insbesondere IP-Adresse, Datum und Uhrzeit, aufgerufene Adresse, übertragene Datenmenge, Referrer, Browsertyp und Betriebssystem gehören. Die Verarbeitung dient der sicheren, stabilen und fehlerfreien Bereitstellung sowie der Abwehr von Angriffen.
+              Beim Aufruf der Website übermittelt Ihr Browser Verbindungs- und Abrufdaten an unseren Hosting-Dienstleister. Dazu können insbesondere IP-Adresse, Datum und Uhrzeit, aufgerufene Adresse, übertragene Datenmenge, Referrer, Browsertyp und Betriebssystem gehören. Diese Daten werden benötigt, um Seiten und Dateien auszuliefern, Fehler zu erkennen und Angriffe abzuwehren. Ohne die technisch erforderlichen Verbindungsdaten kann die Website nicht ausgeliefert werden.
             </p>
             <p>
-              Die Rechtsgrundlage ist § 6 DSG-EKD, insbesondere unser berechtigtes Interesse an einem sicheren Internetangebot; soweit anwendbar, Art. 6 Abs. 1 lit. f DSGVO.
+              Die Verarbeitung für die Bereitstellung und Absicherung unseres Internetangebots stützen wir auf § 6 Nr. 4 DSG-EKD. Unser berechtigtes Interesse liegt in einem erreichbaren, stabilen und gegen Missbrauch geschützten Angebot. Dabei dürfen die schutzbedürftigen Interessen der betroffenen Personen nicht überwiegen.
             </p>
             <p>
-              Die Website wird als statische Website über Dienste von <strong class="font-semibold text-on-surface">Cloudflare, Inc.</strong>, 101 Townsend St, San Francisco, CA 94107, USA, ausgeliefert. Cloudflare kann Daten auch außerhalb des Europäischen Wirtschaftsraums verarbeiten. Dabei kommen die jeweils anwendbaren Garantien für Drittlandübermittlungen zum Einsatz, insbesondere das EU-US Data Privacy Framework und Standardvertragsklauseln.
+              Für das Hosting verwenden wir Cloudflare Workers und die zugehörigen Auslieferungs- und Bilddienste von <strong class="font-semibold text-on-surface">Cloudflare, Inc.</strong>, 101 Townsend St, San Francisco, CA 94107, USA. Die Website enthält sowohl vorbereitete Seiten als auch serverseitig verarbeitete Anfragen, etwa für das Konzertprogramm, die Verfügbarkeitsprüfung und gegebenenfalls den Formularversand.
             </p>
             <p>
-              Wir führen keine eigenen Anwendungs- oder Besucherprotokolle. Technische Protokolle des Hosting-Dienstleisters werden nur so lange verarbeitet, wie dies für Betrieb und Sicherheit sowie aufgrund vertraglicher oder gesetzlicher Vorgaben erforderlich ist. Weitere Informationen finden Sie in der
-              <a class={linkClass} href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Datenschutzerklärung von Cloudflare ↗</a>.
+              Die Anwendung führt keine eigene Besucherstatistik. Bei technischen Fehlern erzeugt sie Fehlermeldungen, etwa zu nicht erreichbaren Datenquellen oder Zwischenspeichern. Der Formularcode protokolliert keine Nachrichteninhalte. Zusätzlich können beim Hosting-Dienstleister technische Betriebs- und Sicherheitsdaten anfallen. Für deren Aufbewahrung sind der jeweilige Betriebs- und Sicherheitszweck sowie anwendbare Aufbewahrungsvorgaben maßgeblich.
+            </p>
+            <p>
+              Bei Cloudflare können Daten auch außerhalb des Europäischen Wirtschaftsraums, insbesondere in den USA, verarbeitet werden. Für Drittlandübermittlungen gelten zusätzlich die Anforderungen des § 10 DSG-EKD. Informationen zu Cloudflares Verarbeitung und den vom Anbieter beschriebenen Übermittlungsgrundlagen finden Sie in der <a class={linkClass} href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Datenschutzerklärung von Cloudflare ↗</a> und im <a class={linkClass} href="https://www.cloudflare.com/cloudflare-customer-dpa/" target="_blank" rel="noopener noreferrer">Data Processing Addendum ↗</a>.
+            </p>
+          </div>
+        </section>
+
+        <section id="programm" aria-labelledby="programme-heading">
+          <h2 id="programme-heading" class={headingClass}>Konzertprogramm und Verfügbarkeitsprüfung</h2>
+          <div class={textClass}>
+            <p>
+              Konzertangaben, Plakate und Ressourcenbelegungen stammen aus dem ChurchTools-System der Kirchengemeinde. Die Website ruft diese Daten serverseitig ab und verwendet Zwischenspeicher. Beim Nutzen des Verfügbarkeitskalenders wird der angezeigte Zeitraum an die Verfügbarkeitsfunktion dieser Website übermittelt; diese fragt die Belegungen in ChurchTools ab. Die technische Bereitstellung erfolgt auf der oben beschriebenen Grundlage des § 6 Nr. 4 DSG-EKD.
+            </p>
+            <p>
+              Namen, E-Mail-Adressen und Nachrichteninhalte aus den Formularen werden durch diese Datenabrufe nicht an ChurchTools weitergegeben. Die Vorprüfung zeigt nur Belegungszustände, keine Namen oder Inhalte fremder Buchungen. Sie ist unverbindlich und trifft keine Entscheidung über Ihre Anfrage. Das Absenden einer Raumanfrage erstellt keine automatische Buchung in ChurchTools.
+            </p>
+            <p>
+              Wenn Sie ein verlinktes Originalplakat öffnen, verbindet sich Ihr Browser unmittelbar mit ChurchTools. Dabei fallen dort Verbindungsdaten wie Ihre IP-Adresse an. Weitere Informationen zum Anbieter finden Sie in den <a class={linkClass} href="https://www.church.tools/datenschutz" target="_blank" rel="noopener noreferrer">Datenschutzhinweisen von ChurchTools ↗</a>.
             </p>
           </div>
         </section>
@@ -95,37 +115,56 @@ const textClass = 'mt-6 space-y-4 font-body text-base/7 text-role-on/75';
           <h2 id="contact-heading" class={headingClass}>Kontaktaufnahme</h2>
           <div class={textClass}>
             <p>
-              Wenn Sie uns per E-Mail oder Telefon kontaktieren, verarbeiten wir Ihre Kontaktdaten und den Inhalt Ihrer Nachricht, um Ihr Anliegen zu beantworten. Empfänger sind nur die zuständigen Mitarbeitenden und, soweit technisch erforderlich, unsere Kommunikationsdienstleister. Eine Weitergabe innerhalb kirchlicher Stellen erfolgt nur, wenn dies zur Bearbeitung notwendig ist.
+              Wenn Sie uns per Formular, E-Mail oder Telefon kontaktieren, verarbeiten wir Ihre Kontaktdaten und den Inhalt Ihrer Nachricht, um Ihr Anliegen zu beantworten. Die Bearbeitung erfolgt durch die zuständigen Mitarbeitenden. Technische Empfänger sind die für Übermittlung und Postfachbetrieb eingesetzten Dienstleister. Eine Weitergabe innerhalb kirchlicher Stellen erfolgt nur, soweit sie für die Bearbeitung erforderlich ist.
             </p>
             <p>
-              Rechtsgrundlage ist § 6 DSG-EKD. Bei Anfragen zu Verträgen oder Veranstaltungen erfolgt die Verarbeitung außerdem zur Durchführung vorvertraglicher oder vertraglicher Maßnahmen; im Übrigen beruht sie auf unserem berechtigten Interesse an der Beantwortung Ihrer Anfrage.
+              Die Bearbeitung allgemeiner Anfragen stützen wir auf § 6 Nr. 4 DSG-EKD; unser berechtigtes Interesse liegt darin, Ihre Anfrage sachgerecht zu beantworten. Soweit die Verarbeitung für einen Vertrag erforderlich ist, dessen Vertragspartei Sie selbst sind, oder für vorvertragliche Maßnahmen auf Ihre Anfrage, ist § 6 Nr. 5 DSG-EKD die Rechtsgrundlage. Eine Anfrage für eine Organisation ist nicht allein deshalb ein Vertrag mit Ihnen persönlich.
+            </p>
+            <p>
+              Die Kontaktaufnahme und die Nutzung der Formulare sind freiwillig; eine gesetzliche Pflicht zur Nutzung besteht nicht. Für den Versand verlangt das Kontaktformular Name, E-Mail-Adresse, Betreff und Nachricht. Für die Raumanfrage sind Veranstaltungsart, Wunschdatum, Name beziehungsweise Organisation und E-Mail-Adresse erforderlich. Ohne diese Angaben kann das jeweilige Formular nicht versendet werden. Die weiteren Formularfelder sind freiwillig. Ohne eine Rückkontaktmöglichkeit können wir Ihr Anliegen unter Umständen nicht beantworten.
             </p>
             <p>
               {contact.enabled
-                ? 'Die Formulare auf den Seiten „Raum anfragen“ und „Kontakt“ übermitteln Ihre Eingaben verschlüsselt an den Cloudflare Worker dieser Website. Dort werden sie geprüft und über Cloudflare Email Service als E-Mail an den Konzertkontakt weitergeleitet. Verarbeitet werden die von Ihnen angegebenen Kontakt-, Nachrichten- und gegebenenfalls Veranstaltungsdaten. Die Website führt kein eigenes Anfragearchiv; die Bearbeitung erfolgt im zuständigen E-Mail-Postfach.'
+                ? 'Die Formulare auf den Seiten „Raum anfragen“ und „Kontakt“ übermitteln Ihre Eingaben verschlüsselt an den Cloudflare Worker dieser Website. Dort werden sie geprüft und über Cloudflare Email Service als E-Mail an den Konzertkontakt weitergeleitet. Cloudflare verarbeitet hierfür auch die von Ihnen angegebenen Kontakt-, Nachrichten- und gegebenenfalls Veranstaltungsdaten. Ihre E-Mail-Adresse wird als Antwortadresse verwendet. Die Website führt kein eigenes Anfragearchiv.'
                 : 'Die Formulare auf den Seiten „Raum anfragen“ und „Kontakt“ übermitteln keine Formulardaten an diese Website. Beim Absenden wird lediglich Ihr eigenes E-Mail-Programm geöffnet; erst wenn Sie die Nachricht dort versenden, werden die eingegebenen Daten über Ihren E-Mail-Anbieter an uns übertragen.'}
             </p>
-            {contact.enabled && (
-              <p>
-                Zur Abwehr automatisierter Anfragen wird auf diesen beiden Formularseiten Cloudflare Turnstile geladen. Dabei erhält Cloudflare technische Verbindungs-, Browser- und Prüfdaten, insbesondere Ihre IP-Adresse und das Ergebnis der Spamprüfung. Der Worker prüft das Ergebnis vor jedem Versand. Die E-Mail-Adresse aus Ihrem Formular wird als Antwortadresse verwendet. Sie können uns alternativ unmittelbar per E-Mail kontaktieren. Weitere Angaben zur Verarbeitung finden Sie in der <a class={linkClass} href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Datenschutzerklärung von Cloudflare ↗</a>.
-              </p>
-            )}
             <p>
-              Anfragedaten löschen wir nach abschließender Bearbeitung, grundsätzlich spätestens nach zehn Tagen. Daten bleiben länger gespeichert, wenn gesetzliche Aufbewahrungspflichten bestehen oder sie für einen Vertrag oder die Abwehr von Rechtsansprüchen benötigt werden. Unverschlüsselte E-Mails können auf dem Übertragungsweg grundsätzlich von Dritten eingesehen werden; senden Sie daher keine besonders sensiblen Angaben per E-Mail.
+              Der E-Mail-Empfang für unsere Domain wird über IONOS abgewickelt. Nachrichten und die weitere Korrespondenz werden im zuständigen E-Mail-Postfach bearbeitet und gespeichert. „Kein eigenes Anfragearchiv“ bedeutet daher nicht, dass keine E-Mail-Kopien bei der Kirchengemeinde oder den beteiligten Dienstleistern entstehen.
+            </p>
+            <p>
+              Für die Aufbewahrung von Anfragen ist maßgeblich, ob die Daten noch zur Bearbeitung, zur gegebenenfalls folgenden Vertragsabwicklung oder zum Nachweis rechtlicher Ansprüche benötigt werden. Bestehen gesetzliche Aufbewahrungspflichten, sind die davon betroffenen Unterlagen für die jeweilige Pflichtdauer aufzubewahren. Nachrichten ohne fortbestehenden Verarbeitungszweck sind zu löschen. Diese Kriterien gelten auch für die Prüfung weiterer Kopien und Sicherungen; eine pauschale Löschfrist für sämtliche Anfragen lässt sich daraus nicht ableiten.
+            </p>
+            <p>
+              Alternativ zum Formular können Sie uns unmittelbar per E-Mail an <a class={linkClass} href={`mailto:${contact.email}`}>{contact.email}</a> kontaktieren. Für diesen Kontaktweg ist keine Turnstile-Prüfung auf der Website erforderlich.
             </p>
           </div>
         </section>
+
+        {contact.enabled && (
+          <section id="turnstile" aria-labelledby="turnstile-heading">
+            <h2 id="turnstile-heading" class={headingClass}>Spamprüfung mit Cloudflare Turnstile</h2>
+            <div class={textClass}>
+              <p>
+                Auf den Seiten „Kontakt“ und „Raum anfragen“ wird Cloudflare Turnstile automatisch geladen, sobald JavaScript ausgeführt wird. Die Prüfung verarbeitet bereits beim Aufruf der Formularseite technische Signale, auch wenn Sie keine Nachricht absenden. Nach Cloudflares Angaben gehören dazu insbesondere IP-Adresse, TLS-Fingerabdruck, User-Agent sowie die Website-Kennung und zugehörige Herkunftsadresse.
+              </p>
+              <p>
+                Die von uns veranlasste Spamabwehr stützen wir auf § 6 Nr. 4 DSG-EKD. Unser berechtigtes Interesse ist der Schutz des Formularversands vor automatisierten Anfragen und missbräuchlicher Auslastung. Cloudflare beschreibt dabei zwei Rollen: als Auftragsverarbeiter für den Schutz unserer Website und in eigener Verantwortung zur Verbesserung der Bot-Erkennung. Diese zusätzliche Verarbeitung erläutert Cloudflare im <a class={linkClass} href="https://www.cloudflare.com/turnstile-privacy-policy/" target="_blank" rel="noopener noreferrer">Turnstile Privacy Addendum ↗</a>.
+              </p>
+              <p>
+                Vor dem Versand prüft der Worker den von Turnstile erstellten Prüfnachweis. Eine fehlgeschlagene Prüfung verhindert den direkten Formularversand, entscheidet aber nicht inhaltlich über Ihre Anfrage. Diese wird von Mitarbeitenden bearbeitet. Sie können stattdessen den oben genannten E-Mail-Kontakt nutzen. Für Cloudflares mögliche Drittlandverarbeitung gelten die Hinweise im Abschnitt Hosting.
+              </p>
+            </div>
+          </section>
+        )}
 
         <section id="cookies" aria-labelledby="cookies-heading">
           <h2 id="cookies-heading" class={headingClass}>Cookies, Analyse und lokale Inhalte</h2>
           <div class={textClass}>
             <p>
-              {contact.enabled
-                ? 'Für die technische Bereitstellung und die Spamprüfung werden Dienste von Cloudflare eingesetzt. Für das Kontaktformular legen wir keine eigene Kopie Ihrer Angaben in Cookies oder im lokalen Browserspeicher an. Google Maps kann erst nach Ihrer gesonderten Zustimmung Cookies oder ähnliche Speichertechniken verwenden.'
-                : 'Diese Website setzt selbst keine Cookies ein, speichert keine Informationen im lokalen Browserspeicher und verwendet keine Analyse-, Werbe- oder Profilingdienste. Google Maps kann erst nach Ihrer gesonderten Zustimmung Cookies oder ähnliche Speichertechniken verwenden.'}
+              Wir setzen keine eigenen Werbe- oder Reichweitenmessungsskripte ein. Der Anwendungscode speichert keine Formularinhalte in Cookies oder im lokalen Browserspeicher. Davon zu unterscheiden sind die beschriebenen Dienste von Cloudflare und Google: Bei deren Nutzung können Cookies, ähnliche Speichertechniken oder andere Zugriffe auf Endgeräteinformationen stattfinden. Für Speicherung und Zugriff auf Endgeräteinformationen ist zusätzlich § 25 TDDDG zu beachten.
             </p>
             <p>
-              Schriften, Bilder und sonstige Seitendateien werden von unserem eigenen Hosting ausgeliefert. Beim bloßen Seitenaufruf werden keine Inhalte von Google Fonts, Google Maps oder sozialen Netzwerken geladen.
+              Schriften und Seitendateien werden über unser Hosting ausgeliefert; Google Fonts und soziale Netzwerke sind nicht eingebunden. Für Originalplakate aus ChurchTools gelten die Hinweise im Abschnitt Programm und Verfügbarkeit. Google Maps wird erst nach dem nachfolgend beschriebenen Bestätigungsschritt geladen.
             </p>
           </div>
         </section>
@@ -137,14 +176,13 @@ const textClass = 'mt-6 space-y-4 font-body text-base/7 text-role-on/75';
               Auf den Seiten „Besuch planen“ und „Kontakt“ ist eine Karte von Google Maps eingebunden. Anbieter im Europäischen Wirtschaftsraum ist Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland. Die Karte bleibt zunächst deaktiviert. Erst wenn Sie „Google Maps laden“ wählen, wird eine Verbindung zu Google hergestellt.
             </p>
             <p>
-              Google erhält dabei insbesondere Ihre IP-Adresse, Browser- und Geräteinformationen, Zeitpunkt und aufgerufene Seite. Google kann Cookies setzen, die Daten mit einem bestehenden Google-Konto verknüpfen und sie auch durch Google LLC in den USA verarbeiten. Google stützt Drittlandübermittlungen nach eigenen Angaben insbesondere auf das EU-US Data Privacy Framework und Standardvertragsklauseln.
+              Google erhält dabei insbesondere Ihre IP-Adresse, Browser- und Geräteinformationen, den Abrufzeitpunkt, die Kartenadresse und die Herkunftsadresse unserer Website. Google kann Cookies setzen, Daten mit einem bestehenden Google-Konto verknüpfen und Daten auch durch Google LLC in den USA verarbeiten. Für solche Drittlandübermittlungen sind zusätzlich die Anforderungen des § 10 DSG-EKD maßgeblich. Weitere Informationen zu Googles Verarbeitung finden Sie in der <a class={linkClass} href="https://policies.google.com/privacy?hl=de" target="_blank" rel="noopener noreferrer">Datenschutzerklärung von Google ↗</a>.
             </p>
             <p>
-              Die Verarbeitung erfolgt nur mit Ihrer Einwilligung nach § 11 DSG-EKD und, soweit anwendbar, Art. 6 Abs. 1 lit. a DSGVO sowie § 25 Abs. 1 TDDDG. Die Zustimmung gilt nur für den aktuellen Seitenaufruf und wird von uns nicht gespeichert. Durch erneutes Laden der Seite wird die Karte wieder deaktiviert; bereits erfolgte Verarbeitungen bleiben hiervon unberührt. Weitere Informationen finden Sie in der
-              <a class={linkClass} href="https://policies.google.com/privacy?hl=de" target="_blank" rel="noopener noreferrer">Datenschutzerklärung von Google ↗</a>.
+              Rechtsgrundlage für die von uns veranlasste Einbindung ist Ihre Einwilligung nach § 6 Nr. 2 DSG-EKD in Verbindung mit § 11 DSG-EKD sowie für Endgerätezugriffe § 25 Abs. 1 TDDDG. Ihre Auswahl wird nicht seitenübergreifend gespeichert. Sie können die weitere Einbindung beenden, indem Sie die Seite neu laden und die Karte nicht erneut bestätigen. Bei jedem neuen Seitenaufruf bleibt sie zunächst deaktiviert. Dies macht bereits erfolgte Verarbeitungen nicht rückgängig und löscht keine von Google gespeicherten Daten oder Cookies.
             </p>
             <p>
-              Weitere Links, etwa zur Gemeindewebsite oder zu Ticketanbietern, sind als externe Links gekennzeichnet. Erst beim Aufruf gelten die Datenschutzbestimmungen des jeweiligen Anbieters.
+              Wenn Sie externe Links etwa zur Gemeindewebsite oder zu Ticketanbietern öffnen, erhält der jeweilige Anbieter Verbindungsdaten. Für die Verarbeitung auf dessen Seiten gelten seine eigenen Datenschutzhinweise.
             </p>
           </div>
         </section>
@@ -152,17 +190,19 @@ const textClass = 'mt-6 space-y-4 font-body text-base/7 text-role-on/75';
         <section id="rechte" aria-labelledby="rights-heading">
           <h2 id="rights-heading" class={headingClass}>Ihre Rechte</h2>
           <div class={textClass}>
-            <p>Nach dem DSG-EKD und, soweit anwendbar, der DSGVO haben Sie insbesondere das Recht auf:</p>
+            <p>Gegenüber der Kirchengemeinde haben Sie unter den jeweiligen gesetzlichen Voraussetzungen insbesondere folgende Rechte:</p>
             <ul class="list-disc space-y-2 pl-6">
-              <li>Auskunft über die zu Ihrer Person verarbeiteten Daten,</li>
-              <li>Berichtigung unrichtiger oder Vervollständigung unvollständiger Daten,</li>
-              <li>Löschung oder Einschränkung der Verarbeitung, soweit die Voraussetzungen vorliegen,</li>
-              <li>Datenübertragbarkeit, soweit die Voraussetzungen vorliegen,</li>
-              <li>Widerspruch gegen eine Verarbeitung aus besonderem Grund sowie</li>
-              <li>Widerruf einer Einwilligung mit Wirkung für die Zukunft.</li>
+              <li>Auskunft über die zu Ihrer Person verarbeiteten Daten (§ 19 DSG-EKD),</li>
+              <li>Berichtigung unrichtiger oder Vervollständigung unvollständiger Daten (§ 20 DSG-EKD),</li>
+              <li>Löschung oder Einschränkung der Verarbeitung (§§ 21 und 22 DSG-EKD),</li>
+              <li>Datenübertragbarkeit bei einer auf Einwilligung oder Vertrag beruhenden automatisierten Verarbeitung (§ 24 DSG-EKD),</li>
+              <li>Widerspruch aus Gründen Ihrer besonderen Situation gegen Verarbeitungen nach § 6 Nr. 3 oder 4 DSG-EKD (§ 25 DSG-EKD).</li>
             </ul>
             <p>
-              Zur Ausübung Ihrer Rechte genügt eine Nachricht an den Verantwortlichen oder den Datenschutzkontakt. Außerdem können Sie sich beim Beauftragten für den Datenschutz der EKD beschweren:
+              Eine Einwilligung können Sie jederzeit mit Wirkung für die Zukunft widerrufen (§ 11 Abs. 3 DSG-EKD). Die Rechtmäßigkeit der bis zum Widerruf erfolgten Verarbeitung bleibt unberührt. Für die Beendigung der Karteneinbindung beachten Sie bitte die Hinweise im Abschnitt Google Maps.
+            </p>
+            <p>
+              Zur Ausübung Ihrer Rechte können Sie sich an die verantwortliche Stelle oder den Datenschutzkontakt wenden. Außerdem haben Sie nach § 46 DSG-EKD das Recht, sich beim Beauftragten für den Datenschutz der EKD zu beschweren:
             </p>
             <address class="not-italic">
               <strong class="font-semibold text-on-surface">Der Beauftragte für den Datenschutz der EKD – Außenstelle Berlin</strong><br />
@@ -180,11 +220,14 @@ const textClass = 'mt-6 space-y-4 font-body text-base/7 text-role-on/75';
           <div class={textClass}>
             <p>
               {contact.enabled
-                ? 'Die Übertragung dieser Website und Ihrer Formulareingaben ist durch TLS verschlüsselt. Die Formulare prüfen Pflichtangaben und Eingabegrenzen sowie das Ergebnis der Spamprüfung vor dem Versand. Besonders sensible Angaben sollten Sie nicht über die Formulare oder unverschlüsselte E-Mails übermitteln.'
-                : 'Die Übertragung dieser Website ist durch TLS verschlüsselt. Die statische Bereitstellung ohne Benutzerkonten, Tracking und serverseitiges Kontaktformular begrenzt die auf der Website verarbeiteten Daten auf das technisch notwendige Maß.'}
+                ? 'Die Übertragung dieser Website und Ihrer Formulareingaben ist durch TLS verschlüsselt. Die Formulare prüfen Pflichtangaben und Eingabegrenzen sowie das Ergebnis der Spamprüfung vor dem Versand.'
+                : 'Die Übertragung dieser Website ist durch TLS verschlüsselt. Die Website bietet keine Benutzerkonten an.'}
+            </p>
+            <p>
+              Die Transportverschlüsselung zur Website ist keine Ende-zu-Ende-Verschlüsselung Ihrer Nachricht. E-Mail-Inhalte können den beteiligten Maildienstleistern und den zur Bearbeitung berechtigten Personen zugänglich sein. Bitte übermitteln Sie keine besonders sensiblen Angaben, etwa Gesundheitsdaten, über die Formulare oder unverschlüsselte E-Mails.
             </p>
             <p>Wir aktualisieren diese Hinweise, wenn sich Funktionen, Dienstleister oder rechtliche Anforderungen ändern.</p>
-            <p class="text-role-on/60">Stand: {contact.enabled ? 'Oktober' : 'August'} 2026</p>
+            <p class="text-role-on/60">Stand: 22. Oktober 2026</p>
           </div>
         </section>
       </div>
