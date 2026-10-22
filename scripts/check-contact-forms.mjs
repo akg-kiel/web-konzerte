@@ -96,7 +96,7 @@ const browser = spawn(
 let socket;
 try {
   const endpoint = await new Promise((resolveEndpoint, reject) => {
-    const timeout = setTimeout(() => reject(new Error('Chromium startup timed out')), 15_000);
+    const timeout = setTimeout(() => reject(new Error('Chromium startup timed out')), 45_000);
     let output = '';
     browser.stderr.on('data', (chunk) => {
       output += chunk;
@@ -294,8 +294,85 @@ try {
     }
   };
   const form = 'document.querySelector("form[data-mail-form]")';
-  const dialog = `${form}.querySelector("dialog[data-mail-success]")`;
+  const dialog = `${form}.querySelector("dialog")`;
   const calendarSelector = '[aria-label^="Verfügbarkeit auswählen"]';
+  const capturedScreenshots = new Set();
+  const screenshot = async (name) => {
+    if (!screenshots || capturedScreenshots.has(name)) return;
+    await mkdir(screenshots, { recursive: true });
+    const { data } = await call('Page.captureScreenshot', {
+      format: 'png',
+      captureBeyondViewport: false
+    });
+    await writeFile(join(screenshots, `${name}.png`), Buffer.from(data, 'base64'));
+    capturedScreenshots.add(name);
+  };
+  const assertModal = async (state) => {
+    assert(
+      await evaluate(`(() => {
+        const dialog = ${dialog}, r = dialog.getBoundingClientRect();
+        const content = dialog.querySelector('[data-mail-${state}-content]');
+        const heading = content.querySelector('h2'), description = content.querySelector('p');
+        const c = content.getBoundingClientRect();
+        const backdrop = getComputedStyle(dialog, '::backdrop');
+        return dialog.open && dialog.matches(':modal') && dialog.dataset.state === '${state}' &&
+          getComputedStyle(dialog).position === 'fixed' &&
+          Math.abs(r.left) <= 1 && Math.abs(r.top) <= 1 &&
+          r.right >= document.documentElement.scrollWidth - 1 && r.right <= innerWidth + 1 &&
+          Math.abs(r.bottom - innerHeight) <= 1 &&
+          c.width > 0 && c.height > 0 && c.left >= 0 && c.top >= 0 && c.right <= innerWidth && c.bottom <= innerHeight &&
+          dialog.getAttribute('aria-labelledby') === heading.id && dialog.getAttribute('aria-describedby') === description.id &&
+          getComputedStyle(document.documentElement).overflowY === 'hidden' &&
+          backdrop.backgroundColor !== 'rgba(0, 0, 0, 0)' && backdrop.backdropFilter !== 'none' &&
+          dialog.scrollWidth <= dialog.clientWidth + 1 && document.documentElement.scrollWidth <= innerWidth + 1;
+      })()`),
+      `${state}: feedback must cover the entire viewport, label the active phase, dim the page and lock background scrolling.`
+    );
+    const outside = await evaluate(`(() => {
+      const link = document.querySelector('nav[aria-label="Hauptnavigation"] a[href="/"]');
+      link.focus({ preventScroll: true });
+      const r = link.getBoundingClientRect();
+      return { blocked: document.activeElement !== link, x: r.x + r.width / 2, y: r.y + r.height / 2 };
+    })()`);
+    assert(outside.blocked, 'The background must not receive keyboard focus during feedback.');
+    for (const type of ['mousePressed', 'mouseReleased'])
+      await call('Input.dispatchMouseEvent', {
+        type,
+        x: outside.x,
+        y: outside.y,
+        button: 'left',
+        clickCount: 1
+      });
+    assert.equal(
+      await evaluate('window.__mailOutsideClicks'),
+      0,
+      'Modal feedback must block real clicks to the page.'
+    );
+    await key('Tab');
+    assert(
+      await evaluate(
+        `document.activeElement === document.body || ${dialog}.contains(document.activeElement)`
+      ),
+      'Tab may reach browser chrome, but never an inert page control.'
+    );
+    const scroll = await evaluate('scrollY');
+    await call('Input.dispatchMouseEvent', {
+      type: 'mouseWheel',
+      x: 8,
+      y: 120,
+      deltaX: 0,
+      deltaY: 80
+    });
+    await delay(150);
+    assert.equal(
+      await evaluate('scrollY'),
+      scroll,
+      'Wheel input must not move the background page.'
+    );
+    await evaluate(
+      `${dialog}.querySelector('[data-mail-${state}-title]').focus({ preventScroll: true })`
+    );
+  };
   const pageState = `(() => {
     const nodes = [...document.querySelectorAll('html, body, main, nav[aria-label="Hauptnavigation"], footer')];
     return nodes.map(node => {
@@ -390,12 +467,30 @@ try {
       await evaluate(`(() => {
       const form = ${form};
       return form.getAttribute('aria-busy') === 'true' && form.querySelector('[data-mail-fields]').disabled && form.querySelector('[data-mail-fields]').inert &&
-        form.querySelector('[data-mail-submit]').disabled && !form.querySelector('[data-mail-success]').open &&
+        form.querySelector('[data-mail-submit]').disabled && ${dialog}.open && ${dialog}.matches(':modal') &&
+        ${dialog}.dataset.state === 'pending' && !${dialog}.querySelector('[data-mail-pending-content]').hidden &&
+        ${dialog}.querySelector('[data-mail-success-content]').hidden &&
+        document.activeElement === ${dialog}.querySelector('[data-mail-pending-title]') &&
         [...form.querySelectorAll('input, textarea, select')].every(e => e.matches(':disabled')) &&
         window.__mailResets === ${resets};
     })()`),
-      'Pending send must disable retained controls without resetting or opening success.'
+      'Pending must immediately open a focused page-wide progress dialog and retain every input.'
     );
+    await delay(250);
+    await assertModal('pending');
+    assert(
+      await evaluate(`(() => {
+        const ring = ${dialog}.querySelector('[data-mail-pending-ring]');
+        return (getComputedStyle(ring).animationName === 'none') === matchMedia('(prefers-reduced-motion: reduce)').matches;
+      })()`),
+      'The large pending ring must animate only without reduced motion.'
+    );
+    await key('Escape');
+    assert(
+      await evaluate(`${dialog}.open`),
+      'Escape must not hide an irreversible in-flight submission.'
+    );
+    await screenshot(`${expected.kind}-${await evaluate('innerWidth')}-pending`);
     assert.deepEqual(
       await snapshot(),
       retained,
@@ -407,9 +502,10 @@ try {
         segment.focus();
         const focusBlocked = document.activeElement !== segment;
         const cell = form.querySelectorAll('${calendarSelector} [role="gridcell"] [tabindex]')[10];
-        cell.scrollIntoView({ block: 'center', behavior: 'instant' });
         const r = cell.getBoundingClientRect();
-        return { focusBlocked, x: r.x + r.width / 2, y: r.y + r.height / 2 };
+        return { focusBlocked,
+          x: Math.min(innerWidth - 8, Math.max(8, r.x + r.width / 2)),
+          y: Math.min(innerHeight - 8, Math.max(8, r.y + r.height / 2)) };
       })()`);
       assert(target.focusBlocked, 'Pending contenteditable date segments must not accept focus.');
       await call('Input.insertText', { text: '5' });
@@ -452,17 +548,17 @@ try {
     assert(
       await evaluate(`(() => {
         const form = ${form}, fields = form.querySelector('[data-mail-fields]');
-        return !fields.disabled && fields.inert === form.querySelector('[data-mail-success]').open;
+        return !fields.disabled && fields.inert === ${dialog}.open;
       })()`),
       'Settled sends must enable fields but keep them inert exactly while success is open.'
     );
   };
-  const checkSuccess = async (kind, reduced, pageBefore) => {
-    await wait(`${dialog}.open`, 'modeless success open');
+  const checkSuccess = async (kind, reduced) => {
+    await wait(`${dialog}.open && ${dialog}.dataset.state === 'success'`, 'modal success open');
     const immediate = await evaluate('window.__mailSuccessFrames.at(-1)');
     assert(
-      immediate?.open && immediate.modal === false && immediate.headingFocused,
-      'Accepted send must use modeless show() and initially focus its heading.'
+      immediate?.open && immediate.modal === true && immediate.headingFocused,
+      'Accepted send must keep the page-wide modal open and focus its success heading.'
     );
     if (reduced) {
       assert.equal(
@@ -477,11 +573,10 @@ try {
     } else {
       assert(
         immediate.animations > 0 &&
-          immediate.overlayAnimation !== 'none' &&
           immediate.contentAnimation !== 'none' &&
           immediate.ringAnimation !== 'none' &&
           immediate.checkAnimation !== 'none',
-        'Normal motion must animate the scoped overlay, content and success seal immediately.'
+        'Normal motion must animate the success content and seal when pending becomes success.'
       );
     }
     await wait(
@@ -492,41 +587,18 @@ try {
     await evaluate(
       `Promise.all(${dialog}.getAnimations({ subtree: true }).map(a => a.finished.catch(() => {})))`
     );
-    // Check automatic positioning before the test itself scrolls or moves focus elsewhere.
+    await assertModal('success');
     assert(
       await evaluate(`(() => {
-        const form = ${form}, dialog = ${dialog}, card = form.parentElement;
-        const r = dialog.getBoundingClientRect(), boundary = card.getBoundingClientRect();
-        const content = dialog.querySelector('[data-mail-success-content]');
-        const check = dialog.querySelector('[data-mail-success-check]'), style = getComputedStyle(check);
-        const buttons = [...dialog.querySelectorAll('button')];
-        const visible = element => {
-          const box = element.getBoundingClientRect(), css = getComputedStyle(element);
-          return box.width > 0 && box.height > 0 && box.left >= -1 && box.top >= -1 &&
-            box.right <= innerWidth + 1 && box.bottom <= innerHeight + 1 &&
-            css.visibility === 'visible' && Number(css.opacity) > 0;
-        };
-        const outside = [[boundary.left - 4, innerHeight / 2], [boundary.right + 4, innerHeight / 2],
-          [(boundary.left + boundary.right) / 2, boundary.top - 4], [(boundary.left + boundary.right) / 2, boundary.bottom + 4]]
-          .filter(([x, y]) => x >= 0 && x < innerWidth && y >= 0 && y < innerHeight);
-        return dialog.open && !dialog.matches(':modal') && getComputedStyle(dialog).position === 'absolute' &&
-          getComputedStyle(card).position !== 'static' && dialog.offsetParent === card &&
-          ['left', 'top', 'right', 'bottom'].every(edge => Math.abs(r[edge] - boundary[edge]) <= 2) &&
-          outside.length > 0 && outside.every(([x, y]) => !dialog.contains(document.elementFromPoint(x, y))) &&
-          buttons.length > 0 && [content, check, dialog.querySelector('[data-mail-success-title]'), ...buttons].every(visible) &&
-          buttons.every(button => {
-            const box = button.getBoundingClientRect();
-            return button.contains(document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2));
-          }) && Number(getComputedStyle(dialog).opacity) > 0 &&
-          dialog.scrollWidth <= dialog.clientWidth + 1 && dialog.scrollHeight <= dialog.clientHeight + 1 &&
-          document.documentElement.scrollWidth <= innerWidth + 1 && style.stroke !== 'none' && parseFloat(style.strokeDashoffset) === 0;
+        const dialog = ${dialog}, check = dialog.querySelector('[data-mail-success-check]');
+        const button = dialog.querySelector('[data-mail-success-close]');
+        const r = button.getBoundingClientRect(), style = getComputedStyle(check);
+        return dialog.querySelector('[data-mail-pending-content]').hidden &&
+          r.width > 0 && r.height > 0 && r.top >= 0 && r.bottom <= innerHeight &&
+          button.contains(document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2)) &&
+          style.stroke !== 'none' && parseFloat(style.strokeDashoffset) === 0;
       })()`),
-      'Overlay must cover only the positioned surrounding Card; automatically centered content, check and buttons must be visible without overflow.'
-    );
-    assert.deepEqual(
-      await evaluate(pageState),
-      pageBefore,
-      'Success must not globally inert, scroll-lock, blur or dim the outside page.'
+      'The complete success seal and reachable Close button must replace pending feedback.'
     );
     assert(
       await evaluate(`(() => {
@@ -544,57 +616,25 @@ try {
     await key('Tab');
     assert(
       await evaluate(
-        `!${dialog}.contains(document.activeElement) && !${form}.querySelector('[data-mail-fields]').contains(document.activeElement) && ${dialog}.open`
+        `document.activeElement === document.body || ${dialog}.contains(document.activeElement)`
       ),
-      'Native Tab must be able to leave the modeless confirmation without entering inert fields.'
+      'Success Tab navigation must not enter the inert background.'
     );
-    const headerLink = 'nav[aria-label="Hauptnavigation"] a[href="/"]';
-    assert(
-      await evaluate(`(() => {
-        const link = document.querySelector(${JSON.stringify(headerLink)});
-        link.focus({ preventScroll: true });
-        window.__mailOutsideClicked = false;
-        link.addEventListener('click', event => {
-          event.preventDefault();
-          window.__mailOutsideClicked = event.isTrusted;
-        }, { once: true });
-        return document.activeElement === link && !link.closest('[inert]');
-      })()`),
-      'Outside header link must remain focusable while success is open.'
-    );
-    await click(headerLink);
-    assert(
-      await evaluate(`window.__mailOutsideClicked && ${dialog}.open`),
-      'Outside header link must receive a real click without dismissing success or navigating.'
-    );
-    const scrollBefore = await evaluate('scrollY');
-    await call('Input.dispatchMouseEvent', {
-      type: 'mouseWheel',
-      x: 8,
-      y: 120,
-      deltaX: 0,
-      deltaY: scrollBefore >= 80 ? -80 : 80
-    });
-    await wait(`Math.abs(scrollY - ${scrollBefore}) > 1`, 'outside page remains wheel-scrollable');
-    await delay(200);
-    await evaluate(`(() => {
-      const dialog = ${dialog};
-      dialog.querySelector('[data-mail-success-content]').scrollIntoView({ block: 'center', behavior: 'instant' });
-      dialog.querySelector('[data-mail-success-title]').focus({ preventScroll: true });
-    })()`);
-    assert(
-      await evaluate(
-        `${dialog}.open && !${dialog}.matches(':modal') && document.activeElement === ${dialog}.querySelector('[data-mail-success-title]') && ${form}.querySelector('[data-mail-fields]').inert`
-      ),
-      'External page interaction must leave success open and allow heading focus to be restored for dismissal.'
+    await evaluate(
+      `${dialog}.querySelector('[data-mail-success-title]').focus({ preventScroll: true })`
     );
   };
-  const dismiss = async (kind, escape) => {
+  const dismiss = async (kind, escape, pageBefore) => {
     if (escape) await key('Escape');
     else await click('[data-mail-success-close]');
     await wait(
       `!${dialog}.open && !${form}.querySelector('[data-mail-fields]').inert && !${form}.querySelector('[data-mail-fields]').disabled && document.activeElement === ${form}.querySelector('input:not([type="hidden"]), select, textarea')`,
       'dismissal unlocks the form and restores first-field focus'
+    );
+    assert.deepEqual(
+      await evaluate(pageState),
+      pageBefore,
+      'Closing must restore the original background styles.'
     );
     await assertEmpty(kind);
     if (kind === 'booking') {
@@ -691,9 +731,14 @@ try {
         const form = ${form}, dialog = ${dialog};
         window.__mailResets = 0;
         window.__mailSuccessFrames = [];
+        window.__mailOutsideClicks = 0;
+        document.querySelector('nav[aria-label="Hauptnavigation"] a[href="/"]').addEventListener('click', event => {
+          event.preventDefault();
+          window.__mailOutsideClicks++;
+        });
         form.addEventListener('reset', () => window.__mailResets++);
         new MutationObserver(() => {
-          if (!dialog.open) return;
+          if (!dialog.open || dialog.dataset.state !== 'success') return;
           const check = dialog.querySelector('[data-mail-success-check]');
           const style = getComputedStyle(check), bounds = check.getBoundingClientRect();
           window.__mailSuccessFrames.push({
@@ -711,7 +756,7 @@ try {
               Number(getComputedStyle(dialog.querySelector('[data-mail-success-content]')).opacity) > 0 &&
               style.stroke !== 'none' && style.stroke !== 'rgba(0, 0, 0, 0)' && Number(style.strokeOpacity) > 0
           });
-        }).observe(dialog, { attributes: true, attributeFilter: ['open'] });
+        }).observe(dialog, { attributes: true, attributeFilter: ['open', 'data-state'] });
       })()`);
       await fillOrdinary(kind);
       const expected = { kind, ...values[kind], ...(kind === 'booking' ? initialDates : {}) };
@@ -748,19 +793,21 @@ try {
           ),
           'Only HTTP acceptance with literal ok:true may reset or show success.'
         );
+        assert(
+          await evaluate(`document.activeElement === ${form}.querySelector('[data-mail-error]')`),
+          'Failure must close pending feedback and focus the retained form error.'
+        );
+        assert.deepEqual(
+          await evaluate(pageState),
+          pageBefore,
+          'Failure must release the page-wide scroll lock.'
+        );
       }
       await submit(expected, retained, 0);
       await respond({ status: 200, body: { ok: true } });
-      await checkSuccess(kind, false, pageBefore);
-      if (screenshots) {
-        await mkdir(screenshots, { recursive: true });
-        const { data } = await call('Page.captureScreenshot', {
-          format: 'png',
-          captureBeyondViewport: false
-        });
-        await writeFile(join(screenshots, `${kind}-${width}.png`), Buffer.from(data, 'base64'));
-      }
-      await dismiss(kind, true);
+      await checkSuccess(kind, false);
+      await screenshot(`${kind}-${width}`);
+      await dismiss(kind, true, pageBefore);
 
       await call('Emulation.setEmulatedMedia', {
         features: [{ name: 'prefers-reduced-motion', value: 'reduce' }]
@@ -770,8 +817,8 @@ try {
       const second = { kind, ...values[kind], ...(kind === 'booking' ? nextDates : {}) };
       await submit(second, await snapshot(), 1);
       await respond({ status: 200, body: { ok: true } });
-      await checkSuccess(kind, true, pageBefore);
-      await dismiss(kind, false);
+      await checkSuccess(kind, true);
+      await dismiss(kind, false, pageBefore);
       assert.equal(
         await evaluate('window.__mailResets'),
         2,
@@ -779,7 +826,7 @@ try {
       );
       checkErrors();
       console.log(
-        `${kind} ${width}px: pending, rejection, ambiguity, scoped success/reset, outside interaction, keyboard focus and reduced motion passed.`
+        `${kind} ${width}px: page-wide pending/success, rejection, ambiguity, full reset, background lock, keyboard focus and reduced motion passed.`
       );
     }
   }

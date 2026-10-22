@@ -53,25 +53,35 @@ const submitClass = buttonVariants({
   </fieldset>
   {enabled && (
     <>
-      <p data-mail-status role="status" hidden class="mt-6 font-body text-base/7 text-role-on"></p>
       <p data-mail-error role="alert" tabindex="-1" hidden class="mt-6 font-body text-base/7 text-red-300"></p>
       <dialog
-        data-mail-success
-        aria-labelledby={`mail-success-title-${kind}`}
-        aria-describedby={`mail-success-description-${kind}`}
-        class="absolute inset-0 z-10 m-0 h-full max-h-none w-full max-w-none border-0 bg-slate-mist/95 p-8 text-center text-role-on backdrop-blur-sm sm:p-12"
+        data-mail-feedback
+        data-state="pending"
+        aria-labelledby={`mail-pending-title-${kind}`}
+        aria-describedby={`mail-pending-description-${kind}`}
+        class="fixed inset-0 m-0 h-dvh max-h-none w-dvw max-w-none overflow-y-auto overscroll-contain border-0 bg-transparent p-6 text-center text-role-on backdrop:bg-midnight/90 backdrop:backdrop-blur-sm sm:p-12"
       >
-        <div data-mail-success-content class="mx-auto w-full max-w-lg">
-        <svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2" class="mx-auto h-24 w-24 text-secondary" aria-hidden="true" focusable="false">
-          <circle cx="48" cy="48" r="36" class="text-secondary/15" />
-          <circle cx="48" cy="48" r="36" pathLength="1" transform="rotate(-90 48 48)" data-mail-success-ring />
-          <path d="m32 48 11 11 22-24" pathLength="1" stroke-linecap="round" stroke-linejoin="round" data-mail-success-check />
-        </svg>
-        <h2 id={`mail-success-title-${kind}`} data-mail-success-title tabindex="-1" class="mt-8 font-display text-3xl/tight text-on-surface outline-none sm:text-4xl/tight">Vielen Dank!</h2>
-        <p id={`mail-success-description-${kind}`} class="mt-4 font-body text-base/7 text-role-on/80">
-          {kind === 'contact' ? 'Ihre Nachricht wurde zum Versand angenommen.' : 'Ihre Raumanfrage wurde zum Versand angenommen.'}
-        </p>
-        <button type="button" data-mail-success-close class:list={[submitClass, 'mt-10']}>Schließen</button>
+        <div data-mail-pending-content class="m-auto w-full max-w-lg py-8">
+          <svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2" class="mx-auto h-24 w-24 text-secondary" aria-hidden="true" focusable="false">
+            <circle cx="48" cy="48" r="36" class="text-secondary/15" />
+            <circle cx="48" cy="48" r="36" pathLength="1" stroke-dasharray="0.75 0.25" stroke-linecap="round" class="origin-center" data-mail-pending-ring />
+          </svg>
+          <h2 id={`mail-pending-title-${kind}`} data-mail-pending-title tabindex="-1" class="mt-8 font-display text-3xl/tight text-on-surface outline-none sm:text-4xl/tight">
+            {kind === 'contact' ? 'Ihre Nachricht wird gesendet.' : 'Ihre Anfrage wird gesendet.'}
+          </h2>
+          <p id={`mail-pending-description-${kind}`} data-mail-pending-description class="mt-4 font-body text-base/7 text-role-on/80">Bitte warten Sie einen Moment.</p>
+        </div>
+        <div data-mail-success-content hidden class="m-auto w-full max-w-lg py-8">
+          <svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2" class="mx-auto h-24 w-24 text-secondary" aria-hidden="true" focusable="false">
+            <circle cx="48" cy="48" r="36" class="text-secondary/15" />
+            <circle cx="48" cy="48" r="36" pathLength="1" transform="rotate(-90 48 48)" data-mail-success-ring />
+            <path d="m32 48 11 11 22-24" pathLength="1" stroke-linecap="round" stroke-linejoin="round" data-mail-success-check />
+          </svg>
+          <h2 id={`mail-success-title-${kind}`} data-mail-success-title tabindex="-1" class="mt-8 font-display text-3xl/tight text-on-surface outline-none sm:text-4xl/tight">Vielen Dank!</h2>
+          <p id={`mail-success-description-${kind}`} data-mail-success-description class="mt-4 font-body text-base/7 text-role-on/80">
+            {kind === 'contact' ? 'Ihre Nachricht wurde zum Versand angenommen.' : 'Ihre Raumanfrage wurde zum Versand angenommen.'}
+          </p>
+          <button type="button" data-mail-success-close class:list={[submitClass, 'mt-10']}>Schließen</button>
         </div>
       </dialog>
     </>
@@ -118,21 +128,40 @@ const submitClass = buttonVariants({
       const button = form.querySelector<HTMLButtonElement>('[data-mail-submit]')!;
       const container = form.querySelector<HTMLElement>('[data-mail-verification]')!;
       const verification = form.querySelector<HTMLElement>('[data-mail-verification-status]')!;
-      const status = form.querySelector<HTMLElement>('[data-mail-status]')!;
       const error = form.querySelector<HTMLElement>('[data-mail-error]')!;
-      const success = form.querySelector<HTMLDialogElement>('[data-mail-success]')!;
-      success.querySelector('[data-mail-success-close]')!.addEventListener('click', () => success.close());
-      success.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
-          event.preventDefault();
-          success.close();
-        }
-      });
-      success.addEventListener('close', () => {
-        fields.inert = false;
-        form.querySelector<HTMLElement>('input:not([type="hidden"]), select, textarea')?.focus();
-      });
+      const feedback = form.querySelector<HTMLDialogElement>('[data-mail-feedback]')!;
+      const pendingContent = feedback.querySelector<HTMLElement>('[data-mail-pending-content]')!;
+      const successContent = feedback.querySelector<HTMLElement>('[data-mail-success-content]')!;
       let busy = false;
+      const showFeedback = (state: 'pending' | 'success') => {
+        pendingContent.hidden = state !== 'pending';
+        successContent.hidden = state !== 'success';
+        feedback.dataset.state = state;
+        const heading = feedback.querySelector<HTMLElement>(`[data-mail-${state}-title]`)!;
+        const description = feedback.querySelector<HTMLElement>(`[data-mail-${state}-description]`)!;
+        feedback.setAttribute('aria-labelledby', heading.id);
+        feedback.setAttribute('aria-describedby', description.id);
+        if (!feedback.open) {
+          const { scrollX, scrollY } = window;
+          feedback.showModal();
+          // Freeze any smooth error-focus scroll still running when a visitor submits again.
+          window.scrollTo({ left: scrollX, top: scrollY, behavior: 'instant' });
+        }
+        heading.focus({ preventScroll: true });
+      };
+      feedback.querySelector('[data-mail-success-close]')!.addEventListener('click', () => {
+        if (!busy) feedback.close();
+      });
+      feedback.addEventListener('cancel', (event) => {
+        // Closing the overlay cannot cancel a message that might already have been accepted.
+        if (busy) event.preventDefault();
+      });
+      feedback.addEventListener('close', () => {
+        if (feedback.open) return;
+        fields.inert = false;
+        if (feedback.dataset.state === 'success')
+          form.querySelector<HTMLElement>('input:not([type="hidden"]), select, textarea')?.focus();
+      });
       let verified = false;
       let widget: string | undefined;
       let api: TurnstileApi | undefined;
@@ -166,7 +195,7 @@ const submitClass = buttonVariants({
 
       form.addEventListener('submit', async (event) => {
         event.preventDefault();
-        if (busy || success.open || !verified || !api || widget === undefined || !form.reportValidity()) return;
+        if (busy || feedback.open || !verified || !api || widget === undefined || !form.reportValidity()) return;
         const body = new URLSearchParams();
         for (const [name, value] of new FormData(form)) {
           if (typeof value !== 'string') return;
@@ -177,10 +206,9 @@ const submitClass = buttonVariants({
         fields.inert = true;
         form.setAttribute('aria-busy', 'true');
         error.hidden = true;
-        status.hidden = false;
-        status.textContent = 'Ihre Nachricht wird übermittelt.';
         updateButton();
         try {
+          showFeedback('pending');
           const response = await fetch(form.action, {
             method: 'POST',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
@@ -197,24 +225,19 @@ const submitClass = buttonVariants({
               ? result.error
               : 'Der Versand konnte nicht bestätigt werden. Ihre Eingaben bleiben erhalten. Bitte prüfen Sie vor einem erneuten Versuch, ob Ihre Nachricht bereits angekommen ist.';
             error.hidden = false;
-            status.hidden = true;
           } else {
             form.reset();
-            status.hidden = true;
-            status.textContent = '';
             error.textContent = '';
-            success.show();
-            success.querySelector('[data-mail-success-content]')!.scrollIntoView({ block: 'center', behavior: 'instant' });
-            success.querySelector<HTMLElement>('[data-mail-success-title]')!.focus({ preventScroll: true });
+            showFeedback('success');
           }
         } catch {
           error.textContent = 'Der Versand konnte nicht bestätigt werden. Ihre Eingaben bleiben erhalten. Bitte prüfen Sie vor einem erneuten Versuch, ob Ihre Nachricht bereits angekommen ist.';
           error.hidden = false;
-          status.hidden = true;
         } finally {
           busy = false;
           fields.disabled = false;
-          fields.inert = success.open;
+          if (feedback.dataset.state !== 'success') feedback.close();
+          fields.inert = feedback.open;
           form.removeAttribute('aria-busy');
           verified = false;
           try { api.reset(widget); }
@@ -228,10 +251,15 @@ const submitClass = buttonVariants({
 </script>
 
 <style>
-  /* The surrounding Card is the positioned boundary, not the browser viewport. */
-  [data-mail-success][open] {
-    display: grid;
-    place-items: center;
+  :global(html:has(dialog[data-mail-feedback]:modal)) {
+    overflow: hidden;
+    scrollbar-gutter: stable;
+    scroll-behavior: auto;
+  }
+
+  [data-mail-feedback][open] {
+    display: flex;
+    flex-direction: column;
   }
 
   [data-mail-success-ring],
@@ -241,21 +269,30 @@ const submitClass = buttonVariants({
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    [data-mail-success][open] {
+    [data-mail-feedback][open],
+    [data-mail-feedback][open]::backdrop {
       animation: mail-backdrop 180ms ease-out both;
     }
 
-    [data-mail-success][open] [data-mail-success-content] {
+    [data-mail-feedback][open][data-state='pending'] [data-mail-pending-ring] {
+      animation: mail-pending 1s linear infinite;
+    }
+
+    [data-mail-feedback][open][data-state='success'] [data-mail-success-content] {
       animation: mail-confirm 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
     }
 
-    [data-mail-success][open] [data-mail-success-ring] {
+    [data-mail-feedback][open][data-state='success'] [data-mail-success-ring] {
       animation: mail-seal 420ms cubic-bezier(0.16, 1, 0.3, 1) 80ms both;
     }
 
-    [data-mail-success][open] [data-mail-success-check] {
+    [data-mail-feedback][open][data-state='success'] [data-mail-success-check] {
       animation: mail-seal 240ms ease-out 300ms both;
     }
+  }
+
+  @keyframes mail-pending {
+    to { transform: rotate(1turn); }
   }
 
   @keyframes mail-confirm {

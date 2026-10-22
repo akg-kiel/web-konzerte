@@ -1,8 +1,19 @@
 # Kontaktadresse und direkter Formularversand
 
-AKG-119, Stand 21. Oktober 2026. Die Implementierung ist mit PR #42 gemergt.
+AKG-119, Stand 22. Oktober 2026. Versand und Aktivierung sind mit PR #42/#43 gemergt.
 Empfang beider Formulararten und Antworten unter der neuen Identität wurden in der
 isolierten Vorschau vom Nutzer bestätigt.
+
+## Versandrückmeldung vom 22. Oktober
+
+Der Nutzer bestätigt die Funktion mit „Das klappt“ und wünscht eine deutlichere
+Versandanzeige sowie die Erfolgsbestätigung über der gesamten Seite. Die neue
+UI ersetzt deshalb die frühere Begrenzung auf die Formularkarte durch einen
+nativen seitenweiten Dialog: zuerst großer goldener Ladering und Versandstatus,
+bei bestätigter Annahme das bestehende goldene Erfolgssiegel. Die Statuswechsel
+nutzen denselben Dialog ohne zwischenzeitliches Freigeben des Hintergrunds.
+Diese UI-Änderung ist zunächst Quellstand, keine erneute Produktivveröffentlichung.
+Die funktionale Rückmeldung ist keine Analyse roher Mail-/Authentifizierungsheader.
 
 ## Aktivierungsfreigabe vom 21. Oktober
 
@@ -315,14 +326,23 @@ keine automatische Wiederholung; vor erneutem Absenden Eingang prüfen.
 Eingaben bleiben während der Übermittlung und bei Fehlern erhalten, einschließlich
 beider Kalenderwerte. Nach ausdrücklich bestätigter Versandannahme wird das
 komplette Formular einschließlich Wunsch-/Alternativdatum und Kalenderauswahl
-geleert. Ein modelloses, auf die umgebende Formularkarte begrenztes Overlay
-bestätigt die Übergabe mit der goldenen Siegel-/Hakenanimation; bei reduzierter
-Bewegung bleibt das Symbol statisch. Die übrige Seite wird weder abgedunkelt
-noch gesperrt; nur die überlagerten Formularfelder bleiben inaktiv. Der Fokus
-startet bei der Bestätigung, wird aber nicht eingefangen. Escape innerhalb der
-Bestätigung und Schließen führen zum leeren Formular zurück. Auch bei langen
-Raumanfragen wird die Bestätigung in den sichtbaren Bereich gebracht. Keine automatische Wiederholung oder
-zeitgesteuerte Schließung. Die Anwendung legt keine Anfragen-Datenbank an und
+geleert. Bereits während des Versands liegt ein seitenweiter modaler Dialog mit
+großem goldenem Ladering und deutlichem Status über dem abgedunkelten Hintergrund.
+Nach Annahme wechselt er direkt zur goldenen Siegel-/Hakenbestätigung. Bei
+reduzierter Bewegung bleiben Ladering und Erfolgssymbol statisch. Der Dialog
+ist am sichtbaren Browserfenster zentriert, unabhängig von Formularkarte und
+Scrollposition; bei wenig Höhe kann sein Inhalt intern gescrollt werden.
+Hintergrundfokus und Seitenscrollen sind während beider Phasen gesperrt.
+
+Der Fokus folgt dem jeweiligen Status. Während des begrenzten laufenden Requests
+wird Escape nicht als scheinbarer Versandabbruch angeboten: Eine möglicherweise
+schon angenommene Nachricht kann nicht zurückgerufen werden. Nach dem bestehenden
+30-Sekunden-Clienttimeout schließt die Fortschrittsanzeige mit der ehrlichen
+Unsicherheitsmeldung und vollständig erhaltenen Eingaben. Dasselbe gilt für andere
+Fehler; der Fokus geht zur Fehlermeldung. Nur bei Erfolg schließen Escape und
+„Schließen“ die Bestätigung und führen zum leeren Formular zurück. Hintergrund und
+Scrollverhalten werden dabei wieder freigegeben. Keine automatische Wiederholung
+oder zeitgesteuerte Erfolgsschließung. Die Anwendung legt keine Anfragen-Datenbank an und
 protokolliert keine Formulardaten oder unverarbeiteten Providerfehler.
 Die E-Mail-Prüfung akzeptiert eine einzelne unquotierte ASCII-Mailbox, keine
 Adresslisten oder Anzeigenamen; internationale Mailboxnamen sind nicht unterstützt.
@@ -379,10 +399,24 @@ Kalender-Neurender nach Reset bestanden. Der abschließende Durchlauf umfasste
 24 abgefangene synthetische POSTs und erzeugte keine echte Nachricht. Der
 unabhängig gefundene Pending-Datumseingabe-Befund wurde behoben und nachgeprüft.
 Nur der bestehende Vorschau-Alias wurde aktualisiert, nicht der Produktiv-Traffic.
-Nach Nutzerpräzisierung liegt das Overlay ausschließlich auf der Formularkarte:
-Begrenzung am Container, normale Seiteninteraktion und Scrollbarkeit außerhalb,
-Fokus ohne Falle sowie alle 24 simulierten Versandfälle bei 375/1280 px erneut
-geprüft. Animation, Vollreset und Fehler-Werteerhalt bleiben unverändert.
+Die damalige Container-Variante wurde mit normaler Seiteninteraktion und
+Scrollbarkeit außerhalb sowie 24 simulierten Versandfällen bei 375/1280 px geprüft.
+Die neue Anforderung vom 22. Oktober ersetzt diese Begrenzung durch seitenweite
+modale Pending-/Erfolgszustände. Der aktualisierte Browsercheck reproduzierte am
+alten Build die fehlende seitenweite Fortschrittsanzeige. Am neuen Build bestanden
+alle 24 abgefangenen synthetischen POSTs bei 375/1280 px: sofortiger modaler
+Versandstatus, direkter Übergang zu Erfolg, Hintergrund-Klick-/Fokus-/Scrollsperre,
+Pending-Escape-Schutz, Fehlerfokus und Freigabe des Hintergrunds, Voll-/Datumsreset,
+zweiter Versand, Escape/Schließen sowie normale/reduzierte Bewegung.
+
+Der schnelle Wiederholungsfall deckte einen noch laufenden Smooth-Scroll zur
+vorherigen Fehlermeldung auf. Beim Öffnen des Dialogs wird dieser jetzt am aktuellen
+Scrollstand gestoppt; der Hintergrund bleibt bis zum Schließen ruhig. Die
+Bildschirmprüfung berücksichtigt native Scrollbargassen, nicht nur `innerWidth`.
+Desktop-/Mobilaufnahmen beider Phasen wurden geprüft. `pnpm quality` und ein
+unabhängiges fokussiertes Review bestanden. Dies war ausschließlich lokale
+Simulation: keine echten Formulardaten, Provider-POSTs oder neuen Nachrichten,
+keine Veröffentlichung und keine vollständige Geräte-/Screenreaderzertifizierung.
 
 **Separater bestehender Mobilfehler:** Der viewportbreite Belegungskalender wird
 bei 375 px vom Kartenrand abgeschnitten; Monatssteuerung und Randspalten sind
