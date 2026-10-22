@@ -141,12 +141,14 @@ const submitClass = buttonVariants({
         const description = feedback.querySelector<HTMLElement>(`[data-mail-${state}-description]`)!;
         feedback.setAttribute('aria-labelledby', heading.id);
         feedback.setAttribute('aria-describedby', description.id);
+        feedback.setAttribute('closedby', state === 'pending' ? 'none' : 'closerequest');
         if (!feedback.open) {
           const { scrollX, scrollY } = window;
           feedback.showModal();
           // Freeze any smooth error-focus scroll still running when a visitor submits again.
           window.scrollTo({ left: scrollX, top: scrollY, behavior: 'instant' });
         }
+        feedback.scrollTop = 0;
         heading.focus({ preventScroll: true });
       };
       feedback.querySelector('[data-mail-success-close]')!.addEventListener('click', () => {
@@ -158,6 +160,11 @@ const submitClass = buttonVariants({
       });
       feedback.addEventListener('close', () => {
         if (feedback.open) return;
+        // Restore pending feedback if a browser forces a non-cancelable close.
+        if (busy) {
+          showFeedback('pending');
+          return;
+        }
         fields.inert = false;
         if (feedback.dataset.state === 'success')
           form.querySelector<HTMLElement>('input:not([type="hidden"]), select, textarea')?.focus();

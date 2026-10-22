@@ -314,13 +314,15 @@ try {
         const content = dialog.querySelector('[data-mail-${state}-content]');
         const heading = content.querySelector('h2'), description = content.querySelector('p');
         const c = content.getBoundingClientRect();
+        const scrollable = dialog.scrollHeight > dialog.clientHeight && getComputedStyle(dialog).overflowY === 'auto';
         const backdrop = getComputedStyle(dialog, '::backdrop');
         return dialog.open && dialog.matches(':modal') && dialog.dataset.state === '${state}' &&
           getComputedStyle(dialog).position === 'fixed' &&
           Math.abs(r.left) <= 1 && Math.abs(r.top) <= 1 &&
           r.right >= document.documentElement.scrollWidth - 1 && r.right <= innerWidth + 1 &&
           Math.abs(r.bottom - innerHeight) <= 1 &&
-          c.width > 0 && c.height > 0 && c.left >= 0 && c.top >= 0 && c.right <= innerWidth && c.bottom <= innerHeight &&
+          c.width > 0 && c.height > 0 && c.left >= 0 && c.top >= 0 && c.right <= innerWidth &&
+          (c.bottom <= innerHeight || scrollable) &&
           dialog.getAttribute('aria-labelledby') === heading.id && dialog.getAttribute('aria-describedby') === description.id &&
           getComputedStyle(document.documentElement).overflowY === 'hidden' &&
           backdrop.backgroundColor !== 'rgba(0, 0, 0, 0)' && backdrop.backdropFilter !== 'none' &&
@@ -356,12 +358,14 @@ try {
       'Tab may reach browser chrome, but never an inert page control.'
     );
     const scroll = await evaluate('scrollY');
+    const dialogScroll = await evaluate(`${dialog}.scrollTop`);
+    const scrollable = await evaluate(`${dialog}.scrollHeight > ${dialog}.clientHeight`);
     await call('Input.dispatchMouseEvent', {
       type: 'mouseWheel',
       x: 8,
       y: 120,
       deltaX: 0,
-      deltaY: 80
+      deltaY: scrollable && dialogScroll > 0 ? -80 : 80
     });
     await delay(150);
     assert.equal(
@@ -369,6 +373,11 @@ try {
       scroll,
       'Wheel input must not move the background page.'
     );
+    if (scrollable)
+      assert(
+        await evaluate(`${dialog}.scrollTop !== ${dialogScroll}`),
+        'Short-screen wheel input must scroll the dialog itself.'
+      );
     await evaluate(
       `${dialog}.querySelector('[data-mail-${state}-title]').focus({ preventScroll: true })`
     );
@@ -486,11 +495,28 @@ try {
       'The large pending ring must animate only without reduced motion.'
     );
     await key('Escape');
+    await key('Escape');
+    await delay(50);
     assert(
-      await evaluate(`${dialog}.open`),
-      'Escape must not hide an irreversible in-flight submission.'
+      await evaluate(
+        `${dialog}.open && ${dialog}.matches(':modal') && ${form}.querySelector('[data-mail-fields]').inert && ${form}.querySelector('[data-mail-fields]').disabled`
+      ),
+      'Repeated Escape must keep pending feedback open and all form controls locked.'
     );
-    await screenshot(`${expected.kind}-${await evaluate('innerWidth')}-pending`);
+    await evaluate(`${dialog}.close()`);
+    await wait(
+      `${dialog}.open && ${dialog}.matches(':modal')`,
+      'unexpected pending close is restored'
+    );
+    assert(
+      await evaluate(
+        `${form}.getAttribute('aria-busy') === 'true' && ${form}.querySelector('[data-mail-fields]').inert && ${form}.querySelector('[data-mail-fields]').disabled`
+      ),
+      'Unexpected native close must not unlock a still-pending form.'
+    );
+    await screenshot(
+      `${expected.kind}-${await evaluate('[innerWidth, innerHeight].join("x")')}-pending`
+    );
     assert.deepEqual(
       await snapshot(),
       retained,
@@ -535,6 +561,7 @@ try {
       before + 1,
       'Repeated pending submissions must not create another POST.'
     );
+    await evaluate(`${dialog}.scrollTop = ${dialog}.scrollHeight`);
   };
   const respond = async (response) => {
     const requestId = heldPost;
@@ -553,8 +580,18 @@ try {
       'Settled sends must enable fields but keep them inert exactly while success is open.'
     );
   };
-  const checkSuccess = async (kind, reduced) => {
+  const checkSuccess = async (kind, reduced, short) => {
     await wait(`${dialog}.open && ${dialog}.dataset.state === 'success'`, 'modal success open');
+    assert.equal(
+      await evaluate(`${dialog}.scrollTop`),
+      0,
+      'Each feedback phase must start at the top, even after scrolling pending content.'
+    );
+    if (short)
+      assert(
+        await evaluate(`${dialog}.scrollHeight > ${dialog}.clientHeight`),
+        'The short viewport must actually exercise vertical modal overflow.'
+      );
     const immediate = await evaluate('window.__mailSuccessFrames.at(-1)');
     assert(
       immediate?.open && immediate.modal === true && immediate.headingFocused,
@@ -588,6 +625,13 @@ try {
       `Promise.all(${dialog}.getAnimations({ subtree: true }).map(a => a.finished.catch(() => {})))`
     );
     await assertModal('success');
+    const backgroundScroll = await evaluate('scrollY');
+    await evaluate(`${dialog}.scrollTo({ top: ${dialog}.scrollHeight, behavior: 'instant' })`);
+    assert.equal(
+      await evaluate('scrollY'),
+      backgroundScroll,
+      'Reaching Close must scroll only the dialog, not the page.'
+    );
     assert(
       await evaluate(`(() => {
         const dialog = ${dialog}, check = dialog.querySelector('[data-mail-success-check]');
@@ -685,10 +729,14 @@ try {
     })()`
   });
 
-  for (const width of [375, 1280]) {
+  for (const [width, height] of [
+    [375, 812],
+    [1280, 900],
+    [375, 320]
+  ]) {
     await call('Emulation.setDeviceMetricsOverride', {
       width,
-      height: width === 375 ? 812 : 900,
+      height,
       deviceScaleFactor: 1,
       mobile: false
     });
@@ -805,8 +853,8 @@ try {
       }
       await submit(expected, retained, 0);
       await respond({ status: 200, body: { ok: true } });
-      await checkSuccess(kind, false);
-      await screenshot(`${kind}-${width}`);
+      await checkSuccess(kind, false, height === 320);
+      await screenshot(`${kind}-${width}x${height}`);
       await dismiss(kind, true, pageBefore);
 
       await call('Emulation.setEmulatedMedia', {
@@ -817,7 +865,7 @@ try {
       const second = { kind, ...values[kind], ...(kind === 'booking' ? nextDates : {}) };
       await submit(second, await snapshot(), 1);
       await respond({ status: 200, body: { ok: true } });
-      await checkSuccess(kind, true);
+      await checkSuccess(kind, true, height === 320);
       await dismiss(kind, false, pageBefore);
       assert.equal(
         await evaluate('window.__mailResets'),
@@ -826,13 +874,13 @@ try {
       );
       checkErrors();
       console.log(
-        `${kind} ${width}px: page-wide pending/success, rejection, ambiguity, full reset, background lock, keyboard focus and reduced motion passed.`
+        `${kind} ${width}x${height}: page-wide pending/success, repeated Escape/forced close, rejection, ambiguity, full reset, dialog scrolling, background lock, keyboard focus and reduced motion passed.`
       );
     }
   }
   assert.equal(
     posts.length,
-    24,
+    36,
     'Each fixture must make four rejected and two accepted synthetic POSTs.'
   );
   assert(!heldPost, 'No synthetic request may remain unresolved.');
