@@ -156,8 +156,10 @@ beauftragt. Merge und Veröffentlichung sind keine rechtliche Betreiberfreigabe.
   präzisiert. Datenübertragbarkeit und Widerspruch nicht voraussetzungslos zugesagt.
 - Rechtsform „Körperschaft des öffentlichen Rechts“ ergänzt. Das
   Vertretungsorgan ist nach Art. 28 Nordkirchenverfassung der Kirchengemeinderat,
-  nicht Pastor Grabbet allein. Öffentlich belegten Vorsitz und gemeinsame
-  Vertretung durch zwei Mitglieder beschrieben; keine zweite Person erfunden.
+  nicht Pastor Grabbet allein. Gemeinsame Vertretung durch zwei Mitglieder
+  beschrieben; Pastor Grabbet nur als im Gemeinde-Impressum benannten Kontakt
+  aufgeführt. Keine aktuelle interne Wahlbestätigung unterstellt und keine
+  zweite Person erfunden.
 
 ### Entwurfszuordnung der Rechtsgrundlagen
 
