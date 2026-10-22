@@ -12,7 +12,8 @@ UI ersetzt deshalb die frühere Begrenzung auf die Formularkarte durch einen
 nativen seitenweiten Dialog: zuerst großer goldener Ladering und Versandstatus,
 bei bestätigter Annahme das bestehende goldene Erfolgssiegel. Die Statuswechsel
 nutzen denselben Dialog ohne zwischenzeitliches Freigeben des Hintergrunds.
-Diese UI-Änderung ist zunächst Quellstand, keine erneute Produktivveröffentlichung.
+Diese UI-Änderung ist in PR #44 getrennt gesichert; Merge und tatsächlich aktive
+Produktivversion sind unabhängig voneinander nachzuweisen.
 Die funktionale Rückmeldung ist keine Analyse roher Mail-/Authentifizierungsheader.
 
 ## Aktivierungsfreigabe vom 21. Oktober
@@ -336,7 +337,10 @@ Hintergrundfokus und Seitenscrollen sind während beider Phasen gesperrt.
 
 Der Fokus folgt dem jeweiligen Status. Während des begrenzten laufenden Requests
 wird Escape nicht als scheinbarer Versandabbruch angeboten: Eine möglicherweise
-schon angenommene Nachricht kann nicht zurückgerufen werden. Nach dem bestehenden
+schon angenommene Nachricht kann nicht zurückgerufen werden. `closedby="none"`
+sperrt native Schließanfragen in dieser Phase; falls ein Browser den Dialog trotzdem
+schließt, wird er bei laufendem Request wieder geöffnet, ohne Felder freizugeben.
+Nach dem bestehenden
 30-Sekunden-Clienttimeout schließt die Fortschrittsanzeige mit der ehrlichen
 Unsicherheitsmeldung und vollständig erhaltenen Eingaben. Dasselbe gilt für andere
 Fehler; der Fokus geht zur Fehlermeldung. Nur bei Erfolg schließen Escape und
@@ -417,6 +421,20 @@ Desktop-/Mobilaufnahmen beider Phasen wurden geprüft. `pnpm quality` und ein
 unabhängiges fokussiertes Review bestanden. Dies war ausschließlich lokale
 Simulation: keine echten Formulardaten, Provider-POSTs oder neuen Nachrichten,
 keine Veröffentlichung und keine vollständige Geräte-/Screenreaderzertifizierung.
+
+Die Review-Nacharbeit vom 22. Oktober reproduzierte am vorherigen Build außerdem
+das Schließen bei zweimal Escape. Der Schutz prüft nun wiederholtes Escape und
+ein ausdrücklich erzwungenes natives Schließen einschließlich erhaltenem
+`disabled`/`inert`-Zustand. Jeder Statuswechsel setzt den internen Dialog-Scroll
+zurück, damit zuvor gescrollter Fortschrittsinhalt die Erfolgsanzeige nicht verdeckt.
+
+Der abschließende Durchlauf umfasst 36 abgefangene synthetische POSTs: beide
+Formulare bei 375×812, 1280×900 und zusätzlich 375×320 px, jeweils mit normaler und
+reduzierter Bewegung. Die geringe Höhe erzwingt tatsächlich vertikalen Überlauf;
+Mausrad/inneres Scrollen und ein echter Klick auf „Schließen“ sind geprüft, während
+der Seitenhintergrund unverändert bleibt. Fehler-/Werteerhalt, Datumsreset und
+zweiter Versand bleiben enthalten. `pnpm quality` besteht; keine echte Nachricht
+oder Provideranfrage wurde ausgelöst.
 
 **Separater bestehender Mobilfehler:** Der viewportbreite Belegungskalender wird
 bei 375 px vom Kartenrand abgeschnitten; Monatssteuerung und Randspalten sind
