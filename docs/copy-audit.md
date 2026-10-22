@@ -1,4 +1,4 @@
-# Copy audit – AKG-42 / AKG-82 / AKG-87
+# Copy audit – AKG-42 / AKG-82 / AKG-87 / AKG-113
 
 ## Scope reviewed
 
@@ -31,7 +31,7 @@ Not independently passed: canonical production domain `https://konzerte-petruski
 - Contact metadata typo fixed: `Nachrichtenformular`.
 - Availability calendar helper/status copy now says the check is an unverbindliche Vorprüfung and the final confirmation follows the request.
 
-No legal substance was changed.
+No legal substance was changed in the 2026-10-05 copy pass. The later DSG-EKD preliminary revision is documented separately below and is not a legal approval.
 
 ## Programme landing integration (AKG-87)
 
@@ -97,3 +97,187 @@ These claims were source-reviewed but not externally verified in this implementa
 - Visitor programme language: `Konzerte in Kiel`, `Programm`, `Konzertprogramm`, `Konzertarchiv`.
 - Form of address remains formal `Sie/Ihr`.
 - `Konzertkirche Petruskirche` is retained as the venue/site name; `Petruskirche Kiel` is used where the location matters for SEO and clarity.
+
+## DSG-EKD-Vorprüfung (AKG-113)
+
+**Stand: 22. Oktober 2026. Fachlicher Textentwurf, keine Rechtsfreigabe.**
+Auf Nutzerwunsch wurden die Rechtstexte gegen geltendes DSG-EKD, öffentliche
+Primärquellen und den Anwendungscode auf Basis von `ee7a0e6` geprüft und
+bestmöglich vorbereitet. Nicht geprüft wurden private Verträge, interne
+Bestellungen/Beschlüsse, Providerkonten oder tatsächliche Löschvorgänge.
+Die Vorprüfung änderte keine Dienste, DNS, Geheimnisse, Formulare oder
+Einwilligungsabläufe und löste weder Versand noch Indexierungswechsel aus.
+Der Nutzer hat anschließend den Merge der Textkorrekturen ausdrücklich
+beauftragt. Merge und Veröffentlichung sind keine rechtliche Betreiberfreigabe.
+
+### Bereits im Entwurf korrigiert
+
+- Keine pauschale ergänzende Geltung der DSGVO behauptet. Maßgeblich sind für
+  die Gemeinde DSG-EKD und einschlägige kirchliche Bestimmungen.
+- Hosting als Cloudflare-Workers-Angebot mit vorbereiteten **und dynamischen**
+  Antworten beschrieben, nicht als rein statische Website.
+- Die Aussage „keine eigenen Anwendungsprotokolle“ entfernt: Konzert- und
+  Verfügbarkeitscode erzeugt technische Fehlermeldungen. Der Formularcode
+  protokolliert keine Nachrichteninhalte. Keine unbekannte Provider-Logfrist
+  als feste Frist ausgegeben.
+- ChurchTools-Abrufe, Kalenderzeiträume, Belegungszustände und Originalplakat-
+  Links beschrieben. Die Datenabfragen übertragen keine Namen, E-Mail-Adressen
+  oder Nachrichtentexte aus Formularen an ChurchTools. Ein direkter
+  Originalplakat-Aufruf verbindet den Browser dagegen mit ChurchTools.
+- Direkten Formularversand durch Worker und Cloudflare Email Service vom
+  deaktivierten Mailprogramm-Fallback unterschieden. Cloudflare verarbeitet
+  beim Mailversand auch Formularinhalte; eine Turnstile-Aussage über bloße
+  Prüfsignale darf nicht auf den gesamten Maildienst übertragen werden.
+- IONOS als bestehenden Empfänger-Maildienst und Speicherung von Nachrichten/
+  Korrespondenz im Postfach ergänzt. „Kein eigenes Anfragearchiv“ ist keine
+  Aussage über fehlende E-Mail-Kopien, Warteschlangen oder Sicherungen.
+- Freiwilligkeit, tatsächliche Formularpflichtfelder, optionale Angaben und
+  Folgen fehlender Angaben erläutert. Die Pflichtfelder sind technische
+  Versandvoraussetzungen, keine Pflicht zur Kontaktaufnahme.
+- Turnstiles automatischen Start beim JavaScript-Seitenaufruf und die vom
+  Anbieter genannten Signale ergänzt. Cloudflares eigene Verantwortlichkeit
+  für die Verbesserung der Bot-Erkennung ausdrücklich vom Schutz der Website
+  als Dienstleistung unterschieden; spezifisches Privacy Addendum verlinkt.
+- Keine automatische Entscheidung über eine Buchung behauptet; automatische
+  Spamprüfung kann den Direktversand verhindern, E-Mail bleibt eine Alternative.
+  Das ist keine abschließende rechtliche Einordnung nach § 25a DSG-EKD.
+- Die unbelegte Zehn-Tage-Löschzusage entfernt. Statt einer erfundenen Ersatzfrist
+  nennt der Entwurf Zweckfortbestand, Vertragsabwicklung, rechtliche Ansprüche
+  und gesetzliche Aufbewahrungspflichten als Kriterien. **Kein Nachweis**, dass
+  diese Kriterien bereits als interner Löschprozess umgesetzt sind.
+- Keine kontospezifisch unbewiesene DPF-/SCC-Garantie mehr erklärt. Mögliche
+  USA-Verarbeitung, § 10 DSG-EKD und Anbieterinformationen bleiben benannt.
+  Ein Link auf ein DPA beweist keinen passenden abgeschlossenen Vertrag.
+- Maps-Einwilligung nach § 6 Nr. 2 i. V. m. § 11 DSG-EKD zugeordnet; § 25
+  TDDDG für Endgerätezugriffe berücksichtigt. Die Auswahl wird nicht
+  seitenübergreifend gespeichert. Neuladen stoppt die weitere Einbindung,
+  löscht aber keine bereits bei Google entstandenen Daten oder Cookies.
+- Rechte mit §§ 19–25, Widerruf mit § 11 Abs. 3 und Beschwerde mit § 46 DSG-EKD
+  präzisiert. Datenübertragbarkeit und Widerspruch nicht voraussetzungslos zugesagt.
+- Rechtsform „Körperschaft des öffentlichen Rechts“ ergänzt. Das
+  Vertretungsorgan ist nach Art. 28 Nordkirchenverfassung der Kirchengemeinderat,
+  nicht Pastor Grabbet allein. Öffentlich belegten Vorsitz und gemeinsame
+  Vertretung durch zwei Mitglieder beschrieben; keine zweite Person erfunden.
+
+### Entwurfszuordnung der Rechtsgrundlagen
+
+Diese Zuordnung ist ein **Prüfvorschlag**, keine dokumentierte
+Interessenabwägung oder Entscheidung der verantwortlichen Stelle:
+
+| Verarbeitung                                                                                                       | Im Text vorgesehene Grundlage                      | Noch zu bestätigen                                                                                                                                                            |
+| ------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Technische Bereitstellung, dynamische Abfragen, Betrieb/Sicherheit                                                 | § 6 Nr. 4 DSG-EKD                                  | Erforderlichkeit, Datenumfang, Fristen und Interessenabwägung; gegebenenfalls einschlägigere Aufgabengrundlage nach Nr. 3                                                     |
+| Allgemeine Kontaktbearbeitung, auch Kontaktpersonen von Organisationen                                             | § 6 Nr. 4 DSG-EKD                                  | Erforderlichkeit und Interessenabwägung                                                                                                                                       |
+| Erforderliche Verarbeitung für Vertrag mit der betroffenen Person bzw. vorvertragliche Maßnahmen auf deren Anfrage | § 6 Nr. 5 DSG-EKD                                  | Tatsächliche Vertragspartei; nicht pauschal jede Veranstaltungs-/Organisationsanfrage darunter fassen                                                                         |
+| Von der Gemeinde veranlasster Turnstile-Formularschutz                                                             | § 6 Nr. 4 DSG-EKD als Entwurfsansatz               | Zulässigkeit einschließlich Offenlegung, Anbieter-Eigenzweck und Endgerätezugriff **offen**; Cloudflares eigene Interessenbegründung ersetzt nicht die Grundlage der Gemeinde |
+| Optionale Maps-Einbindung                                                                                          | § 6 Nr. 2 i. V. m. § 11 DSG-EKD; § 25 Abs. 1 TDDDG | Informierte Einwilligung, Nachweis und gleich einfacher Widerruf; zusätzlicher Drittlandmechanismus                                                                           |
+
+### Vor fachlicher Freigabe zu entscheiden bzw. nachzuweisen
+
+1. **Verantwortlichkeit und Anbieterkennzeichnung:** aktuelle Gemeinde-/KGR-
+   Angaben und ausreichend konkrete personenmäßige Vertretungsangaben bestätigen.
+   Umsatzsteuer-/Wirtschafts-ID nur ergänzen, falls tatsächlich vorhanden und
+   erforderlich; eine etwaige redaktionelle Verantwortlichkeit nach Medienrecht
+   gesondert beurteilen, nicht aus der technischen Kontaktadresse ableiten.
+2. **Datenschutzkontakt:** Das Gemeinde-Impressum nennt Michael G. Schmidt
+   ausdrücklich als örtlich Beauftragten; der Kirchenkreis nennt ihn
+   ausgeschrieben Michael Georg Schmidt. Ein gemeindespezifischer öffentlicher
+   Beleg liegt damit vor. Aktuelle interne Bestellung/Zuständigkeit und
+   Kontaktangaben durch Gemeinde/Kirchenkreis bestätigen lassen.
+3. **Auftragsverarbeitung und Rollen:** tatsächliche Vertragspartner,
+   einbezogene AV-Verträge, Weisungen, technische/organisatorische Maßnahmen,
+   Kontrollrechte und Unterauftragnehmer für Cloudflare, ChurchTools und
+   Maildienst feststellen. Turnstiles Anbieter-Eigenzweck gesondert einordnen.
+   Aktueller § 30 Abs. 5 erlaubt für nicht dem Kirchenrecht unterliegende
+   Auftragsverarbeiter Vertragsinhalte in Orientierung an Art. 28 DSGVO.
+   Daraus folgt weder eine allgemeine Unterwerfungspflicht aus diesem Absatz
+   noch eine pauschale Freigabe jedes Anbieter-DPA. Nordkirchen-DSDVO § 8
+   (Anzeige auf Verlangen) und gegebenenfalls verbindliche Muster beachten.
+4. **Drittlandübermittlungen:** tatsächliche Empfänger einschließlich
+   Unterauftragnehmer, Verarbeitungs-/Zugriffsländer und konkrete Grundlage nach
+   § 10 dokumentieren. Bei DPF müssen aktuelle Empfängergesellschaft,
+   Zertifikatsstatus und passende Datenkategorie nachgewiesen sein. SCC nicht
+   allein wegen einer Anbieter-Webseite als wirksam vereinbart darstellen.
+   Maps-Bestätigung nicht als pauschale ausdrückliche Risiko-Einwilligung nach
+   § 10 Abs. 2 Nr. 1 umdeuten.
+5. **Turnstile/Endgeräte:** tatsächliche Signale, Speicher-/Zugriffsvorgänge und
+   Erforderlichkeit nach § 25 TDDDG bewerten. Managed-Modus bzw. fehlendes
+   Pre-Clearance beweisen keine Einwilligungsfreiheit. Automatisches Laden und
+   eigener Verbesserungszweck bleiben klärungsbedürftig; ein möglicherweise
+   nötiger technischer Zustimmungsablauf wird durch diese Textkorrektur
+   **nicht** ersetzt. Auch die Relevanz von § 25a gesondert beurteilen.
+6. **Löschkonzept:** praktikable Fristen und Zuständigkeiten für Anfragen,
+   Antworten, Vertragsunterlagen, lokale Kopien, Exporte, Sicherungen,
+   Cloudflare-Übermittlungswarteschlangen sowie Betriebs-/Sicherheitsprotokolle
+   feststellen und dann den öffentlichen Text konkretisieren. Die kurze
+   Gültigkeit eines Turnstile-Tokens ist keine belegte Datenlöschfrist.
+7. **Maps:** Inhalt vor dem Bestätigungsschritt, Nachweis nach § 11 Abs. 1
+   und Widerruf nach Abs. 3 prüfen. Der jetzige Code speichert keinen
+   dauerhaften Zustimmungsnachweis und bietet nach dem Laden keinen eigenen
+   Entladen-Schalter. Neuladen ist das beobachtete Verhalten, keine bestätigte
+   rechtliche Bewertung der Widerrufslösung.
+8. **Konzert-/Porträtinhalte:** Rechtsgrundlagen für Veröffentlichung von
+   Mitwirkenden und Fotos, Bildrechte sowie gegebenenfalls Informationspflichten
+   bei mittelbarer Erhebung nach § 18 DSG-EKD gesondert prüfen. Öffentlich
+   abrufbare ChurchTools-Daten sind kein pauschaler Einwilligungsnachweis.
+
+### Informationspflichten und Quellen
+
+§ 17 DSG-EKD verlangt zum Erhebungszeitpunkt unter anderem Verantwortlichen,
+Datenschutzkontakt, Zwecke/Grundlagen, Empfänger, Dauer bzw. Kriterien, Rechte,
+Beschwerdemöglichkeit, Angaben zur Bereitstellung und gegebenenfalls erhebliche
+automatisierte Entscheidungen. Diese Vorprüfung verbessert die Information,
+erledigt aber die oben fehlenden Tatsachen und Entscheidungen **nicht**.
+Die fortbestehende, ausdrücklich genehmigte Formularoperation ist keine
+qualifizierte Rechtsfreigabe; AKG-113 bleibt offen.
+
+Primärquellen, abgerufen am 22. Oktober 2026:
+
+- [DSG-EKD, geltende konsolidierte Fassung](https://www.kirchenrecht-ekd.de/document/58309),
+  Neufassung vom 15. Januar 2025, ausgewiesene Berichtigung vom 20. Februar 2025:
+  insbesondere §§ 2, 5, 6, 10, 11, 16–25a, 30, 36, 38 und 46.
+- [Nordkirchenverfassung](https://www.kirchenrecht-nordkirche.de/document/24017),
+  Art. 4 Abs. 1 und Art. 28; [DSDVO](https://www.kirchenrecht-nordkirche.de/document/37671),
+  insbesondere §§ 8, 12 und 13.
+- [Gemeinde-Impressum](https://akg-kiel.de/impressum) für Gemeindeanschrift,
+  Vorsitz und örtlichen Datenschutzkontakt, **nicht** als rechtliches Muster:
+  die dortigen TDG-/MDStV-Verweise und Disclaimer wurden nicht übernommen.
+- [Datenschutzkontakt des Kirchenkreises](https://www.kirchenkreis-altholstein.de/datenschutz)
+  und [Struktur der EKD-Datenschutzaufsicht](https://datenschutz.ekd.de/ueber-uns/unsere-struktur/).
+- [BfD-EKD-FAQ zum DPF](https://datenschutz.ekd.de/infothek-items/haeufig-gestellte-fragen-zum-dpf/):
+  Zertifizierung ersetzt weder Verarbeitungsgrundlage noch Anforderungen an AV.
+- [Turnstile Privacy Addendum](https://www.cloudflare.com/turnstile-privacy-policy/),
+  Stand 18. Juni 2025, Abschnitte 3–5: Signale, Auftragsverarbeitung und eigener
+  Verbesserungszweck; [Cloudflare-DPA](https://www.cloudflare.com/cloudflare-customer-dpa/)
+  als Anbieterinformation, nicht Nachweis unserer konkreten Vertragslage.
+- [§ 25 TDDDG](https://www.gesetze-im-internet.de/ttdsg/__25.html) und
+  [§ 5 DDG](https://www.gesetze-im-internet.de/ddg/__5.html).
+- [Google-Datenschutzerklärung](https://policies.google.com/privacy?hl=de) und
+  [ChurchTools-Datenschutzhinweise](https://www.church.tools/datenschutz).
+
+Technische Belege: `src/data/concerts.ts`, `src/data/concert-images.ts`,
+`src/pages/api/availability.ts`, `src/lib/contact-mail.ts`,
+`src/components/sections/{MailForm,MapConsent}.astro`, die Formularseiten,
+`astro.config.mjs`, `wrangler.toml` und die dokumentierte Mail-Inbetriebnahme
+in [email-forms.md](email-forms.md). Keine Geheimniswerte ausgelesen.
+
+### Technische Validierung dieses Arbeitsstands
+
+- Der erweiterte Build-Check schlug gegen den alten HTML-Stand erwartungsgemäß
+  wegen des fehlenden spezifischen Turnstile-Hinweises fehl; nach Überarbeitung
+  bestanden die Build-Guards einschließlich Aktivierungs-/Noindex-Abgleich.
+- `pnpm quality` bestanden: Offline-Regressionen, Format/Lint, generierte Typen,
+  Astro-Prüfung ohne Fehler/Warnungen und vollständiger Build samt SEO-Checks.
+- Beide gebauten Rechtstextseiten bei 320, 375 und 1280 CSS-Pixeln geprüft:
+  je eine sichtbare H1, eindeutige IDs, vorhandene Inhaltsanker, kein Text- oder
+  Dokumentüberlauf und weiterhin `noindex, follow`.
+  Isolierte statische Browser-Fixture mit ausschließlich Loopback-GETs;
+  Bild-Endpunkte lieferten gebündelte Originaldateien, keine Prüfung der
+  produktiven Worker-Bildtransformation. Keine Formulare, CAPTCHA oder Karte
+  betätigt. Deaktivierten Formularpfad zusätzlich quellseitig geprüft, kein
+  erneuter vollständiger Standby-Build in diesem Durchlauf.
+- Unabhängige Quellen-/Datenfluss-Gegenprüfung fand im vorläufigen Umfang keine
+  weitere konkrete Abweichung; keine qualifizierte Rechtsfreigabe.
+- Öffentliche GETs am 22. Oktober 2026 um 12:42 UTC zeigten noch den alten
+  Rechtstext einschließlich Zehn-Tage-Zusage. Die Validierung selbst hat nichts
+  veröffentlicht; Merge und spätere Bereitstellung sind separat nachzuweisen.

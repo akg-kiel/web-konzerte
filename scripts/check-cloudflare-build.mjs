@@ -25,6 +25,18 @@ for (const [path, label] of [
 const privacy = await readFile('dist/datenschutz/index.html', 'utf8');
 assert.equal(privacy.includes('an den Cloudflare Worker dieser Website'), enabled);
 assert.equal(privacy.includes('übermitteln keine Formulardaten an diese Website'), !enabled);
+assert.equal(privacy.includes('https://www.cloudflare.com/turnstile-privacy-policy/'), enabled);
+assert.doesNotMatch(
+  privacy,
+  /spätestens nach zehn Tagen|als statische Website|keine eigenen Anwendungs-/
+);
+assert(privacy.includes('§ 6 Nr. 4 DSG-EKD'));
+assert(privacy.includes('§ 6 Nr. 2 DSG-EKD'));
+assert(privacy.includes('id="programm"'));
+const imprint = await readFile('dist/impressum/index.html', 'utf8');
+assert(imprint.includes('Körperschaft des öffentlichen Rechts'));
+assert(imprint.includes('durch den Kirchengemeinderat'));
+assert.doesNotMatch(imprint, /vertreten durch Pastor/);
 if (enabled) {
   assert.equal(config.vars.TURNSTILE_HOSTNAMES, 'petruskirche.events');
   assert(config.vars.TURNSTILE_SITE_KEY.trim());
