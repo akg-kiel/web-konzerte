@@ -10,8 +10,18 @@ const script = ts.transpileModule(source.match(/<script>([\s\S]*?)<\/script>/)[1
 class Node {
   children = [];
   attrs = {};
+  y = 0;
+  constructor(id = '') {
+    this.id = id;
+  }
+  get hash() {
+    return this.href?.slice(this.href.indexOf('#'));
+  }
+  append(...nodes) {
+    this.children.push(...nodes);
+  }
   appendChild(node) {
-    this.children.push(node);
+    this.append(node);
   }
   replaceChildren() {
     this.children = [];
@@ -22,83 +32,205 @@ class Node {
   removeAttribute(key) {
     delete this.attrs[key];
   }
-}
-const heading = (id, label, top, hidden = false, section = null) => ({
-  id,
-  textContent: label,
-  top,
-  getClientRects: () => (hidden ? [] : [{}]),
-  closest: (selector) => (selector === 'section[id]' ? section : hidden ? {} : null),
-  getBoundingClientRect() {
-    return { top: this.top };
+  getAttribute(key) {
+    return this.attrs[key];
   }
-});
+  getBoundingClientRect() {
+    return { top: this.y - context.scrollY, height: 32 };
+  }
+  focus() {
+    context.document.activeElement = this;
+  }
+}
+function heading(id, label, y, { hidden = false, sectionId = '', named = true } = {}) {
+  const node = new Node(id),
+    section = new Node(sectionId);
+  node.textContent = label;
+  node.y = section.y = y;
+  section.attrs['aria-labelledby'] = named ? id : 'another-heading';
+  node.getClientRects = () => (hidden ? [] : [{}]);
+  node.closest = (selector) =>
+    selector === 'section[aria-labelledby]' ? section : hidden ? {} : null;
+  return node;
+}
 let headings = [
-  heading('hero', 'Anfang', 0),
-  heading('details', 'Details', 1000),
-  heading('inactive', 'Versteckt', 0, true)
+  heading('first-heading', 'Erster Abschnitt', 800, { sectionId: 'first' }),
+  heading('second', 'Zweiter Abschnitt', 1000),
+  heading('last', 'Letzter Abschnitt', 1800),
+  heading('sidebar', 'Parallele Spalte', 800),
+  heading('hidden', 'Versteckt', 0, { hidden: true }),
+  heading('calendar', 'Monatsüberschrift', 0, { named: false })
 ];
-const list = new Node(),
-  nav = { querySelector: () => list, hidden: true };
+const top = new Node('page-content'),
+  list = new Node();
+const nav = {
+  hidden: true,
+  querySelector: () => list,
+  getBoundingClientRect: () => ({ height: list.children.length * 32 + 16 })
+};
 const events = {},
   listeners = new Map(),
+  mainListeners = new Map(),
   frames = new Map();
-let nextFrame = 0;
+let mutation,
+  resize,
+  nextFrame = 0;
+const main = {
+  querySelectorAll: (selector) =>
+    selector.startsWith('nav')
+      ? [{ hash: '#first', textContent: 'Kurzer Navigationsname' }]
+      : headings,
+  addEventListener: (name, fn) => mainListeners.set(name, fn),
+  removeEventListener: (name) => mainListeners.delete(name)
+};
+class Observer {
+  constructor(callback) {
+    this.callback = callback;
+  }
+  observe() {
+    this.active = true;
+  }
+  disconnect() {
+    this.active = false;
+  }
+}
 const context = {
   document: {
-    querySelector: () => nav,
-    querySelectorAll: () => headings,
+    querySelector: (selector) => (selector === 'main' ? main : nav),
+    getElementById: () => top,
     createElement: () => new Node(),
-    documentElement: { scrollHeight: 2400 },
+    documentElement: { scrollHeight: 3000 },
     addEventListener: (name, fn) => {
       events[name] = fn;
     }
   },
   window: {
-    addEventListener: (name, fn) => {
-      listeners.set(name, fn);
-    },
+    addEventListener: (name, fn) => listeners.set(name, fn),
     removeEventListener: (name, fn) => {
       if (listeners.get(name) === fn) listeners.delete(name);
     }
   },
+  MutationObserver: class extends Observer {
+    constructor(fn) {
+      super(fn);
+      mutation = this;
+    }
+  },
+  ResizeObserver: class extends Observer {
+    constructor(fn) {
+      super(fn);
+      resize = this;
+    }
+  },
+  getComputedStyle: () => ({ fontSize: '16px', scrollMarginTop: '96px' }),
+  location: { hash: '' },
   innerHeight: 900,
   scrollY: 0,
   requestAnimationFrame: (fn) => {
-    const id = ++nextFrame;
-    frames.set(id, fn);
-    return id;
+    frames.set(++nextFrame, fn);
+    return nextFrame;
   },
   cancelAnimationFrame: (id) => frames.delete(id)
 };
-runInNewContext(script, context);
+const flush = () => {
+  for (const [id, fn] of frames) {
+    frames.delete(id);
+    fn();
+  }
+};
 const links = () => list.children.map((item) => item.children[0]);
+const current = () => links().filter((link) => link.attrs['aria-current'] === 'location');
+const scroll = (y, hash = '') => {
+  context.scrollY = y;
+  context.location.hash = hash;
+  listeners.get('scroll')();
+  flush();
+};
+runInNewContext(script, context);
 assert.equal(nav.hidden, false);
-assert.equal(links().length, 2);
-assert.equal(links()[1].href, '#details');
-assert.equal(links()[1].attrs['aria-label'], 'Details');
-assert.equal(links()[0].attrs['aria-current'], 'location');
-headings[0].top = -900;
-headings[1].top = 100;
+assert.deepEqual(
+  links().map((link) => link.hash),
+  ['#page-content', '#first', '#second', '#last', '#sidebar']
+);
+assert.equal(links()[1].attrs['aria-label'], 'Kurzer Navigationsname');
+assert.equal(current()[0].hash, '#page-content');
+scroll(704, '#first');
+assert.equal(
+  current()[0].hash,
+  '#first',
+  'A nearby next section must not steal the native anchor landing.'
+);
+scroll(950);
+assert.equal(
+  current()[0].hash,
+  '#second',
+  'DOM order must not let a parallel sidebar override a later section.'
+);
+scroll(704, '#sidebar');
+assert.equal(current()[0].hash, '#sidebar', 'Equal-height columns respect the requested anchor.');
+
+const focused = links()[2];
+focused.focus();
+headings[1] = heading('second', 'Zweiter Abschnitt', 1500);
+mutation.callback();
+flush();
+assert.equal(
+  links()[2],
+  focused,
+  'Island replacement with the same anchors preserves link nodes/focus.'
+);
+scroll(1000);
+assert.equal(current()[0].hash, '#first', 'Replaced island nodes must have fresh geometry.');
+scroll(1404);
+assert.equal(current()[0].hash, '#second');
+headings.push(heading('new', 'Nachgeladen', 1950));
+mutation.callback();
+flush();
+assert.equal(links().at(-1).hash, '#new');
+assert.equal(
+  context.document.activeElement.hash,
+  '#second',
+  'Changed contents retain an existing focused anchor.'
+);
+
+context.document.documentElement.scrollHeight = 2200;
+resize.callback();
+flush();
+scroll(1300, '#last');
+assert.equal(
+  current()[0].hash,
+  '#last',
+  'Two end sections can share a clamped landing; keep the clicked one.'
+);
+scroll(1300);
+assert.equal(current()[0].hash, '#new');
+scroll(1200);
+assert.equal(current()[0].hash, '#first');
+headings = [heading('hidden', 'Versteckt', 0, { hidden: true })];
+mutation.callback();
+flush();
+assert(nav.hidden, 'No section navigation for only the page start.');
+headings = Array.from({ length: 30 }, (_, i) => heading('section-' + i, 'Abschnitt ' + i, i * 100));
+mutation.callback();
+flush();
+assert(nav.hidden, 'An overlong rail must not put controls behind the fixed header or viewport.');
 listeners.get('scroll')();
 listeners.get('scroll')();
-assert.equal(frames.size, 1, 'Scroll updates must coalesce.');
-for (const fn of frames.values()) fn();
-frames.clear();
-assert.equal(links()[1].attrs['aria-current'], 'location');
-assert.equal(links()[0].attrs['aria-current'], undefined);
+assert.equal(frames.size, 1);
 events['astro:before-swap']();
+assert.equal(frames.size, 0);
 assert.equal(listeners.size, 0);
-headings = [heading('archive', 'Archiv', 0), heading('info', 'Infos', 1000)];
+assert.equal(mainListeners.size, 0);
+assert(!mutation.active && !resize.active);
+headings = [heading('archive', 'Archiv', 800)];
+context.scrollY = 0;
 events['astro:page-load']();
-assert.equal(links().length, 2, 'ClientRouter must rebuild, never duplicate.');
-assert.equal(links()[0].href, '#archive');
-headings = [heading('only', 'Ein Abschnitt', 0)];
-events['astro:page-load']();
-assert(nav.hidden);
-assert.equal(listeners.size, 0);
-assert(source.includes('lg:block print:hidden'));
-assert(source.includes('motion-reduce:transition-none'));
+assert.deepEqual(
+  links().map((link) => link.hash),
+  ['#page-content', '#archive']
+);
+assert.equal(current().length, 1);
+assert(!nav.hidden);
 console.log(
-  'Page seeker: real named anchors, hidden-panel exclusion, active state, batched scroll, ClientRouter cleanup/rebuild and single-section no-op passed.'
+  'Page seeker: native landings, parallel/end sections, semantic targets, island replacement, stable focus, viewport fit and observer/router cleanup passed.'
 );

@@ -18,6 +18,8 @@ const browser = spawn(
     '--no-sandbox',
     '--disable-dev-shm-usage',
     '--disable-background-networking',
+    // Headless Linux has no physical mouse; make desktop hover capability explicit.
+    '--blink-settings=primaryPointerType=4,availablePointerTypes=4,primaryHoverType=2,availableHoverTypes=2',
     '--host-resolver-rules=MAP * ~NOTFOUND, EXCLUDE localhost, EXCLUDE 127.0.0.1',
     '--remote-debugging-port=0',
     `--user-data-dir=${profile}`,
@@ -387,6 +389,86 @@ try {
   );
   console.log(
     'Seeker: head-only programme/archival swaps, full body swap, keyboard anchor/current state and reduced motion passed.'
+  );
+
+  assert(await evaluate(`matchMedia('(hover: hover) and (pointer: fine)').matches`));
+  for (const height of [640, 900]) {
+    await call('Emulation.setDeviceMetricsOverride', {
+      width: 1280,
+      height,
+      deviceScaleFactor: 1,
+      mobile: false
+    });
+    for (const path of ['/', '/kontakt/', '/besuch-planen/', detail, '/datenschutz/']) {
+      await load(path);
+      const hashes = await evaluate(
+        `Array.from(document.querySelectorAll('[data-page-seeker] a'), a => a.hash)`
+      );
+      assert.equal(hashes[0], '#page-content');
+      assert(
+        await evaluate(`(() => {
+        const nav = document.querySelector('[data-page-seeker]'), r = nav.getBoundingClientRect();
+        return !nav.hidden && r.top >= 80 && r.bottom <= innerHeight;
+      })()`),
+        `${path}: every seeker control must fit below the header`
+      );
+      const rail = await evaluate(
+        `(() => { const r = document.querySelector('[data-page-seeker] a').getBoundingClientRect(); return {x:r.x+r.width/2,y:r.y+r.height/2}; })()`
+      );
+      await call('Input.dispatchMouseEvent', { type: 'mouseMoved', ...rail });
+      await wait(
+        `Array.from(document.querySelectorAll('[data-page-seeker] a > span:last-child')).every(s => getComputedStyle(s).opacity === '1')`
+      );
+      for (const hash of hashes) {
+        const selector = `[data-page-seeker] a[href="${hash}"]`;
+        const label = await evaluate(
+          `(() => { const r = document.querySelector(${JSON.stringify(selector)}).lastElementChild.getBoundingClientRect(); return {x:r.x+r.width/2,y:r.y+r.height/2}; })()`
+        );
+        for (const type of ['mousePressed', 'mouseReleased']) {
+          await call('Input.dispatchMouseEvent', { type, ...label, button: 'left', clickCount: 1 });
+        }
+        await wait(
+          `location.hash === ${JSON.stringify(hash)} && document.querySelector('[data-page-seeker] [aria-current="location"]')?.hash === ${JSON.stringify(hash)}`
+        );
+        if (hash !== '#page-content')
+          assert(
+            await evaluate(
+              `document.getElementById(${JSON.stringify(decodeURIComponent(hash.slice(1)))}).getBoundingClientRect().top >= 78`
+            ),
+            `${path} ${hash}: target obscured by header`
+          );
+      }
+      await evaluate('history.back()');
+      await wait(
+        `location.hash === ${JSON.stringify(hashes.at(-2))} && document.querySelector('[data-page-seeker] [aria-current="location"]')?.hash === ${JSON.stringify(hashes.at(-2))}`
+      );
+      if (path === '/kontakt/' && height === 900) await screenshot('seeker-revised-expanded');
+    }
+  }
+  await load('/');
+  await evaluate(`(() => {
+    const section = document.createElement('section'); section.id = 'late-section'; section.setAttribute('aria-labelledby', 'late-heading');
+    const heading = document.createElement('h2'); heading.id = 'late-heading'; heading.textContent = 'Nachgeladener Abschnitt';
+    section.append(heading); section.style.minHeight = '500px'; document.querySelector('main').append(section);
+  })()`);
+  await wait(`!!document.querySelector('[data-page-seeker] a[href="#late-section"]')`);
+  await evaluate(
+    `window.__seekerLink = document.querySelector('[data-page-seeker] a[href="#late-section"]'); window.__seekerLink.focus(); const section = document.getElementById('late-section'); section.replaceWith(section.cloneNode(true))`
+  );
+  await delay(100);
+  assert(
+    await evaluate(
+      `document.activeElement === window.__seekerLink && window.__seekerLink === document.querySelector('[data-page-seeker] a[href="#late-section"]')`
+    )
+  );
+  await key('Enter');
+  await wait(
+    `document.querySelector('[data-page-seeker] [aria-current="location"]')?.hash === '#late-section'`
+  );
+  await evaluate(`document.getElementById('late-section').hidden = true`);
+  await wait(`!document.querySelector('[data-page-seeker] a[href="#late-section"]')`);
+  console.log(
+    'Seeker revision: every label is clickable, every native landing/current state and Back match at 640/900px height; async insertion/replacement/hiding preserves live targets and focus.'
   );
 
   await call('Emulation.setDeviceMetricsOverride', {
