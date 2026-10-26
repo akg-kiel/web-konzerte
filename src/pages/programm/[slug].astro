@@ -5,6 +5,7 @@ import { env } from 'cloudflare:workers';
 import { Image } from 'astro:assets';
 
 import fallbackImage from '../../assets/hero/l1130722-hero.jpg';
+import ConcertShare from '../../components/sections/ConcertShare.astro';
 import { ButtonLink } from '../../components/ui/button';
 import Layout from '../../layouts/Layout.astro';
 import { cacheProgramme, getConcerts, getConcertState, resolveConcertSlug } from '../../data/concerts';
@@ -119,6 +120,9 @@ const hasDetails = hasDescription || info.length > 0;
               ) : (
                 <ButtonLink variant="outline" className="min-h-12 rounded-sm border-white/20 px-6 font-body text-sm/6 text-role-on hover:border-secondary hover:text-secondary" href="/besuch-planen/">Besuch planen</ButtonLink>
               )}
+            </div>
+            <div class="mt-4">
+              <ConcertShare title={concert.title} url={canonicalUrl!} />
             </div>
           </header>
         </div>
