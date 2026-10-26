@@ -98,6 +98,21 @@ const mobileLinkClass =
 </nav>
 
 <script>
+  document.addEventListener('click', (event) => {
+    if (
+      !event.isTrusted ||
+      !(event.target instanceof Element) ||
+      !event.target.closest('[data-mobile-menu] > summary') ||
+      !matchMedia('(pointer: coarse)').matches ||
+      matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) return;
+    try {
+      navigator.vibrate?.(8);
+    } catch {
+      // Optional hardware feedback must never block the native menu toggle.
+    }
+  });
+
   document.addEventListener('keydown', (event) => {
     const menu = event.target instanceof Element
       ? event.target.closest<HTMLDetailsElement>('[data-mobile-menu]')
