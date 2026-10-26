@@ -171,7 +171,7 @@ export default function AvailabilityCalendar() {
       </div>
 
       <div
-        className="relative left-1/2 w-dvw -translate-x-1/2 rounded-lg border border-white/10 bg-slate-mist/20 p-1 sm:static sm:w-auto sm:translate-x-0 sm:p-4"
+        className="-mx-6 rounded-lg border border-white/10 bg-slate-mist/20 p-2 sm:mx-0 sm:p-4"
         aria-busy={loading}
       >
         <Calendar

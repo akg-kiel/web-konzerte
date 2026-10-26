@@ -62,7 +62,10 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
           </Button>
         </header>
 
-        <CalendarGrid className="w-full border-separate border-spacing-y-1" weekdayStyle="short">
+        <CalendarGrid
+          className="w-full table-fixed border-separate border-spacing-y-1"
+          weekdayStyle="short"
+        >
           <CalendarGridHeader>
             {(day) => (
               <CalendarHeaderCell className="h-10 select-none text-center text-xs font-normal text-muted-foreground">
@@ -86,7 +89,7 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
                     isToday
                   }) =>
                     cn(
-                      'relative flex h-11 min-w-10 items-center justify-center rounded-md text-sm outline-none transition-colors',
+                      'relative flex h-11 min-w-0 items-center justify-center rounded-md text-sm outline-none transition-colors',
                       'hover:bg-accent hover:text-accent-foreground',
                       isToday && !isSelected && 'bg-accent text-accent-foreground',
                       isSelected && 'bg-primary text-primary-foreground',
