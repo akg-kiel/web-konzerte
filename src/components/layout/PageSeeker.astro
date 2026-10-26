@@ -1,0 +1,77 @@
+<nav data-page-seeker hidden aria-label="Abschnitte dieser Seite" class="fixed right-2 top-1/2 z-30 hidden -translate-y-1/2 lg:block print:hidden">
+  <ol class="flex flex-col"></ol>
+</nav>
+
+<style>
+  @media (height < 40rem) {
+    [data-page-seeker] { display: none; }
+  }
+</style>
+
+<script>
+  let cleanup = () => {};
+  const enhanceSeeker = () => {
+    cleanup();
+    const nav = document.querySelector<HTMLElement>('[data-page-seeker]');
+    const list = nav?.querySelector('ol');
+    if (!nav || !list) return;
+    list.replaceChildren();
+    const seen = new Set<string>();
+    const sections = [...document.querySelectorAll<HTMLElement>('main h1[id], main h2[id]')]
+      .filter(heading => heading.getClientRects().length && !heading.closest('[hidden], [inert]'))
+      .map(heading => ({
+        target: heading.closest<HTMLElement>('section[id]') ?? heading,
+        label: heading.textContent?.trim() ?? ''
+      }))
+      .filter(({ target, label }) => {
+        if (!label || seen.has(target.id)) return false;
+        seen.add(target.id);
+        return true;
+      });
+    nav.hidden = sections.length < 2;
+    if (nav.hidden) return;
+    const links = sections.map(({ target, label }) => {
+      const item = document.createElement('li');
+      const link = document.createElement('a');
+      link.href = '#' + encodeURIComponent(target.id);
+      link.setAttribute('aria-label', label);
+      link.className = 'group relative flex size-11 items-center justify-center text-role-on/70 no-underline hover:text-champagne aria-[current=location]:text-secondary';
+      const mark = document.createElement('span');
+      mark.setAttribute('aria-hidden', 'true');
+      mark.className = 'h-px w-4 bg-current transition-all group-hover:w-6 group-aria-[current=location]:w-6 motion-reduce:transition-none';
+      const text = document.createElement('span');
+      text.textContent = label;
+      text.className = 'pointer-events-none absolute right-full mr-2 w-max max-w-xs rounded-sm bg-midnight px-2 py-2 text-right font-body text-xs/4 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100';
+      link.appendChild(mark);
+      link.appendChild(text);
+      item.appendChild(link);
+      list.appendChild(item);
+      return link;
+    });
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      let current = 0;
+      sections.forEach(({ target }, index) => {
+        if (target.getBoundingClientRect().top <= innerHeight / 3) current = index;
+      });
+      if (scrollY + innerHeight >= document.documentElement.scrollHeight - 2) current = sections.length - 1;
+      links.forEach((link, index) => {
+        if (index === current) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      });
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    update();
+    cleanup = () => {
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
+      cancelAnimationFrame(frame);
+    };
+  };
+  enhanceSeeker();
+  document.addEventListener('astro:before-swap', () => cleanup());
+  document.addEventListener('astro:page-load', enhanceSeeker);
+</script>
