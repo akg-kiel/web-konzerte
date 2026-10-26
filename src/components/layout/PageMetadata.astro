@@ -10,14 +10,14 @@ interface Props {
 }
 
 const {
-  title = 'Kieler Konzertkirche · Konzerte in der Petruskirche',
+  title = 'Petruskirche – Kiels Konzertkirche',
   description = 'Konzerte in der Petruskirche Kiel: klassische Musik, Raumklang und besondere Programme in architektonischer Atmosphäre.',
   ogImage = '/og-image.jpg',
   canonicalUrl,
   noindex = false
 } = Astro.props;
 
-const siteName = 'Kieler Konzertkirche';
+const siteName = 'Petruskirche – Kiels Konzertkirche';
 const siteUrl = Astro.site!;
 const canonicalHref = getCanonicalUrl(siteUrl, canonicalUrl ?? Astro.url.pathname);
 const robots = !INDEXING_ENABLED || noindex || (Astro.response.status ?? 200) >= 400 ||

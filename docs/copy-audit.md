@@ -96,7 +96,8 @@ These claims were source-reviewed but not externally verified in this implementa
 - Primary public action for hiring the venue: `Raum anfragen`.
 - Visitor programme language: `Konzerte in Kiel`, `Programm`, `Konzertprogramm`, `Konzertarchiv`.
 - Form of address remains formal `Sie/Ihr`.
-- `Konzertkirche Petruskirche` is retained as the venue/site name; `Petruskirche Kiel` is used where the location matters for SEO and clarity.
+- AKG-85: `Die Petruskirche – Kiels Konzertkirche` is the preferred public brand wording; the compact site name is `Petruskirche – Kiels Konzertkirche`. Homepage location copy, the contact/about section, footer, Open Graph site name and WebSite JSON-LD use it consistently. `Petruskirche Kiel` remains appropriate for addresses and factual event locations; existing page-specific titles are not replaced with a repeated slogan.
+- External profile changes and partner communication remain separately tracked in AKG-105/100; this copy change neither updates nor claims to have reviewed external accounts. Search intents and page ownership: [SEO keyword set](seo/keywords.md).
 
 ## DSG-EKD-Vorprüfung (AKG-113)
 

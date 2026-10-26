@@ -356,6 +356,15 @@ if (process.argv.includes('--built')) {
     assert(html.includes(`rel="canonical" href="${getCanonicalUrl(site, path)}"`));
     assert(html.includes('name="robots" content="noindex, follow"'));
     assert(!html.includes('konzerte-petruskirche.de'));
+    const brand = 'Petruskirche – Kiels Konzertkirche';
+    assert(html.includes(`property="og:site_name" content="${brand}"`));
+    assert(html.includes(`"name":"${brand}"`), `${path}: WebSite name`);
+    const footer = html.match(/<footer\b[\s\S]*?<\/footer>/)?.[0];
+    assert(footer?.includes(brand), `${path}: visible footer brand`);
+    if (path === '/' || path === '/kontakt/') {
+      const main = html.match(/<main\b[\s\S]*?<\/main>/)?.[0];
+      assert(main?.includes(brand), `${path}: visible location/about brand`);
+    }
   }
   console.log('SEO generated asset routing and static HTML checks passed.');
 }
