@@ -16,6 +16,14 @@ Batch: AKG-103, AKG-110, AKG-27 and AKG-25. No deployment, merge, actual message
 
 Every resolved concert detail, including archived and no-poster variants, has “Jetzt teilen”. Native sharing uses the exact concert title and canonical event URL. Unsupported native sharing copies the URL; rejected/unavailable clipboard and non-abort native errors reveal a labeled selectable manual URL and explicit copy action. Abort is neutral, not success/error. Results use a polite status region; native keyboard activation and no-JavaScript manual copying passed. Native sheets/clipboard are mocked in automation; no claim of real OS target delivery.
 
+After the placement review, sharing lives in the upper concert action row: Back on the left, a quiet icon-and-text action on the right, before the poster/title. It is no longer a second large button below the ticket CTA. This position works consistently on mobile, archived events and events without images. The native disclosure expands across the full row for manual copying, without squeezing the URL into the narrow action slot or moving the Back link. The status region remains mounted even when empty.
+
+Mobbin references were inspected visually, not inferred from search labels:
+
+- [Apple Music concert detail](https://mobbin.com/screens/67d47002-dde8-4849-a277-3eb897cabc20): Share at the upper right, opposite Back. This is the adopted placement pattern, with a visible text label for the website.
+- [Eventbrite event preview](https://mobbin.com/screens/c5c743ef-60f0-42a0-8cb1-d0192ddcaf30): utility icons to the right below the event image, separate from ticket booking. Its hierarchy supports treating Share as a secondary page action.
+- [DICE concert detail](https://mobbin.com/screens/ae074cf0-3b1d-4718-bfa2-67d4c929c10b): Share on the poster, purchase anchored at the bottom. The poster overlay was not adopted because this site also has concerts without posters.
+
 ### AKG-25 — implementation acceptance
 
 The shared Layout includes one compact fixed-right desktop rail. Hovering or focusing it reveals the complete labeled section list; labels themselves are clickable, not detached tooltips. The longer gold mark identifies the current section. The existing `#page-content` anchor provides a real page-start destination. Other entries come only from visible H2 headings that name a semantic section, preferring existing section IDs and existing local navigation labels. Calendar/dialog headings, contents-navigation headings, hidden/inert panels and duplicate targets are excluded.

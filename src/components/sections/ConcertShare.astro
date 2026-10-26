@@ -1,11 +1,16 @@
 ---
+import { Share } from 'lucide-react';
+
 interface Props { title: string; url: string }
 const { title, url } = Astro.props;
 ---
 
-<concert-share data-title={title}>
+<concert-share data-title={title} class="col-span-2 col-start-1 row-start-1 block min-w-0">
   <details>
-    <summary class="inline-flex min-h-12 cursor-pointer items-center rounded-sm border border-white/20 px-6 font-body text-sm/6 text-role-on hover:border-secondary hover:text-secondary">Jetzt teilen</summary>
+    <summary class="ml-auto flex min-h-12 w-fit max-w-1/2 cursor-pointer list-none items-center gap-2 rounded-sm px-2 font-body text-sm/6 text-role-on/70 hover:bg-white/5 hover:text-secondary [&::-webkit-details-marker]:hidden">
+      <Share size={16} className="shrink-0" aria-hidden="true" />
+      Jetzt teilen
+    </summary>
     <div class="mt-4 space-y-4">
       <label class="block font-body text-sm/6 text-role-on/80">
         Veranstaltungslink
@@ -15,7 +20,7 @@ const { title, url } = Astro.props;
       <p class="font-body text-sm/6 text-role-on/70">Link markieren und über das Kontextmenü oder Strg+C / ⌘C kopieren.</p>
     </div>
   </details>
-  <p role="status" class="mt-2 font-body text-sm/6 text-role-on/80"></p>
+  <p role="status" class="mt-2 text-right font-body text-sm/6 text-role-on/80 empty:mt-0"></p>
 </concert-share>
 
 <script>
