@@ -45,6 +45,13 @@ Implementation lives in `src/styles/globals.css` and `tailwind.config.js`.
 - Motion must be optional; avoid hover-only meaning.
 - Forms use native labels, fieldsets/legends where useful, and clear required-state copy.
 
+## Motion
+
+- Home: a single stage-light/title entrance, followed by one-time concert, quotation and architecture reveals.
+- `home-reveal` uses IntersectionObserver; content stays visible without JavaScript or with reduced motion.
+- Never replay already-visible content when server islands refresh. Keyboard focus reveals content immediately.
+- Keep programme navigation and reading surfaces immediate; no scroll hijacking or decorative loops.
+
 ## Tailwind exceptions
 
 Allowed arbitrary values only for image gradients, object-position crops, special aspect ratios, hero viewport masks/sizes, image widths arrays, `gap-px`, and native selector cleanup.

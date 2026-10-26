@@ -9,7 +9,7 @@ import { ButtonLink } from '../ui/button';
   aria-labelledby="hero-heading"
   class="relative flex min-h-[100svh] items-end overflow-hidden bg-role-dominant px-0 pb-[calc(3.5rem+env(safe-area-inset-bottom))] pt-24 text-role-on sm:pb-20 md:pb-44 lg:pb-22"
 >
-  <div class="absolute inset-x-0 top-0 bottom-[40svh] z-0 w-full overflow-hidden md:bottom-[10svh]">
+  <div class="hero-stage absolute inset-x-0 top-0 bottom-[40svh] z-0 w-full overflow-hidden md:bottom-[10svh]">
     <Image
       src={heroStage}
       alt=""
@@ -45,16 +45,16 @@ import { ButtonLink } from '../ui/button';
   <div class="relative z-20 mx-auto w-full max-w-screen-2xl px-6 md:px-8 lg:px-16">
     <div class="max-w-3xl">
       <h1 id="hero-heading" class="font-display text-4xl/tight font-semibold tracking-tight !text-white sm:text-5xl/tight md:text-7xl/tight lg:text-8xl/tight">
-        <span class="block sm:whitespace-nowrap">Konzerte in der</span>
-        <span class="hero-title-accent block italic !text-secondary">Petruskirche Kiel</span>
+        <span class="hero-title-line block sm:whitespace-nowrap"><span class="hero-title-word block">Konzerte in der</span></span>
+        <span class="hero-title-line block italic !text-secondary"><span class="hero-title-word hero-title-accent block">Petruskirche Kiel</span></span>
       </h1>
 
-      <p class="mt-6 max-w-md font-body text-sm/relaxed font-normal tracking-tight text-role-on/70 md:max-w-xl md:text-base/relaxed md:text-role-on/75">
+      <p class="hero-intro mt-6 max-w-md font-body text-sm/relaxed font-normal tracking-tight text-role-on/70 md:max-w-xl md:text-base/relaxed md:text-role-on/75">
         Konzerte in Kiel-Wik für Klassik, Chor, Pop, Crossover und Kulturveranstaltungen –
         im Kirchenraum der Petruskirche mit besonderer Akustik und Jugendstilarchitektur.
       </p>
 
-      <div class="mt-10 flex flex-col gap-4 sm:flex-row">
+      <div class="hero-actions mt-10 flex flex-col gap-4 sm:flex-row">
         <ButtonLink
           className="min-h-14 rounded-sm bg-secondary px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest text-midnight hover:bg-role-accent active:scale-95"
           href="#naechste-konzerte"

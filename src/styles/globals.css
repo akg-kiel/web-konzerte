@@ -41,6 +41,7 @@
   --color-ring: #f3e5ab;
 
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --default-transition-timing-function: var(--ease-out);
 
   --shadow-glow: 0 0 48px rgb(243 229 171 / 0.12);
@@ -163,13 +164,124 @@ main :is(p, address) a {
   }
 }
 
+.hero-title-line {
+  overflow: clip;
+  overflow-clip-margin: 0.12em;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .hero-stage-image {
-    animation: stage-settle 800ms var(--ease-out) both;
+    transform-origin: 75% center;
+    animation: stage-settle 1000ms var(--ease-out) backwards;
+  }
+
+  .hero-stage::after {
+    position: absolute;
+    inset: 0;
+    background: var(--color-midnight);
+    opacity: 0;
+    content: '';
+    pointer-events: none;
+    animation: stage-light 1000ms var(--ease-out) backwards;
+  }
+
+  .hero-title-word {
+    animation: title-unveil 720ms var(--ease-out) backwards;
   }
 
   .hero-title-accent {
-    animation: title-unveil 650ms var(--ease-out) 60ms both;
+    animation-delay: 80ms;
+  }
+
+  .hero-intro,
+  .hero-actions {
+    animation: hero-follow 480ms var(--ease-out) 160ms backwards;
+  }
+
+  .hero-actions {
+    animation-delay: 240ms;
+  }
+
+  .hero-actions:focus-within {
+    animation: none;
+  }
+
+  home-reveal[data-motion='concert'] .concert-card {
+    transition:
+      opacity 600ms var(--ease-out) var(--reveal-delay, 0ms),
+      transform 700ms var(--ease-out) var(--reveal-delay, 0ms),
+      border-color 200ms ease;
+  }
+
+  home-reveal[data-motion='concert'][data-motion-state='pending'] .concert-card {
+    opacity: 0;
+    transform: translateY(40px) scale(0.97);
+    transition: none;
+  }
+
+  home-reveal[data-motion='concert']:focus-within .concert-card {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  home-reveal[data-motion='quote'] blockquote {
+    clip-path: inset(-0.12em);
+    transition: clip-path 800ms var(--ease-in-out);
+  }
+
+  home-reveal[data-motion='quote'][data-motion-state='pending'] blockquote {
+    clip-path: inset(0 0 100% 0);
+    transition: none;
+  }
+
+  home-reveal[data-motion='quote'] cite {
+    transition: opacity 400ms ease 200ms;
+  }
+
+  home-reveal[data-motion='quote'][data-motion-state='pending'] cite {
+    opacity: 0;
+    transition: none;
+  }
+
+  home-reveal[data-motion='quote'] [aria-hidden] {
+    transition: transform 700ms var(--ease-out) 160ms;
+  }
+
+  home-reveal[data-motion='quote'] [aria-hidden]:first-child {
+    transform-origin: right;
+  }
+
+  home-reveal[data-motion='quote'] [aria-hidden]:last-child {
+    transform-origin: left;
+  }
+
+  home-reveal[data-motion='quote'][data-motion-state='pending'] [aria-hidden] {
+    transform: scaleX(0);
+    transition: none;
+  }
+
+  home-reveal[data-motion='architecture'] img {
+    clip-path: inset(0);
+    transition:
+      clip-path 800ms var(--ease-in-out),
+      transform 800ms var(--ease-out);
+  }
+
+  home-reveal[data-motion='architecture'][data-motion-state='pending'] img {
+    clip-path: inset(0 0 100% 0);
+    transform: scale(1.08);
+    transition: none;
+  }
+
+  @media (width >= 48rem) {
+    home-reveal[data-motion='concert']:nth-child(2) {
+      --reveal-delay: 80ms;
+    }
+
+    home-reveal[data-motion='concert']:nth-child(3) {
+      --reveal-delay: 160ms;
+    }
   }
 
   .motion-button:is(:active, [data-pressed]):not(
@@ -217,19 +329,39 @@ main :is(p, address) a {
 
 @keyframes stage-settle {
   from {
-    transform: scale(1.035);
+    transform: scale(1.12);
   }
   to {
     transform: none;
   }
 }
 
-@keyframes title-unveil {
+@keyframes stage-light {
   from {
-    clip-path: inset(0 100% 0 0);
+    opacity: 0.45;
   }
   to {
-    clip-path: inset(0);
+    opacity: 0;
+  }
+}
+
+@keyframes title-unveil {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes hero-follow {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 
