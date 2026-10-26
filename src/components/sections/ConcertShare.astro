@@ -1,0 +1,76 @@
+---
+interface Props { title: string; url: string }
+const { title, url } = Astro.props;
+---
+
+<concert-share data-title={title}>
+  <details>
+    <summary class="inline-flex min-h-12 cursor-pointer items-center rounded-sm border border-white/20 px-6 font-body text-sm/6 text-role-on hover:border-secondary hover:text-secondary">Jetzt teilen</summary>
+    <div class="mt-4 space-y-4">
+      <label class="block font-body text-sm/6 text-role-on/80">
+        Veranstaltungslink
+        <input class="mt-2 block w-full rounded-sm border border-white/30 bg-midnight p-2 text-base/7 text-role-on" type="url" value={url} readonly />
+      </label>
+      <button hidden type="button" class="min-h-12 rounded-sm border border-white/20 px-4 text-sm/6 hover:text-secondary">Link kopieren</button>
+      <p class="font-body text-sm/6 text-role-on/70">Link markieren und über das Kontextmenü oder Strg+C / ⌘C kopieren.</p>
+    </div>
+  </details>
+  <p role="status" class="mt-2 font-body text-sm/6 text-role-on/80"></p>
+</concert-share>
+
+<script>
+  class ConcertShare extends HTMLElement {
+    connectedCallback() {
+      if (this.dataset.ready) return;
+      this.dataset.ready = 'true';
+      const details = this.querySelector('details')!;
+      const summary = this.querySelector('summary')!;
+      const input = this.querySelector('input')!;
+      const copy = this.querySelector('button')!;
+      const status = this.querySelector('[role="status"]')!;
+      let busy = false;
+      copy.hidden = false;
+
+      const manual = (message: string) => {
+        details.open = true;
+        status.textContent = message;
+        input.focus();
+        input.select();
+      };
+      const copyLink = async () => {
+        try {
+          if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable');
+          await navigator.clipboard.writeText(input.value);
+          status.textContent = 'Veranstaltungslink kopiert.';
+        } catch {
+          manual('Automatisches Kopieren nicht möglich. Bitte kopieren Sie den markierten Link manuell.');
+        }
+      };
+      copy.addEventListener('click', () => void copyLink());
+      summary.addEventListener('click', async (event) => {
+        if (details.open) return;
+        event.preventDefault();
+        if (busy) return;
+        busy = true;
+        status.textContent = '';
+        try {
+          if (navigator.share) {
+            await navigator.share({ title: this.dataset.title, url: input.value });
+            status.textContent = 'An die Teilen-Funktion übergeben.';
+          } else {
+            await copyLink();
+          }
+        } catch (error) {
+          if (error instanceof DOMException && error.name === 'AbortError') {
+            status.textContent = 'Teilen abgebrochen.';
+          } else {
+            manual('Teilen nicht möglich. Sie können den Veranstaltungslink kopieren.');
+          }
+        } finally {
+          busy = false;
+        }
+      });
+    }
+  }
+  if (!customElements.get('concert-share')) customElements.define('concert-share', ConcertShare);
+</script>
