@@ -18,9 +18,13 @@ Every resolved concert detail, including archived and no-poster variants, has â€
 
 ### AKG-25 â€” implementation acceptance
 
-The shared Layout includes one lightweight fixed-right desktop seeker. It derives names and anchors from existing visible main H1/H2 headings, preferring existing section IDs, excluding hidden/inert programme panels and duplicate targets. No invented sections or drag/scroll engine. A current location and hover/focus labels supplement native anchor links. Below desktop width, below 640 px height, in print, without JS or with fewer than two targets it is hidden. Reduced motion disables mark transitions and uses the site's native non-smooth anchor behavior.
+The shared Layout includes one compact fixed-right desktop rail. Hovering or focusing it reveals the complete labeled section list; labels themselves are clickable, not detached tooltips. The longer gold mark identifies the current section. The existing `#page-content` anchor provides a real page-start destination. Other entries come only from visible H2 headings that name a semantic section, preferring existing section IDs and existing local navigation labels. Calendar/dialog headings, contents-navigation headings, hidden/inert panels and duplicate targets are excluded.
 
-Scroll updates coalesce into one animation frame. ClientRouter before-swap cleans listeners; page-load rebuilds after both head-only programme switches and full body replacements. Unit and local browser checks cover names/targets, current state, hidden views, body swaps, keyboard anchors and reduced motion.
+The revised active state follows native anchor landing positions with the site's six-rem header clearance, not a fraction of the viewport. It accounts for document-end clamping and out-of-order parallel columns; a requested hash wins when multiple sections share the same landing. Scrolling away resumes position-based tracking. Native links retain history, direct hashes and reduced-motion behavior; there is no custom scrolling engine.
+
+Main-content mutation/resize observers and image-load events refresh targets and geometry after deferred islands, changing content and layout shifts. Replaced nodes with identical IDs/labels retain their existing link nodes and focus; changed navigation preserves a still-existing focused anchor. Scroll work coalesces into one animation frame. ClientRouter before-swap disconnects observers/listeners; page-load rebuilds after both head-only programme switches and full body replacements.
+
+Below desktop width, below 640 px height, in print, without JS, without meaningful scroll/section targets, or when the rail cannot fit clear of the header, it is hidden. Unit regressions cover native landings, short final sections, parallel columns, async replacements, stable focus, viewport fit and cleanup. The browser check additionally exercises every section label/landing and browser Back on five page types at 640/900 px height, plus late insertion/replacement/hiding. These remain local synthetic checks, not real-device acceptance.
 
 ## Reproduce
 
