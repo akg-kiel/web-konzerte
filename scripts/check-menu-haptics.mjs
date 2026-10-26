@@ -5,7 +5,7 @@ import ts from 'typescript';
 
 const source = readFileSync('src/components/layout/Header.astro', 'utf8');
 const script = ts.transpileModule(source.match(/<script>([\s\S]*?)<\/script>/)[1], {
-  compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.None }
+  compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext }
 }).outputText;
 function setup({ coarse = true, reduce = false, vibrate } = {}) {
   const handlers = {};

@@ -5,7 +5,7 @@ import ts from 'typescript';
 
 const source = readFileSync('src/components/sections/ConcertShare.astro', 'utf8');
 const script = ts.transpileModule(source.match(/<script>([\s\S]*?)<\/script>/)[1], {
-  compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.None }
+  compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext }
 }).outputText;
 const url = 'https://petruskirche.events/programm/ein-konzert-123/';
 const title = 'Ein Konzert & Gäste';
@@ -18,12 +18,14 @@ function setup(navigator) {
   const nodes = {
     details: { open: false },
     summary: {
-      addEventListener: (name, handler) => {
+      addEventListener: (_name, handler) => {
         handlers.share = handler;
       }
     },
     input: {
       value: url,
+      focused: false,
+      selected: false,
       focus() {
         this.focused = true;
       },
@@ -33,7 +35,7 @@ function setup(navigator) {
     },
     button: {
       hidden: true,
-      addEventListener: (name, handler) => {
+      addEventListener: (_name, handler) => {
         handlers.copy = handler;
       }
     },
@@ -51,7 +53,7 @@ function setup(navigator) {
     },
     customElements: {
       get: () => undefined,
-      define: (name, value) => {
+      define: (_name, value) => {
         Component = value;
       }
     }
