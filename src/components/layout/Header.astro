@@ -14,7 +14,7 @@ const navItems = [
 const isActive = (match: string) => Boolean(match) && (pathname === match || pathname.startsWith(`${match}/`));
 
 const mobileLinkClass =
-  "flex min-h-16 items-center justify-between border-b border-champagne/10 text-role-on/95 no-underline transition after:text-champagne/40 after:content-['→'] after:transition hover:text-secondary hover:after:translate-x-2 hover:after:text-current focus-visible:text-secondary focus-visible:after:translate-x-2 focus-visible:after:text-current";
+  "flex min-h-16 items-center justify-between border-b border-champagne/10 text-role-on/95 no-underline transition after:text-champagne/40 after:content-['→'] after:transition hover:text-secondary motion-safe:hover:after:translate-x-2 hover:after:text-current focus-visible:text-secondary focus-visible:after:text-current";
 ---
 
 <nav aria-label="Hauptnavigation" class="fixed inset-x-0 top-0 z-40 border-b border-white/10 shadow-sm">
@@ -43,8 +43,9 @@ const mobileLinkClass =
           return (
             <a
               class:list={[
+                'nav-link',
                 active
-                  ? 'inline-flex min-h-11 items-center border-b-2 border-secondary text-secondary no-underline'
+                  ? 'inline-flex min-h-11 items-center text-secondary no-underline'
                   : 'inline-flex min-h-11 items-center text-role-on/80 no-underline transition hover:text-secondary'
               ]}
               href={item.href}

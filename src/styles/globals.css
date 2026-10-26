@@ -40,6 +40,9 @@
   --color-input: rgb(255 255 255 / 0.2);
   --color-ring: #f3e5ab;
 
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --default-transition-timing-function: var(--ease-out);
+
   --shadow-glow: 0 0 48px rgb(243 229 171 / 0.12);
   --shadow-panel: 0 24px 80px rgb(0 0 0 / 0.35);
 }
@@ -126,12 +129,117 @@ main :is(p, address) a {
   scroll-margin-top: 6rem;
 }
 
+.motion-button {
+  scale: 1;
+  transition-property: color, background-color, border-color, opacity, scale;
+  transition-duration: 150ms;
+  transition-timing-function: var(--ease-out);
+}
+
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: currentColor;
+  content: '';
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.nav-link[aria-current='page']::after,
+.nav-link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nav-link:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-stage-image {
+    animation: stage-settle 800ms var(--ease-out) both;
+  }
+
+  .hero-title-accent {
+    animation: title-unveil 650ms var(--ease-out) 60ms both;
+  }
+
+  .motion-button:is(:active, [data-pressed]):not(
+    :focus-visible,
+    :disabled,
+    [aria-disabled='true']
+  ) {
+    scale: 0.97;
+  }
+
+  .nav-link::after {
+    transition: transform 200ms var(--ease-out);
+  }
+
+  .nav-link:focus-visible::after {
+    transition: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .concert-card img {
+      transition: transform 300ms var(--ease-out);
+    }
+
+    .concert-card:hover img {
+      transform: scale(1.03);
+    }
+
+    .cta-arrow {
+      transition: transform 200ms var(--ease-out);
+    }
+
+    .cta-card:hover .cta-arrow {
+      transform: translateX(4px);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-mobile-menu] summary span,
+  [data-mobile-menu] summary span::before,
+  [data-mobile-menu] summary span::after {
+    transition: none;
+  }
+}
+
+@keyframes stage-settle {
+  from {
+    transform: scale(1.035);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes title-unveil {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+
 @media (width < 64rem) {
   body:has([data-mobile-menu][open]) {
     overflow: hidden;
   }
 
+  /* Preserve scroll position and avoid replaying the hero entrance when the menu closes. */
   body:has([data-mobile-menu][open]) :is(#page-content, footer) {
-    display: none;
+    visibility: hidden;
   }
 }
