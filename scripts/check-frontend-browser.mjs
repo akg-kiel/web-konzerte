@@ -211,6 +211,22 @@ try {
       assert(seeker.valid, `${path}: stale or unnamed seeker anchor`);
       if (width < 1024) assert(!seeker.shown);
       else if (seeker.count > 1) assert(seeker.shown && seeker.current === 1);
+      if ([detail, noPoster, archiveDetail].includes(path)) {
+        assert(
+          await evaluate(`(() => {
+          const actions = document.querySelector('[data-concert-actions]');
+          const back = actions?.querySelector('a'), share = actions?.querySelector('summary');
+          if (!back || !share || document.querySelectorAll('concert-share').length !== 1) return false;
+          const b = back.getBoundingClientRect(), s = share.getBoundingClientRect();
+          const hit = node => { const r = node.getBoundingClientRect(); return node.contains(document.elementFromPoint(r.x+r.width/2, r.y+r.height/2)); };
+          return s.top >= 80 && Math.abs(b.top-s.top) < 2 && b.right+8 <= s.left && s.right <= innerWidth-20 &&
+            s.height >= 44 && s.width >= 44 && hit(back) && hit(share) &&
+            s.bottom <= document.querySelector('main article header').getBoundingClientRect().top;
+        })()`),
+          `${path} ${width}: Back and Share must be separate usable controls above the concert`
+        );
+        if (path === detail) await screenshot(`share-placement-${width}`);
+      }
       if (path.includes('veranstalter')) {
         await wait(
           `document.querySelector('[aria-label^="Verfügbarkeit auswählen"]')?.closest('[aria-busy]')?.getAttribute('aria-busy') === 'false'`
@@ -331,11 +347,35 @@ try {
       `document.querySelector('concert-share [role=status]').textContent.includes('manuell')`
     )
   );
+  for (const width of [320, 375, 768, 1280]) {
+    await call('Emulation.setDeviceMetricsOverride', {
+      width,
+      height: 900,
+      deviceScaleFactor: 1,
+      mobile: width < 768
+    });
+    assert(
+      await evaluate(`(() => {
+      const actions = document.querySelector('[data-concert-actions]').getBoundingClientRect();
+      const input = document.querySelector('concert-share input').getBoundingClientRect();
+      const summary = document.querySelector('concert-share summary').getBoundingClientRect();
+      return input.left >= 0 && input.right <= innerWidth && Math.abs(input.width-actions.width) < 2 && input.top >= summary.bottom;
+    })()`),
+      `Sharing ${width}: manual copy must use the full action-row width without overlap`
+    );
+    if (width === 320) await screenshot('share-manual-copy-320');
+  }
   console.log(
-    'Sharing: trusted Enter, exact title/canonical URL, neutral cancellation, denied clipboard/manual selected fallback passed.'
+    'Sharing: top-row placement, trusted Enter, exact title/canonical URL, neutral cancellation and full-width manual fallback at 320–1280px passed.'
   );
 
   await call('Emulation.setScriptExecutionDisabled', { value: true });
+  await call('Emulation.setDeviceMetricsOverride', {
+    width: 320,
+    height: 900,
+    deviceScaleFactor: 1,
+    mobile: true
+  });
   await load(detail);
   await evaluate(`document.querySelector('concert-share summary').focus()`);
   await key('Enter');
@@ -345,9 +385,20 @@ try {
     ),
     'No-JS manual copying must remain available.'
   );
+  assert(
+    await evaluate(
+      `document.querySelector('concert-share input').getBoundingClientRect().right <= innerWidth`
+    )
+  );
   await call('Emulation.setScriptExecutionDisabled', { value: false });
+  await call('Emulation.setDeviceMetricsOverride', {
+    width: 1280,
+    height: 900,
+    deviceScaleFactor: 1,
+    mobile: false
+  });
   console.log(
-    'Sharing without JavaScript: native disclosure and canonical manual-copy field passed.'
+    'Sharing without JavaScript at 320px: native disclosure and canonical manual-copy field passed.'
   );
 
   // Exercise the real ClientRouter and its head-only programme swaps, then a full body swap.

@@ -11,6 +11,12 @@ const url = 'https://petruskirche.events/programm/ein-konzert-123/';
 const title = 'Ein Konzert & Gäste';
 const page = readFileSync('src/pages/programm/[slug].astro', 'utf8');
 assert(page.includes('<ConcertShare title={concert.title} url={canonicalUrl!} />'));
+assert.match(
+  page,
+  /data-concert-actions[\s\S]*?<ConcertShare[\s\S]*?<header\b/,
+  'Sharing belongs in the top action row, not beside the ticket CTA.'
+);
+assert.equal((page.match(/<ConcertShare\b/g) ?? []).length, 1);
 assert(source.includes('type="url" value={url} readonly'), 'Manual copy is available without JS.');
 
 function setup(navigator) {
