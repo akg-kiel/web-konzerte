@@ -7,7 +7,7 @@
     "build": "pnpm types && astro check && astro build && node scripts/check-cloudflare-build.mjs && node --experimental-strip-types scripts/check-seo-infrastructure.mjs --built",
     "od": "pnpm types && astro check && astro build && node scripts/deploy-opendesign.mjs",
     "preview": "pnpm types && astro preview",
-    "test": "node scripts/check-review-tools.mjs && node scripts/check-header-logo.mjs && node --experimental-strip-types scripts/check-concerts.mjs && node --experimental-strip-types scripts/check-availability.mjs && node --experimental-strip-types scripts/check-contact-mail.mjs && node --experimental-strip-types scripts/check-concert-seo.mjs && node --experimental-strip-types scripts/check-seo-infrastructure.mjs && node --experimental-strip-types scripts/check-scroll-reveal.mjs && node scripts/check-mobile-calendar.mjs && node scripts/check-concert-share.mjs",
+    "test": "node scripts/check-review-tools.mjs && node scripts/check-header-logo.mjs && node --experimental-strip-types scripts/check-concerts.mjs && node --experimental-strip-types scripts/check-availability.mjs && node --experimental-strip-types scripts/check-contact-mail.mjs && node --experimental-strip-types scripts/check-concert-seo.mjs && node --experimental-strip-types scripts/check-seo-infrastructure.mjs && node --experimental-strip-types scripts/check-scroll-reveal.mjs && node scripts/check-mobile-calendar.mjs && node scripts/check-concert-share.mjs && node scripts/check-menu-haptics.mjs",
     "types": "wrangler types --env-file .dev.vars.example",
     "quality": "pnpm test && vp check . && pnpm build",
     "prepare": "vp config"
