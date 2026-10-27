@@ -256,42 +256,6 @@ main :is(p, address) a {
     transition: none;
   }
 
-  scroll-reveal[data-motion='quote'] blockquote {
-    clip-path: inset(-0.12em);
-    transition: clip-path 800ms var(--ease-in-out);
-  }
-
-  scroll-reveal[data-motion='quote'][data-motion-state='pending'] blockquote {
-    clip-path: inset(0 0 100% 0);
-    transition: none;
-  }
-
-  scroll-reveal[data-motion='quote'] cite {
-    transition: opacity 400ms ease 200ms;
-  }
-
-  scroll-reveal[data-motion='quote'][data-motion-state='pending'] cite {
-    opacity: 0;
-    transition: none;
-  }
-
-  scroll-reveal[data-motion='quote'] [aria-hidden] {
-    transition: transform 700ms var(--ease-out) 160ms;
-  }
-
-  scroll-reveal[data-motion='quote'] [aria-hidden]:first-child {
-    transform-origin: right;
-  }
-
-  scroll-reveal[data-motion='quote'] [aria-hidden]:last-child {
-    transform-origin: left;
-  }
-
-  scroll-reveal[data-motion='quote'][data-motion-state='pending'] [aria-hidden] {
-    transform: scaleX(0);
-    transition: none;
-  }
-
   scroll-reveal[data-motion='image'] img {
     clip-path: inset(0);
     transition:
