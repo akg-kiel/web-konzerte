@@ -88,9 +88,9 @@ const pageHref = (target: number) => {
       hasConcerts ? (
         <div class:list={gridClass}>
           {concerts.map((concert) => isHome ? (
-            <home-reveal data-motion="concert" class="block h-full">
+            <scroll-reveal data-motion="card" class="block h-full">
               <ConcertCard concert={concert} imageSizes={imageSizes} variant={variant} idPrefix={cardIdPrefix} />
-            </home-reveal>
+            </scroll-reveal>
           ) : (
             <ConcertCard concert={concert} imageSizes={imageSizes} variant={variant} idPrefix={cardIdPrefix} />
           ))}

@@ -137,11 +137,13 @@ main :is(p, address) a {
   transition-timing-function: var(--ease-out);
 }
 
-.nav-link {
+.nav-link,
+.page-nav a {
   position: relative;
 }
 
-.nav-link::after {
+.nav-link::after,
+.page-nav a::after {
   position: absolute;
   right: 0;
   bottom: 0;
@@ -153,29 +155,39 @@ main :is(p, address) a {
   transform-origin: left;
 }
 
+.programme-nav a::after {
+  bottom: -2px;
+}
+
 .nav-link[aria-current='page']::after,
-.nav-link:focus-visible::after {
+.page-nav a[aria-current='page']::after,
+.nav-link:focus-visible::after,
+.page-nav a:focus-visible::after {
   transform: scaleX(1);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .nav-link:hover::after {
+  .nav-link:hover::after,
+  .page-nav a:hover::after {
     transform: scaleX(1);
   }
 }
 
-.hero-title-line {
+.hero-title-line,
+.stage-title {
   overflow: clip;
   overflow-clip-margin: 0.12em;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .hero-stage-image {
+  .hero-stage-image,
+  .page-stage-image {
     transform-origin: 75% center;
     animation: stage-settle 1000ms var(--ease-out) backwards;
   }
 
-  .hero-stage::after {
+  .hero-stage::after,
+  .page-hero[data-page-motion='stage']::after {
     position: absolute;
     inset: 0;
     background: var(--color-midnight);
@@ -185,7 +197,8 @@ main :is(p, address) a {
     animation: stage-light 1000ms var(--ease-out) backwards;
   }
 
-  .hero-title-word {
+  .hero-title-word,
+  .stage-title-text {
     animation: title-unveil 720ms var(--ease-out) backwards;
   }
 
@@ -194,92 +207,110 @@ main :is(p, address) a {
   }
 
   .hero-intro,
-  .hero-actions {
+  .hero-actions,
+  .page-hero[data-page-motion='stage'] .page-hero-intro,
+  .page-hero-actions {
     animation: hero-follow 480ms var(--ease-out) 160ms backwards;
   }
 
-  .hero-actions {
+  .hero-actions,
+  .page-hero-actions {
     animation-delay: 240ms;
   }
 
-  .hero-actions:focus-within {
+  .hero-actions:focus-within,
+  .page-hero-actions:focus-within {
     animation: none;
   }
 
-  home-reveal[data-motion='concert'] .concert-card {
+  .quiet-title {
+    animation: content-arrive 200ms var(--ease-out) backwards;
+  }
+
+  [data-programme-panel]:not([hidden]),
+  [data-map]:not([hidden]) {
+    animation: content-arrive 180ms var(--ease-out) backwards;
+  }
+
+  [data-programme-surface]:has(.programme-nav a:focus-visible) [data-programme-panel],
+  [data-map]:focus-visible {
+    animation: none;
+  }
+
+  scroll-reveal[data-motion='card'] > :first-child {
     transition:
       opacity 600ms var(--ease-out) var(--reveal-delay, 0ms),
       transform 700ms var(--ease-out) var(--reveal-delay, 0ms),
       border-color 200ms ease;
   }
 
-  home-reveal[data-motion='concert'][data-motion-state='pending'] .concert-card {
+  scroll-reveal[data-motion='card'][data-motion-state='pending'] > :first-child {
     opacity: 0;
     transform: translateY(40px) scale(0.97);
     transition: none;
   }
 
-  home-reveal[data-motion='concert']:focus-within .concert-card {
+  scroll-reveal[data-motion='card']:focus-within > :first-child {
     opacity: 1;
     transform: none;
     transition: none;
   }
 
-  home-reveal[data-motion='quote'] blockquote {
+  scroll-reveal[data-motion='quote'] blockquote {
     clip-path: inset(-0.12em);
     transition: clip-path 800ms var(--ease-in-out);
   }
 
-  home-reveal[data-motion='quote'][data-motion-state='pending'] blockquote {
+  scroll-reveal[data-motion='quote'][data-motion-state='pending'] blockquote {
     clip-path: inset(0 0 100% 0);
     transition: none;
   }
 
-  home-reveal[data-motion='quote'] cite {
+  scroll-reveal[data-motion='quote'] cite {
     transition: opacity 400ms ease 200ms;
   }
 
-  home-reveal[data-motion='quote'][data-motion-state='pending'] cite {
+  scroll-reveal[data-motion='quote'][data-motion-state='pending'] cite {
     opacity: 0;
     transition: none;
   }
 
-  home-reveal[data-motion='quote'] [aria-hidden] {
+  scroll-reveal[data-motion='quote'] [aria-hidden] {
     transition: transform 700ms var(--ease-out) 160ms;
   }
 
-  home-reveal[data-motion='quote'] [aria-hidden]:first-child {
+  scroll-reveal[data-motion='quote'] [aria-hidden]:first-child {
     transform-origin: right;
   }
 
-  home-reveal[data-motion='quote'] [aria-hidden]:last-child {
+  scroll-reveal[data-motion='quote'] [aria-hidden]:last-child {
     transform-origin: left;
   }
 
-  home-reveal[data-motion='quote'][data-motion-state='pending'] [aria-hidden] {
+  scroll-reveal[data-motion='quote'][data-motion-state='pending'] [aria-hidden] {
     transform: scaleX(0);
     transition: none;
   }
 
-  home-reveal[data-motion='architecture'] img {
+  scroll-reveal[data-motion='image'] img {
     clip-path: inset(0);
     transition:
       clip-path 800ms var(--ease-in-out),
       transform 800ms var(--ease-out);
   }
 
-  home-reveal[data-motion='architecture'][data-motion-state='pending'] img {
+  scroll-reveal[data-motion='image'][data-motion-state='pending'] img {
     clip-path: inset(0 0 100% 0);
     transform: scale(1.08);
     transition: none;
   }
 
   @media (width >= 48rem) {
-    home-reveal[data-motion='concert']:nth-child(2) {
+    scroll-reveal[data-motion='card']:nth-child(2) {
       --reveal-delay: 80ms;
     }
 
-    home-reveal[data-motion='concert']:nth-child(3) {
+    scroll-reveal[data-motion='card']:nth-child(3) {
       --reveal-delay: 160ms;
     }
   }
@@ -292,11 +323,13 @@ main :is(p, address) a {
     scale: 0.97;
   }
 
-  .nav-link::after {
+  .nav-link::after,
+  .page-nav a::after {
     transition: transform 200ms var(--ease-out);
   }
 
-  .nav-link:focus-visible::after {
+  .nav-link:focus-visible::after,
+  .page-nav a:focus-visible::after {
     transition: none;
   }
 
@@ -351,6 +384,15 @@ main :is(p, address) a {
   }
   to {
     transform: none;
+  }
+}
+
+@keyframes content-arrive {
+  from {
+    opacity: 0.7;
+  }
+  to {
+    opacity: 1;
   }
 }
 

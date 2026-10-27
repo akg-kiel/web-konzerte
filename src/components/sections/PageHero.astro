@@ -21,8 +21,9 @@ const hasCta = Astro.slots.has('cta');
 
 <section
   aria-labelledby="page-hero-heading"
+  data-page-motion={hasImage ? 'stage' : 'quiet'}
   class:list={[
-    'relative overflow-hidden bg-role-dominant text-role-on',
+    'page-hero relative overflow-hidden bg-role-dominant text-role-on',
     hasImage
       ? 'flex min-h-[68svh] items-end pt-28 pb-16 md:min-h-[82svh] md:pb-28'
       : 'pt-32 pb-14 md:pb-20'
@@ -35,7 +36,7 @@ const hasCta = Astro.slots.has('cta');
           <Image
             src={image}
             alt={imageAlt}
-            class="absolute inset-0 h-full w-full object-cover"
+            class="page-stage-image absolute inset-0 h-full w-full object-cover"
             style={`object-position: ${imagePosition};`}
             width={1920}
             height={1080}
@@ -50,7 +51,7 @@ const hasCta = Astro.slots.has('cta');
           <Image
             src={image!}
             alt={imageAlt}
-            class="absolute inset-0 !h-full !w-full object-cover"
+            class="page-stage-image absolute inset-0 !h-full !w-full object-cover"
             style={`object-position: ${imagePosition};`}
             widths={[640, 960, 1280, 1600, 1920]}
             sizes="100vw"
@@ -80,9 +81,12 @@ const hasCta = Astro.slots.has('cta');
     }
     <h1
       id="page-hero-heading"
-      class="font-display text-4xl/tight font-normal tracking-tighter text-white sm:text-5xl/tight md:text-7xl/none lg:text-8xl/none"
+      class:list={[
+        'font-display text-4xl/tight font-normal tracking-tighter text-white sm:text-5xl/tight md:text-7xl/none lg:text-8xl/none',
+        hasImage && 'stage-title'
+      ]}
     >
-      <slot />
+      <span class:list={['block', hasImage ? 'stage-title-text' : 'quiet-title']}><slot /></span>
     </h1>
     {
       subtitle && (
@@ -93,13 +97,13 @@ const hasCta = Astro.slots.has('cta');
     }
     {
       intro && (
-        <p class="mt-6 max-w-2xl font-body text-lg/8 text-role-on/85">
+        <p class="page-hero-intro mt-6 max-w-2xl font-body text-lg/8 text-role-on/85">
           {intro}
         </p>
       )
     }
     {hasCta && (
-      <div class="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
+      <div class="page-hero-actions mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
         <slot name="cta" />
       </div>
     )}
