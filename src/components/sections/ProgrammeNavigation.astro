@@ -5,13 +5,13 @@ const links = [
 ];
 ---
 
-<nav aria-label="Konzertprogramm" class="mb-8 flex flex-wrap gap-x-6 border-b border-white/20">
+<nav aria-label="Konzertprogramm" class="page-nav programme-nav mb-8 flex flex-wrap gap-x-6 border-b border-white/20">
   {links.map(({ href, label }) => (
     <a
       href={href}
       data-astro-prefetch="false"
       aria-current={Astro.url.pathname === href ? 'page' : undefined}
-      class="inline-flex min-h-12 items-center whitespace-nowrap border-b-2 border-transparent py-3 font-body text-base/6 font-semibold text-role-on/80 no-underline transition-colors hover:text-champagne focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-secondary aria-[current=page]:border-secondary aria-[current=page]:text-secondary"
+      class="inline-flex min-h-12 items-center whitespace-nowrap border-b-2 border-transparent py-3 font-body text-base/6 font-semibold text-role-on/80 no-underline transition-colors hover:text-champagne focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-secondary aria-[current=page]:text-secondary"
     >
       {label}
     </a>

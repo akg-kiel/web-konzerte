@@ -27,7 +27,7 @@ const { programmeConcerts } = splitConcerts(result.concerts);
     </HomeConcerts>
 
     <section class="py-16 md:py-44" aria-label="Zitat über Musik">
-      <home-reveal data-motion="quote" class="mx-auto flex w-full max-w-3xl flex-col items-center px-6 text-center md:px-8">
+      <scroll-reveal data-motion="quote" class="mx-auto flex w-full max-w-3xl flex-col items-center px-6 text-center md:px-8">
         <blockquote class="max-w-none text-center font-display text-2xl/tight font-normal italic tracking-tight text-white md:text-4xl/tight">
           Musik drückt das aus, was nicht gesagt werden kann und worüber zu schweigen unmöglich ist.
         </blockquote>
@@ -36,7 +36,7 @@ const { programmeConcerts } = splitConcerts(result.concerts);
           <cite class="block text-center font-body text-xs/4 font-semibold uppercase not-italic tracking-widest text-secondary">Victor Hugo</cite>
           <span class="h-px w-6 bg-secondary/25" aria-hidden="true"></span>
         </div>
-      </home-reveal>
+      </scroll-reveal>
     </section>
 
     <section class="relative overflow-hidden border-y border-white/5 bg-surface py-16 md:py-24 lg:py-32" aria-labelledby="architecture-heading">
@@ -52,7 +52,7 @@ const { programmeConcerts } = splitConcerts(result.concerts);
             </p>
           </div>
         </div>
-        <home-reveal data-motion="architecture" class="order-1 block md:order-2">
+        <scroll-reveal data-motion="image" class="order-1 block md:order-2">
           <Card as="figure" class="aspect-[4/5] bg-slate-mist/30 shadow-panel">
             <Image
               src={churchExterior}
@@ -63,7 +63,7 @@ const { programmeConcerts } = splitConcerts(result.concerts);
               decoding="async"
             />
           </Card>
-        </home-reveal>
+        </scroll-reveal>
       </div>
     </section>
 
@@ -91,7 +91,3 @@ const { programmeConcerts } = splitConcerts(result.concerts);
     </section>
   </main>
 </Layout>
-
-<script>
-  import '../scripts/home-motion';
-</script>

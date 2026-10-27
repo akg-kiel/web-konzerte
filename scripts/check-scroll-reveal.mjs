@@ -43,8 +43,8 @@ globalThis.customElements = {
     registry.set(name, constructor);
   }
 };
-await import('../src/scripts/home-motion.ts');
-const Reveal = registry.get('home-reveal');
+await import('../src/scripts/scroll-reveal.ts');
+const Reveal = registry.get('scroll-reveal');
 const observer = globalThis.motionObserver;
 const make = (top = 1200) => {
   const element = new Reveal();
@@ -111,16 +111,16 @@ assert.equal(make().dataset.motionState, 'visible', 'Reduced motion must never h
 preference.matches = false;
 delete window.IntersectionObserver;
 registry.clear();
-await import('../src/scripts/home-motion.ts?without-observer');
-const fallback = new (registry.get('home-reveal'))();
+await import('../src/scripts/scroll-reveal.ts?without-observer');
+const fallback = new (registry.get('scroll-reveal'))();
 fallback.connectedCallback();
 assert.equal(
   fallback.dataset.motionState,
   'visible',
   'Unsupported observers must leave content visible'
 );
-await import('../src/scripts/home-motion.ts?already-registered');
+await import('../src/scripts/scroll-reveal.ts?already-registered');
 
 console.log(
-  'Home motion: once-only reveals, island replacements, focus, cleanup, reduced motion and fallback passed.'
+  'Scroll reveals: once-only reveals, island replacements, focus, cleanup, reduced motion and fallback passed.'
 );

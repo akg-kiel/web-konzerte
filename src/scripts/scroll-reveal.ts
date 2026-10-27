@@ -4,14 +4,14 @@ const observer =
     ? new IntersectionObserver(
         (entries) => {
           for (const entry of entries) {
-            if (entry.isIntersecting) (entry.target as HomeReveal).reveal();
+            if (entry.isIntersecting) (entry.target as ScrollReveal).reveal();
           }
         },
         { rootMargin: '0px 0px -48px 0px', threshold: 0.12 }
       )
     : null;
 
-class HomeReveal extends HTMLElement {
+class ScrollReveal extends HTMLElement {
   reveal = () => {
     this.dataset.motionState = 'visible';
     observer?.unobserve(this);
@@ -40,11 +40,11 @@ class HomeReveal extends HTMLElement {
   }
 }
 
-if (!customElements.get('home-reveal')) customElements.define('home-reveal', HomeReveal);
+if (!customElements.get('scroll-reveal')) customElements.define('scroll-reveal', ScrollReveal);
 
 reducedMotion.addEventListener('change', () => {
   if (!reducedMotion.matches) return;
   document
-    .querySelectorAll<HomeReveal>('home-reveal[data-motion-state="pending"]')
+    .querySelectorAll<ScrollReveal>('scroll-reveal[data-motion-state="pending"]')
     .forEach((element) => element.reveal());
 });
