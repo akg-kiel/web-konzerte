@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 
 const elements = [];
 const preference = new EventTarget();
@@ -121,6 +122,15 @@ assert.equal(
 );
 await import('../src/scripts/scroll-reveal.ts?already-registered');
 
+const home = await readFile(new URL('../src/pages/index.astro', import.meta.url), 'utf8');
+for (const section of [
+  home.match(/<section\b[^>]*aria-label="Zitat über Musik"[\s\S]*?<\/section>/)?.[0],
+  home.match(/<section\b[^>]*aria-labelledby="architecture-heading"[\s\S]*?<\/section>/)?.[0]
+]) {
+  assert(section, 'The home quotation and church section must exist.');
+  assert.doesNotMatch(section, /<scroll-reveal\b/, 'Home content must remain visible.');
+}
+
 console.log(
-  'Scroll reveals: once-only reveals, island replacements, focus, cleanup, reduced motion and fallback passed.'
+  'Scroll reveals: once-only reveals, island replacements, focus, cleanup, reduced motion, fallback and static home content passed.'
 );

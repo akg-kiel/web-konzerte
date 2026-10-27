@@ -47,7 +47,7 @@ Implementation lives in `src/styles/globals.css` and `tailwind.config.js`.
 
 ## Motion
 
-- Home: a single stage-light/title entrance, followed by one-time concert, quotation and architecture reveals.
+- Home: a single stage-light/title entrance, followed by one-time concert-card reveals. The quotation and church photograph stay fully visible without scroll reveals.
 - Shared `scroll-reveal` uses IntersectionObserver for images and card groups across the site; content stays visible without JavaScript or with reduced motion.
 - Never replay already-visible content when server islands refresh. Keyboard focus reveals content immediately.
 - Image-led subpages and concert details share the stage/title entrance; legal pages use a short opacity-only title arrival.
