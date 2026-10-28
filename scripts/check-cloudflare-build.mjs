@@ -14,16 +14,27 @@ assert.equal(
 );
 
 const home = await readFile('dist/index.html', 'utf8');
+assert.match(home, /<source\b[^>]*type="image\/avif"[^>]*srcset="\/_astro\//);
+assert.match(
+  home,
+  /<img\b[^>]*src="\/_astro\/l1130722-hero\.[^"]+\.webp"[^>]*fetchpriority="high"/
+);
 for (const source of ['l1130722-hero', 'petruskirche-exterior']) {
   const images = [...home.matchAll(/<img\b[^>]*>/g)]
     .map(([tag]) => tag)
-    .filter((tag) => tag.includes(source));
+    .filter((tag) => tag.match(/\ssrc="([^"]+)"/)?.[1].startsWith(`/_astro/${source}.`));
   assert(images.length > 0, `Expected ${source} on the home page.`);
   for (const image of images) {
     assert.match(image, /src="\/_astro\//, `${source}: optimize fixed images at build time.`);
     assert.match(image, /srcset="[^"]+"/, `${source}: keep responsive variants.`);
     assert.match(image, /\ssizes="[^"]+"/, `${source}: declare the rendered image size.`);
   }
+}
+
+for (const [card] of home.matchAll(/<article\b[^>]*>[\s\S]*?<img\b[^>]*>/g)) {
+  const image = card.match(/<img\b[^>]*>/)?.[0];
+  assert.match(image, /src="\/_image\//, 'Fallback cards must reuse the server island image URLs.');
+  assert.match(image, /srcset="\/_image\//, 'Responsive card URLs must also stay stable.');
 }
 
 const enabled = config.vars.CONTACT_FORMS_ENABLED === 'true';

@@ -1,8 +1,16 @@
 ---
-import { Image } from 'astro:assets';
+import { getImage, Image } from 'astro:assets';
 
 import heroStage from '../../assets/hero/l1130722-hero.jpg';
 import { ButtonLink } from '../ui/button';
+
+const widths = [640, 960, 1280, 1600, 1920];
+const avif = await getImage({
+  src: heroStage,
+  widths,
+  format: 'avif',
+  quality: 50
+});
 ---
 
 <section
@@ -10,16 +18,19 @@ import { ButtonLink } from '../ui/button';
   class="relative flex min-h-[100svh] items-end overflow-hidden bg-role-dominant px-0 pb-[calc(3.5rem+env(safe-area-inset-bottom))] pt-24 text-role-on sm:pb-20 md:pb-44 lg:pb-22"
 >
   <div class="hero-stage absolute inset-x-0 top-0 bottom-[40svh] z-0 w-full overflow-hidden md:bottom-[10svh]">
-    <Image
-      src={heroStage}
-      alt=""
-      class="hero-stage-image h-full w-full object-cover object-[75%_center]"
-      widths={[640, 960, 1280, 1600, 1920]}
-      sizes="100vw"
-      priority
-      format="webp"
-      quality={70}
-    />
+    <picture class="contents">
+      <source type="image/avif" srcset={avif.srcSet.attribute} sizes="100vw" />
+      <Image
+        src={heroStage}
+        alt=""
+        class="hero-stage-image h-full w-full object-cover object-[75%_center]"
+        widths={widths}
+        sizes="100vw"
+        priority
+        format="webp"
+        quality={70}
+      />
+    </picture>
     <div
       aria-hidden="true"
       class="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(2,6,23,0.04)_0%,rgba(2,6,23,0.08)_46%,rgba(2,6,23,0.3)_70%,rgba(2,6,23,0.72)_100%)] md:bg-[linear-gradient(to_bottom,rgba(2,6,23,0.02)_0%,rgba(2,6,23,0.04)_58%,rgba(2,6,23,0.18)_82%,rgba(2,6,23,0.68)_100%)]"

@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { getConfiguredImageService, getImage, imageConfig } from 'astro:assets';
 
 import fallbackImage from '../../assets/hero/l1130722-hero.jpg';
 import { resolveConcertImage } from '../../data/concert-images';
@@ -18,11 +18,27 @@ interface Props {
 const { concert: sourceConcert, imageSizes, variant = 'home', idPrefix = '', ...rest } = Astro.props;
 const concert = await resolveConcertImage(sourceConcert);
 
-const imageQuality = 80;
 const description = concert.shortDescription ?? concert.programme;
 const isHome = variant === 'home';
 const isArchive = variant === 'archive';
-const imageRatio = concert.imageAspectRatio ?? 4 / 3;
+const imageRatio = concert.image ? (concert.imageAspectRatio ?? 4 / 3) : fallbackImage.width / fallbackImage.height;
+const image = await getImage({
+  src: concert.image ?? fallbackImage,
+  alt: concert.image ? concert.imageAlt : '',
+  width: 960,
+  height: Math.max(1, Math.round(960 / imageRatio)),
+  widths: [480, 720, 960],
+  format: 'webp',
+  quality: concert.image ? 80 : 70,
+  loading: 'lazy',
+  decoding: 'async'
+});
+// The build-time fallback and refreshed server island must use the same image URLs.
+const imageService = await getConfiguredImageService();
+const imageSrc = await imageService.getURL(image.options, imageConfig);
+const imageSrcSet = (await Promise.all(image.srcSet.values.map(async ({ transform, descriptor }) =>
+  `${await imageService.getURL(transform, imageConfig)} ${descriptor}`
+))).join(', ');
 const cardId = idPrefix ? `${idPrefix}-${concert.slug}` : concert.slug;
 const titleId = `${cardId}-title`;
 
@@ -47,35 +63,15 @@ const compactTicketClass = buttonVariants({ variant: 'outline', className: `${ac
   ></a>
 
   <div class="pointer-events-none relative aspect-[4/3] w-full shrink-0 overflow-hidden">
-    {concert.image ? (
-      <Image
-        src={concert.image}
-        alt={concert.imageAlt}
-        class="absolute inset-0 h-full w-full object-cover"
-        style={`object-position: ${concert.imagePosition};`}
-        width={960}
-        height={Math.max(1, Math.round(960 / imageRatio))}
-        widths={[480, 720, 960]}
-        sizes={imageSizes}
-        loading="lazy"
-        decoding="async"
-        format="webp"
-        quality={imageQuality}
-        onerror={`this.onerror=null;this.srcset='';this.src='${fallbackImage.src}';this.alt='';this.style.objectPosition='50% 50%'`}
-      />
-    ) : (
-      <Image
-        src={fallbackImage}
-        alt=""
-        class="absolute inset-0 h-full w-full object-cover"
-        widths={[480, 720, 960]}
-        sizes={imageSizes}
-        loading="lazy"
-        decoding="async"
-        format="webp"
-        quality={imageQuality}
-      />
-    )}
+    <img
+      {...image.attributes}
+      src={imageSrc}
+      srcset={imageSrcSet}
+      sizes={imageSizes}
+      class="absolute inset-0 h-full w-full object-cover"
+      style={`object-position: ${concert.imagePosition};`}
+      onerror={concert.image ? `this.onerror=null;this.srcset='';this.src='${fallbackImage.src}';this.alt='';this.style.objectPosition='50% 50%'` : undefined}
+    />
     <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0),rgba(2,6,23,0.12))]" aria-hidden="true"></div>
   </div>
 
