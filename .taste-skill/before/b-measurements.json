@@ -1,0 +1,2579 @@
+{
+  "scope": "http://127.0.0.1:4321/",
+  "main": [
+    {
+      "width": 320,
+      "height": 812,
+      "root": {
+        "innerWidth": 320,
+        "clientWidth": 320,
+        "scrollWidth": 320,
+        "bodyScrollWidth": 320,
+        "height": 5582,
+        "overflowX": "clip"
+      },
+      "rawCounts": {
+        "overflow": 0,
+        "overlap": 2,
+        "clipping": 2,
+        "edge": 1,
+        "images": 0,
+        "zeroGhost": 11,
+        "unreadable": 23
+      },
+      "counts": {
+        "h1": 1,
+        "concertCards": 3,
+        "ctaCards": 2,
+        "images": 7
+      },
+      "headings": [
+        {
+          "tag": "h1",
+          "text": "Konzerte in derPetruskirche Kiel",
+          "size": "36px",
+          "lineHeight": "45px",
+          "lines": 2
+        },
+        {
+          "tag": "h2",
+          "text": "Nächste Konzerte in Kiel",
+          "size": "12px",
+          "lineHeight": "16px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "EBG Sinfoniekonzert",
+          "size": "20px",
+          "lineHeight": "27.5px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "Die drei ??? – Kids",
+          "size": "20px",
+          "lineHeight": "27.5px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "Home for Christmas",
+          "size": "20px",
+          "lineHeight": "27.5px",
+          "lines": 1
+        },
+        {
+          "tag": "blockquote",
+          "text": "Musik drückt das aus, was nicht gesagt werden kann und worüber zu schweigen unmöglich ist.",
+          "size": "24px",
+          "lineHeight": "30px",
+          "lines": 4
+        },
+        {
+          "tag": "h2",
+          "text": "Die Petruskirche – Kiels Konzertkirche",
+          "size": "12px",
+          "lineHeight": "16px",
+          "lines": 2
+        },
+        {
+          "tag": "h2",
+          "text": "Besuch und Veranstaltung planen",
+          "size": "12px",
+          "lineHeight": "16px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "Besuch planen",
+          "size": "24px",
+          "lineHeight": "32px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "Raum anfragen",
+          "size": "24px",
+          "lineHeight": "32px",
+          "lines": 1
+        },
+        {
+          "tag": "h2",
+          "text": "",
+          "size": "16px",
+          "lineHeight": "26px",
+          "lines": 0
+        }
+      ],
+      "margins": [
+        {
+          "section": "Hauptnavigation",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        },
+        {
+          "section": "hero-heading",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        },
+        {
+          "section": "naechste-konzerte-heading",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        },
+        {
+          "section": "Zitat über Musik",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        },
+        {
+          "section": "architecture-heading",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        },
+        {
+          "section": "service-heading",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        },
+        {
+          "section": "FOOTER",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        }
+      ],
+      "grid": [
+        {
+          "columns": "272px",
+          "gap": "32px",
+          "items": [
+            {
+              "x": 24,
+              "y": 924,
+              "w": 272,
+              "h": 421
+            },
+            {
+              "x": 24,
+              "y": 1377,
+              "w": 272,
+              "h": 421
+            },
+            {
+              "x": 24,
+              "y": 1830,
+              "w": 272,
+              "h": 567
+            }
+          ],
+          "gaps": [
+            {
+              "dx": -272,
+              "dy": 32,
+              "sameRow": false
+            },
+            {
+              "dx": -272,
+              "dy": 32,
+              "sameRow": false
+            }
+          ]
+        },
+        {
+          "columns": "272px",
+          "gap": "32px",
+          "items": [
+            {
+              "x": 24,
+              "y": 3771,
+              "w": 272,
+              "h": 382
+            },
+            {
+              "x": 24,
+              "y": 4185,
+              "w": 272,
+              "h": 438
+            }
+          ],
+          "gaps": [
+            {
+              "dx": -272,
+              "dy": 32,
+              "sameRow": false
+            }
+          ]
+        }
+      ],
+      "cta": [
+        {
+          "w": 272,
+          "h": 382,
+          "padding": "32px",
+          "headingOwnLink": true,
+          "nestedLinks": 0
+        },
+        {
+          "w": 272,
+          "h": 438,
+          "padding": "32px",
+          "headingOwnLink": true,
+          "nestedLinks": 0
+        }
+      ],
+      "clamp": [
+        {
+          "clamp": "3",
+          "height": 80,
+          "lineHeight": "22.75px",
+          "scroll": [206, 159],
+          "client": [206, 80]
+        }
+      ],
+      "targetsUnder44": [
+        {
+          "label": "Direkt zum Inhalt springen",
+          "w": 218.28,
+          "h": 42,
+          "under24": false
+        },
+        {
+          "label": "Alle Termine ansehen→",
+          "w": 179.55,
+          "h": 16,
+          "under24": true
+        },
+        {
+          "label": "kontakt@petruskirche.events",
+          "w": 272,
+          "h": 24,
+          "under24": false
+        },
+        {
+          "label": "Gemeindebüro 0431 16 456",
+          "w": 272,
+          "h": 24,
+          "under24": false
+        },
+        {
+          "label": "Home",
+          "w": 36.73,
+          "h": 44,
+          "under24": false
+        }
+      ],
+      "church": {
+        "width": 320,
+        "decoded": true,
+        "complete": true,
+        "natural": [320, 485],
+        "rendered": [270, 338],
+        "x": 25,
+        "y": 237,
+        "opacity": "1",
+        "visibility": "visible",
+        "hit": "IMG",
+        "hitIsImage": true,
+        "ancestors": [
+          {
+            "tag": "IMG",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "FIGURE",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "DIV",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "DIV",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "grid",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "SECTION",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "MAIN",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "DIV",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          }
+        ]
+      },
+      "correctedContrastMin": 5.9
+    },
+    {
+      "width": 375,
+      "height": 812,
+      "root": {
+        "innerWidth": 375,
+        "clientWidth": 375,
+        "scrollWidth": 375,
+        "bodyScrollWidth": 375,
+        "height": 5599,
+        "overflowX": "clip"
+      },
+      "rawCounts": {
+        "overflow": 0,
+        "overlap": 2,
+        "clipping": 2,
+        "edge": 1,
+        "images": 0,
+        "zeroGhost": 11,
+        "unreadable": 23
+      },
+      "counts": {
+        "h1": 1,
+        "concertCards": 3,
+        "ctaCards": 2,
+        "images": 7
+      },
+      "headings": [
+        {
+          "tag": "h1",
+          "text": "Konzerte in derPetruskirche Kiel",
+          "size": "36px",
+          "lineHeight": "45px",
+          "lines": 2
+        },
+        {
+          "tag": "h2",
+          "text": "Nächste Konzerte in Kiel",
+          "size": "12px",
+          "lineHeight": "16px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "EBG Sinfoniekonzert",
+          "size": "20px",
+          "lineHeight": "27.5px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "Die drei ??? – Kids",
+          "size": "20px",
+          "lineHeight": "27.5px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "Home for Christmas",
+          "size": "20px",
+          "lineHeight": "27.5px",
+          "lines": 1
+        },
+        {
+          "tag": "blockquote",
+          "text": "Musik drückt das aus, was nicht gesagt werden kann und worüber zu schweigen unmöglich ist.",
+          "size": "24px",
+          "lineHeight": "30px",
+          "lines": 4
+        },
+        {
+          "tag": "h2",
+          "text": "Die Petruskirche – Kiels Konzertkirche",
+          "size": "12px",
+          "lineHeight": "16px",
+          "lines": 1
+        },
+        {
+          "tag": "h2",
+          "text": "Besuch und Veranstaltung planen",
+          "size": "12px",
+          "lineHeight": "16px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "Besuch planen",
+          "size": "24px",
+          "lineHeight": "32px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "Raum anfragen",
+          "size": "24px",
+          "lineHeight": "32px",
+          "lines": 1
+        },
+        {
+          "tag": "h2",
+          "text": "",
+          "size": "16px",
+          "lineHeight": "26px",
+          "lines": 0
+        }
+      ],
+      "margins": [
+        {
+          "section": "Hauptnavigation",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        },
+        {
+          "section": "hero-heading",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        },
+        {
+          "section": "naechste-konzerte-heading",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        },
+        {
+          "section": "Zitat über Musik",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        },
+        {
+          "section": "architecture-heading",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        },
+        {
+          "section": "service-heading",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        },
+        {
+          "section": "FOOTER",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        }
+      ],
+      "grid": [
+        {
+          "columns": "327px",
+          "gap": "32px",
+          "items": [
+            {
+              "x": 24,
+              "y": 924,
+              "w": 327,
+              "h": 446.25
+            },
+            {
+              "x": 24,
+              "y": 1402.25,
+              "w": 327,
+              "h": 446.25
+            },
+            {
+              "x": 24,
+              "y": 1880.5,
+              "w": 327,
+              "h": 592.25
+            }
+          ],
+          "gaps": [
+            {
+              "dx": -327,
+              "dy": 32,
+              "sameRow": false
+            },
+            {
+              "dx": -327,
+              "dy": 32,
+              "sameRow": false
+            }
+          ]
+        },
+        {
+          "columns": "327px",
+          "gap": "32px",
+          "items": [
+            {
+              "x": 24,
+              "y": 3871.5,
+              "w": 327,
+              "h": 354
+            },
+            {
+              "x": 24,
+              "y": 4257.5,
+              "w": 327,
+              "h": 382
+            }
+          ],
+          "gaps": [
+            {
+              "dx": -327,
+              "dy": 32,
+              "sameRow": false
+            }
+          ]
+        }
+      ],
+      "cta": [
+        {
+          "w": 327,
+          "h": 354,
+          "padding": "32px",
+          "headingOwnLink": true,
+          "nestedLinks": 0
+        },
+        {
+          "w": 327,
+          "h": 382,
+          "padding": "32px",
+          "headingOwnLink": true,
+          "nestedLinks": 0
+        }
+      ],
+      "clamp": [
+        {
+          "clamp": "3",
+          "height": 80,
+          "lineHeight": "22.75px",
+          "scroll": [261, 137],
+          "client": [261, 80]
+        }
+      ],
+      "targetsUnder44": [
+        {
+          "label": "Direkt zum Inhalt springen",
+          "w": 218.28,
+          "h": 42,
+          "under24": false
+        },
+        {
+          "label": "Alle Termine ansehen→",
+          "w": 179.55,
+          "h": 16,
+          "under24": true
+        },
+        {
+          "label": "kontakt@petruskirche.events",
+          "w": 327,
+          "h": 24,
+          "under24": false
+        },
+        {
+          "label": "Gemeindebüro 0431 16 456",
+          "w": 327,
+          "h": 24,
+          "under24": false
+        },
+        {
+          "label": "Home",
+          "w": 36.73,
+          "h": 44,
+          "under24": false
+        }
+      ],
+      "church": {
+        "width": 375,
+        "decoded": true,
+        "complete": true,
+        "natural": [375, 568],
+        "rendered": [325, 406.75],
+        "x": 25,
+        "y": 202.75,
+        "opacity": "1",
+        "visibility": "visible",
+        "hit": "IMG",
+        "hitIsImage": true,
+        "ancestors": [
+          {
+            "tag": "IMG",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "FIGURE",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "DIV",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "DIV",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "grid",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "SECTION",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "MAIN",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "DIV",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          }
+        ]
+      },
+      "correctedContrastMin": 5.9
+    },
+    {
+      "width": 390,
+      "height": 812,
+      "root": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "bodyScrollWidth": 390,
+        "height": 5623,
+        "overflowX": "clip"
+      },
+      "rawCounts": {
+        "overflow": 0,
+        "overlap": 2,
+        "clipping": 2,
+        "edge": 1,
+        "images": 0,
+        "zeroGhost": 11,
+        "unreadable": 23
+      },
+      "counts": {
+        "h1": 1,
+        "concertCards": 3,
+        "ctaCards": 2,
+        "images": 7
+      },
+      "headings": [
+        {
+          "tag": "h1",
+          "text": "Konzerte in derPetruskirche Kiel",
+          "size": "36px",
+          "lineHeight": "45px",
+          "lines": 2
+        },
+        {
+          "tag": "h2",
+          "text": "Nächste Konzerte in Kiel",
+          "size": "12px",
+          "lineHeight": "16px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "EBG Sinfoniekonzert",
+          "size": "20px",
+          "lineHeight": "27.5px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "Die drei ??? – Kids",
+          "size": "20px",
+          "lineHeight": "27.5px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "Home for Christmas",
+          "size": "20px",
+          "lineHeight": "27.5px",
+          "lines": 1
+        },
+        {
+          "tag": "blockquote",
+          "text": "Musik drückt das aus, was nicht gesagt werden kann und worüber zu schweigen unmöglich ist.",
+          "size": "24px",
+          "lineHeight": "30px",
+          "lines": 4
+        },
+        {
+          "tag": "h2",
+          "text": "Die Petruskirche – Kiels Konzertkirche",
+          "size": "12px",
+          "lineHeight": "16px",
+          "lines": 1
+        },
+        {
+          "tag": "h2",
+          "text": "Besuch und Veranstaltung planen",
+          "size": "12px",
+          "lineHeight": "16px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "Besuch planen",
+          "size": "24px",
+          "lineHeight": "32px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "Raum anfragen",
+          "size": "24px",
+          "lineHeight": "32px",
+          "lines": 1
+        },
+        {
+          "tag": "h2",
+          "text": "",
+          "size": "16px",
+          "lineHeight": "26px",
+          "lines": 0
+        }
+      ],
+      "margins": [
+        {
+          "section": "Hauptnavigation",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        },
+        {
+          "section": "hero-heading",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        },
+        {
+          "section": "naechste-konzerte-heading",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        },
+        {
+          "section": "Zitat über Musik",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        },
+        {
+          "section": "architecture-heading",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        },
+        {
+          "section": "service-heading",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        },
+        {
+          "section": "FOOTER",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        }
+      ],
+      "grid": [
+        {
+          "columns": "342px",
+          "gap": "32px",
+          "items": [
+            {
+              "x": 24,
+              "y": 924,
+              "w": 342,
+              "h": 457.5
+            },
+            {
+              "x": 24,
+              "y": 1413.5,
+              "w": 342,
+              "h": 457.5
+            },
+            {
+              "x": 24,
+              "y": 1903,
+              "w": 342,
+              "h": 603.5
+            }
+          ],
+          "gaps": [
+            {
+              "dx": -342,
+              "dy": 32,
+              "sameRow": false
+            },
+            {
+              "dx": -342,
+              "dy": 32,
+              "sameRow": false
+            }
+          ]
+        },
+        {
+          "columns": "342px",
+          "gap": "32px",
+          "items": [
+            {
+              "x": 24,
+              "y": 3896,
+              "w": 342,
+              "h": 354
+            },
+            {
+              "x": 24,
+              "y": 4282,
+              "w": 342,
+              "h": 382
+            }
+          ],
+          "gaps": [
+            {
+              "dx": -342,
+              "dy": 32,
+              "sameRow": false
+            }
+          ]
+        }
+      ],
+      "cta": [
+        {
+          "w": 342,
+          "h": 354,
+          "padding": "32px",
+          "headingOwnLink": true,
+          "nestedLinks": 0
+        },
+        {
+          "w": 342,
+          "h": 382,
+          "padding": "32px",
+          "headingOwnLink": true,
+          "nestedLinks": 0
+        }
+      ],
+      "clamp": [
+        {
+          "clamp": "3",
+          "height": 80,
+          "lineHeight": "22.75px",
+          "scroll": [276, 137],
+          "client": [276, 80]
+        }
+      ],
+      "targetsUnder44": [
+        {
+          "label": "Direkt zum Inhalt springen",
+          "w": 218.28,
+          "h": 42,
+          "under24": false
+        },
+        {
+          "label": "Alle Termine ansehen→",
+          "w": 179.55,
+          "h": 16,
+          "under24": true
+        },
+        {
+          "label": "kontakt@petruskirche.events",
+          "w": 342,
+          "h": 24,
+          "under24": false
+        },
+        {
+          "label": "Gemeindebüro 0431 16 456",
+          "w": 342,
+          "h": 24,
+          "under24": false
+        },
+        {
+          "label": "Home",
+          "w": 36.73,
+          "h": 44,
+          "under24": false
+        }
+      ],
+      "church": {
+        "width": 390,
+        "decoded": true,
+        "complete": true,
+        "natural": [389, 591],
+        "rendered": [340, 425.5],
+        "x": 25,
+        "y": 193.5,
+        "opacity": "1",
+        "visibility": "visible",
+        "hit": "IMG",
+        "hitIsImage": true,
+        "ancestors": [
+          {
+            "tag": "IMG",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "FIGURE",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "DIV",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "DIV",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "grid",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "SECTION",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "MAIN",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "DIV",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          }
+        ]
+      },
+      "correctedContrastMin": 5.9
+    },
+    {
+      "width": 414,
+      "height": 812,
+      "root": {
+        "innerWidth": 414,
+        "clientWidth": 414,
+        "scrollWidth": 414,
+        "bodyScrollWidth": 414,
+        "height": 5649,
+        "overflowX": "clip"
+      },
+      "rawCounts": {
+        "overflow": 0,
+        "overlap": 3,
+        "clipping": 2,
+        "edge": 1,
+        "images": 0,
+        "zeroGhost": 11,
+        "unreadable": 23
+      },
+      "counts": {
+        "h1": 1,
+        "concertCards": 3,
+        "ctaCards": 2,
+        "images": 7
+      },
+      "headings": [
+        {
+          "tag": "h1",
+          "text": "Konzerte in derPetruskirche Kiel",
+          "size": "36px",
+          "lineHeight": "45px",
+          "lines": 2
+        },
+        {
+          "tag": "h2",
+          "text": "Nächste Konzerte in Kiel",
+          "size": "12px",
+          "lineHeight": "16px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "EBG Sinfoniekonzert",
+          "size": "20px",
+          "lineHeight": "27.5px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "Die drei ??? – Kids",
+          "size": "20px",
+          "lineHeight": "27.5px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "Home for Christmas",
+          "size": "20px",
+          "lineHeight": "27.5px",
+          "lines": 1
+        },
+        {
+          "tag": "blockquote",
+          "text": "Musik drückt das aus, was nicht gesagt werden kann und worüber zu schweigen unmöglich ist.",
+          "size": "24px",
+          "lineHeight": "30px",
+          "lines": 3
+        },
+        {
+          "tag": "h2",
+          "text": "Die Petruskirche – Kiels Konzertkirche",
+          "size": "12px",
+          "lineHeight": "16px",
+          "lines": 1
+        },
+        {
+          "tag": "h2",
+          "text": "Besuch und Veranstaltung planen",
+          "size": "12px",
+          "lineHeight": "16px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "Besuch planen",
+          "size": "24px",
+          "lineHeight": "32px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "Raum anfragen",
+          "size": "24px",
+          "lineHeight": "32px",
+          "lines": 1
+        },
+        {
+          "tag": "h2",
+          "text": "",
+          "size": "16px",
+          "lineHeight": "26px",
+          "lines": 0
+        }
+      ],
+      "margins": [
+        {
+          "section": "Hauptnavigation",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        },
+        {
+          "section": "hero-heading",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        },
+        {
+          "section": "naechste-konzerte-heading",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        },
+        {
+          "section": "Zitat über Musik",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        },
+        {
+          "section": "architecture-heading",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        },
+        {
+          "section": "service-heading",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        },
+        {
+          "section": "FOOTER",
+          "left": 24,
+          "right": 24,
+          "delta": 0
+        }
+      ],
+      "grid": [
+        {
+          "columns": "366px",
+          "gap": "32px",
+          "items": [
+            {
+              "x": 24,
+              "y": 924,
+              "w": 366,
+              "h": 475.5
+            },
+            {
+              "x": 24,
+              "y": 1431.5,
+              "w": 366,
+              "h": 475.5
+            },
+            {
+              "x": 24,
+              "y": 1939,
+              "w": 366,
+              "h": 621.5
+            }
+          ],
+          "gaps": [
+            {
+              "dx": -366,
+              "dy": 32,
+              "sameRow": false
+            },
+            {
+              "dx": -366,
+              "dy": 32,
+              "sameRow": false
+            }
+          ]
+        },
+        {
+          "columns": "366px",
+          "gap": "32px",
+          "items": [
+            {
+              "x": 24,
+              "y": 3950,
+              "w": 366,
+              "h": 326
+            },
+            {
+              "x": 24,
+              "y": 4308,
+              "w": 366,
+              "h": 382
+            }
+          ],
+          "gaps": [
+            {
+              "dx": -366,
+              "dy": 32,
+              "sameRow": false
+            }
+          ]
+        }
+      ],
+      "cta": [
+        {
+          "w": 366,
+          "h": 326,
+          "padding": "32px",
+          "headingOwnLink": true,
+          "nestedLinks": 0
+        },
+        {
+          "w": 366,
+          "h": 382,
+          "padding": "32px",
+          "headingOwnLink": true,
+          "nestedLinks": 0
+        }
+      ],
+      "clamp": [
+        {
+          "clamp": "3",
+          "height": 80,
+          "lineHeight": "22.75px",
+          "scroll": [300, 114],
+          "client": [300, 80]
+        }
+      ],
+      "targetsUnder44": [
+        {
+          "label": "Direkt zum Inhalt springen",
+          "w": 218.28,
+          "h": 42,
+          "under24": false
+        },
+        {
+          "label": "Alle Termine ansehen→",
+          "w": 179.55,
+          "h": 16,
+          "under24": true
+        },
+        {
+          "label": "kontakt@petruskirche.events",
+          "w": 366,
+          "h": 24,
+          "under24": false
+        },
+        {
+          "label": "Gemeindebüro 0431 16 456",
+          "w": 366,
+          "h": 24,
+          "under24": false
+        },
+        {
+          "label": "Home",
+          "w": 36.73,
+          "h": 44,
+          "under24": false
+        }
+      ],
+      "church": {
+        "width": 414,
+        "decoded": true,
+        "complete": true,
+        "natural": [414, 627],
+        "rendered": [364, 455.5],
+        "x": 25,
+        "y": 178.5,
+        "opacity": "1",
+        "visibility": "visible",
+        "hit": "IMG",
+        "hitIsImage": true,
+        "ancestors": [
+          {
+            "tag": "IMG",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "FIGURE",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "DIV",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "DIV",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "grid",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "SECTION",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "MAIN",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "DIV",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          }
+        ]
+      },
+      "correctedContrastMin": 5.9
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "root": {
+        "innerWidth": 768,
+        "clientWidth": 768,
+        "scrollWidth": 768,
+        "bodyScrollWidth": 768,
+        "height": 4578,
+        "overflowX": "clip"
+      },
+      "rawCounts": {
+        "overflow": 0,
+        "overlap": 6,
+        "clipping": 2,
+        "edge": 1,
+        "images": 0,
+        "zeroGhost": 11,
+        "unreadable": 23
+      },
+      "counts": {
+        "h1": 1,
+        "concertCards": 3,
+        "ctaCards": 2,
+        "images": 7
+      },
+      "headings": [
+        {
+          "tag": "h1",
+          "text": "Konzerte in derPetruskirche Kiel",
+          "size": "72px",
+          "lineHeight": "90px",
+          "lines": 2
+        },
+        {
+          "tag": "h2",
+          "text": "Nächste Konzerte in Kiel",
+          "size": "12px",
+          "lineHeight": "16px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "EBG Sinfoniekonzert",
+          "size": "20px",
+          "lineHeight": "27.5px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "Die drei ??? – Kids",
+          "size": "20px",
+          "lineHeight": "27.5px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "Home for Christmas",
+          "size": "20px",
+          "lineHeight": "27.5px",
+          "lines": 1
+        },
+        {
+          "tag": "blockquote",
+          "text": "Musik drückt das aus, was nicht gesagt werden kann und worüber zu schweigen unmöglich ist.",
+          "size": "36px",
+          "lineHeight": "45px",
+          "lines": 3
+        },
+        {
+          "tag": "h2",
+          "text": "Die Petruskirche – Kiels Konzertkirche",
+          "size": "12px",
+          "lineHeight": "16px",
+          "lines": 1
+        },
+        {
+          "tag": "h2",
+          "text": "Besuch und Veranstaltung planen",
+          "size": "12px",
+          "lineHeight": "16px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "Besuch planen",
+          "size": "30px",
+          "lineHeight": "36px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "Raum anfragen",
+          "size": "30px",
+          "lineHeight": "36px",
+          "lines": 1
+        },
+        {
+          "tag": "h2",
+          "text": "",
+          "size": "16px",
+          "lineHeight": "26px",
+          "lines": 0
+        }
+      ],
+      "margins": [
+        {
+          "section": "Hauptnavigation",
+          "left": 32,
+          "right": 32,
+          "delta": 0
+        },
+        {
+          "section": "hero-heading",
+          "left": 32,
+          "right": 32,
+          "delta": 0
+        },
+        {
+          "section": "naechste-konzerte-heading",
+          "left": 32,
+          "right": 32,
+          "delta": 0
+        },
+        {
+          "section": "Zitat über Musik",
+          "left": 32,
+          "right": 32,
+          "delta": 0
+        },
+        {
+          "section": "architecture-heading",
+          "left": 32,
+          "right": 32,
+          "delta": 0
+        },
+        {
+          "section": "service-heading",
+          "left": 32,
+          "right": 32,
+          "delta": 0
+        },
+        {
+          "section": "FOOTER",
+          "left": 32,
+          "right": 32,
+          "delta": 0
+        }
+      ],
+      "grid": [
+        {
+          "columns": "336px 336px",
+          "gap": "32px",
+          "items": [
+            {
+              "x": 32,
+              "y": 1160,
+              "w": 336,
+              "h": 453
+            },
+            {
+              "x": 400,
+              "y": 1160,
+              "w": 336,
+              "h": 453
+            },
+            {
+              "x": 32,
+              "y": 1645,
+              "w": 336,
+              "h": 599
+            }
+          ],
+          "gaps": [
+            {
+              "dx": 32,
+              "dy": -453,
+              "sameRow": true
+            },
+            {
+              "dx": -704,
+              "dy": 32,
+              "sameRow": false
+            }
+          ]
+        },
+        {
+          "columns": "336px 336px",
+          "gap": "32px",
+          "items": [
+            {
+              "x": 32,
+              "y": 3639,
+              "w": 336,
+              "h": 386
+            },
+            {
+              "x": 400,
+              "y": 3639,
+              "w": 336,
+              "h": 386
+            }
+          ],
+          "gaps": [
+            {
+              "dx": 32,
+              "dy": -386,
+              "sameRow": true
+            }
+          ]
+        }
+      ],
+      "cta": [
+        {
+          "w": 336,
+          "h": 386,
+          "padding": "32px",
+          "headingOwnLink": true,
+          "nestedLinks": 0
+        },
+        {
+          "w": 336,
+          "h": 386,
+          "padding": "32px",
+          "headingOwnLink": true,
+          "nestedLinks": 0
+        }
+      ],
+      "clamp": [
+        {
+          "clamp": "3",
+          "height": 80,
+          "lineHeight": "26px",
+          "scroll": [270, 156],
+          "client": [270, 80]
+        }
+      ],
+      "targetsUnder44": [
+        {
+          "label": "Direkt zum Inhalt springen",
+          "w": 218.28,
+          "h": 42,
+          "under24": false
+        },
+        {
+          "label": "Alle Termine ansehen→",
+          "w": 179.55,
+          "h": 16,
+          "under24": true
+        },
+        {
+          "label": "kontakt@petruskirche.events",
+          "w": 183.16,
+          "h": 24,
+          "under24": false
+        },
+        {
+          "label": "Gemeindebüro 0431 16 456",
+          "w": 174.3,
+          "h": 24,
+          "under24": false
+        },
+        {
+          "label": "Home",
+          "w": 36.73,
+          "h": 44,
+          "under24": false
+        }
+      ],
+      "church": {
+        "width": 768,
+        "decoded": true,
+        "complete": true,
+        "natural": [768, 1164],
+        "rendered": [326, 408],
+        "x": 409,
+        "y": 308,
+        "opacity": "1",
+        "visibility": "visible",
+        "hit": "IMG",
+        "hitIsImage": true,
+        "ancestors": [
+          {
+            "tag": "IMG",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "FIGURE",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "DIV",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "DIV",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "grid",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "SECTION",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "MAIN",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "DIV",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          }
+        ]
+      },
+      "correctedContrastMin": 5.9
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "root": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "bodyScrollWidth": 1440,
+        "height": 4347,
+        "overflowX": "clip"
+      },
+      "rawCounts": {
+        "overflow": 0,
+        "overlap": 10,
+        "clipping": 1,
+        "edge": 1,
+        "images": 0,
+        "zeroGhost": 8,
+        "unreadable": 27
+      },
+      "counts": {
+        "h1": 1,
+        "concertCards": 3,
+        "ctaCards": 2,
+        "images": 7
+      },
+      "headings": [
+        {
+          "tag": "h1",
+          "text": "Konzerte in derPetruskirche Kiel",
+          "size": "96px",
+          "lineHeight": "120px",
+          "lines": 2
+        },
+        {
+          "tag": "h2",
+          "text": "Nächste Konzerte in Kiel",
+          "size": "12px",
+          "lineHeight": "16px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "EBG Sinfoniekonzert",
+          "size": "20px",
+          "lineHeight": "27.5px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "Die drei ??? – Kids",
+          "size": "20px",
+          "lineHeight": "27.5px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "Home for Christmas",
+          "size": "20px",
+          "lineHeight": "27.5px",
+          "lines": 1
+        },
+        {
+          "tag": "blockquote",
+          "text": "Musik drückt das aus, was nicht gesagt werden kann und worüber zu schweigen unmöglich ist.",
+          "size": "36px",
+          "lineHeight": "45px",
+          "lines": 3
+        },
+        {
+          "tag": "h2",
+          "text": "Die Petruskirche – Kiels Konzertkirche",
+          "size": "12px",
+          "lineHeight": "16px",
+          "lines": 1
+        },
+        {
+          "tag": "h2",
+          "text": "Besuch und Veranstaltung planen",
+          "size": "12px",
+          "lineHeight": "16px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "Besuch planen",
+          "size": "30px",
+          "lineHeight": "36px",
+          "lines": 1
+        },
+        {
+          "tag": "h3",
+          "text": "Raum anfragen",
+          "size": "30px",
+          "lineHeight": "36px",
+          "lines": 1
+        },
+        {
+          "tag": "h2",
+          "text": "",
+          "size": "16px",
+          "lineHeight": "26px",
+          "lines": 0
+        }
+      ],
+      "margins": [
+        {
+          "section": "Hauptnavigation",
+          "left": 64,
+          "right": 64,
+          "delta": 0
+        },
+        {
+          "section": "hero-heading",
+          "left": 64,
+          "right": 64,
+          "delta": 0
+        },
+        {
+          "section": "naechste-konzerte-heading",
+          "left": 64,
+          "right": 64,
+          "delta": 0
+        },
+        {
+          "section": "Zitat über Musik",
+          "left": 368,
+          "right": 368,
+          "delta": 0
+        },
+        {
+          "section": "architecture-heading",
+          "left": 64,
+          "right": 64,
+          "delta": 0
+        },
+        {
+          "section": "service-heading",
+          "left": 64,
+          "right": 64,
+          "delta": 0
+        },
+        {
+          "section": "FOOTER",
+          "left": 64,
+          "right": 64,
+          "delta": 0
+        }
+      ],
+      "grid": [
+        {
+          "columns": "416px 416px 416px",
+          "gap": "32px",
+          "items": [
+            {
+              "x": 64,
+              "y": 1036,
+              "w": 416,
+              "h": 659
+            },
+            {
+              "x": 512,
+              "y": 1036,
+              "w": 416,
+              "h": 659
+            },
+            {
+              "x": 960,
+              "y": 1036,
+              "w": 416,
+              "h": 659
+            }
+          ],
+          "gaps": [
+            {
+              "dx": 32,
+              "dy": -659,
+              "sameRow": true
+            },
+            {
+              "dx": 32,
+              "dy": -659,
+              "sameRow": true
+            }
+          ]
+        },
+        {
+          "columns": "640px 640px",
+          "gap": "32px",
+          "items": [
+            {
+              "x": 64,
+              "y": 3524,
+              "w": 640,
+              "h": 302
+            },
+            {
+              "x": 736,
+              "y": 3524,
+              "w": 640,
+              "h": 302
+            }
+          ],
+          "gaps": [
+            {
+              "dx": 32,
+              "dy": -302,
+              "sameRow": true
+            }
+          ]
+        }
+      ],
+      "cta": [
+        {
+          "w": 640,
+          "h": 302,
+          "padding": "32px",
+          "headingOwnLink": true,
+          "nestedLinks": 0
+        },
+        {
+          "w": 640,
+          "h": 302,
+          "padding": "32px",
+          "headingOwnLink": true,
+          "nestedLinks": 0
+        }
+      ],
+      "clamp": [
+        {
+          "clamp": "3",
+          "height": 80,
+          "lineHeight": "26px",
+          "scroll": [350, 130],
+          "client": [350, 80]
+        }
+      ],
+      "targetsUnder44": [
+        {
+          "label": "Direkt zum Inhalt springen",
+          "w": 218.28,
+          "h": 42,
+          "under24": false
+        },
+        {
+          "label": "Alle Termine ansehen→",
+          "w": 179.55,
+          "h": 16,
+          "under24": true
+        },
+        {
+          "label": "kontakt@petruskirche.events",
+          "w": 183.16,
+          "h": 24,
+          "under24": false
+        },
+        {
+          "label": "Gemeindebüro 0431 16 456",
+          "w": 174.3,
+          "h": 24,
+          "under24": false
+        },
+        {
+          "label": "Home",
+          "w": 36.73,
+          "h": 44,
+          "under24": false
+        }
+      ],
+      "church": {
+        "width": 1440,
+        "decoded": true,
+        "complete": true,
+        "natural": [1440, 2184],
+        "rendered": [622, 778],
+        "x": 753,
+        "y": 61,
+        "opacity": "1",
+        "visibility": "visible",
+        "hit": "IMG",
+        "hitIsImage": true,
+        "ancestors": [
+          {
+            "tag": "IMG",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "FIGURE",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "DIV",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "DIV",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "grid",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "SECTION",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "MAIN",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          },
+          {
+            "tag": "DIV",
+            "opacity": "1",
+            "visibility": "visible",
+            "display": "block",
+            "clipPath": "none",
+            "contentVisibility": "visible"
+          }
+        ]
+      },
+      "correctedContrastMin": 5.9
+    }
+  ],
+  "menu": [
+    {
+      "width": 320,
+      "open": true,
+      "rawCounts": {
+        "overflow": 0,
+        "overlap": 0,
+        "clipping": 1,
+        "edge": 0,
+        "images": 0,
+        "zeroGhost": 7,
+        "unreadable": 6
+      },
+      "tabOrder": [
+        {
+          "text": "Programm",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 229, 171, 1) solid 2px"
+        },
+        {
+          "text": "Besuch planen",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 229, 171, 1) solid 2px"
+        },
+        {
+          "text": "Raum anfragen",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 229, 171, 1) solid 2px"
+        },
+        {
+          "text": "Kontakt",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgb(243, 229, 171) solid 2px"
+        }
+      ],
+      "escape": {
+        "closed": true,
+        "focusReturned": true,
+        "mainVisibility": "visible"
+      },
+      "measurements": {
+        "root": {
+          "client": 320,
+          "scroll": 320,
+          "overflow": "hidden"
+        },
+        "mainVisibility": "hidden",
+        "summary": {
+          "focusVisible": true,
+          "outline": "rgb(243, 229, 171) solid 2px"
+        },
+        "links": [
+          {
+            "text": "Programm",
+            "x": 24,
+            "y": 268.5,
+            "w": 272,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 296
+          },
+          {
+            "text": "Besuch planen",
+            "x": 24,
+            "y": 356.5,
+            "w": 272,
+            "h": 73,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 296
+          },
+          {
+            "text": "Raum anfragen",
+            "x": 24,
+            "y": 453.5,
+            "w": 272,
+            "h": 73,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 296
+          },
+          {
+            "text": "Kontakt",
+            "x": 24,
+            "y": 550.5,
+            "w": 272,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 296
+          }
+        ]
+      }
+    },
+    {
+      "width": 375,
+      "open": true,
+      "rawCounts": {
+        "overflow": 0,
+        "overlap": 0,
+        "clipping": 1,
+        "edge": 0,
+        "images": 0,
+        "zeroGhost": 7,
+        "unreadable": 6
+      },
+      "tabOrder": [
+        {
+          "text": "Programm",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgb(243, 229, 171) solid 2px"
+        },
+        {
+          "text": "Besuch planen",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 229, 171, 1) solid 2px"
+        },
+        {
+          "text": "Raum anfragen",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 229, 171, 1) solid 2px"
+        },
+        {
+          "text": "Kontakt",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 229, 170, 1) solid 2px"
+        }
+      ],
+      "escape": {
+        "closed": true,
+        "focusReturned": true,
+        "mainVisibility": "visible"
+      },
+      "measurements": {
+        "root": {
+          "client": 375,
+          "scroll": 375,
+          "overflow": "hidden"
+        },
+        "mainVisibility": "hidden",
+        "summary": {
+          "focusVisible": true,
+          "outline": "rgb(243, 229, 171) solid 2px"
+        },
+        "links": [
+          {
+            "text": "Programm",
+            "x": 24,
+            "y": 277.5,
+            "w": 327,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 351
+          },
+          {
+            "text": "Besuch planen",
+            "x": 24,
+            "y": 365.5,
+            "w": 327,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 351
+          },
+          {
+            "text": "Raum anfragen",
+            "x": 24,
+            "y": 453.5,
+            "w": 327,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 351
+          },
+          {
+            "text": "Kontakt",
+            "x": 24,
+            "y": 541.5,
+            "w": 327,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 351
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "open": true,
+      "rawCounts": {
+        "overflow": 0,
+        "overlap": 0,
+        "clipping": 1,
+        "edge": 0,
+        "images": 0,
+        "zeroGhost": 7,
+        "unreadable": 6
+      },
+      "tabOrder": [
+        {
+          "text": "Programm",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 229, 171, 1) solid 2px"
+        },
+        {
+          "text": "Besuch planen",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 229, 171, 1) solid 2px"
+        },
+        {
+          "text": "Raum anfragen",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 229, 170, 1) solid 2px"
+        },
+        {
+          "text": "Kontakt",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 229, 171, 1) solid 2px"
+        }
+      ],
+      "escape": {
+        "closed": true,
+        "focusReturned": true,
+        "mainVisibility": "visible"
+      },
+      "measurements": {
+        "root": {
+          "client": 390,
+          "scroll": 390,
+          "overflow": "hidden"
+        },
+        "mainVisibility": "hidden",
+        "summary": {
+          "focusVisible": true,
+          "outline": "rgb(243, 229, 171) solid 2px"
+        },
+        "links": [
+          {
+            "text": "Programm",
+            "x": 24,
+            "y": 277.5,
+            "w": 342,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 366
+          },
+          {
+            "text": "Besuch planen",
+            "x": 24,
+            "y": 365.5,
+            "w": 342,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 366
+          },
+          {
+            "text": "Raum anfragen",
+            "x": 24,
+            "y": 453.5,
+            "w": 342,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 366
+          },
+          {
+            "text": "Kontakt",
+            "x": 24,
+            "y": 541.5,
+            "w": 342,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 366
+          }
+        ]
+      }
+    },
+    {
+      "width": 414,
+      "open": true,
+      "rawCounts": {
+        "overflow": 0,
+        "overlap": 0,
+        "clipping": 1,
+        "edge": 0,
+        "images": 0,
+        "zeroGhost": 7,
+        "unreadable": 6
+      },
+      "tabOrder": [
+        {
+          "text": "Programm",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgb(243, 229, 171) solid 2px"
+        },
+        {
+          "text": "Besuch planen",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 229, 170, 1) solid 2px"
+        },
+        {
+          "text": "Raum anfragen",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 229, 170, 1) solid 2px"
+        },
+        {
+          "text": "Kontakt",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 229, 171, 1) solid 2px"
+        }
+      ],
+      "escape": {
+        "closed": true,
+        "focusReturned": true,
+        "mainVisibility": "visible"
+      },
+      "measurements": {
+        "root": {
+          "client": 414,
+          "scroll": 414,
+          "overflow": "hidden"
+        },
+        "mainVisibility": "hidden",
+        "summary": {
+          "focusVisible": true,
+          "outline": "rgb(243, 229, 171) solid 2px"
+        },
+        "links": [
+          {
+            "text": "Programm",
+            "x": 24,
+            "y": 277.5,
+            "w": 366,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 390
+          },
+          {
+            "text": "Besuch planen",
+            "x": 24,
+            "y": 365.5,
+            "w": 366,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 390
+          },
+          {
+            "text": "Raum anfragen",
+            "x": 24,
+            "y": 453.5,
+            "w": 366,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 390
+          },
+          {
+            "text": "Kontakt",
+            "x": 24,
+            "y": 541.5,
+            "w": 366,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 390
+          }
+        ]
+      }
+    },
+    {
+      "width": 768,
+      "open": true,
+      "rawCounts": {
+        "overflow": 0,
+        "overlap": 0,
+        "clipping": 1,
+        "edge": 0,
+        "images": 0,
+        "zeroGhost": 7,
+        "unreadable": 6
+      },
+      "tabOrder": [
+        {
+          "text": "Programm",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgb(243, 229, 171) solid 2px"
+        },
+        {
+          "text": "Besuch planen",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(242, 227, 166, 1) solid 2px"
+        },
+        {
+          "text": "Raum anfragen",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgb(243, 229, 171) solid 2px"
+        },
+        {
+          "text": "Kontakt",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 228, 169, 1) solid 2px"
+        }
+      ],
+      "escape": {
+        "closed": true,
+        "focusReturned": true,
+        "mainVisibility": "visible"
+      },
+      "measurements": {
+        "root": {
+          "client": 768,
+          "scroll": 768,
+          "overflow": "hidden"
+        },
+        "mainVisibility": "hidden",
+        "summary": {
+          "focusVisible": true,
+          "outline": "rgb(243, 229, 171) solid 2px"
+        },
+        "links": [
+          {
+            "text": "Programm",
+            "x": 32,
+            "y": 383.5,
+            "w": 704,
+            "h": 64,
+            "size": "60px",
+            "lineHeight": "60px",
+            "right": 736
+          },
+          {
+            "text": "Besuch planen",
+            "x": 32,
+            "y": 471.5,
+            "w": 704,
+            "h": 64,
+            "size": "60px",
+            "lineHeight": "60px",
+            "right": 736
+          },
+          {
+            "text": "Raum anfragen",
+            "x": 32,
+            "y": 559.5,
+            "w": 704,
+            "h": 64,
+            "size": "60px",
+            "lineHeight": "60px",
+            "right": 736
+          },
+          {
+            "text": "Kontakt",
+            "x": 32,
+            "y": 647.5,
+            "w": 704,
+            "h": 64,
+            "size": "60px",
+            "lineHeight": "60px",
+            "right": 736
+          }
+        ]
+      }
+    }
+  ],
+  "staticFindings": 0,
+  "rawCandidateTotals": {
+    "main": 247,
+    "menu": 70,
+    "total": 317
+  },
+  "precisionFindings": [
+    {
+      "priority": "P2",
+      "class": "Inconsistency",
+      "area": "mobile concert summary",
+      "measuredHeight": 80,
+      "intendedThreeLineHeight": 68.25,
+      "excess": 11.75
+    },
+    {
+      "priority": "P2",
+      "class": "Suggestion",
+      "area": "Alle Termine ansehen link",
+      "w": 179.55,
+      "h": 16,
+      "targetHeight": 44
+    }
+  ],
+  "limitations": [
+    "The initial menu keyDown lacked text=CR; menu.opened false and menu.tabOrder are invalid menu-open evidence, not an app failure. Use b-confirmations.json menu (native Enter+CR, Tab, Escape), five successful widths. smoke-check.mjs now includes the correct Enter character.",
+    "Offscreen full-document/region captures may leave compositor blanks despite successful decode, including church/concert regions. Use b-*-church-verified.png and b-*-menu-verified.png for rendered state. b-320-concerts.png has unpainted earlier cards; only its painted third-card summary is cited.",
+    "CSS Color 4 conversion confirms solid-surface contrast only; not pixel-level gradient/photo/backdrop analysis.",
+    "Desktop Chromium CSS viewport emulation, DPR 1; not physical mobile, browser matrix, zoom, or AT testing."
+  ]
+}
