@@ -2,13 +2,13 @@
 
 ## Scope and results
 
-Batch: AKG-103, AKG-110, AKG-27 and AKG-25. No deployment, merge, actual message, secret/configuration change, legal approval or indexing change.
+Batch: AKG-103, AKG-110 and AKG-27. AKG-25 was removed after design feedback. No deployment, merge, actual message, secret/configuration change, legal approval or indexing change.
 
 ### AKG-103 — partial acceptance only
 
 - Fixed the known availability-calendar clipping locally: a container-relative mobile gutter replaces the viewport breakout, with a fixed-layout, shrinkable seven-column grid. The shared Card and image clips remain intact.
 - Local headless Chromium: eleven page variants at 320/375/430/768/1280 CSS px, full calendar ancestor-clip checks (weekdays, dates, month controls), month keyboard navigation, document overflow, mobile poster dimensions/crop, ticket target visibility/hit-testing and native menu actions passed.
-- Page variants: home, programme, archive, ticketed detail, no-poster/no-ticket detail, archived detail, visit, contact, inquiry, imprint and privacy. Dynamic concerts/posters and availability were synthetic; local fonts/assets loaded normally. Representative mobile calendar/detail and desktop seeker captures were inspected.
+- Page variants: home, programme, archive, ticketed detail, no-poster/no-ticket detail, archived detail, visit, contact, inquiry, imprint and privacy. Dynamic concerts/posters and availability were synthetic; local fonts/assets loaded normally. Representative mobile calendar/detail captures were inspected.
 - The unthrottled local load-shift sum observed at 375 and 1280 px was 0 on those eleven entries. It sums LayoutShift entries without recent input until the ready/fonts-plus-500-ms sample, **not** the CLS session-window metric or a Web Vitals pass. No production/cold-cache/network-throttled, long-lived, physical-device or iOS/Safari acceptance is claimed.
 - Remaining AKG-103 work: representative real-content mobile/browser/device checks and actual loading/CLS validation under realistic conditions. This batch does not close that ticket.
 
@@ -24,19 +24,17 @@ Mobbin references were inspected visually, not inferred from search labels:
 - [Eventbrite event preview](https://mobbin.com/screens/c5c743ef-60f0-42a0-8cb1-d0192ddcaf30): utility icons to the right below the event image, separate from ticket booking. Its hierarchy supports treating Share as a secondary page action.
 - [DICE concert detail](https://mobbin.com/screens/ae074cf0-3b1d-4718-bfa2-67d4c929c10b): Share on the poster, purchase anchored at the bottom. The poster overlay was not adopted because this site also has concerts without posters.
 
-### AKG-25 — implementation acceptance
+### AKG-25 — removed / deferred
 
-The shared Layout includes one compact fixed-right desktop rail, without a background panel or shadow. Small round markers replace the horizontal dashes; a taller gold capsule identifies the current section by shape as well as color. Hovering or focusing reveals the complete clickable section list as content-sized charcoal labels, not a blue panel. The transparent hit area expands with the labels so moving between them does not collapse the list; the markers stay in place. Keyboard focus has a visible champagne outline. The existing `#page-content` anchor provides a real page-start destination. Other entries come only from visible H2 headings that name a semantic section, preferring existing section IDs and existing local navigation labels. Calendar/dialog headings, contents-navigation headings, hidden/inert panels and duplicate targets are excluded.
+The page seeker was removed after user feedback rather than iterated further. Its shared-layout mount, component, scroll observers and dedicated tests are deleted, not merely hidden. The browser regression checks that it stays absent on all page variants and after programme/body navigation. AKG-25 is not delivered by this PR.
 
-The revised active state follows native anchor landing positions using the root scroll padding plus any target scroll margin, not a fraction of the viewport. A shared `html { scroll-padding-top: 7rem }` clears the fixed five-rem navbar and leaves two rem of breathing room for every native anchor/`scrollIntoView()` jump. The offset is always active, unlike the previous `:target`-only rule. The seeker reads this same computed CSS value so its marker agrees with the actual landing. It accounts for document-end clamping and out-of-order parallel columns; a requested hash wins when multiple sections share the same landing. Scrolling away resumes position-based tracking. Native links retain history, direct hashes and reduced-motion behavior; there is no custom scrolling engine.
+### Native section links
 
-Main-content mutation/resize observers and image-load events refresh targets and geometry after deferred islands, changing content and layout shifts. Replaced nodes with identical IDs/labels retain their existing link nodes and focus; changed navigation preserves a still-existing focused anchor. Scroll work coalesces into one animation frame. ClientRouter before-swap disconnects observers/listeners; page-load rebuilds after both head-only programme switches and full body replacements.
-
-Below desktop width, below 640 px height, in print, without JS, without meaningful scroll/section targets, or when the rail cannot fit clear of the header, it is hidden. Unit regressions cover native landings, short final sections, parallel columns, async replacements, stable focus, viewport fit and cleanup. The browser check additionally exercises the transparent resting rail, stable marker positions and shared label hit area, every section label/landing and browser Back on five page types at 640/900 px height, plus late insertion/replacement/hiding. Hash-free `scrollIntoView()`, direct hash loads and smooth keyboard anchors are checked at mobile/desktop width against the actual navbar bottom; every seeker landing must also retain at least 16px of clear space below it. These remain local synthetic checks, not real-device acceptance.
+The shared `html { scroll-padding-top: 7rem }` remains: ordinary section links and `scrollIntoView()` clear the fixed five-rem navbar with two rem of breathing room, independently of the removed widget. Direct hash loads, hash-free scrolling, keyboard links and reduced motion retain browser coverage at mobile/desktop widths.
 
 ## Reproduce
 
-`pnpm test` includes the four tiny offline regression scripts. `pnpm quality` also runs lint, typecheck and the production build.
+`pnpm test` includes offline regressions for sharing, menu haptics and the mobile calendar. `pnpm quality` also runs lint, typecheck and the production build.
 
 After `pnpm build`, start this in one terminal:
 

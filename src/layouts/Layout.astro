@@ -2,7 +2,6 @@
 import Footer from '../components/layout/Footer.astro';
 import Header from '../components/layout/Header.astro';
 import PageMetadata from '../components/layout/PageMetadata.astro';
-import PageSeeker from '../components/layout/PageSeeker.astro';
 import '../styles/globals.css';
 
 interface Props {
@@ -74,7 +73,6 @@ const {
       <slot />
     </div>
     <Footer preparedProgramme={clientNavigation} />
-    <PageSeeker />
     <script>
       import '../scripts/scroll-reveal';
     </script>

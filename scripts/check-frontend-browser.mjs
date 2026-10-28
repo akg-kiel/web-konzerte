@@ -203,14 +203,10 @@ try {
         await evaluate('document.documentElement.scrollWidth <= innerWidth + 1'),
         `${path} ${width}: horizontal overflow`
       );
-      const seeker = await evaluate(`(() => {
-        const nav = document.querySelector('[data-page-seeker]'), links = [...nav.querySelectorAll('a')];
-        return { shown: getComputedStyle(nav).display !== 'none', count: links.length, current: links.filter(a=>a.hasAttribute('aria-current')).length,
-          valid: links.every(a => { const target = document.getElementById(decodeURIComponent(a.hash.slice(1))); return a.getAttribute('aria-label') && target && !target.closest('[hidden], [inert]'); }) };
-      })()`);
-      assert(seeker.valid, `${path}: stale or unnamed seeker anchor`);
-      if (width < 1024) assert(!seeker.shown);
-      else if (seeker.count > 1) assert(seeker.shown && seeker.current === 1);
+      assert(
+        await evaluate(`!document.querySelector('[data-page-seeker]')`),
+        `${path}: page seeker must remain removed`
+      );
       if ([detail, noPoster, archiveDetail].includes(path)) {
         assert(
           await evaluate(`(() => {
@@ -302,7 +298,7 @@ try {
       }
     }
     console.log(
-      `Frontend ${width}px: 11 page variants, real named seeker targets, mobile hiding, full calendar ancestor-clip checks passed.`
+      `Frontend ${width}px: 11 page variants, no page seeker, full calendar ancestor-clip checks passed.`
     );
   }
   await call('Emulation.setDeviceMetricsOverride', {
@@ -442,149 +438,38 @@ try {
     'Scroll-off: hash-free scrollIntoView, direct hashes and smooth keyboard anchors clear the navbar at 375/1280px.'
   );
 
-  // Exercise the real ClientRouter and its head-only programme swaps, then a full body swap.
+  // Exercise head-only programme switches, then a full body swap and native section link.
   await load('/programm/');
   for (const path of ['/programm/archiv/', '/programm/']) {
     await evaluate(
       `document.querySelector('nav[aria-label="Konzertprogramm"] a[href="${path}"]').click()`
     );
     await wait(
-      `location.pathname === '${path}' && !!document.querySelector('[data-page-seeker] a[href="#${path.includes('archiv') ? 'archiv' : 'programm'}"]')`
+      `location.pathname === '${path}' && document.querySelector('[data-programme-path="${path}"]:not([hidden])')`
     );
-    assert(
-      await evaluate(
-        `document.querySelectorAll('[data-page-seeker]').length === 1 && [...document.querySelectorAll('[data-page-seeker] a')].every(a=>!document.getElementById(a.hash.slice(1)).closest('[hidden], [inert]'))`
-      )
-    );
+    assert(await evaluate(`!document.querySelector('[data-page-seeker]')`));
   }
   await evaluate(
     `document.querySelector('nav[aria-label="Hauptnavigation"] a[href="/besuch-planen/"]').click()`
   );
   await wait(
-    `location.pathname === '/besuch-planen/' && document.querySelector('[data-page-seeker] a[href="#anfahrt"]')`
+    `location.pathname === '/besuch-planen/' && document.querySelector('main a[href="#barrierefreiheit"]')`
   );
-  await evaluate(
-    `document.querySelector('[data-page-seeker] a[href="#barrierefreiheit"]').focus()`
-  );
+  assert(await evaluate(`!document.querySelector('[data-page-seeker]')`));
+  await evaluate(`document.querySelector('main nav a[href="#barrierefreiheit"]').focus()`);
   await key('Enter');
-  await wait(
-    `location.hash === '#barrierefreiheit' && document.querySelector('[data-page-seeker] [aria-current="location"]')?.hash === '#barrierefreiheit'`
+  await wait(`location.hash === '#barrierefreiheit'`);
+  assert(
+    await evaluate(
+      `document.getElementById('access-heading').getBoundingClientRect().top >= document.querySelector('nav[aria-label="Hauptnavigation"]').getBoundingClientRect().bottom + 16`
+    )
   );
-  await screenshot('seeker-desktop');
   await call('Emulation.setEmulatedMedia', {
     features: [{ name: 'prefers-reduced-motion', value: 'reduce' }]
   });
-  assert(
-    await evaluate(
-      `getComputedStyle(document.documentElement).scrollBehavior === 'auto' && [...document.querySelectorAll('[data-page-seeker] a > span:first-child')].every(s=>getComputedStyle(s).transitionProperty === 'none')`
-    )
-  );
+  assert(await evaluate(`getComputedStyle(document.documentElement).scrollBehavior === 'auto'`));
   console.log(
-    'Seeker: head-only programme/archival swaps, full body swap, keyboard anchor/current state and reduced motion passed.'
-  );
-
-  assert(await evaluate(`matchMedia('(hover: hover) and (pointer: fine)').matches`));
-  for (const height of [640, 900]) {
-    await call('Emulation.setDeviceMetricsOverride', {
-      width: 1280,
-      height,
-      deviceScaleFactor: 1,
-      mobile: false
-    });
-    for (const path of ['/', '/kontakt/', '/besuch-planen/', detail, '/datenschutz/']) {
-      await load(path);
-      await call('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 0, y: 0 });
-      await evaluate('document.activeElement?.blur()');
-      const hashes = await evaluate(
-        `Array.from(document.querySelectorAll('[data-page-seeker] a'), a => a.hash)`
-      );
-      assert.equal(hashes[0], '#page-content');
-      assert(
-        await evaluate(`(() => {
-        const nav = document.querySelector('[data-page-seeker]'), r = nav.getBoundingClientRect();
-        return !nav.hidden && r.top >= 80 && r.bottom <= innerHeight;
-      })()`),
-        `${path}: every seeker control must fit below the header`
-      );
-      assert(
-        await evaluate(`(() => {
-        const nav = document.querySelector('[data-page-seeker]'), style = getComputedStyle(nav);
-        const mark = nav.querySelector('[aria-current] > span').getBoundingClientRect();
-        return style.backgroundColor === 'rgba(0, 0, 0, 0)' && style.boxShadow === 'none' &&
-          nav.getBoundingClientRect().width <= 48 && mark.height > mark.width;
-      })()`),
-        `${path}: the resting seeker must be a transparent narrow rail with a vertical active mark`
-      );
-      if (path === '/' && height === 900) await screenshot('seeker-clean-collapsed');
-      const rail = await evaluate(
-        `(() => { const a = document.querySelector('[data-page-seeker] a'), r = a.getBoundingClientRect(); return {x:r.x+r.width/2,y:r.y+r.height/2,markRight:a.firstElementChild.getBoundingClientRect().right}; })()`
-      );
-      await call('Input.dispatchMouseEvent', { type: 'mouseMoved', x: rail.x, y: rail.y });
-      await wait(
-        `Array.from(document.querySelectorAll('[data-page-seeker] a > span:last-child')).every(s => getComputedStyle(s).opacity === '1')`
-      );
-      assert(
-        await evaluate(`(() => {
-        const nav = document.querySelector('[data-page-seeker]'), r = nav.getBoundingClientRect();
-        return Math.abs(nav.querySelector('a > span').getBoundingClientRect().right - ${rail.markRight}) < 1 &&
-          Array.from(nav.querySelectorAll('a > span:last-child')).every(label => {
-            const box = label.getBoundingClientRect();
-            return box.left >= r.left && box.right <= r.right;
-          });
-      })()`),
-        `${path}: revealing labels must not move markers or leave the shared hover area`
-      );
-      if (path === '/' && height === 900) await screenshot('seeker-clean-expanded');
-      for (const hash of hashes) {
-        const selector = `[data-page-seeker] a[href="${hash}"]`;
-        const label = await evaluate(
-          `(() => { const r = document.querySelector(${JSON.stringify(selector)}).lastElementChild.getBoundingClientRect(); return {x:r.x+r.width/2,y:r.y+r.height/2}; })()`
-        );
-        for (const type of ['mousePressed', 'mouseReleased']) {
-          await call('Input.dispatchMouseEvent', { type, ...label, button: 'left', clickCount: 1 });
-        }
-        await wait(
-          `location.hash === ${JSON.stringify(hash)} && document.querySelector('[data-page-seeker] [aria-current="location"]')?.hash === ${JSON.stringify(hash)}`
-        );
-        if (hash !== '#page-content')
-          assert(
-            await evaluate(
-              `document.getElementById(${JSON.stringify(decodeURIComponent(hash.slice(1)))}).getBoundingClientRect().top >= document.querySelector('nav[aria-label="Hauptnavigation"]').getBoundingClientRect().bottom + 16`
-            ),
-            `${path} ${hash}: target obscured by header`
-          );
-      }
-      await evaluate('history.back()');
-      await wait(
-        `location.hash === ${JSON.stringify(hashes.at(-2))} && document.querySelector('[data-page-seeker] [aria-current="location"]')?.hash === ${JSON.stringify(hashes.at(-2))}`
-      );
-      if (path === '/kontakt/' && height === 900) await screenshot('seeker-revised-expanded');
-    }
-  }
-  await load('/');
-  await evaluate(`(() => {
-    const section = document.createElement('section'); section.id = 'late-section'; section.setAttribute('aria-labelledby', 'late-heading');
-    const heading = document.createElement('h2'); heading.id = 'late-heading'; heading.textContent = 'Nachgeladener Abschnitt';
-    section.append(heading); section.style.minHeight = '500px'; document.querySelector('main').append(section);
-  })()`);
-  await wait(`!!document.querySelector('[data-page-seeker] a[href="#late-section"]')`);
-  await evaluate(
-    `window.__seekerLink = document.querySelector('[data-page-seeker] a[href="#late-section"]'); window.__seekerLink.focus(); const section = document.getElementById('late-section'); section.replaceWith(section.cloneNode(true))`
-  );
-  await delay(100);
-  assert(
-    await evaluate(
-      `document.activeElement === window.__seekerLink && window.__seekerLink === document.querySelector('[data-page-seeker] a[href="#late-section"]')`
-    )
-  );
-  await key('Enter');
-  await wait(
-    `document.querySelector('[data-page-seeker] [aria-current="location"]')?.hash === '#late-section'`
-  );
-  await evaluate(`document.getElementById('late-section').hidden = true`);
-  await wait(`!document.querySelector('[data-page-seeker] a[href="#late-section"]')`);
-  console.log(
-    'Seeker revision: transparent narrow rail, stable vertical markers, clickable labels, native landing/current state and Back at 640/900px height; async insertion/replacement/hiding preserves live targets and focus.'
+    'Navigation: programme/body swaps without a seeker, native section link and reduced motion passed.'
   );
 
   await call('Emulation.setDeviceMetricsOverride', {
