@@ -7,6 +7,24 @@ const config = JSON.parse(await readFile('dist/server/wrangler.json', 'utf8'));
 assert.equal(config.assets.directory, '..');
 assert.equal(config.workers_dev, false);
 assert.equal(config.preview_urls, true);
+assert.equal(
+  config.images.binding,
+  'IMAGES',
+  'Dynamic concert images still need runtime transforms.'
+);
+
+const home = await readFile('dist/index.html', 'utf8');
+for (const source of ['l1130722-hero', 'petruskirche-exterior']) {
+  const images = [...home.matchAll(/<img\b[^>]*>/g)]
+    .map(([tag]) => tag)
+    .filter((tag) => tag.includes(source));
+  assert(images.length > 0, `Expected ${source} on the home page.`);
+  for (const image of images) {
+    assert.match(image, /src="\/_astro\//, `${source}: optimize fixed images at build time.`);
+    assert.match(image, /srcset="[^"]+"/, `${source}: keep responsive variants.`);
+    assert.match(image, /\ssizes="[^"]+"/, `${source}: declare the rendered image size.`);
+  }
+}
 
 const enabled = config.vars.CONTACT_FORMS_ENABLED === 'true';
 const email = config.vars.CONTACT_EMAIL;
