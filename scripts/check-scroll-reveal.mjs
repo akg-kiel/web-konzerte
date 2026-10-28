@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import postcss from 'postcss';
 
 const elements = [];
 const preference = new EventTarget();
@@ -131,6 +132,36 @@ for (const section of [
   assert.doesNotMatch(section, /<scroll-reveal\b/, 'Home content must remain visible.');
 }
 
+const stylesheet = postcss.parse(
+  await readFile(new URL('../src/styles/globals.css', import.meta.url), 'utf8')
+);
+const ruleIn = (parent, selector) =>
+  parent?.nodes.find((node) => node.type === 'rule' && node.selector === selector);
+const declaration = (rule, property) =>
+  rule?.nodes.find((node) => node.type === 'decl' && node.prop === property)?.value;
+const noPreference = stylesheet.nodes.find(
+  (node) => node.type === 'atrule' && node.params === '(prefers-reduced-motion: no-preference)'
+);
+const mobile = stylesheet.nodes.find(
+  (node) => node.type === 'atrule' && node.params === '(width < 64rem)'
+);
+const feedbackProperties = ['color', 'background-color', 'border-color', 'opacity'];
+assert.deepEqual(
+  declaration(ruleIn(stylesheet, '.motion-button'), 'transition-property')?.split(', '),
+  feedbackProperties,
+  'Reduced motion must retain feedback without a scale transition.'
+);
+assert.deepEqual(
+  declaration(ruleIn(noPreference, '.motion-button'), 'transition-property')?.split(', '),
+  [...feedbackProperties, 'scale'],
+  'Scale transitions must be restricted to no-preference.'
+);
+assert.equal(
+  declaration(ruleIn(mobile, 'html:has([data-mobile-menu][open])'), 'overflow'),
+  'hidden',
+  'The mobile menu must lock the root scroller, not only the body.'
+);
+
 console.log(
-  'Scroll reveals: once-only reveals, island replacements, focus, cleanup, reduced motion, fallback and static home content passed.'
+  'Scroll reveals, static home content, reduced-motion transitions and mobile root scroll lock passed.'
 );
