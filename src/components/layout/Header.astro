@@ -1,7 +1,5 @@
 ---
-import { Image } from 'astro:assets';
-
-import akgLogo from '../../assets/logos/logo-akg-250px.png';
+import concertLogo from '../../assets/logos/logo-kk.svg';
 
 const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
 const { preparedProgramme = false } = Astro.props;
@@ -25,14 +23,14 @@ const mobileLinkClass =
     <a
       href="/"
       class="relative z-50 inline-flex min-h-11 items-center no-underline transition hover:opacity-85"
-      aria-label="Ev.-Luth. Apostel-Kirchengemeinde Kiel · Konzertkirche Petruskirche Startseite"
+      aria-label="Konzerte in der Petruskirche · Startseite"
     >
-      <Image
-        src={akgLogo}
-        alt="Ev.-Luth. Apostel-Kirchengemeinde Kiel"
-        class="h-10 w-auto brightness-0 invert sm:h-12"
-        widths={[160, 220, 250]}
-        sizes="(min-width: 640px) 113px, 94px"
+      <img
+        src={concertLogo.src}
+        width={concertLogo.width}
+        height={concertLogo.height}
+        alt="Konzerte in der Petruskirche"
+        class="h-16 w-auto bg-white"
         loading="eager"
         decoding="async"
       />
