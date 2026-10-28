@@ -1,0 +1,1457 @@
+{
+  "url": "http://127.0.0.1:4321/",
+  "at": "2026-10-28T10:24:24.668Z",
+  "allow": [],
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 900,
+      "load": "load",
+      "screens": 5,
+      "filled": [0.61, 0.65, 0.56, 0.75, 0.36],
+      "motion": {
+        "elements": 9,
+        "css": 6,
+        "transitions": 3,
+        "scripted": 0,
+        "videos": 0,
+        "playingVideos": 0
+      },
+      "metrics": {
+        "viewport": {
+          "w": 1440,
+          "h": 900
+        },
+        "page": {
+          "height": 4347,
+          "screens": 4.8,
+          "words": 248,
+          "img": 7,
+          "video": 0,
+          "canvas": 0,
+          "svg": 3,
+          "sections": 6,
+          "horizontalOverflow": 0,
+          "overflowCulprits": [],
+          "uiFragments": 0,
+          "uiAbuse": false,
+          "realPictures": 4,
+          "videoCount": 0,
+          "uiPictures": 0,
+          "pictureSamples": [
+            "?href=%2F_astro%2Fl1130722-hero.-4D-tq_J.jpg&w=1",
+            "?href=%2F_astro%2Fl1130722-hero.-4D-tq_J.jpg&w=4",
+            "?href=%2F_astro%2Fl1130722-hero.-4D-tq_J.jpg&w=4",
+            "?href=https%3A%2F%2Fakg-kiel.church.tools%2Fimag"
+          ],
+          "blendText": 0,
+          "sideScrollers": 0,
+          "brokenImages": [],
+          "emoji": [],
+          "videosNoPoster": 0
+        },
+        "hero": {
+          "text": "Konzerte in der Petruskirche Kiel",
+          "words": 5,
+          "chars": 33,
+          "lines": 2,
+          "size": 96,
+          "vw": 6.7,
+          "font": "Merriweather",
+          "weight": 600,
+          "tracking": -0.025,
+          "leading": 1.25,
+          "upper": false,
+          "italic": false,
+          "mono": false,
+          "align": "left",
+          "position": "left",
+          "widthRatio": 0.53,
+          "top": 400,
+          "mixedFonts": ["Merriweather", "Merriweather italic"],
+          "tag": "h1",
+          "kind": "heading"
+        },
+        "h1": {
+          "text": "Konzerte in der Petruskirche Kiel",
+          "words": 5,
+          "lines": 2,
+          "size": 96,
+          "font": "Merriweather"
+        },
+        "headings": [
+          {
+            "text": "Konzerte in der Petruskirche Kiel",
+            "words": 5,
+            "chars": 33,
+            "lines": 2,
+            "size": 96,
+            "vw": 6.7,
+            "font": "Merriweather",
+            "weight": 600,
+            "tracking": -0.025,
+            "leading": 1.25,
+            "upper": false,
+            "italic": false,
+            "mono": false,
+            "align": "left",
+            "position": "left",
+            "widthRatio": 0.53,
+            "top": 400,
+            "mixedFonts": ["Merriweather", "Merriweather italic"],
+            "tag": "h1",
+            "kind": "heading"
+          },
+          {
+            "text": "Musik drückt das aus, was nicht gesagt werden kann und worüber zu schweigen unmöglich ist.",
+            "words": 15,
+            "chars": 90,
+            "lines": 3,
+            "size": 36,
+            "vw": 2.5,
+            "font": "Merriweather",
+            "weight": 400,
+            "tracking": -0.025,
+            "leading": 1.25,
+            "upper": false,
+            "italic": true,
+            "mono": false,
+            "align": "center",
+            "position": "center",
+            "widthRatio": 0.49,
+            "top": 1951,
+            "tag": "blockquote",
+            "kind": "statement"
+          },
+          {
+            "text": "Besuch planen",
+            "words": 2,
+            "chars": 13,
+            "lines": 1,
+            "size": 30,
+            "vw": 2.1,
+            "font": "Merriweather",
+            "weight": 400,
+            "tracking": 0,
+            "leading": 1.2,
+            "upper": false,
+            "italic": false,
+            "mono": false,
+            "align": "left",
+            "position": "left",
+            "widthRatio": 0.4,
+            "top": 3637,
+            "tag": "h3",
+            "kind": "heading"
+          },
+          {
+            "text": "Raum anfragen",
+            "words": 2,
+            "chars": 13,
+            "lines": 1,
+            "size": 30,
+            "vw": 2.1,
+            "font": "Merriweather",
+            "weight": 400,
+            "tracking": 0,
+            "leading": 1.2,
+            "upper": false,
+            "italic": false,
+            "mono": false,
+            "align": "left",
+            "position": "right",
+            "widthRatio": 0.4,
+            "top": 3637,
+            "tag": "h3",
+            "kind": "heading"
+          }
+        ],
+        "headingSummary": {
+          "count": 4,
+          "maxLines": 3,
+          "over2Lines": 0,
+          "statements": 1,
+          "centered": 1,
+          "medianWords": 2,
+          "mixedFontHeadings": 1
+        },
+        "type": {
+          "families": [
+            {
+              "family": "Hanken Grotesk",
+              "share": 0.89,
+              "mono": false
+            },
+            {
+              "family": "Merriweather",
+              "share": 0.11,
+              "mono": false
+            }
+          ],
+          "familyCount": 2,
+          "sizes": [12, 14, 16, 18, 20, 30, 36, 96],
+          "sizeCount": 8,
+          "notLoaded": [],
+          "body": {
+            "font": "Hanken Grotesk",
+            "size": 16,
+            "leading": 1.63,
+            "weight": 400,
+            "tracking": -0.025,
+            "contrast": 15.6
+          },
+          "measureChars": 44,
+          "max": {
+            "size": 96,
+            "vw": 6.7,
+            "font": "Merriweather",
+            "text": "Konzerte in der"
+          },
+          "monoShare": 0,
+          "monoProseShare": 0,
+          "monoFamilies": [],
+          "monoSamples": [],
+          "microLabels": 7,
+          "microLabelShare": 0.106,
+          "microSamples": [
+            "Nächste Konzerte in Kiel",
+            "14. November 2026 • 19:00 Uhr",
+            "20. November 2026 • 18:30 Uhr",
+            "4. Dezember 2026 • 19:30 Uhr",
+            "Victor Hugo",
+            "Die Petruskirche – Kiels Konzertkirche"
+          ],
+          "upperShare": 0.2,
+          "centerShare": 0.06,
+          "smallText": 13
+        },
+        "eyebrows": [],
+        "numbered": [],
+        "color": {
+          "bodyBg": "#020617",
+          "bodyBgHsl": {
+            "h": 229,
+            "s": 0.84,
+            "l": 0.05
+          },
+          "dark": true,
+          "sectionBgs": [
+            {
+              "color": "#020617",
+              "top": 0,
+              "hsl": {
+                "h": 229,
+                "s": 0.84,
+                "l": 0.05
+              }
+            },
+            {
+              "color": "#121414",
+              "top": 2302,
+              "hsl": {
+                "h": 180,
+                "s": 0.05,
+                "l": 0.07
+              }
+            }
+          ],
+          "textColors": [
+            {
+              "color": "#e3e3e3",
+              "share": 0.54
+            },
+            {
+              "color": "#e3e2e2",
+              "share": 0.17
+            },
+            {
+              "color": "#e9c349",
+              "share": 0.15
+            },
+            {
+              "color": "#ffffff",
+              "share": 0.11
+            },
+            {
+              "color": "#020617",
+              "share": 0.03
+            }
+          ],
+          "button": {
+            "bg": "#f3e5ab",
+            "hsl": {
+              "h": 48,
+              "s": 0.75,
+              "l": 0.81
+            },
+            "fg": "#020617"
+          },
+          "lowContrast": []
+        },
+        "buttons": {
+          "count": 7,
+          "inHero": 3,
+          "radius": 4,
+          "height": 44,
+          "withShadow": 0,
+          "withGradient": 0,
+          "mono": 0,
+          "upper": 6,
+          "heroLabels": ["Direkt zum Inhalt springen", "KONZERTE IN KIEL ANSEHEN", "BESUCH PLANEN"]
+        },
+        "surfaces": {
+          "shadowStatic": 2,
+          "shadowOverlay": 2,
+          "shadowSamples": [
+            "a.motion-button.inline-flex → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0",
+            "figure.relative.overflow-hidden → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0"
+          ],
+          "gradients": 7,
+          "scrims": 0,
+          "gradientSamples": [
+            "div.absolute.inset-0 → linear-gradient(rgba(2, 6, 23, 0.02) 0%, rgba(2, 6, 23, 0.04) 58%, rgba(2, 6, 23, 0.18) 82%, rgba(2, 6, 23, 0.",
+            "div.absolute.inset-0 → linear-gradient(90deg, rgba(2, 6, 23, 0.22) 0%, rgba(2, 6, 23, 0.05) 46%, rgba(2, 6, 23, 0.14) 100%)",
+            "div.absolute.inset-x-0 → linear-gradient(rgba(2, 6, 23, 0) 0%, rgba(2, 6, 23, 0.12) 42%, rgba(2, 6, 23, 0.55) 82%, rgb(2, 6, 23) 100%)",
+            "div.absolute.inset-y-0 → radial-gradient(at 24% 86%, rgba(2, 6, 23, 0.72) 0%, rgba(2, 6, 23, 0.42) 32%, rgba(2, 6, 23, 0.08) 58%, rgba("
+          ],
+          "gradientText": 0,
+          "hairlines": 7,
+          "hairlineSamples": [
+            "nav.fixed.inset-x-0 1440px",
+            "div.mt-auto.flex 350px",
+            "div.mt-auto.flex 350px",
+            "div.mt-auto.flex 350px",
+            "section.relative.overflow-hidden 1440px"
+          ],
+          "outlinedBoxes": 6,
+          "dashed": 0,
+          "blurred": 8,
+          "roundedBoxes": 6,
+          "boxRadius": 8,
+          "squareMedia": 1,
+          "roundedMedia": 4,
+          "mediaRadius": 8,
+          "textShadow": 0,
+          "cardRows": []
+        },
+        "heroMedia": [
+          {
+            "type": "img",
+            "ratio": 0.9
+          }
+        ],
+        "nav": {
+          "links": 5,
+          "fixed": true,
+          "height": 81,
+          "floatingPill": false,
+          "blur": false
+        },
+        "fontsLoaded": ["hanken grotesk", "merriweather"]
+      },
+      "layout": {
+        "viewport": {
+          "w": 1440,
+          "h": 900
+        },
+        "pageH": 4347,
+        "margins": {
+          "left": 64,
+          "right": 65
+        },
+        "sections": [
+          {
+            "sel": "div#page-content.min-h-screen",
+            "tag": "div",
+            "top": 0,
+            "height": 3954,
+            "words": 228,
+            "media": 5,
+            "middle": 0,
+            "heading": {
+              "text": "Konzerte in der",
+              "size": 96,
+              "tag": "h1"
+            },
+            "left": 64,
+            "right": 65,
+            "textLeft": 64,
+            "textRight": 83,
+            "fullBleed": true,
+            "footer": false,
+            "hero": true,
+            "continues": false,
+            "pinned": false
+          },
+          {
+            "sel": "footer.w-full.border-t",
+            "tag": "footer",
+            "top": 3954,
+            "height": 393,
+            "words": 35,
+            "media": 0,
+            "middle": 312,
+            "heading": null,
+            "left": 64,
+            "right": 64,
+            "textLeft": 64,
+            "textRight": 64,
+            "fullBleed": false,
+            "footer": true,
+            "hero": false,
+            "continues": false,
+            "pinned": false
+          }
+        ],
+        "gaps": [
+          {
+            "top": 1648,
+            "height": 300
+          },
+          {
+            "top": 2128,
+            "height": 304
+          }
+        ],
+        "h1s": [
+          {
+            "text": "Konzerte in der Petruskirche Kiel",
+            "size": 96,
+            "top": 400,
+            "firstScreen": true
+          }
+        ],
+        "edgeText": [],
+        "edges": [
+          {
+            "x": 64,
+            "n": 5
+          },
+          {
+            "x": 97,
+            "n": 3
+          },
+          {
+            "x": 769,
+            "n": 2
+          },
+          {
+            "x": 993,
+            "n": 2
+          },
+          {
+            "x": 545,
+            "n": 1
+          }
+        ],
+        "leftBlocks": 13,
+        "bodySize": 16,
+        "stage": false,
+        "explains": false,
+        "slivers": [],
+        "voidShare": 0.07,
+        "voidBox": {
+          "x": 0,
+          "y": 840,
+          "w": 1440,
+          "h": 60
+        }
+      },
+      "app": null,
+      "consoleErrors": []
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "load": "load",
+      "screens": 5,
+      "filled": [0.76, 0.63, 0.39, 0.76, 0.51],
+      "motion": {
+        "elements": 9,
+        "css": 6,
+        "transitions": 3,
+        "scripted": 0,
+        "videos": 0,
+        "playingVideos": 0
+      },
+      "metrics": {
+        "viewport": {
+          "w": 768,
+          "h": 1024
+        },
+        "page": {
+          "height": 4578,
+          "screens": 4.5,
+          "words": 246,
+          "img": 7,
+          "video": 0,
+          "canvas": 0,
+          "svg": 3,
+          "sections": 6,
+          "horizontalOverflow": 0,
+          "overflowCulprits": [],
+          "uiFragments": 0,
+          "uiAbuse": false,
+          "realPictures": 5,
+          "videoCount": 0,
+          "uiPictures": 0,
+          "pictureSamples": [
+            "?href=%2F_astro%2Fl1130722-hero.-4D-tq_J.jpg&w=9",
+            "?href=%2F_astro%2Fl1130722-hero.-4D-tq_J.jpg&w=4",
+            "?href=%2F_astro%2Fl1130722-hero.-4D-tq_J.jpg&w=4",
+            "?href=https%3A%2F%2Fakg-kiel.church.tools%2Fimag",
+            "?href=%2F_astro%2Fpetruskirche-exterior.C9atWewP"
+          ],
+          "blendText": 0,
+          "sideScrollers": 0,
+          "brokenImages": [],
+          "emoji": [],
+          "videosNoPoster": 0
+        },
+        "hero": {
+          "text": "Konzerte in der Petruskirche Kiel",
+          "words": 5,
+          "chars": 33,
+          "lines": 2,
+          "size": 72,
+          "vw": 9.4,
+          "font": "Merriweather",
+          "weight": 600,
+          "tracking": -0.025,
+          "leading": 1.25,
+          "upper": false,
+          "italic": false,
+          "mono": false,
+          "align": "left",
+          "position": "center",
+          "widthRatio": 0.92,
+          "top": 496,
+          "mixedFonts": ["Merriweather", "Merriweather italic"],
+          "tag": "h1",
+          "kind": "heading"
+        },
+        "h1": {
+          "text": "Konzerte in der Petruskirche Kiel",
+          "words": 5,
+          "lines": 2,
+          "size": 72,
+          "font": "Merriweather"
+        },
+        "headings": [
+          {
+            "text": "Konzerte in der Petruskirche Kiel",
+            "words": 5,
+            "chars": 33,
+            "lines": 2,
+            "size": 72,
+            "vw": 9.4,
+            "font": "Merriweather",
+            "weight": 600,
+            "tracking": -0.025,
+            "leading": 1.25,
+            "upper": false,
+            "italic": false,
+            "mono": false,
+            "align": "left",
+            "position": "center",
+            "widthRatio": 0.92,
+            "top": 496,
+            "mixedFonts": ["Merriweather", "Merriweather italic"],
+            "tag": "h1",
+            "kind": "heading"
+          },
+          {
+            "text": "Musik drückt das aus, was nicht gesagt werden kann und worüber zu schweigen unmöglich ist.",
+            "words": 15,
+            "chars": 90,
+            "lines": 3,
+            "size": 36,
+            "vw": 4.7,
+            "font": "Merriweather",
+            "weight": 400,
+            "tracking": -0.025,
+            "leading": 1.25,
+            "upper": false,
+            "italic": true,
+            "mono": false,
+            "align": "center",
+            "position": "center",
+            "widthRatio": 0.92,
+            "top": 2500,
+            "tag": "blockquote",
+            "kind": "statement"
+          },
+          {
+            "text": "Besuch planen",
+            "words": 2,
+            "chars": 13,
+            "lines": 1,
+            "size": 30,
+            "vw": 3.9,
+            "font": "Merriweather",
+            "weight": 400,
+            "tracking": 0,
+            "leading": 1.2,
+            "upper": false,
+            "italic": false,
+            "mono": false,
+            "align": "left",
+            "position": "left",
+            "widthRatio": 0.35,
+            "top": 3752,
+            "tag": "h3",
+            "kind": "heading"
+          },
+          {
+            "text": "Raum anfragen",
+            "words": 2,
+            "chars": 13,
+            "lines": 1,
+            "size": 30,
+            "vw": 3.9,
+            "font": "Merriweather",
+            "weight": 400,
+            "tracking": 0,
+            "leading": 1.2,
+            "upper": false,
+            "italic": false,
+            "mono": false,
+            "align": "left",
+            "position": "right",
+            "widthRatio": 0.35,
+            "top": 3752,
+            "tag": "h3",
+            "kind": "heading"
+          }
+        ],
+        "headingSummary": {
+          "count": 4,
+          "maxLines": 3,
+          "over2Lines": 0,
+          "statements": 1,
+          "centered": 1,
+          "medianWords": 2,
+          "mixedFontHeadings": 1
+        },
+        "type": {
+          "families": [
+            {
+              "family": "Hanken Grotesk",
+              "share": 0.88,
+              "mono": false
+            },
+            {
+              "family": "Merriweather",
+              "share": 0.12,
+              "mono": false
+            }
+          ],
+          "familyCount": 2,
+          "sizes": [12, 14, 16, 18, 20, 30, 36, 72],
+          "sizeCount": 8,
+          "notLoaded": [],
+          "body": {
+            "font": "Hanken Grotesk",
+            "size": 16,
+            "leading": 1.63,
+            "weight": 400,
+            "tracking": -0.025,
+            "contrast": 15.6
+          },
+          "measureChars": 34,
+          "max": {
+            "size": 72,
+            "vw": 9.4,
+            "font": "Merriweather",
+            "text": "Konzerte in der"
+          },
+          "monoShare": 0,
+          "monoProseShare": 0,
+          "monoFamilies": [],
+          "monoSamples": [],
+          "microLabels": 7,
+          "microLabelShare": 0.109,
+          "microSamples": [
+            "Nächste Konzerte in Kiel",
+            "14. November 2026 • 19:00 Uhr",
+            "20. November 2026 • 18:30 Uhr",
+            "4. Dezember 2026 • 19:30 Uhr",
+            "Victor Hugo",
+            "Die Petruskirche – Kiels Konzertkirche"
+          ],
+          "upperShare": 0.18,
+          "centerShare": 0.06,
+          "smallText": 11
+        },
+        "eyebrows": [],
+        "numbered": [],
+        "color": {
+          "bodyBg": "#020617",
+          "bodyBgHsl": {
+            "h": 229,
+            "s": 0.84,
+            "l": 0.05
+          },
+          "dark": true,
+          "sectionBgs": [
+            {
+              "color": "#020617",
+              "top": 0,
+              "hsl": {
+                "h": 229,
+                "s": 0.84,
+                "l": 0.05
+              }
+            },
+            {
+              "color": "#121414",
+              "top": 2851,
+              "hsl": {
+                "h": 180,
+                "s": 0.05,
+                "l": 0.07
+              }
+            }
+          ],
+          "textColors": [
+            {
+              "color": "#e3e3e3",
+              "share": 0.55
+            },
+            {
+              "color": "#e9c349",
+              "share": 0.15
+            },
+            {
+              "color": "#e3e2e2",
+              "share": 0.15
+            },
+            {
+              "color": "#ffffff",
+              "share": 0.11
+            },
+            {
+              "color": "#020617",
+              "share": 0.03
+            }
+          ],
+          "button": {
+            "bg": "#f3e5ab",
+            "hsl": {
+              "h": 48,
+              "s": 0.75,
+              "l": 0.81
+            },
+            "fg": "#020617"
+          },
+          "lowContrast": []
+        },
+        "buttons": {
+          "count": 7,
+          "inHero": 3,
+          "radius": 4,
+          "height": 44,
+          "withShadow": 0,
+          "withGradient": 0,
+          "mono": 0,
+          "upper": 6,
+          "heroLabels": ["Direkt zum Inhalt springen", "KONZERTE IN KIEL ANSEHEN", "BESUCH PLANEN"]
+        },
+        "surfaces": {
+          "shadowStatic": 2,
+          "shadowOverlay": 2,
+          "shadowSamples": [
+            "a.motion-button.inline-flex → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0",
+            "figure.relative.overflow-hidden → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0"
+          ],
+          "gradients": 7,
+          "scrims": 0,
+          "gradientSamples": [
+            "div.absolute.inset-0 → linear-gradient(rgba(2, 6, 23, 0.02) 0%, rgba(2, 6, 23, 0.04) 58%, rgba(2, 6, 23, 0.18) 82%, rgba(2, 6, 23, 0.",
+            "div.absolute.inset-0 → linear-gradient(90deg, rgba(2, 6, 23, 0.22) 0%, rgba(2, 6, 23, 0.05) 46%, rgba(2, 6, 23, 0.14) 100%)",
+            "div.absolute.inset-x-0 → linear-gradient(rgba(2, 6, 23, 0) 0%, rgba(2, 6, 23, 0.12) 42%, rgba(2, 6, 23, 0.55) 82%, rgb(2, 6, 23) 100%)",
+            "div.absolute.inset-y-0 → radial-gradient(at 24% 86%, rgba(2, 6, 23, 0.72) 0%, rgba(2, 6, 23, 0.42) 32%, rgba(2, 6, 23, 0.08) 58%, rgba("
+          ],
+          "gradientText": 0,
+          "hairlines": 7,
+          "hairlineSamples": [
+            "nav.fixed.inset-x-0 768px",
+            "div.mt-auto.flex 270px",
+            "div.mt-auto.flex 270px",
+            "div.mt-auto.flex 270px",
+            "section.relative.overflow-hidden 768px"
+          ],
+          "outlinedBoxes": 6,
+          "dashed": 0,
+          "blurred": 8,
+          "roundedBoxes": 6,
+          "boxRadius": 8,
+          "squareMedia": 1,
+          "roundedMedia": 4,
+          "mediaRadius": 8,
+          "textShadow": 0,
+          "cardRows": []
+        },
+        "heroMedia": [
+          {
+            "type": "img",
+            "ratio": 0.9
+          }
+        ],
+        "nav": {
+          "links": 1,
+          "fixed": true,
+          "height": 81,
+          "floatingPill": false,
+          "blur": false
+        },
+        "fontsLoaded": ["hanken grotesk", "merriweather"]
+      },
+      "layout": {
+        "viewport": {
+          "w": 768,
+          "h": 1024
+        },
+        "pageH": 4578,
+        "margins": {
+          "left": 32,
+          "right": 33
+        },
+        "sections": [
+          {
+            "sel": "div#page-content.min-h-screen",
+            "tag": "div",
+            "top": 0,
+            "height": 4153,
+            "words": 228,
+            "media": 5,
+            "middle": 0,
+            "heading": {
+              "text": "Konzerte in der",
+              "size": 72,
+              "tag": "h1"
+            },
+            "left": 32,
+            "right": 33,
+            "textLeft": 32,
+            "textRight": 51,
+            "fullBleed": true,
+            "footer": false,
+            "hero": true,
+            "continues": false,
+            "pinned": false
+          },
+          {
+            "sel": "footer.w-full.border-t",
+            "tag": "footer",
+            "top": 4153,
+            "height": 425,
+            "words": 35,
+            "media": 0,
+            "middle": 71,
+            "heading": null,
+            "left": 32,
+            "right": 32,
+            "textLeft": 32,
+            "textRight": 32,
+            "fullBleed": false,
+            "footer": true,
+            "hero": false,
+            "continues": false,
+            "pinned": false
+          }
+        ],
+        "gaps": [],
+        "h1s": [
+          {
+            "text": "Konzerte in der Petruskirche Kiel",
+            "size": 72,
+            "top": 496,
+            "firstScreen": true
+          }
+        ],
+        "edgeText": [],
+        "edges": [
+          {
+            "x": 32,
+            "n": 5
+          },
+          {
+            "x": 65,
+            "n": 5
+          },
+          {
+            "x": 433,
+            "n": 3
+          }
+        ],
+        "leftBlocks": 13,
+        "bodySize": 16,
+        "stage": false,
+        "explains": false,
+        "slivers": [],
+        "voidShare": 0,
+        "voidBox": null
+      },
+      "app": null,
+      "consoleErrors": []
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "load": "load",
+      "screens": 7,
+      "filled": [0.77, 0.78, 0.9, 0.68, 0.75, 0.56, 0.22],
+      "motion": {
+        "elements": 9,
+        "css": 6,
+        "transitions": 3,
+        "scripted": 0,
+        "videos": 0,
+        "playingVideos": 0
+      },
+      "metrics": {
+        "viewport": {
+          "w": 390,
+          "h": 844
+        },
+        "page": {
+          "height": 5655,
+          "screens": 6.7,
+          "words": 246,
+          "img": 7,
+          "video": 0,
+          "canvas": 0,
+          "svg": 3,
+          "sections": 6,
+          "horizontalOverflow": 0,
+          "overflowCulprits": [],
+          "uiFragments": 0,
+          "uiAbuse": false,
+          "realPictures": 5,
+          "videoCount": 0,
+          "uiPictures": 0,
+          "pictureSamples": [
+            "?href=%2F_astro%2Fl1130722-hero.-4D-tq_J.jpg&w=6",
+            "?href=%2F_astro%2Fl1130722-hero.-4D-tq_J.jpg&w=4",
+            "?href=%2F_astro%2Fl1130722-hero.-4D-tq_J.jpg&w=4",
+            "?href=https%3A%2F%2Fakg-kiel.church.tools%2Fimag",
+            "?href=%2F_astro%2Fpetruskirche-exterior.C9atWewP"
+          ],
+          "blendText": 0,
+          "sideScrollers": 0,
+          "brokenImages": [],
+          "emoji": [],
+          "videosNoPoster": 0
+        },
+        "hero": {
+          "text": "Konzerte in der Petruskirche Kiel",
+          "words": 5,
+          "chars": 33,
+          "lines": 2,
+          "size": 36,
+          "vw": 9.2,
+          "font": "Merriweather",
+          "weight": 600,
+          "tracking": -0.025,
+          "leading": 1.25,
+          "upper": false,
+          "italic": false,
+          "mono": false,
+          "align": "left",
+          "position": "center",
+          "widthRatio": 0.88,
+          "top": 415,
+          "mixedFonts": ["Merriweather", "Merriweather italic"],
+          "tag": "h1",
+          "kind": "heading"
+        },
+        "h1": {
+          "text": "Konzerte in der Petruskirche Kiel",
+          "words": 5,
+          "lines": 2,
+          "size": 36,
+          "font": "Merriweather"
+        },
+        "headings": [
+          {
+            "text": "Konzerte in der Petruskirche Kiel",
+            "words": 5,
+            "chars": 33,
+            "lines": 2,
+            "size": 36,
+            "vw": 9.2,
+            "font": "Merriweather",
+            "weight": 600,
+            "tracking": -0.025,
+            "leading": 1.25,
+            "upper": false,
+            "italic": false,
+            "mono": false,
+            "align": "left",
+            "position": "center",
+            "widthRatio": 0.88,
+            "top": 415,
+            "mixedFonts": ["Merriweather", "Merriweather italic"],
+            "tag": "h1",
+            "kind": "heading"
+          },
+          {
+            "text": "Musik drückt das aus, was nicht gesagt werden kann und worüber zu schweigen unmöglich ist.",
+            "words": 15,
+            "chars": 90,
+            "lines": 4,
+            "size": 24,
+            "vw": 6.2,
+            "font": "Merriweather",
+            "weight": 400,
+            "tracking": -0.025,
+            "leading": 1.25,
+            "upper": false,
+            "italic": true,
+            "mono": false,
+            "align": "center",
+            "position": "center",
+            "widthRatio": 0.88,
+            "top": 2719,
+            "tag": "blockquote",
+            "kind": "statement"
+          },
+          {
+            "text": "Besuch planen",
+            "words": 2,
+            "chars": 13,
+            "lines": 1,
+            "size": 24,
+            "vw": 6.2,
+            "font": "Merriweather",
+            "weight": 400,
+            "tracking": 0,
+            "leading": 1.33,
+            "upper": false,
+            "italic": false,
+            "mono": false,
+            "align": "left",
+            "position": "center",
+            "widthRatio": 0.71,
+            "top": 4041,
+            "tag": "h3",
+            "kind": "heading"
+          },
+          {
+            "text": "Raum anfragen",
+            "words": 2,
+            "chars": 13,
+            "lines": 1,
+            "size": 24,
+            "vw": 6.2,
+            "font": "Merriweather",
+            "weight": 400,
+            "tracking": 0,
+            "leading": 1.33,
+            "upper": false,
+            "italic": false,
+            "mono": false,
+            "align": "left",
+            "position": "center",
+            "widthRatio": 0.71,
+            "top": 4427,
+            "tag": "h3",
+            "kind": "heading"
+          }
+        ],
+        "headingSummary": {
+          "count": 4,
+          "maxLines": 4,
+          "over2Lines": 0,
+          "statements": 1,
+          "centered": 1,
+          "medianWords": 2,
+          "mixedFontHeadings": 1
+        },
+        "type": {
+          "families": [
+            {
+              "family": "Hanken Grotesk",
+              "share": 0.88,
+              "mono": false
+            },
+            {
+              "family": "Merriweather",
+              "share": 0.12,
+              "mono": false
+            }
+          ],
+          "familyCount": 2,
+          "sizes": [12, 14, 16, 20, 24, 36],
+          "sizeCount": 6,
+          "notLoaded": [],
+          "body": {
+            "font": "Hanken Grotesk",
+            "size": 16,
+            "leading": 1.75,
+            "weight": 400,
+            "tracking": 0,
+            "contrast": 14.4
+          },
+          "measureChars": 39,
+          "max": {
+            "size": 36,
+            "vw": 9.2,
+            "font": "Merriweather",
+            "text": "Konzerte in der"
+          },
+          "monoShare": 0,
+          "monoProseShare": 0,
+          "monoFamilies": [],
+          "monoSamples": [],
+          "microLabels": 7,
+          "microLabelShare": 0.109,
+          "microSamples": [
+            "Nächste Konzerte in Kiel",
+            "14. November 2026 • 19:00 Uhr",
+            "20. November 2026 • 18:30 Uhr",
+            "4. Dezember 2026 • 19:30 Uhr",
+            "Victor Hugo",
+            "Die Petruskirche – Kiels Konzertkirche"
+          ],
+          "upperShare": 0.18,
+          "centerShare": 0.06,
+          "smallText": 11
+        },
+        "eyebrows": [],
+        "numbered": [],
+        "color": {
+          "bodyBg": "#020617",
+          "bodyBgHsl": {
+            "h": 229,
+            "s": 0.84,
+            "l": 0.05
+          },
+          "dark": true,
+          "sectionBgs": [
+            {
+              "color": "#020617",
+              "top": 0,
+              "hsl": {
+                "h": 229,
+                "s": 0.84,
+                "l": 0.05
+              }
+            },
+            {
+              "color": "#121414",
+              "top": 2943,
+              "hsl": {
+                "h": 180,
+                "s": 0.05,
+                "l": 0.07
+              }
+            }
+          ],
+          "textColors": [
+            {
+              "color": "#e3e3e3",
+              "share": 0.65
+            },
+            {
+              "color": "#e9c349",
+              "share": 0.15
+            },
+            {
+              "color": "#ffffff",
+              "share": 0.11
+            },
+            {
+              "color": "#e3e2e2",
+              "share": 0.05
+            },
+            {
+              "color": "#020617",
+              "share": 0.03
+            }
+          ],
+          "button": {
+            "bg": "#f3e5ab",
+            "hsl": {
+              "h": 48,
+              "s": 0.75,
+              "l": 0.81
+            },
+            "fg": "#020617"
+          },
+          "lowContrast": []
+        },
+        "buttons": {
+          "count": 7,
+          "inHero": 3,
+          "radius": 4,
+          "height": 44,
+          "withShadow": 0,
+          "withGradient": 0,
+          "mono": 0,
+          "upper": 6,
+          "heroLabels": ["Direkt zum Inhalt springen", "KONZERTE IN KIEL ANSEHEN", "BESUCH PLANEN"]
+        },
+        "surfaces": {
+          "shadowStatic": 2,
+          "shadowOverlay": 2,
+          "shadowSamples": [
+            "a.motion-button.inline-flex → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0",
+            "figure.relative.overflow-hidden → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0"
+          ],
+          "gradients": 7,
+          "scrims": 0,
+          "gradientSamples": [
+            "div.absolute.inset-0 → linear-gradient(rgba(2, 6, 23, 0.04) 0%, rgba(2, 6, 23, 0.08) 46%, rgba(2, 6, 23, 0.3) 70%, rgba(2, 6, 23, 0.7",
+            "div.absolute.inset-0 → linear-gradient(90deg, rgba(2, 6, 23, 0.36) 0%, rgba(2, 6, 23, 0.1) 46%, rgba(2, 6, 23, 0.18) 100%)",
+            "div.absolute.inset-x-0 → linear-gradient(rgba(2, 6, 23, 0) 0%, rgba(2, 6, 23, 0.16) 32%, rgba(2, 6, 23, 0.54) 70%, rgb(2, 6, 23) 100%)",
+            "div.absolute.inset-y-0 → radial-gradient(at 24% 86%, rgba(2, 6, 23, 0.72) 0%, rgba(2, 6, 23, 0.42) 32%, rgba(2, 6, 23, 0.08) 58%, rgba("
+          ],
+          "gradientText": 0,
+          "hairlines": 8,
+          "hairlineSamples": [
+            "nav.fixed.inset-x-0 390px",
+            "div.mt-auto.flex 276px",
+            "div.mt-auto.flex 276px",
+            "div.mt-auto.flex 276px",
+            "section.relative.overflow-hidden 390px"
+          ],
+          "outlinedBoxes": 6,
+          "dashed": 0,
+          "blurred": 8,
+          "roundedBoxes": 6,
+          "boxRadius": 8,
+          "squareMedia": 1,
+          "roundedMedia": 4,
+          "mediaRadius": 8,
+          "textShadow": 0,
+          "cardRows": []
+        },
+        "heroMedia": [
+          {
+            "type": "img",
+            "ratio": 0.6
+          }
+        ],
+        "nav": {
+          "links": 1,
+          "fixed": true,
+          "height": 81,
+          "floatingPill": false,
+          "blur": false
+        },
+        "fontsLoaded": ["hanken grotesk", "merriweather"]
+      },
+      "layout": {
+        "viewport": {
+          "w": 390,
+          "h": 844
+        },
+        "pageH": 5655,
+        "margins": {
+          "left": 24,
+          "right": 25
+        },
+        "sections": [
+          {
+            "sel": "div#page-content.min-h-screen",
+            "tag": "div",
+            "top": 0,
+            "height": 4776,
+            "words": 228,
+            "media": 5,
+            "middle": 0,
+            "heading": {
+              "text": "Konzerte in der",
+              "size": 36,
+              "tag": "h1"
+            },
+            "left": 24,
+            "right": 25,
+            "textLeft": 24,
+            "textRight": 33,
+            "fullBleed": true,
+            "footer": false,
+            "hero": true,
+            "continues": false,
+            "pinned": false
+          },
+          {
+            "sel": "footer.w-full.border-t",
+            "tag": "footer",
+            "top": 4776,
+            "height": 879,
+            "words": 35,
+            "media": 0,
+            "middle": 0,
+            "heading": null,
+            "left": 24,
+            "right": 68,
+            "textLeft": 24,
+            "textRight": 68,
+            "fullBleed": false,
+            "footer": true,
+            "hero": false,
+            "continues": false,
+            "pinned": false
+          }
+        ],
+        "gaps": [],
+        "h1s": [
+          {
+            "text": "Konzerte in der Petruskirche Kiel",
+            "size": 36,
+            "top": 415,
+            "firstScreen": true
+          }
+        ],
+        "edgeText": [],
+        "edges": [
+          {
+            "x": 57,
+            "n": 8
+          },
+          {
+            "x": 24,
+            "n": 5
+          }
+        ],
+        "leftBlocks": 13,
+        "bodySize": 16,
+        "stage": false,
+        "explains": false,
+        "slivers": [],
+        "voidShare": 0,
+        "voidBox": null
+      },
+      "app": null,
+      "consoleErrors": []
+    }
+  ],
+  "findings": [
+    {
+      "level": "WARN",
+      "id": "mixed-font-headline",
+      "width": 1440,
+      "message": "1 headline(s) switch typeface or to italic mid-line (the \"one italic serif word\" move).",
+      "fix": "Set the whole headline in one face. Emphasis comes from the words.",
+      "alsoAt": [768, 390]
+    },
+    {
+      "level": "FAIL",
+      "id": "micro-label",
+      "width": 1440,
+      "message": "7 tiny uppercase letter-spaced labels (e.g. \"Nächste Konzerte in Kiel\", \"14. November 2026 • 19:00 Uhr\", \"20. November 2026 • 18:30 Uhr\", \"4. Dezember 2026 • 19:30 Uhr\").",
+      "fix": "Use sentence-case text at a readable size, or delete the label.",
+      "alsoAt": [768, 390]
+    },
+    {
+      "level": "FAIL",
+      "id": "gradient",
+      "width": 1440,
+      "message": "7 gradient fill(s): div.absolute.inset-0 → linear-gradient(rgba(2, 6, 23, 0.02) 0%, rgba(2, 6, 23, 0.04) 58%, rgba(2, 6, 23, 0.18) 82%, rgba(2, 6, 23, 0. | div.absolute.inset-0 → linear-gradient(90deg, rgba(2, 6, 23, 0.22) 0%, rgba(2, 6, 23, 0.05) 46%, rgba(2, 6, 23, 0.14) 100%) | div.absolute.inset-x-0 → linear-gradient(rgba(2, 6, 23, 0) 0%, rgba(2, 6, 23, 0.12) 42%, rgba(2, 6, 23, 0.55) 82%, rgb(2, 6, 23) 100%)",
+      "fix": "Use a flat colour or a real image. The only gradient allowed by default is a neutral scrim over a photo for legibility.",
+      "alsoAt": [768, 390]
+    },
+    {
+      "level": "FAIL",
+      "id": "shadow",
+      "width": 1440,
+      "message": "2 box-shadow(s) on elements at rest: a.motion-button.inline-flex → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0 | figure.relative.overflow-hidden → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0",
+      "fix": "Remove. Separate surfaces with a tone step or space. Shadows are for things that really float (menus, dialogs, sticky bars).",
+      "alsoAt": [768, 390]
+    },
+    {
+      "level": "FAIL",
+      "id": "hairline",
+      "width": 1440,
+      "message": "7 thin rule(s)/divider line(s): nav.fixed.inset-x-0 1440px | div.mt-auto.flex 350px | div.mt-auto.flex 350px | div.mt-auto.flex 350px",
+      "fix": "Delete. Separate with space, a tone change, or scale. Lines are only for real tables and form fields.",
+      "alsoAt": [768, 390]
+    },
+    {
+      "level": "FAIL",
+      "id": "outlined-box",
+      "width": 1440,
+      "message": "6 boxes drawn with a 1px outline.",
+      "fix": "Define a surface by its fill (one tone step from the page) or leave the content unboxed.",
+      "alsoAt": [768, 390]
+    },
+    {
+      "level": "WARN",
+      "id": "glass",
+      "width": 1440,
+      "message": "8 backdrop-blur surfaces.",
+      "fix": "One blurred sticky bar at most; glass cards are a tell.",
+      "alsoAt": [768, 390]
+    },
+    {
+      "level": "WARN",
+      "id": "no-footage",
+      "width": 1440,
+      "message": "No video anywhere on the page.",
+      "fix": "Look for one honest clip with scripts/assets.mjs --video (the place, the material, the process) and use it as a muted loop with a poster frame. Defend its absence only if no clip fits the subject."
+    },
+    {
+      "level": "FAIL",
+      "id": "small-text",
+      "width": 1440,
+      "message": "13 text blocks under 13px.",
+      "fix": "Nothing meant to be read goes below 13px.",
+      "alsoAt": [768, 390]
+    },
+    {
+      "level": "WARN",
+      "id": "still-page",
+      "width": 1440,
+      "message": "Little motion: 9 element(s) moved while the page loaded and scrolled.",
+      "fix": "Give every section an entrance for its parts (not one fade of the whole block) and add one moving picture: a looping clip or a slow move on a photograph."
+    },
+    {
+      "level": "FAIL",
+      "id": "headline-lines",
+      "width": 768,
+      "message": "1 headline(s) wrap past two lines at 768px: \"Musik drückt das aus, was nicht gesagt werden ka\" → 3 lines (15 words, 36px, a paragraph set above 32px)",
+      "fix": "Cut words first (a headline is a title, not a sentence). Then give it a wider measure. Lower the size only as a last resort and never below the scale you chose. A real statement paragraph belongs in a <p> or <blockquote> at 32px or less."
+    },
+    {
+      "level": "FAIL",
+      "id": "covered-text",
+      "width": 768,
+      "message": "Large text lies under another element at some scroll position: \"Besuch planen\" (screen 5, 100% hidden); \"Raum anfragen\" (screen 5, 100% hidden)",
+      "fix": "Nothing may sit on top of a headline or statement. Move the picture, shorten the pinned run, or raise the text above it (z-index) and give it a ground.",
+      "alsoAt": [390]
+    }
+  ],
+  "images": [
+    {
+      "viewport": "desktop",
+      "width": 1440,
+      "fold": "/home/zepi/.t3/worktrees/web-konzerte/t3-ede163a4/.taste-skill/before/desktop-fold.jpg",
+      "pages": [
+        "/home/zepi/.t3/worktrees/web-konzerte/t3-ede163a4/.taste-skill/before/desktop-page-01.jpg",
+        "/home/zepi/.t3/worktrees/web-konzerte/t3-ede163a4/.taste-skill/before/desktop-page-02.jpg"
+      ],
+      "film": []
+    },
+    {
+      "viewport": "tablet",
+      "width": 768,
+      "fold": "/home/zepi/.t3/worktrees/web-konzerte/t3-ede163a4/.taste-skill/before/tablet-fold.jpg",
+      "pages": [
+        "/home/zepi/.t3/worktrees/web-konzerte/t3-ede163a4/.taste-skill/before/tablet-page-01.jpg"
+      ],
+      "film": []
+    },
+    {
+      "viewport": "mobile",
+      "width": 390,
+      "fold": "/home/zepi/.t3/worktrees/web-konzerte/t3-ede163a4/.taste-skill/before/mobile-fold.jpg",
+      "pages": [
+        "/home/zepi/.t3/worktrees/web-konzerte/t3-ede163a4/.taste-skill/before/mobile-page-01.jpg"
+      ],
+      "film": []
+    }
+  ]
+}

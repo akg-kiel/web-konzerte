@@ -41,7 +41,7 @@ const gridClass = 'grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-8
 const imageSizes = '(min-width: 1024px) 384px, (min-width: 768px) 45vw, calc(100vw - 48px)';
 
 const headerLinkClass =
-  'items-center gap-2 font-body text-xs/4 font-semibold uppercase tracking-widest !text-role-on/70 no-underline transition-colors hover:!text-secondary';
+  'min-h-12 items-center gap-2 font-body text-xs/4 font-semibold uppercase tracking-widest !text-role-on/70 no-underline transition-colors hover:!text-secondary';
 const paginationLinkClass =
   'inline-flex min-h-12 items-center font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary no-underline hover:!text-champagne';
 const pageHref = (target: number) => {
@@ -70,7 +70,7 @@ const pageHref = (target: number) => {
         <h2 id={titleId} class="block font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">
           {eyebrow}
         </h2>
-        {intro && <p class="mt-6 max-w-2xl font-body text-lg/7 text-role-on/70">{intro}</p>}
+        {intro && <p class="mt-6 max-w-2xl font-body text-lg/7 text-role-on">{intro}</p>}
       </div>
 
       {showHeaderLink && (

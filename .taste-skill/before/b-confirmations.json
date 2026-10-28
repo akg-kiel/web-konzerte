@@ -1,0 +1,4425 @@
+{
+  "started": "2026-10-28T10:33:59.842Z",
+  "scope": "Targeted follow-up, not a repeat full main-page inspector",
+  "menu": [
+    {
+      "width": 320,
+      "open": true,
+      "smoke": {
+        "overflow": {
+          "viewport": 320,
+          "pageOverflows": false,
+          "offenders": []
+        },
+        "overlap": {
+          "truncated": false,
+          "hits": []
+        },
+        "clipping": [
+          {
+            "sel": "span.sr-only",
+            "text": "Navigation öffnen oder schließen",
+            "x": 272,
+            "y": 40,
+            "w": 1,
+            "h": 1,
+            "scroll": [235, 26],
+            "client": [1, 1]
+          }
+        ],
+        "edge": [],
+        "images": [],
+        "zeroGhost": [
+          {
+            "sel": "a.nav-link.inline-flex.min-h-11",
+            "text": "Programm",
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "zeroButPresent": true,
+            "ghostBlocker": false
+          },
+          {
+            "sel": "a.nav-link.inline-flex.min-h-11",
+            "text": "Besuch planen",
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "zeroButPresent": true,
+            "ghostBlocker": false
+          },
+          {
+            "sel": "a.nav-link.inline-flex.min-h-11",
+            "text": "Raum anfragen",
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "zeroButPresent": true,
+            "ghostBlocker": false
+          },
+          {
+            "sel": "a.nav-link.inline-flex.min-h-11",
+            "text": "Kontakt",
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "zeroButPresent": true,
+            "ghostBlocker": false
+          },
+          {
+            "sel": "article#ebg-sinfoniekonzert-51035-2026-11-14.relative.overflow-hidden.rounded-lg",
+            "text": "14. November 2026 • 19:00 UhrEBG Sinfoni",
+            "x": 28,
+            "y": 970,
+            "w": 264,
+            "h": 408,
+            "zeroButPresent": false,
+            "ghostBlocker": true
+          },
+          {
+            "sel": "article#die-drei-kids-47548-2026-11-20.relative.overflow-hidden.rounded-lg",
+            "text": "20. November 2026 • 18:30 UhrDie drei ??",
+            "x": 28,
+            "y": 1423,
+            "w": 264,
+            "h": 408,
+            "zeroButPresent": false,
+            "ghostBlocker": true
+          },
+          {
+            "sel": "article#home-for-christmas-50009-2026-12-04.relative.overflow-hidden.rounded-lg",
+            "text": "4. Dezember 2026 • 19:30 UhrHome for Chr",
+            "x": 28,
+            "y": 1879,
+            "w": 264,
+            "h": 550,
+            "zeroButPresent": false,
+            "ghostBlocker": true
+          }
+        ],
+        "unreadable": [
+          {
+            "sel": "p.font-body.text-xs/4.font-semibold",
+            "text": "Menü",
+            "x": 24,
+            "y": 128,
+            "w": 272,
+            "h": 16,
+            "fontSize": 12,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          },
+          {
+            "sel": "a.flex.min-h-16.items-center",
+            "text": "Programm",
+            "x": 24,
+            "y": 269,
+            "w": 272,
+            "h": 64,
+            "fontSize": 36,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          },
+          {
+            "sel": "a.flex.min-h-16.items-center",
+            "text": "Besuch planen",
+            "x": 24,
+            "y": 357,
+            "w": 272,
+            "h": 73,
+            "fontSize": 36,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          },
+          {
+            "sel": "a.flex.min-h-16.items-center",
+            "text": "Raum anfragen",
+            "x": 24,
+            "y": 454,
+            "w": 272,
+            "h": 73,
+            "fontSize": 36,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          },
+          {
+            "sel": "a.flex.min-h-16.items-center",
+            "text": "Kontakt",
+            "x": 24,
+            "y": 551,
+            "w": 272,
+            "h": 64,
+            "fontSize": 36,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          },
+          {
+            "sel": "p.mt-auto.max-w-xs.border-t",
+            "text": "Tickets kaufen Sie über die Anbieter der",
+            "x": 24,
+            "y": 699,
+            "w": 272,
+            "h": 73,
+            "fontSize": 14,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          }
+        ]
+      },
+      "measurements": {
+        "root": {
+          "client": 320,
+          "scroll": 320,
+          "overflow": "hidden"
+        },
+        "mainVisibility": "hidden",
+        "summary": {
+          "focusVisible": true,
+          "outline": "rgb(243, 229, 171) solid 2px"
+        },
+        "links": [
+          {
+            "text": "Programm",
+            "x": 24,
+            "y": 268.5,
+            "w": 272,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 296
+          },
+          {
+            "text": "Besuch planen",
+            "x": 24,
+            "y": 356.5,
+            "w": 272,
+            "h": 73,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 296
+          },
+          {
+            "text": "Raum anfragen",
+            "x": 24,
+            "y": 453.5,
+            "w": 272,
+            "h": 73,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 296
+          },
+          {
+            "text": "Kontakt",
+            "x": 24,
+            "y": 550.5,
+            "w": 272,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 296
+          }
+        ]
+      },
+      "tabOrder": [
+        {
+          "text": "Programm",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 229, 171, 1) solid 2px"
+        },
+        {
+          "text": "Besuch planen",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 229, 171, 1) solid 2px"
+        },
+        {
+          "text": "Raum anfragen",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 229, 171, 1) solid 2px"
+        },
+        {
+          "text": "Kontakt",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgb(243, 229, 171) solid 2px"
+        }
+      ],
+      "escape": {
+        "closed": true,
+        "focusReturned": true,
+        "mainVisibility": "visible"
+      }
+    },
+    {
+      "width": 375,
+      "open": true,
+      "smoke": {
+        "overflow": {
+          "viewport": 375,
+          "pageOverflows": false,
+          "offenders": []
+        },
+        "overlap": {
+          "truncated": false,
+          "hits": []
+        },
+        "clipping": [
+          {
+            "sel": "span.sr-only",
+            "text": "Navigation öffnen oder schließen",
+            "x": 327,
+            "y": 40,
+            "w": 1,
+            "h": 1,
+            "scroll": [235, 26],
+            "client": [1, 1]
+          }
+        ],
+        "edge": [],
+        "images": [],
+        "zeroGhost": [
+          {
+            "sel": "a.nav-link.inline-flex.min-h-11",
+            "text": "Programm",
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "zeroButPresent": true,
+            "ghostBlocker": false
+          },
+          {
+            "sel": "a.nav-link.inline-flex.min-h-11",
+            "text": "Besuch planen",
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "zeroButPresent": true,
+            "ghostBlocker": false
+          },
+          {
+            "sel": "a.nav-link.inline-flex.min-h-11",
+            "text": "Raum anfragen",
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "zeroButPresent": true,
+            "ghostBlocker": false
+          },
+          {
+            "sel": "a.nav-link.inline-flex.min-h-11",
+            "text": "Kontakt",
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "zeroButPresent": true,
+            "ghostBlocker": false
+          },
+          {
+            "sel": "article#ebg-sinfoniekonzert-51035-2026-11-14.relative.overflow-hidden.rounded-lg",
+            "text": "14. November 2026 • 19:00 UhrEBG Sinfoni",
+            "x": 29,
+            "y": 971,
+            "w": 317,
+            "h": 433,
+            "zeroButPresent": false,
+            "ghostBlocker": true
+          },
+          {
+            "sel": "article#die-drei-kids-47548-2026-11-20.relative.overflow-hidden.rounded-lg",
+            "text": "20. November 2026 • 18:30 UhrDie drei ??",
+            "x": 29,
+            "y": 1449,
+            "w": 317,
+            "h": 433,
+            "zeroButPresent": false,
+            "ghostBlocker": true
+          },
+          {
+            "sel": "article#home-for-christmas-50009-2026-12-04.relative.overflow-hidden.rounded-lg",
+            "text": "4. Dezember 2026 • 19:30 UhrHome for Chr",
+            "x": 29,
+            "y": 1929,
+            "w": 317,
+            "h": 574,
+            "zeroButPresent": false,
+            "ghostBlocker": true
+          }
+        ],
+        "unreadable": [
+          {
+            "sel": "p.font-body.text-xs/4.font-semibold",
+            "text": "Menü",
+            "x": 24,
+            "y": 128,
+            "w": 327,
+            "h": 16,
+            "fontSize": 12,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          },
+          {
+            "sel": "a.flex.min-h-16.items-center",
+            "text": "Programm",
+            "x": 24,
+            "y": 278,
+            "w": 327,
+            "h": 64,
+            "fontSize": 36,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          },
+          {
+            "sel": "a.flex.min-h-16.items-center",
+            "text": "Besuch planen",
+            "x": 24,
+            "y": 366,
+            "w": 327,
+            "h": 64,
+            "fontSize": 36,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          },
+          {
+            "sel": "a.flex.min-h-16.items-center",
+            "text": "Raum anfragen",
+            "x": 24,
+            "y": 454,
+            "w": 327,
+            "h": 64,
+            "fontSize": 36,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          },
+          {
+            "sel": "a.flex.min-h-16.items-center",
+            "text": "Kontakt",
+            "x": 24,
+            "y": 542,
+            "w": 327,
+            "h": 64,
+            "fontSize": 36,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          },
+          {
+            "sel": "p.mt-auto.max-w-xs.border-t",
+            "text": "Tickets kaufen Sie über die Anbieter der",
+            "x": 24,
+            "y": 699,
+            "w": 320,
+            "h": 73,
+            "fontSize": 14,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          }
+        ]
+      },
+      "measurements": {
+        "root": {
+          "client": 375,
+          "scroll": 375,
+          "overflow": "hidden"
+        },
+        "mainVisibility": "hidden",
+        "summary": {
+          "focusVisible": true,
+          "outline": "rgb(243, 229, 171) solid 2px"
+        },
+        "links": [
+          {
+            "text": "Programm",
+            "x": 24,
+            "y": 277.5,
+            "w": 327,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 351
+          },
+          {
+            "text": "Besuch planen",
+            "x": 24,
+            "y": 365.5,
+            "w": 327,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 351
+          },
+          {
+            "text": "Raum anfragen",
+            "x": 24,
+            "y": 453.5,
+            "w": 327,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 351
+          },
+          {
+            "text": "Kontakt",
+            "x": 24,
+            "y": 541.5,
+            "w": 327,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 351
+          }
+        ]
+      },
+      "tabOrder": [
+        {
+          "text": "Programm",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgb(243, 229, 171) solid 2px"
+        },
+        {
+          "text": "Besuch planen",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 229, 171, 1) solid 2px"
+        },
+        {
+          "text": "Raum anfragen",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 229, 171, 1) solid 2px"
+        },
+        {
+          "text": "Kontakt",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 229, 170, 1) solid 2px"
+        }
+      ],
+      "escape": {
+        "closed": true,
+        "focusReturned": true,
+        "mainVisibility": "visible"
+      }
+    },
+    {
+      "width": 390,
+      "open": true,
+      "smoke": {
+        "overflow": {
+          "viewport": 390,
+          "pageOverflows": false,
+          "offenders": []
+        },
+        "overlap": {
+          "truncated": false,
+          "hits": []
+        },
+        "clipping": [
+          {
+            "sel": "span.sr-only",
+            "text": "Navigation öffnen oder schließen",
+            "x": 342,
+            "y": 40,
+            "w": 1,
+            "h": 1,
+            "scroll": [235, 26],
+            "client": [1, 1]
+          }
+        ],
+        "edge": [],
+        "images": [],
+        "zeroGhost": [
+          {
+            "sel": "a.nav-link.inline-flex.min-h-11",
+            "text": "Programm",
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "zeroButPresent": true,
+            "ghostBlocker": false
+          },
+          {
+            "sel": "a.nav-link.inline-flex.min-h-11",
+            "text": "Besuch planen",
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "zeroButPresent": true,
+            "ghostBlocker": false
+          },
+          {
+            "sel": "a.nav-link.inline-flex.min-h-11",
+            "text": "Raum anfragen",
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "zeroButPresent": true,
+            "ghostBlocker": false
+          },
+          {
+            "sel": "a.nav-link.inline-flex.min-h-11",
+            "text": "Kontakt",
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "zeroButPresent": true,
+            "ghostBlocker": false
+          },
+          {
+            "sel": "article#ebg-sinfoniekonzert-51035-2026-11-14.relative.overflow-hidden.rounded-lg",
+            "text": "14. November 2026 • 19:00 UhrEBG Sinfoni",
+            "x": 29,
+            "y": 971,
+            "w": 332,
+            "h": 444,
+            "zeroButPresent": false,
+            "ghostBlocker": true
+          },
+          {
+            "sel": "article#die-drei-kids-47548-2026-11-20.relative.overflow-hidden.rounded-lg",
+            "text": "20. November 2026 • 18:30 UhrDie drei ??",
+            "x": 29,
+            "y": 1460,
+            "w": 332,
+            "h": 444,
+            "zeroButPresent": false,
+            "ghostBlocker": true
+          },
+          {
+            "sel": "article#home-for-christmas-50009-2026-12-04.relative.overflow-hidden.rounded-lg",
+            "text": "4. Dezember 2026 • 19:30 UhrHome for Chr",
+            "x": 29,
+            "y": 1952,
+            "w": 332,
+            "h": 585,
+            "zeroButPresent": false,
+            "ghostBlocker": true
+          }
+        ],
+        "unreadable": [
+          {
+            "sel": "p.font-body.text-xs/4.font-semibold",
+            "text": "Menü",
+            "x": 24,
+            "y": 128,
+            "w": 342,
+            "h": 16,
+            "fontSize": 12,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          },
+          {
+            "sel": "a.flex.min-h-16.items-center",
+            "text": "Programm",
+            "x": 24,
+            "y": 278,
+            "w": 342,
+            "h": 64,
+            "fontSize": 36,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          },
+          {
+            "sel": "a.flex.min-h-16.items-center",
+            "text": "Besuch planen",
+            "x": 24,
+            "y": 366,
+            "w": 342,
+            "h": 64,
+            "fontSize": 36,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          },
+          {
+            "sel": "a.flex.min-h-16.items-center",
+            "text": "Raum anfragen",
+            "x": 24,
+            "y": 454,
+            "w": 342,
+            "h": 64,
+            "fontSize": 36,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          },
+          {
+            "sel": "a.flex.min-h-16.items-center",
+            "text": "Kontakt",
+            "x": 24,
+            "y": 542,
+            "w": 342,
+            "h": 64,
+            "fontSize": 36,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          },
+          {
+            "sel": "p.mt-auto.max-w-xs.border-t",
+            "text": "Tickets kaufen Sie über die Anbieter der",
+            "x": 24,
+            "y": 699,
+            "w": 320,
+            "h": 73,
+            "fontSize": 14,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          }
+        ]
+      },
+      "measurements": {
+        "root": {
+          "client": 390,
+          "scroll": 390,
+          "overflow": "hidden"
+        },
+        "mainVisibility": "hidden",
+        "summary": {
+          "focusVisible": true,
+          "outline": "rgb(243, 229, 171) solid 2px"
+        },
+        "links": [
+          {
+            "text": "Programm",
+            "x": 24,
+            "y": 277.5,
+            "w": 342,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 366
+          },
+          {
+            "text": "Besuch planen",
+            "x": 24,
+            "y": 365.5,
+            "w": 342,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 366
+          },
+          {
+            "text": "Raum anfragen",
+            "x": 24,
+            "y": 453.5,
+            "w": 342,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 366
+          },
+          {
+            "text": "Kontakt",
+            "x": 24,
+            "y": 541.5,
+            "w": 342,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 366
+          }
+        ]
+      },
+      "tabOrder": [
+        {
+          "text": "Programm",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 229, 171, 1) solid 2px"
+        },
+        {
+          "text": "Besuch planen",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 229, 171, 1) solid 2px"
+        },
+        {
+          "text": "Raum anfragen",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 229, 170, 1) solid 2px"
+        },
+        {
+          "text": "Kontakt",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 229, 171, 1) solid 2px"
+        }
+      ],
+      "escape": {
+        "closed": true,
+        "focusReturned": true,
+        "mainVisibility": "visible"
+      }
+    },
+    {
+      "width": 414,
+      "open": true,
+      "smoke": {
+        "overflow": {
+          "viewport": 414,
+          "pageOverflows": false,
+          "offenders": []
+        },
+        "overlap": {
+          "truncated": false,
+          "hits": []
+        },
+        "clipping": [
+          {
+            "sel": "span.sr-only",
+            "text": "Navigation öffnen oder schließen",
+            "x": 366,
+            "y": 40,
+            "w": 1,
+            "h": 1,
+            "scroll": [235, 26],
+            "client": [1, 1]
+          }
+        ],
+        "edge": [],
+        "images": [],
+        "zeroGhost": [
+          {
+            "sel": "a.nav-link.inline-flex.min-h-11",
+            "text": "Programm",
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "zeroButPresent": true,
+            "ghostBlocker": false
+          },
+          {
+            "sel": "a.nav-link.inline-flex.min-h-11",
+            "text": "Besuch planen",
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "zeroButPresent": true,
+            "ghostBlocker": false
+          },
+          {
+            "sel": "a.nav-link.inline-flex.min-h-11",
+            "text": "Raum anfragen",
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "zeroButPresent": true,
+            "ghostBlocker": false
+          },
+          {
+            "sel": "a.nav-link.inline-flex.min-h-11",
+            "text": "Kontakt",
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "zeroButPresent": true,
+            "ghostBlocker": false
+          },
+          {
+            "sel": "article#ebg-sinfoniekonzert-51035-2026-11-14.relative.overflow-hidden.rounded-lg",
+            "text": "14. November 2026 • 19:00 UhrEBG Sinfoni",
+            "x": 29,
+            "y": 971,
+            "w": 355,
+            "h": 461,
+            "zeroButPresent": false,
+            "ghostBlocker": true
+          },
+          {
+            "sel": "article#die-drei-kids-47548-2026-11-20.relative.overflow-hidden.rounded-lg",
+            "text": "20. November 2026 • 18:30 UhrDie drei ??",
+            "x": 29,
+            "y": 1479,
+            "w": 355,
+            "h": 461,
+            "zeroButPresent": false,
+            "ghostBlocker": true
+          },
+          {
+            "sel": "article#home-for-christmas-50009-2026-12-04.relative.overflow-hidden.rounded-lg",
+            "text": "4. Dezember 2026 • 19:30 UhrHome for Chr",
+            "x": 29,
+            "y": 1988,
+            "w": 355,
+            "h": 603,
+            "zeroButPresent": false,
+            "ghostBlocker": true
+          }
+        ],
+        "unreadable": [
+          {
+            "sel": "p.font-body.text-xs/4.font-semibold",
+            "text": "Menü",
+            "x": 24,
+            "y": 128,
+            "w": 366,
+            "h": 16,
+            "fontSize": 12,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          },
+          {
+            "sel": "a.flex.min-h-16.items-center",
+            "text": "Programm",
+            "x": 24,
+            "y": 278,
+            "w": 366,
+            "h": 64,
+            "fontSize": 36,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          },
+          {
+            "sel": "a.flex.min-h-16.items-center",
+            "text": "Besuch planen",
+            "x": 24,
+            "y": 366,
+            "w": 366,
+            "h": 64,
+            "fontSize": 36,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          },
+          {
+            "sel": "a.flex.min-h-16.items-center",
+            "text": "Raum anfragen",
+            "x": 24,
+            "y": 454,
+            "w": 366,
+            "h": 64,
+            "fontSize": 36,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          },
+          {
+            "sel": "a.flex.min-h-16.items-center",
+            "text": "Kontakt",
+            "x": 24,
+            "y": 542,
+            "w": 366,
+            "h": 64,
+            "fontSize": 36,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          },
+          {
+            "sel": "p.mt-auto.max-w-xs.border-t",
+            "text": "Tickets kaufen Sie über die Anbieter der",
+            "x": 24,
+            "y": 699,
+            "w": 320,
+            "h": 73,
+            "fontSize": 14,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          }
+        ]
+      },
+      "measurements": {
+        "root": {
+          "client": 414,
+          "scroll": 414,
+          "overflow": "hidden"
+        },
+        "mainVisibility": "hidden",
+        "summary": {
+          "focusVisible": true,
+          "outline": "rgb(243, 229, 171) solid 2px"
+        },
+        "links": [
+          {
+            "text": "Programm",
+            "x": 24,
+            "y": 277.5,
+            "w": 366,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 390
+          },
+          {
+            "text": "Besuch planen",
+            "x": 24,
+            "y": 365.5,
+            "w": 366,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 390
+          },
+          {
+            "text": "Raum anfragen",
+            "x": 24,
+            "y": 453.5,
+            "w": 366,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 390
+          },
+          {
+            "text": "Kontakt",
+            "x": 24,
+            "y": 541.5,
+            "w": 366,
+            "h": 64,
+            "size": "36px",
+            "lineHeight": "36px",
+            "right": 390
+          }
+        ]
+      },
+      "tabOrder": [
+        {
+          "text": "Programm",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgb(243, 229, 171) solid 2px"
+        },
+        {
+          "text": "Besuch planen",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 229, 170, 1) solid 2px"
+        },
+        {
+          "text": "Raum anfragen",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 229, 170, 1) solid 2px"
+        },
+        {
+          "text": "Kontakt",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 229, 171, 1) solid 2px"
+        }
+      ],
+      "escape": {
+        "closed": true,
+        "focusReturned": true,
+        "mainVisibility": "visible"
+      }
+    },
+    {
+      "width": 768,
+      "open": true,
+      "smoke": {
+        "overflow": {
+          "viewport": 768,
+          "pageOverflows": false,
+          "offenders": []
+        },
+        "overlap": {
+          "truncated": false,
+          "hits": []
+        },
+        "clipping": [
+          {
+            "sel": "span.sr-only",
+            "text": "Navigation öffnen oder schließen",
+            "x": 712,
+            "y": 40,
+            "w": 1,
+            "h": 1,
+            "scroll": [235, 26],
+            "client": [1, 1]
+          }
+        ],
+        "edge": [],
+        "images": [],
+        "zeroGhost": [
+          {
+            "sel": "a.nav-link.inline-flex.min-h-11",
+            "text": "Programm",
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "zeroButPresent": true,
+            "ghostBlocker": false
+          },
+          {
+            "sel": "a.nav-link.inline-flex.min-h-11",
+            "text": "Besuch planen",
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "zeroButPresent": true,
+            "ghostBlocker": false
+          },
+          {
+            "sel": "a.nav-link.inline-flex.min-h-11",
+            "text": "Raum anfragen",
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "zeroButPresent": true,
+            "ghostBlocker": false
+          },
+          {
+            "sel": "a.nav-link.inline-flex.min-h-11",
+            "text": "Kontakt",
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "zeroButPresent": true,
+            "ghostBlocker": false
+          },
+          {
+            "sel": "article#ebg-sinfoniekonzert-51035-2026-11-14.relative.overflow-hidden.rounded-lg",
+            "text": "14. November 2026 • 19:00 UhrEBG Sinfoni",
+            "x": 37,
+            "y": 1207,
+            "w": 326,
+            "h": 439,
+            "zeroButPresent": false,
+            "ghostBlocker": true
+          },
+          {
+            "sel": "article#die-drei-kids-47548-2026-11-20.relative.overflow-hidden.rounded-lg",
+            "text": "20. November 2026 • 18:30 UhrDie drei ??",
+            "x": 405,
+            "y": 1207,
+            "w": 326,
+            "h": 439,
+            "zeroButPresent": false,
+            "ghostBlocker": true
+          },
+          {
+            "sel": "article#home-for-christmas-50009-2026-12-04.relative.overflow-hidden.rounded-lg",
+            "text": "4. Dezember 2026 • 19:30 UhrHome for Chr",
+            "x": 37,
+            "y": 1694,
+            "w": 326,
+            "h": 581,
+            "zeroButPresent": false,
+            "ghostBlocker": true
+          }
+        ],
+        "unreadable": [
+          {
+            "sel": "p.font-body.text-xs/4.font-semibold",
+            "text": "Menü",
+            "x": 32,
+            "y": 128,
+            "w": 704,
+            "h": 16,
+            "fontSize": 12,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          },
+          {
+            "sel": "a.flex.min-h-16.items-center",
+            "text": "Programm",
+            "x": 32,
+            "y": 384,
+            "w": 704,
+            "h": 64,
+            "fontSize": 60,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          },
+          {
+            "sel": "a.flex.min-h-16.items-center",
+            "text": "Besuch planen",
+            "x": 32,
+            "y": 472,
+            "w": 704,
+            "h": 64,
+            "fontSize": 60,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          },
+          {
+            "sel": "a.flex.min-h-16.items-center",
+            "text": "Raum anfragen",
+            "x": 32,
+            "y": 560,
+            "w": 704,
+            "h": 64,
+            "fontSize": 60,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          },
+          {
+            "sel": "a.flex.min-h-16.items-center",
+            "text": "Kontakt",
+            "x": 32,
+            "y": 648,
+            "w": 704,
+            "h": 64,
+            "fontSize": 60,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          },
+          {
+            "sel": "p.mt-auto.max-w-xs.border-t",
+            "text": "Tickets kaufen Sie über die Anbieter der",
+            "x": 32,
+            "y": 911,
+            "w": 320,
+            "h": 73,
+            "fontSize": 14,
+            "contrast": 1,
+            "tooSmall": false,
+            "lowContrast": true
+          }
+        ]
+      },
+      "measurements": {
+        "root": {
+          "client": 768,
+          "scroll": 768,
+          "overflow": "hidden"
+        },
+        "mainVisibility": "hidden",
+        "summary": {
+          "focusVisible": true,
+          "outline": "rgb(243, 229, 171) solid 2px"
+        },
+        "links": [
+          {
+            "text": "Programm",
+            "x": 32,
+            "y": 383.5,
+            "w": 704,
+            "h": 64,
+            "size": "60px",
+            "lineHeight": "60px",
+            "right": 736
+          },
+          {
+            "text": "Besuch planen",
+            "x": 32,
+            "y": 471.5,
+            "w": 704,
+            "h": 64,
+            "size": "60px",
+            "lineHeight": "60px",
+            "right": 736
+          },
+          {
+            "text": "Raum anfragen",
+            "x": 32,
+            "y": 559.5,
+            "w": 704,
+            "h": 64,
+            "size": "60px",
+            "lineHeight": "60px",
+            "right": 736
+          },
+          {
+            "text": "Kontakt",
+            "x": 32,
+            "y": 647.5,
+            "w": 704,
+            "h": 64,
+            "size": "60px",
+            "lineHeight": "60px",
+            "right": 736
+          }
+        ]
+      },
+      "tabOrder": [
+        {
+          "text": "Programm",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgb(243, 229, 171) solid 2px"
+        },
+        {
+          "text": "Besuch planen",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(242, 227, 166, 1) solid 2px"
+        },
+        {
+          "text": "Raum anfragen",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgb(243, 229, 171) solid 2px"
+        },
+        {
+          "text": "Kontakt",
+          "insideMenu": true,
+          "focusVisible": true,
+          "outline": "rgba(243, 228, 169, 1) solid 2px"
+        }
+      ],
+      "escape": {
+        "closed": true,
+        "focusReturned": true,
+        "mainVisibility": "visible"
+      }
+    }
+  ],
+  "church": [
+    {
+      "width": 320,
+      "decoded": true,
+      "complete": true,
+      "natural": [320, 485],
+      "rendered": [270, 338],
+      "x": 25,
+      "y": 237,
+      "opacity": "1",
+      "visibility": "visible",
+      "hit": "IMG",
+      "hitIsImage": true,
+      "ancestors": [
+        {
+          "tag": "IMG",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "FIGURE",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "grid",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "SECTION",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "MAIN",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "decoded": true,
+      "complete": true,
+      "natural": [375, 568],
+      "rendered": [325, 406.75],
+      "x": 25,
+      "y": 202.75,
+      "opacity": "1",
+      "visibility": "visible",
+      "hit": "IMG",
+      "hitIsImage": true,
+      "ancestors": [
+        {
+          "tag": "IMG",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "FIGURE",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "grid",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "SECTION",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "MAIN",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "decoded": true,
+      "complete": true,
+      "natural": [389, 591],
+      "rendered": [340, 425.5],
+      "x": 25,
+      "y": 193.5,
+      "opacity": "1",
+      "visibility": "visible",
+      "hit": "IMG",
+      "hitIsImage": true,
+      "ancestors": [
+        {
+          "tag": "IMG",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "FIGURE",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "grid",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "SECTION",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "MAIN",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        }
+      ]
+    },
+    {
+      "width": 414,
+      "decoded": true,
+      "complete": true,
+      "natural": [414, 627],
+      "rendered": [364, 455.5],
+      "x": 25,
+      "y": 178.5,
+      "opacity": "1",
+      "visibility": "visible",
+      "hit": "IMG",
+      "hitIsImage": true,
+      "ancestors": [
+        {
+          "tag": "IMG",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "FIGURE",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "grid",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "SECTION",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "MAIN",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "decoded": true,
+      "complete": true,
+      "natural": [768, 1164],
+      "rendered": [326, 408],
+      "x": 409,
+      "y": 308,
+      "opacity": "1",
+      "visibility": "visible",
+      "hit": "IMG",
+      "hitIsImage": true,
+      "ancestors": [
+        {
+          "tag": "IMG",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "FIGURE",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "grid",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "SECTION",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "MAIN",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "decoded": true,
+      "complete": true,
+      "natural": [1440, 2184],
+      "rendered": [622, 778],
+      "x": 753,
+      "y": 61,
+      "opacity": "1",
+      "visibility": "visible",
+      "hit": "IMG",
+      "hitIsImage": true,
+      "ancestors": [
+        {
+          "tag": "IMG",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "FIGURE",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "grid",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "SECTION",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "MAIN",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        },
+        {
+          "tag": "DIV",
+          "opacity": "1",
+          "visibility": "visible",
+          "display": "block",
+          "clipPath": "none",
+          "contentVisibility": "visible"
+        }
+      ]
+    }
+  ],
+  "contrast": [
+    {
+      "width": 320,
+      "method": "sRGB canvas + alpha compositing; gradients/photos/backdrop-filter excluded",
+      "count": 33,
+      "rows": [
+        {
+          "tag": "A",
+          "classes": "fixed left-4 top-4 z-50 -translate-y-24 rounded-full bg-champagne px-4 py-2 text-midnight shadow-glow transition-transform focus-visible:translate-y-0",
+          "text": "Direkt zum Inhalt springen",
+          "cssColor": "rgb(2, 6, 23)",
+          "bgRGB": [243, 229, 171],
+          "fgRGB": [2, 6, 23],
+          "ratio": 15.95,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "SPAN",
+          "classes": "hero-title-word block",
+          "text": "Konzerte in der",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [255, 255, 255],
+          "ratio": 20.17,
+          "size": 36,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "SPAN",
+          "classes": "hero-title-word hero-title-accent block",
+          "text": "Petruskirche Kiel",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 36,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "P",
+          "classes": "hero-intro mt-6 max-w-md font-body text-sm/relaxed font-normal tracking-tight text-role-on/70 md:max-w-xl md:text-base/relaxed md:text-role-on/75",
+          "text": "Konzerte in Kiel-Wik für Klassik, Chor, Pop, Crossover und Kulturveranstaltungen",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "A",
+          "classes": "motion-button inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-11 min-h-14 rounded-sm bg-secondary px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest text-midnight hover:bg-role-accent active:scale-95",
+          "text": "Konzerte in Kiel ansehen",
+          "cssColor": "rgb(2, 6, 23)",
+          "bgRGB": [233, 195, 73],
+          "fgRGB": [2, 6, 23],
+          "ratio": 11.88,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "A",
+          "classes": "motion-button inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border hover:text-accent-foreground h-11 min-h-14 rounded-sm border-white/10 bg-slate-mist/90 px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest text-white shadow-sm backdrop-blur-xl hover:bg-white/10 active:scale-95",
+          "text": "Besuch planen",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [27.254901960784313, 37.568627450980394, 55.47058823529412],
+          "fgRGB": [255, 255, 255],
+          "ratio": 15.27,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "H2",
+          "classes": "block font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary",
+          "text": "Nächste Konzerte in Kiel",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "mt-8 inline-flex sm:hidden items-center gap-2 font-body text-xs/4 font-semibold uppercase tracking-widest !text-role-on/70 no-underline transition-colors hover:!text-secondary",
+          "text": "Alle Termine ansehen→",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "BLOCKQUOTE",
+          "classes": "max-w-none text-center font-display text-2xl/tight font-normal italic tracking-tight text-white md:text-4xl/tight",
+          "text": "Musik drückt das aus, was nicht gesagt werden kann und worüber zu schweigen unmö",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [255, 255, 255],
+          "ratio": 20.17,
+          "size": 24,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "CITE",
+          "classes": "block text-center font-body text-xs/4 font-semibold uppercase not-italic tracking-widest text-secondary",
+          "text": "Victor Hugo",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "H2",
+          "classes": "block font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary",
+          "text": "Die Petruskirche – Kiels Konzertkirche",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [18, 20, 20],
+          "fgRGB": [233, 195, 73],
+          "ratio": 10.89,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": null,
+          "text": "Die Petruskirche in Kiel-Wik verbindet Jugendstilarchitektur mit einer Akustik, ",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [18, 20, 20],
+          "fgRGB": [164.70980392156864, 165.30588235294118, 165.30588235294118],
+          "ratio": 7.52,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": null,
+          "text": "Der offene Dachstuhl und die Holzbalkenkonstruktion prägen den Klang des Kirchen",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [18, 20, 20],
+          "fgRGB": [164.70980392156864, 165.30588235294118, 165.30588235294118],
+          "ratio": 7.52,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "H2",
+          "classes": "block font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary mb-8 max-w-3xl md:mb-10",
+          "text": "Besuch und Veranstaltung planen",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "H3",
+          "classes": "font-display text-2xl/8 md:text-3xl/9 font-normal text-white transition-colors duration-300 group-hover:text-champagne group-focus-visible:text-champagne",
+          "text": "Besuch planen",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [255, 255, 255],
+          "ratio": 17.13,
+          "size": 24,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": "!mt-4 font-body text-base/7 text-role-on/70 transition-colors duration-300 group-hover:text-role-on/80 group-focus-visible:text-role-on/80",
+          "text": "Alles Wichtige für Ihren Konzertbesuch: Anfahrt, Parkmöglichkeiten in der Kieler",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [164.94823529411764, 167.57098039215686, 172.45882352941177],
+          "ratio": 7.15,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "SPAN",
+          "classes": "mt-auto inline-flex min-h-10 items-center gap-2 self-start pt-8 font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary transition-colors duration-300 group-hover:!text-champagne group-focus-visible:!text-champagne",
+          "text": "Besucherinfos ansehen→",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [233, 195, 73],
+          "ratio": 10.09,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "H3",
+          "classes": "font-display text-2xl/8 md:text-3xl/9 font-normal text-white transition-colors duration-300 group-hover:text-champagne group-focus-visible:text-champagne",
+          "text": "Raum anfragen",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [255, 255, 255],
+          "ratio": 17.13,
+          "size": 24,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": "!mt-4 font-body text-base/7 text-role-on/70 transition-colors duration-300 group-hover:text-role-on/80 group-focus-visible:text-role-on/80",
+          "text": "Sie möchten die Petruskirche für eigene Kulturveranstaltungen, Konzerte oder Auf",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [164.94823529411764, 167.57098039215686, 172.45882352941177],
+          "ratio": 7.15,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "SPAN",
+          "classes": "mt-auto inline-flex min-h-10 items-center gap-2 self-start pt-8 font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary transition-colors duration-300 group-hover:!text-champagne group-focus-visible:!text-champagne",
+          "text": "Raum anfragen→",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [233, 195, 73],
+          "ratio": 10.09,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": "max-w-sm font-body text-sm/6 text-role-on/60 md:text-base/7",
+          "text": "© 2026 Ev.-Luth. Apostel-Kirchengemeinde Kiel. Petruskirche – Kiels Konzertkirch",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.6)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [137, 138.6, 145.39999999999998],
+          "ratio": 5.9,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": null,
+          "text": "Petruskirche Kiel-WikWeimarer Straße 1 · 24106 Kiel",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "SPAN",
+          "classes": "block font-semibold text-role-on/90",
+          "text": "Petruskirche Kiel-Wik",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.9)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [204.94117647058823, 204.4313725490196, 206.09803921568627],
+          "ratio": 12.65,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "text-role-on/75 no-underline hover:text-secondary",
+          "text": "kontakt@petruskirche.events",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.75)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [170.52941176470588, 170.7843137254902, 175.05098039215687],
+          "ratio": 8.79,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "text-role-on/75 no-underline hover:text-secondary",
+          "text": "Gemeindebüro 0431 16 456",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.75)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [170.52941176470588, 170.7843137254902, 175.05098039215687],
+          "ratio": 8.79,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Home",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Programm",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Besuch planen",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Raum anfragen",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Kontakt",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary font-semibold text-secondary",
+          "text": "Die Petruskirche↗ (öffnet in neuem Tab)",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center font-body text-sm/6 text-role-on/60 no-underline transition-colors hover:text-secondary",
+          "text": "Impressum",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.6)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [137, 138.6, 145.39999999999998],
+          "ratio": 5.9,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center font-body text-sm/6 text-role-on/60 no-underline transition-colors hover:text-secondary",
+          "text": "Datenschutz",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.6)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [137, 138.6, 145.39999999999998],
+          "ratio": 5.9,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        }
+      ],
+      "failures": []
+    },
+    {
+      "width": 375,
+      "method": "sRGB canvas + alpha compositing; gradients/photos/backdrop-filter excluded",
+      "count": 33,
+      "rows": [
+        {
+          "tag": "A",
+          "classes": "fixed left-4 top-4 z-50 -translate-y-24 rounded-full bg-champagne px-4 py-2 text-midnight shadow-glow transition-transform focus-visible:translate-y-0",
+          "text": "Direkt zum Inhalt springen",
+          "cssColor": "rgb(2, 6, 23)",
+          "bgRGB": [243, 229, 171],
+          "fgRGB": [2, 6, 23],
+          "ratio": 15.95,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "SPAN",
+          "classes": "hero-title-word block",
+          "text": "Konzerte in der",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [255, 255, 255],
+          "ratio": 20.17,
+          "size": 36,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "SPAN",
+          "classes": "hero-title-word hero-title-accent block",
+          "text": "Petruskirche Kiel",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 36,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "P",
+          "classes": "hero-intro mt-6 max-w-md font-body text-sm/relaxed font-normal tracking-tight text-role-on/70 md:max-w-xl md:text-base/relaxed md:text-role-on/75",
+          "text": "Konzerte in Kiel-Wik für Klassik, Chor, Pop, Crossover und Kulturveranstaltungen",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "A",
+          "classes": "motion-button inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-11 min-h-14 rounded-sm bg-secondary px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest text-midnight hover:bg-role-accent active:scale-95",
+          "text": "Konzerte in Kiel ansehen",
+          "cssColor": "rgb(2, 6, 23)",
+          "bgRGB": [233, 195, 73],
+          "fgRGB": [2, 6, 23],
+          "ratio": 11.88,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "A",
+          "classes": "motion-button inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border hover:text-accent-foreground h-11 min-h-14 rounded-sm border-white/10 bg-slate-mist/90 px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest text-white shadow-sm backdrop-blur-xl hover:bg-white/10 active:scale-95",
+          "text": "Besuch planen",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [27.254901960784313, 37.568627450980394, 55.47058823529412],
+          "fgRGB": [255, 255, 255],
+          "ratio": 15.27,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "H2",
+          "classes": "block font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary",
+          "text": "Nächste Konzerte in Kiel",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "mt-8 inline-flex sm:hidden items-center gap-2 font-body text-xs/4 font-semibold uppercase tracking-widest !text-role-on/70 no-underline transition-colors hover:!text-secondary",
+          "text": "Alle Termine ansehen→",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "BLOCKQUOTE",
+          "classes": "max-w-none text-center font-display text-2xl/tight font-normal italic tracking-tight text-white md:text-4xl/tight",
+          "text": "Musik drückt das aus, was nicht gesagt werden kann und worüber zu schweigen unmö",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [255, 255, 255],
+          "ratio": 20.17,
+          "size": 24,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "CITE",
+          "classes": "block text-center font-body text-xs/4 font-semibold uppercase not-italic tracking-widest text-secondary",
+          "text": "Victor Hugo",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "H2",
+          "classes": "block font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary",
+          "text": "Die Petruskirche – Kiels Konzertkirche",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [18, 20, 20],
+          "fgRGB": [233, 195, 73],
+          "ratio": 10.89,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": null,
+          "text": "Die Petruskirche in Kiel-Wik verbindet Jugendstilarchitektur mit einer Akustik, ",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [18, 20, 20],
+          "fgRGB": [164.70980392156864, 165.30588235294118, 165.30588235294118],
+          "ratio": 7.52,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": null,
+          "text": "Der offene Dachstuhl und die Holzbalkenkonstruktion prägen den Klang des Kirchen",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [18, 20, 20],
+          "fgRGB": [164.70980392156864, 165.30588235294118, 165.30588235294118],
+          "ratio": 7.52,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "H2",
+          "classes": "block font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary mb-8 max-w-3xl md:mb-10",
+          "text": "Besuch und Veranstaltung planen",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "H3",
+          "classes": "font-display text-2xl/8 md:text-3xl/9 font-normal text-white transition-colors duration-300 group-hover:text-champagne group-focus-visible:text-champagne",
+          "text": "Besuch planen",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [255, 255, 255],
+          "ratio": 17.13,
+          "size": 24,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": "!mt-4 font-body text-base/7 text-role-on/70 transition-colors duration-300 group-hover:text-role-on/80 group-focus-visible:text-role-on/80",
+          "text": "Alles Wichtige für Ihren Konzertbesuch: Anfahrt, Parkmöglichkeiten in der Kieler",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [164.94823529411764, 167.57098039215686, 172.45882352941177],
+          "ratio": 7.15,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "SPAN",
+          "classes": "mt-auto inline-flex min-h-10 items-center gap-2 self-start pt-8 font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary transition-colors duration-300 group-hover:!text-champagne group-focus-visible:!text-champagne",
+          "text": "Besucherinfos ansehen→",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [233, 195, 73],
+          "ratio": 10.09,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "H3",
+          "classes": "font-display text-2xl/8 md:text-3xl/9 font-normal text-white transition-colors duration-300 group-hover:text-champagne group-focus-visible:text-champagne",
+          "text": "Raum anfragen",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [255, 255, 255],
+          "ratio": 17.13,
+          "size": 24,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": "!mt-4 font-body text-base/7 text-role-on/70 transition-colors duration-300 group-hover:text-role-on/80 group-focus-visible:text-role-on/80",
+          "text": "Sie möchten die Petruskirche für eigene Kulturveranstaltungen, Konzerte oder Auf",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [164.94823529411764, 167.57098039215686, 172.45882352941177],
+          "ratio": 7.15,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "SPAN",
+          "classes": "mt-auto inline-flex min-h-10 items-center gap-2 self-start pt-8 font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary transition-colors duration-300 group-hover:!text-champagne group-focus-visible:!text-champagne",
+          "text": "Raum anfragen→",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [233, 195, 73],
+          "ratio": 10.09,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": "max-w-sm font-body text-sm/6 text-role-on/60 md:text-base/7",
+          "text": "© 2026 Ev.-Luth. Apostel-Kirchengemeinde Kiel. Petruskirche – Kiels Konzertkirch",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.6)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [137, 138.6, 145.39999999999998],
+          "ratio": 5.9,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": null,
+          "text": "Petruskirche Kiel-WikWeimarer Straße 1 · 24106 Kiel",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "SPAN",
+          "classes": "block font-semibold text-role-on/90",
+          "text": "Petruskirche Kiel-Wik",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.9)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [204.94117647058823, 204.4313725490196, 206.09803921568627],
+          "ratio": 12.65,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "text-role-on/75 no-underline hover:text-secondary",
+          "text": "kontakt@petruskirche.events",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.75)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [170.52941176470588, 170.7843137254902, 175.05098039215687],
+          "ratio": 8.79,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "text-role-on/75 no-underline hover:text-secondary",
+          "text": "Gemeindebüro 0431 16 456",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.75)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [170.52941176470588, 170.7843137254902, 175.05098039215687],
+          "ratio": 8.79,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Home",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Programm",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Besuch planen",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Raum anfragen",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Kontakt",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary font-semibold text-secondary",
+          "text": "Die Petruskirche↗ (öffnet in neuem Tab)",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center font-body text-sm/6 text-role-on/60 no-underline transition-colors hover:text-secondary",
+          "text": "Impressum",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.6)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [137, 138.6, 145.39999999999998],
+          "ratio": 5.9,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center font-body text-sm/6 text-role-on/60 no-underline transition-colors hover:text-secondary",
+          "text": "Datenschutz",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.6)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [137, 138.6, 145.39999999999998],
+          "ratio": 5.9,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        }
+      ],
+      "failures": []
+    },
+    {
+      "width": 390,
+      "method": "sRGB canvas + alpha compositing; gradients/photos/backdrop-filter excluded",
+      "count": 33,
+      "rows": [
+        {
+          "tag": "A",
+          "classes": "fixed left-4 top-4 z-50 -translate-y-24 rounded-full bg-champagne px-4 py-2 text-midnight shadow-glow transition-transform focus-visible:translate-y-0",
+          "text": "Direkt zum Inhalt springen",
+          "cssColor": "rgb(2, 6, 23)",
+          "bgRGB": [243, 229, 171],
+          "fgRGB": [2, 6, 23],
+          "ratio": 15.95,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "SPAN",
+          "classes": "hero-title-word block",
+          "text": "Konzerte in der",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [255, 255, 255],
+          "ratio": 20.17,
+          "size": 36,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "SPAN",
+          "classes": "hero-title-word hero-title-accent block",
+          "text": "Petruskirche Kiel",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 36,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "P",
+          "classes": "hero-intro mt-6 max-w-md font-body text-sm/relaxed font-normal tracking-tight text-role-on/70 md:max-w-xl md:text-base/relaxed md:text-role-on/75",
+          "text": "Konzerte in Kiel-Wik für Klassik, Chor, Pop, Crossover und Kulturveranstaltungen",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "A",
+          "classes": "motion-button inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-11 min-h-14 rounded-sm bg-secondary px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest text-midnight hover:bg-role-accent active:scale-95",
+          "text": "Konzerte in Kiel ansehen",
+          "cssColor": "rgb(2, 6, 23)",
+          "bgRGB": [233, 195, 73],
+          "fgRGB": [2, 6, 23],
+          "ratio": 11.88,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "A",
+          "classes": "motion-button inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border hover:text-accent-foreground h-11 min-h-14 rounded-sm border-white/10 bg-slate-mist/90 px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest text-white shadow-sm backdrop-blur-xl hover:bg-white/10 active:scale-95",
+          "text": "Besuch planen",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [27.254901960784313, 37.568627450980394, 55.47058823529412],
+          "fgRGB": [255, 255, 255],
+          "ratio": 15.27,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "H2",
+          "classes": "block font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary",
+          "text": "Nächste Konzerte in Kiel",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "mt-8 inline-flex sm:hidden items-center gap-2 font-body text-xs/4 font-semibold uppercase tracking-widest !text-role-on/70 no-underline transition-colors hover:!text-secondary",
+          "text": "Alle Termine ansehen→",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "BLOCKQUOTE",
+          "classes": "max-w-none text-center font-display text-2xl/tight font-normal italic tracking-tight text-white md:text-4xl/tight",
+          "text": "Musik drückt das aus, was nicht gesagt werden kann und worüber zu schweigen unmö",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [255, 255, 255],
+          "ratio": 20.17,
+          "size": 24,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "CITE",
+          "classes": "block text-center font-body text-xs/4 font-semibold uppercase not-italic tracking-widest text-secondary",
+          "text": "Victor Hugo",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "H2",
+          "classes": "block font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary",
+          "text": "Die Petruskirche – Kiels Konzertkirche",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [18, 20, 20],
+          "fgRGB": [233, 195, 73],
+          "ratio": 10.89,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": null,
+          "text": "Die Petruskirche in Kiel-Wik verbindet Jugendstilarchitektur mit einer Akustik, ",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [18, 20, 20],
+          "fgRGB": [164.70980392156864, 165.30588235294118, 165.30588235294118],
+          "ratio": 7.52,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": null,
+          "text": "Der offene Dachstuhl und die Holzbalkenkonstruktion prägen den Klang des Kirchen",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [18, 20, 20],
+          "fgRGB": [164.70980392156864, 165.30588235294118, 165.30588235294118],
+          "ratio": 7.52,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "H2",
+          "classes": "block font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary mb-8 max-w-3xl md:mb-10",
+          "text": "Besuch und Veranstaltung planen",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "H3",
+          "classes": "font-display text-2xl/8 md:text-3xl/9 font-normal text-white transition-colors duration-300 group-hover:text-champagne group-focus-visible:text-champagne",
+          "text": "Besuch planen",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [255, 255, 255],
+          "ratio": 17.13,
+          "size": 24,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": "!mt-4 font-body text-base/7 text-role-on/70 transition-colors duration-300 group-hover:text-role-on/80 group-focus-visible:text-role-on/80",
+          "text": "Alles Wichtige für Ihren Konzertbesuch: Anfahrt, Parkmöglichkeiten in der Kieler",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [164.94823529411764, 167.57098039215686, 172.45882352941177],
+          "ratio": 7.15,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "SPAN",
+          "classes": "mt-auto inline-flex min-h-10 items-center gap-2 self-start pt-8 font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary transition-colors duration-300 group-hover:!text-champagne group-focus-visible:!text-champagne",
+          "text": "Besucherinfos ansehen→",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [233, 195, 73],
+          "ratio": 10.09,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "H3",
+          "classes": "font-display text-2xl/8 md:text-3xl/9 font-normal text-white transition-colors duration-300 group-hover:text-champagne group-focus-visible:text-champagne",
+          "text": "Raum anfragen",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [255, 255, 255],
+          "ratio": 17.13,
+          "size": 24,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": "!mt-4 font-body text-base/7 text-role-on/70 transition-colors duration-300 group-hover:text-role-on/80 group-focus-visible:text-role-on/80",
+          "text": "Sie möchten die Petruskirche für eigene Kulturveranstaltungen, Konzerte oder Auf",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [164.94823529411764, 167.57098039215686, 172.45882352941177],
+          "ratio": 7.15,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "SPAN",
+          "classes": "mt-auto inline-flex min-h-10 items-center gap-2 self-start pt-8 font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary transition-colors duration-300 group-hover:!text-champagne group-focus-visible:!text-champagne",
+          "text": "Raum anfragen→",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [233, 195, 73],
+          "ratio": 10.09,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": "max-w-sm font-body text-sm/6 text-role-on/60 md:text-base/7",
+          "text": "© 2026 Ev.-Luth. Apostel-Kirchengemeinde Kiel. Petruskirche – Kiels Konzertkirch",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.6)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [137, 138.6, 145.39999999999998],
+          "ratio": 5.9,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": null,
+          "text": "Petruskirche Kiel-WikWeimarer Straße 1 · 24106 Kiel",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "SPAN",
+          "classes": "block font-semibold text-role-on/90",
+          "text": "Petruskirche Kiel-Wik",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.9)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [204.94117647058823, 204.4313725490196, 206.09803921568627],
+          "ratio": 12.65,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "text-role-on/75 no-underline hover:text-secondary",
+          "text": "kontakt@petruskirche.events",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.75)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [170.52941176470588, 170.7843137254902, 175.05098039215687],
+          "ratio": 8.79,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "text-role-on/75 no-underline hover:text-secondary",
+          "text": "Gemeindebüro 0431 16 456",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.75)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [170.52941176470588, 170.7843137254902, 175.05098039215687],
+          "ratio": 8.79,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Home",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Programm",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Besuch planen",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Raum anfragen",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Kontakt",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary font-semibold text-secondary",
+          "text": "Die Petruskirche↗ (öffnet in neuem Tab)",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center font-body text-sm/6 text-role-on/60 no-underline transition-colors hover:text-secondary",
+          "text": "Impressum",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.6)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [137, 138.6, 145.39999999999998],
+          "ratio": 5.9,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center font-body text-sm/6 text-role-on/60 no-underline transition-colors hover:text-secondary",
+          "text": "Datenschutz",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.6)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [137, 138.6, 145.39999999999998],
+          "ratio": 5.9,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        }
+      ],
+      "failures": []
+    },
+    {
+      "width": 414,
+      "method": "sRGB canvas + alpha compositing; gradients/photos/backdrop-filter excluded",
+      "count": 33,
+      "rows": [
+        {
+          "tag": "A",
+          "classes": "fixed left-4 top-4 z-50 -translate-y-24 rounded-full bg-champagne px-4 py-2 text-midnight shadow-glow transition-transform focus-visible:translate-y-0",
+          "text": "Direkt zum Inhalt springen",
+          "cssColor": "rgb(2, 6, 23)",
+          "bgRGB": [243, 229, 171],
+          "fgRGB": [2, 6, 23],
+          "ratio": 15.95,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "SPAN",
+          "classes": "hero-title-word block",
+          "text": "Konzerte in der",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [255, 255, 255],
+          "ratio": 20.17,
+          "size": 36,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "SPAN",
+          "classes": "hero-title-word hero-title-accent block",
+          "text": "Petruskirche Kiel",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 36,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "P",
+          "classes": "hero-intro mt-6 max-w-md font-body text-sm/relaxed font-normal tracking-tight text-role-on/70 md:max-w-xl md:text-base/relaxed md:text-role-on/75",
+          "text": "Konzerte in Kiel-Wik für Klassik, Chor, Pop, Crossover und Kulturveranstaltungen",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "A",
+          "classes": "motion-button inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-11 min-h-14 rounded-sm bg-secondary px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest text-midnight hover:bg-role-accent active:scale-95",
+          "text": "Konzerte in Kiel ansehen",
+          "cssColor": "rgb(2, 6, 23)",
+          "bgRGB": [233, 195, 73],
+          "fgRGB": [2, 6, 23],
+          "ratio": 11.88,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "A",
+          "classes": "motion-button inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border hover:text-accent-foreground h-11 min-h-14 rounded-sm border-white/10 bg-slate-mist/90 px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest text-white shadow-sm backdrop-blur-xl hover:bg-white/10 active:scale-95",
+          "text": "Besuch planen",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [27.254901960784313, 37.568627450980394, 55.47058823529412],
+          "fgRGB": [255, 255, 255],
+          "ratio": 15.27,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "H2",
+          "classes": "block font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary",
+          "text": "Nächste Konzerte in Kiel",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "mt-8 inline-flex sm:hidden items-center gap-2 font-body text-xs/4 font-semibold uppercase tracking-widest !text-role-on/70 no-underline transition-colors hover:!text-secondary",
+          "text": "Alle Termine ansehen→",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "BLOCKQUOTE",
+          "classes": "max-w-none text-center font-display text-2xl/tight font-normal italic tracking-tight text-white md:text-4xl/tight",
+          "text": "Musik drückt das aus, was nicht gesagt werden kann und worüber zu schweigen unmö",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [255, 255, 255],
+          "ratio": 20.17,
+          "size": 24,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "CITE",
+          "classes": "block text-center font-body text-xs/4 font-semibold uppercase not-italic tracking-widest text-secondary",
+          "text": "Victor Hugo",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "H2",
+          "classes": "block font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary",
+          "text": "Die Petruskirche – Kiels Konzertkirche",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [18, 20, 20],
+          "fgRGB": [233, 195, 73],
+          "ratio": 10.89,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": null,
+          "text": "Die Petruskirche in Kiel-Wik verbindet Jugendstilarchitektur mit einer Akustik, ",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [18, 20, 20],
+          "fgRGB": [164.70980392156864, 165.30588235294118, 165.30588235294118],
+          "ratio": 7.52,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": null,
+          "text": "Der offene Dachstuhl und die Holzbalkenkonstruktion prägen den Klang des Kirchen",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [18, 20, 20],
+          "fgRGB": [164.70980392156864, 165.30588235294118, 165.30588235294118],
+          "ratio": 7.52,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "H2",
+          "classes": "block font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary mb-8 max-w-3xl md:mb-10",
+          "text": "Besuch und Veranstaltung planen",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "H3",
+          "classes": "font-display text-2xl/8 md:text-3xl/9 font-normal text-white transition-colors duration-300 group-hover:text-champagne group-focus-visible:text-champagne",
+          "text": "Besuch planen",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [255, 255, 255],
+          "ratio": 17.13,
+          "size": 24,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": "!mt-4 font-body text-base/7 text-role-on/70 transition-colors duration-300 group-hover:text-role-on/80 group-focus-visible:text-role-on/80",
+          "text": "Alles Wichtige für Ihren Konzertbesuch: Anfahrt, Parkmöglichkeiten in der Kieler",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [164.94823529411764, 167.57098039215686, 172.45882352941177],
+          "ratio": 7.15,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "SPAN",
+          "classes": "mt-auto inline-flex min-h-10 items-center gap-2 self-start pt-8 font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary transition-colors duration-300 group-hover:!text-champagne group-focus-visible:!text-champagne",
+          "text": "Besucherinfos ansehen→",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [233, 195, 73],
+          "ratio": 10.09,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "H3",
+          "classes": "font-display text-2xl/8 md:text-3xl/9 font-normal text-white transition-colors duration-300 group-hover:text-champagne group-focus-visible:text-champagne",
+          "text": "Raum anfragen",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [255, 255, 255],
+          "ratio": 17.13,
+          "size": 24,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": "!mt-4 font-body text-base/7 text-role-on/70 transition-colors duration-300 group-hover:text-role-on/80 group-focus-visible:text-role-on/80",
+          "text": "Sie möchten die Petruskirche für eigene Kulturveranstaltungen, Konzerte oder Auf",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [164.94823529411764, 167.57098039215686, 172.45882352941177],
+          "ratio": 7.15,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "SPAN",
+          "classes": "mt-auto inline-flex min-h-10 items-center gap-2 self-start pt-8 font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary transition-colors duration-300 group-hover:!text-champagne group-focus-visible:!text-champagne",
+          "text": "Raum anfragen→",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [233, 195, 73],
+          "ratio": 10.09,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": "max-w-sm font-body text-sm/6 text-role-on/60 md:text-base/7",
+          "text": "© 2026 Ev.-Luth. Apostel-Kirchengemeinde Kiel. Petruskirche – Kiels Konzertkirch",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.6)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [137, 138.6, 145.39999999999998],
+          "ratio": 5.9,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": null,
+          "text": "Petruskirche Kiel-WikWeimarer Straße 1 · 24106 Kiel",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "SPAN",
+          "classes": "block font-semibold text-role-on/90",
+          "text": "Petruskirche Kiel-Wik",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.9)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [204.94117647058823, 204.4313725490196, 206.09803921568627],
+          "ratio": 12.65,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "text-role-on/75 no-underline hover:text-secondary",
+          "text": "kontakt@petruskirche.events",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.75)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [170.52941176470588, 170.7843137254902, 175.05098039215687],
+          "ratio": 8.79,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "text-role-on/75 no-underline hover:text-secondary",
+          "text": "Gemeindebüro 0431 16 456",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.75)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [170.52941176470588, 170.7843137254902, 175.05098039215687],
+          "ratio": 8.79,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Home",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Programm",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Besuch planen",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Raum anfragen",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Kontakt",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary font-semibold text-secondary",
+          "text": "Die Petruskirche↗ (öffnet in neuem Tab)",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center font-body text-sm/6 text-role-on/60 no-underline transition-colors hover:text-secondary",
+          "text": "Impressum",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.6)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [137, 138.6, 145.39999999999998],
+          "ratio": 5.9,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center font-body text-sm/6 text-role-on/60 no-underline transition-colors hover:text-secondary",
+          "text": "Datenschutz",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.6)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [137, 138.6, 145.39999999999998],
+          "ratio": 5.9,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        }
+      ],
+      "failures": []
+    },
+    {
+      "width": 768,
+      "method": "sRGB canvas + alpha compositing; gradients/photos/backdrop-filter excluded",
+      "count": 33,
+      "rows": [
+        {
+          "tag": "A",
+          "classes": "fixed left-4 top-4 z-50 -translate-y-24 rounded-full bg-champagne px-4 py-2 text-midnight shadow-glow transition-transform focus-visible:translate-y-0",
+          "text": "Direkt zum Inhalt springen",
+          "cssColor": "rgb(2, 6, 23)",
+          "bgRGB": [243, 229, 171],
+          "fgRGB": [2, 6, 23],
+          "ratio": 15.95,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "SPAN",
+          "classes": "hero-title-word block",
+          "text": "Konzerte in der",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [255, 255, 255],
+          "ratio": 20.17,
+          "size": 72,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "SPAN",
+          "classes": "hero-title-word hero-title-accent block",
+          "text": "Petruskirche Kiel",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 72,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "P",
+          "classes": "hero-intro mt-6 max-w-md font-body text-sm/relaxed font-normal tracking-tight text-role-on/70 md:max-w-xl md:text-base/relaxed md:text-role-on/75",
+          "text": "Konzerte in Kiel-Wik für Klassik, Chor, Pop, Crossover und Kulturveranstaltungen",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.75)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [170.52941176470588, 170.7843137254902, 175.05098039215687],
+          "ratio": 8.79,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "A",
+          "classes": "motion-button inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-11 min-h-14 rounded-sm bg-secondary px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest text-midnight hover:bg-role-accent active:scale-95",
+          "text": "Konzerte in Kiel ansehen",
+          "cssColor": "rgb(2, 6, 23)",
+          "bgRGB": [233, 195, 73],
+          "fgRGB": [2, 6, 23],
+          "ratio": 11.88,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "A",
+          "classes": "motion-button inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border hover:text-accent-foreground h-11 min-h-14 rounded-sm border-white/10 bg-slate-mist/90 px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest text-white shadow-sm backdrop-blur-xl hover:bg-white/10 active:scale-95",
+          "text": "Besuch planen",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [27.254901960784313, 37.568627450980394, 55.47058823529412],
+          "fgRGB": [255, 255, 255],
+          "ratio": 15.27,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "H2",
+          "classes": "block font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary",
+          "text": "Nächste Konzerte in Kiel",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "hidden sm:inline-flex items-center gap-2 font-body text-xs/4 font-semibold uppercase tracking-widest !text-role-on/70 no-underline transition-colors hover:!text-secondary",
+          "text": "Alle Termine ansehen→",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "BLOCKQUOTE",
+          "classes": "max-w-none text-center font-display text-2xl/tight font-normal italic tracking-tight text-white md:text-4xl/tight",
+          "text": "Musik drückt das aus, was nicht gesagt werden kann und worüber zu schweigen unmö",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [255, 255, 255],
+          "ratio": 20.17,
+          "size": 36,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "CITE",
+          "classes": "block text-center font-body text-xs/4 font-semibold uppercase not-italic tracking-widest text-secondary",
+          "text": "Victor Hugo",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "H2",
+          "classes": "block font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary",
+          "text": "Die Petruskirche – Kiels Konzertkirche",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [18, 20, 20],
+          "fgRGB": [233, 195, 73],
+          "ratio": 10.89,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": null,
+          "text": "Die Petruskirche in Kiel-Wik verbindet Jugendstilarchitektur mit einer Akustik, ",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [18, 20, 20],
+          "fgRGB": [164.70980392156864, 165.30588235294118, 165.30588235294118],
+          "ratio": 7.52,
+          "size": 18,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": null,
+          "text": "Der offene Dachstuhl und die Holzbalkenkonstruktion prägen den Klang des Kirchen",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [18, 20, 20],
+          "fgRGB": [164.70980392156864, 165.30588235294118, 165.30588235294118],
+          "ratio": 7.52,
+          "size": 18,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "H2",
+          "classes": "block font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary mb-8 max-w-3xl md:mb-10",
+          "text": "Besuch und Veranstaltung planen",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "H3",
+          "classes": "font-display text-2xl/8 md:text-3xl/9 font-normal text-white transition-colors duration-300 group-hover:text-champagne group-focus-visible:text-champagne",
+          "text": "Besuch planen",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [255, 255, 255],
+          "ratio": 17.13,
+          "size": 30,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": "!mt-4 font-body text-base/7 text-role-on/70 transition-colors duration-300 group-hover:text-role-on/80 group-focus-visible:text-role-on/80",
+          "text": "Alles Wichtige für Ihren Konzertbesuch: Anfahrt, Parkmöglichkeiten in der Kieler",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [164.94823529411764, 167.57098039215686, 172.45882352941177],
+          "ratio": 7.15,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "SPAN",
+          "classes": "mt-auto inline-flex min-h-10 items-center gap-2 self-start pt-8 font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary transition-colors duration-300 group-hover:!text-champagne group-focus-visible:!text-champagne",
+          "text": "Besucherinfos ansehen→",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [233, 195, 73],
+          "ratio": 10.09,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "H3",
+          "classes": "font-display text-2xl/8 md:text-3xl/9 font-normal text-white transition-colors duration-300 group-hover:text-champagne group-focus-visible:text-champagne",
+          "text": "Raum anfragen",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [255, 255, 255],
+          "ratio": 17.13,
+          "size": 30,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": "!mt-4 font-body text-base/7 text-role-on/70 transition-colors duration-300 group-hover:text-role-on/80 group-focus-visible:text-role-on/80",
+          "text": "Sie möchten die Petruskirche für eigene Kulturveranstaltungen, Konzerte oder Auf",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [164.94823529411764, 167.57098039215686, 172.45882352941177],
+          "ratio": 7.15,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "SPAN",
+          "classes": "mt-auto inline-flex min-h-10 items-center gap-2 self-start pt-8 font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary transition-colors duration-300 group-hover:!text-champagne group-focus-visible:!text-champagne",
+          "text": "Raum anfragen→",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [233, 195, 73],
+          "ratio": 10.09,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": "max-w-sm font-body text-sm/6 text-role-on/60 md:text-base/7",
+          "text": "© 2026 Ev.-Luth. Apostel-Kirchengemeinde Kiel. Petruskirche – Kiels Konzertkirch",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.6)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [137, 138.6, 145.39999999999998],
+          "ratio": 5.9,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": null,
+          "text": "Petruskirche Kiel-WikWeimarer Straße 1 · 24106 Kiel",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "SPAN",
+          "classes": "block font-semibold text-role-on/90",
+          "text": "Petruskirche Kiel-Wik",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.9)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [204.94117647058823, 204.4313725490196, 206.09803921568627],
+          "ratio": 12.65,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "text-role-on/75 no-underline hover:text-secondary",
+          "text": "kontakt@petruskirche.events",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.75)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [170.52941176470588, 170.7843137254902, 175.05098039215687],
+          "ratio": 8.79,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "text-role-on/75 no-underline hover:text-secondary",
+          "text": "Gemeindebüro 0431 16 456",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.75)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [170.52941176470588, 170.7843137254902, 175.05098039215687],
+          "ratio": 8.79,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Home",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Programm",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Besuch planen",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Raum anfragen",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Kontakt",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary font-semibold text-secondary",
+          "text": "Die Petruskirche↗ (öffnet in neuem Tab)",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center font-body text-sm/6 text-role-on/60 no-underline transition-colors hover:text-secondary",
+          "text": "Impressum",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.6)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [137, 138.6, 145.39999999999998],
+          "ratio": 5.9,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center font-body text-sm/6 text-role-on/60 no-underline transition-colors hover:text-secondary",
+          "text": "Datenschutz",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.6)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [137, 138.6, 145.39999999999998],
+          "ratio": 5.9,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        }
+      ],
+      "failures": []
+    },
+    {
+      "width": 1440,
+      "method": "sRGB canvas + alpha compositing; gradients/photos/backdrop-filter excluded",
+      "count": 37,
+      "rows": [
+        {
+          "tag": "A",
+          "classes": "fixed left-4 top-4 z-50 -translate-y-24 rounded-full bg-champagne px-4 py-2 text-midnight shadow-glow transition-transform focus-visible:translate-y-0",
+          "text": "Direkt zum Inhalt springen",
+          "cssColor": "rgb(2, 6, 23)",
+          "bgRGB": [243, 229, 171],
+          "fgRGB": [2, 6, 23],
+          "ratio": 15.95,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "nav-link inline-flex min-h-11 items-center text-role-on/80 no-underline transition hover:text-secondary",
+          "text": "Programm",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.8)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [182.00000000000003, 182, 185.4],
+          "ratio": 9.98,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "A",
+          "classes": "nav-link inline-flex min-h-11 items-center text-role-on/80 no-underline transition hover:text-secondary",
+          "text": "Besuch planen",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.8)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [182.00000000000003, 182, 185.4],
+          "ratio": 9.98,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "A",
+          "classes": "nav-link inline-flex min-h-11 items-center text-role-on/80 no-underline transition hover:text-secondary",
+          "text": "Raum anfragen",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.8)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [182.00000000000003, 182, 185.4],
+          "ratio": 9.98,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "A",
+          "classes": "nav-link inline-flex min-h-11 items-center text-role-on/80 no-underline transition hover:text-secondary",
+          "text": "Kontakt",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.8)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [182.00000000000003, 182, 185.4],
+          "ratio": 9.98,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "SPAN",
+          "classes": "hero-title-word block",
+          "text": "Konzerte in der",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [255, 255, 255],
+          "ratio": 20.17,
+          "size": 96,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "SPAN",
+          "classes": "hero-title-word hero-title-accent block",
+          "text": "Petruskirche Kiel",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 96,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "P",
+          "classes": "hero-intro mt-6 max-w-md font-body text-sm/relaxed font-normal tracking-tight text-role-on/70 md:max-w-xl md:text-base/relaxed md:text-role-on/75",
+          "text": "Konzerte in Kiel-Wik für Klassik, Chor, Pop, Crossover und Kulturveranstaltungen",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.75)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [170.52941176470588, 170.7843137254902, 175.05098039215687],
+          "ratio": 8.79,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "A",
+          "classes": "motion-button inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-11 min-h-14 rounded-sm bg-secondary px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest text-midnight hover:bg-role-accent active:scale-95",
+          "text": "Konzerte in Kiel ansehen",
+          "cssColor": "rgb(2, 6, 23)",
+          "bgRGB": [233, 195, 73],
+          "fgRGB": [2, 6, 23],
+          "ratio": 11.88,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "A",
+          "classes": "motion-button inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border hover:text-accent-foreground h-11 min-h-14 rounded-sm border-white/10 bg-slate-mist/90 px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest text-white shadow-sm backdrop-blur-xl hover:bg-white/10 active:scale-95",
+          "text": "Besuch planen",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [27.254901960784313, 37.568627450980394, 55.47058823529412],
+          "fgRGB": [255, 255, 255],
+          "ratio": 15.27,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": true
+        },
+        {
+          "tag": "H2",
+          "classes": "block font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary",
+          "text": "Nächste Konzerte in Kiel",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "hidden sm:inline-flex items-center gap-2 font-body text-xs/4 font-semibold uppercase tracking-widest !text-role-on/70 no-underline transition-colors hover:!text-secondary",
+          "text": "Alle Termine ansehen→",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "BLOCKQUOTE",
+          "classes": "max-w-none text-center font-display text-2xl/tight font-normal italic tracking-tight text-white md:text-4xl/tight",
+          "text": "Musik drückt das aus, was nicht gesagt werden kann und worüber zu schweigen unmö",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [255, 255, 255],
+          "ratio": 20.17,
+          "size": 36,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "CITE",
+          "classes": "block text-center font-body text-xs/4 font-semibold uppercase not-italic tracking-widest text-secondary",
+          "text": "Victor Hugo",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "H2",
+          "classes": "block font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary",
+          "text": "Die Petruskirche – Kiels Konzertkirche",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [18, 20, 20],
+          "fgRGB": [233, 195, 73],
+          "ratio": 10.89,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": null,
+          "text": "Die Petruskirche in Kiel-Wik verbindet Jugendstilarchitektur mit einer Akustik, ",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [18, 20, 20],
+          "fgRGB": [164.70980392156864, 165.30588235294118, 165.30588235294118],
+          "ratio": 7.52,
+          "size": 18,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": null,
+          "text": "Der offene Dachstuhl und die Holzbalkenkonstruktion prägen den Klang des Kirchen",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [18, 20, 20],
+          "fgRGB": [164.70980392156864, 165.30588235294118, 165.30588235294118],
+          "ratio": 7.52,
+          "size": 18,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "H2",
+          "classes": "block font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary mb-8 max-w-3xl md:mb-10",
+          "text": "Besuch und Veranstaltung planen",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "H3",
+          "classes": "font-display text-2xl/8 md:text-3xl/9 font-normal text-white transition-colors duration-300 group-hover:text-champagne group-focus-visible:text-champagne",
+          "text": "Besuch planen",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [255, 255, 255],
+          "ratio": 17.13,
+          "size": 30,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": "!mt-4 font-body text-base/7 text-role-on/70 transition-colors duration-300 group-hover:text-role-on/80 group-focus-visible:text-role-on/80",
+          "text": "Alles Wichtige für Ihren Konzertbesuch: Anfahrt, Parkmöglichkeiten in der Kieler",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [164.94823529411764, 167.57098039215686, 172.45882352941177],
+          "ratio": 7.15,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "SPAN",
+          "classes": "mt-auto inline-flex min-h-10 items-center gap-2 self-start pt-8 font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary transition-colors duration-300 group-hover:!text-champagne group-focus-visible:!text-champagne",
+          "text": "Besucherinfos ansehen→",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [233, 195, 73],
+          "ratio": 10.09,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "H3",
+          "classes": "font-display text-2xl/8 md:text-3xl/9 font-normal text-white transition-colors duration-300 group-hover:text-champagne group-focus-visible:text-champagne",
+          "text": "Raum anfragen",
+          "cssColor": "rgb(255, 255, 255)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [255, 255, 255],
+          "ratio": 17.13,
+          "size": 30,
+          "large": true,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": "!mt-4 font-body text-base/7 text-role-on/70 transition-colors duration-300 group-hover:text-role-on/80 group-focus-visible:text-role-on/80",
+          "text": "Sie möchten die Petruskirche für eigene Kulturveranstaltungen, Konzerte oder Auf",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [164.94823529411764, 167.57098039215686, 172.45882352941177],
+          "ratio": 7.15,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "SPAN",
+          "classes": "mt-auto inline-flex min-h-10 items-center gap-2 self-start pt-8 font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary transition-colors duration-300 group-hover:!text-champagne group-focus-visible:!text-champagne",
+          "text": "Raum anfragen→",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [18.8, 27.6, 44],
+          "fgRGB": [233, 195, 73],
+          "ratio": 10.09,
+          "size": 12,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": "max-w-sm font-body text-sm/6 text-role-on/60 md:text-base/7",
+          "text": "© 2026 Ev.-Luth. Apostel-Kirchengemeinde Kiel. Petruskirche – Kiels Konzertkirch",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.6)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [137, 138.6, 145.39999999999998],
+          "ratio": 5.9,
+          "size": 16,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "P",
+          "classes": null,
+          "text": "Petruskirche Kiel-WikWeimarer Straße 1 · 24106 Kiel",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "SPAN",
+          "classes": "block font-semibold text-role-on/90",
+          "text": "Petruskirche Kiel-Wik",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.9)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [204.94117647058823, 204.4313725490196, 206.09803921568627],
+          "ratio": 12.65,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "text-role-on/75 no-underline hover:text-secondary",
+          "text": "kontakt@petruskirche.events",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.75)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [170.52941176470588, 170.7843137254902, 175.05098039215687],
+          "ratio": 8.79,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "text-role-on/75 no-underline hover:text-secondary",
+          "text": "Gemeindebüro 0431 16 456",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.75)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [170.52941176470588, 170.7843137254902, 175.05098039215687],
+          "ratio": 8.79,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Home",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Programm",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Besuch planen",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Raum anfragen",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary text-role-on/70",
+          "text": "Kontakt",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.7)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [159.94117647058823, 161.13333333333333, 166.2],
+          "ratio": 7.83,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center gap-2 font-body text-sm/6 no-underline transition-colors hover:text-secondary font-semibold text-secondary",
+          "text": "Die Petruskirche↗ (öffnet in neuem Tab)",
+          "cssColor": "rgb(233, 195, 73)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [233, 195, 73],
+          "ratio": 11.88,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center font-body text-sm/6 text-role-on/60 no-underline transition-colors hover:text-secondary",
+          "text": "Impressum",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.6)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [137, 138.6, 145.39999999999998],
+          "ratio": 5.9,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        },
+        {
+          "tag": "A",
+          "classes": "inline-flex min-h-11 items-center font-body text-sm/6 text-role-on/60 no-underline transition-colors hover:text-secondary",
+          "text": "Datenschutz",
+          "cssColor": "oklab(0.913561 0.00107825 0.000338793 / 0.6)",
+          "bgRGB": [2, 6, 23],
+          "fgRGB": [137, 138.6, 145.39999999999998],
+          "ratio": 5.9,
+          "size": 14,
+          "large": false,
+          "underThreshold": false,
+          "imageBackdrop": false
+        }
+      ],
+      "failures": []
+    }
+  ],
+  "controlFocus": [
+    {
+      "selector": ".hero-actions a:first-child",
+      "focusVisible": true,
+      "outline": "rgb(243, 229, 171) none 2px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(2, 6, 23) 0px 0px 0px 2px, rgb(243, 229, 171) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+    },
+    {
+      "selector": ".concert-card a[aria-label]",
+      "focusVisible": true,
+      "outline": "rgb(243, 229, 171) none 2px",
+      "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgb(2, 6, 23) 0px 0px 0px 2px, rgb(243, 229, 171) 0px 0px 0px 4px, rgba(0, 0, 0, 0) 0px 0px 0px 0px"
+    }
+  ],
+  "finished": "2026-10-28T10:34:27.272Z"
+}
