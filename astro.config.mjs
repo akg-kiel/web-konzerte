@@ -3,7 +3,7 @@ import react from '@astrojs/react';
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  adapter: cloudflare(),
+  adapter: cloudflare({ imageService: { build: 'compile', runtime: 'cloudflare-binding' } }),
   integrations: [react()],
   vite: { server: { allowedHosts: ['.trycloudflare.com'] } },
   build: { client: '.' },
