@@ -143,8 +143,9 @@ main :is(p, address) a {
   text-underline-offset: 0.2em;
 }
 
-:target {
-  scroll-margin-top: 6rem;
+html {
+  /* Keep anchor and focus scrolling below the fixed 5rem navbar, with 2rem of air. */
+  scroll-padding-top: 7rem;
 }
 
 .motion-button {
