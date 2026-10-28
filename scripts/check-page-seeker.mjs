@@ -122,7 +122,10 @@ const context = {
       resize = this;
     }
   },
-  getComputedStyle: () => ({ fontSize: '16px', scrollMarginTop: '96px' }),
+  getComputedStyle: (node) =>
+    node === context.document.documentElement
+      ? { scrollPaddingTop: '112px' }
+      : { scrollMarginTop: node.scrollMarginTop ?? '0px' },
   location: { hash: '' },
   innerHeight: 900,
   scrollY: 0,
@@ -154,7 +157,7 @@ assert.deepEqual(
 );
 assert.equal(links()[1].attrs['aria-label'], 'Kurzer Navigationsname');
 assert.equal(current()[0].hash, '#page-content');
-scroll(704, '#first');
+scroll(688, '#first');
 assert.equal(
   current()[0].hash,
   '#first',
@@ -166,7 +169,7 @@ assert.equal(
   '#second',
   'DOM order must not let a parallel sidebar override a later section.'
 );
-scroll(704, '#sidebar');
+scroll(688, '#sidebar');
 assert.equal(current()[0].hash, '#sidebar', 'Equal-height columns respect the requested anchor.');
 
 const focused = links()[2];
@@ -181,8 +184,9 @@ assert.equal(
 );
 scroll(1000);
 assert.equal(current()[0].hash, '#first', 'Replaced island nodes must have fresh geometry.');
-scroll(1404);
-assert.equal(current()[0].hash, '#second');
+headings[1].scrollMarginTop = '24px';
+scroll(1364);
+assert.equal(current()[0].hash, '#second', 'Root scroll padding and target scroll margin add up.');
 headings.push(heading('new', 'Nachgeladen', 1950));
 mutation.callback();
 flush();

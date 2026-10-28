@@ -1,4 +1,4 @@
-<nav data-page-seeker hidden aria-label="Abschnitte dieser Seite" class="group/seeker fixed right-2 top-1/2 z-30 hidden -translate-y-1/2 rounded-lg bg-midnight py-2 shadow-panel lg:block print:hidden">
+<nav data-page-seeker hidden aria-label="Abschnitte dieser Seite" class="group/seeker fixed right-2 top-1/2 z-30 hidden w-12 -translate-y-1/2 py-2 hover:w-80 focus-within:w-80 lg:block print:hidden">
   <ol class="flex flex-col"></ol>
 </nav>
 
@@ -50,14 +50,14 @@
         link.href = '#' + encodeURIComponent(target.id);
         link.setAttribute('aria-label', label);
         link.title = label;
-        link.className = 'group/link relative flex h-8 w-12 items-center justify-center text-role-on/70 no-underline hover:text-champagne aria-[current=location]:text-secondary';
+        link.className = 'group/link relative flex h-8 w-full items-center rounded-sm text-role-on/70 no-underline hover:text-champagne focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-champagne aria-[current=location]:text-secondary';
         const mark = document.createElement('span');
         mark.setAttribute('aria-hidden', 'true');
-        mark.className = 'h-px w-8 origin-right scale-x-50 bg-current transition-transform group-hover/link:scale-x-75 group-aria-[current=location]/link:scale-x-100 motion-reduce:transition-none';
+        mark.className = 'absolute right-4 h-4 w-2 scale-y-50 rounded-full bg-current ring-1 ring-surface transition-transform duration-150 group-hover/link:scale-y-75 group-aria-[current=location]/link:scale-y-100 motion-reduce:transition-none';
         const text = document.createElement('span');
         text.textContent = label;
         text.setAttribute('aria-hidden', 'true');
-        text.className = 'pointer-events-none absolute right-full h-8 w-64 truncate rounded-l-sm bg-midnight px-4 text-right font-body text-sm/8 opacity-0 transition-opacity group-hover/seeker:pointer-events-auto group-hover/seeker:opacity-100 group-focus-within/seeker:pointer-events-auto group-focus-within/seeker:opacity-100 motion-reduce:transition-none';
+        text.className = 'pointer-events-none absolute right-12 w-max max-w-64 truncate rounded-sm bg-surface px-2 text-right font-body text-sm/6 opacity-0 transition-opacity duration-150 group-hover/seeker:pointer-events-auto group-hover/seeker:opacity-100 group-focus-within/seeker:pointer-events-auto group-focus-within/seeker:opacity-100 motion-reduce:transition-none';
         link.appendChild(mark);
         link.appendChild(text);
         item.appendChild(link);
@@ -74,11 +74,11 @@
       if (nav.hidden) return;
       // Leave room for the fixed header and never offer off-screen controls.
       if (nav.getBoundingClientRect().height > innerHeight - 160) { nav.hidden = true; return; }
-      const offset = parseFloat(getComputedStyle(document.documentElement).fontSize) * 6;
+      const offset = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
       const positions = sections.map(({ target }) => {
         const y = target.getBoundingClientRect().top + scrollY;
-        const margin = parseFloat(getComputedStyle(target).scrollMarginTop) || offset;
-        return { y, landing: Math.max(0, Math.min(maxScroll, y - margin)) };
+        const margin = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
+        return { y, landing: Math.max(0, Math.min(maxScroll, y - offset - margin)) };
       });
       // Match native anchor landings, including short final sections and parallel columns.
       let current = 0;

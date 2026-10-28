@@ -401,6 +401,47 @@ try {
     'Sharing without JavaScript at 320px: native disclosure and canonical manual-copy field passed.'
   );
 
+  // Scroll-off must exist before a hash becomes :target, including scrollIntoView().
+  for (const width of [375, 1280]) {
+    await call('Emulation.setDeviceMetricsOverride', {
+      width,
+      height: 900,
+      deviceScaleFactor: 1,
+      mobile: width < 768
+    });
+    await load('/besuch-planen/');
+    await evaluate(
+      `document.getElementById('anfahrt').scrollIntoView({block:'start',behavior:'instant'})`
+    );
+    assert(
+      await evaluate(
+        `document.getElementById('arrival-heading').getBoundingClientRect().top >= document.querySelector('nav[aria-label="Hauptnavigation"]').getBoundingClientRect().bottom + 16`
+      ),
+      `${width}px: scrollIntoView must leave the heading below the navbar even without :target`
+    );
+    await load('/besuch-planen/#anfahrt');
+    assert(
+      await evaluate(
+        `document.getElementById('arrival-heading').getBoundingClientRect().top >= document.querySelector('nav[aria-label="Hauptnavigation"]').getBoundingClientRect().bottom + 16`
+      ),
+      `${width}px: direct hash loading must retain navbar clearance`
+    );
+    await evaluate(`document.querySelector('main nav a[href="#einlass"]').focus()`);
+    await key('Enter');
+    await wait(
+      `location.hash === '#einlass' && Math.abs(document.getElementById('einlass').getBoundingClientRect().top - parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop)) <= 2`
+    );
+    assert(
+      await evaluate(
+        `document.getElementById('admission-heading').getBoundingClientRect().top >= document.querySelector('nav[aria-label="Hauptnavigation"]').getBoundingClientRect().bottom + 16`
+      ),
+      `${width}px: keyboard anchor must settle with space below the navbar`
+    );
+  }
+  console.log(
+    'Scroll-off: hash-free scrollIntoView, direct hashes and smooth keyboard anchors clear the navbar at 375/1280px.'
+  );
+
   // Exercise the real ClientRouter and its head-only programme swaps, then a full body swap.
   await load('/programm/');
   for (const path of ['/programm/archiv/', '/programm/']) {
@@ -452,6 +493,8 @@ try {
     });
     for (const path of ['/', '/kontakt/', '/besuch-planen/', detail, '/datenschutz/']) {
       await load(path);
+      await call('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 0, y: 0 });
+      await evaluate('document.activeElement?.blur()');
       const hashes = await evaluate(
         `Array.from(document.querySelectorAll('[data-page-seeker] a'), a => a.hash)`
       );
@@ -463,13 +506,35 @@ try {
       })()`),
         `${path}: every seeker control must fit below the header`
       );
-      const rail = await evaluate(
-        `(() => { const r = document.querySelector('[data-page-seeker] a').getBoundingClientRect(); return {x:r.x+r.width/2,y:r.y+r.height/2}; })()`
+      assert(
+        await evaluate(`(() => {
+        const nav = document.querySelector('[data-page-seeker]'), style = getComputedStyle(nav);
+        const mark = nav.querySelector('[aria-current] > span').getBoundingClientRect();
+        return style.backgroundColor === 'rgba(0, 0, 0, 0)' && style.boxShadow === 'none' &&
+          nav.getBoundingClientRect().width <= 48 && mark.height > mark.width;
+      })()`),
+        `${path}: the resting seeker must be a transparent narrow rail with a vertical active mark`
       );
-      await call('Input.dispatchMouseEvent', { type: 'mouseMoved', ...rail });
+      if (path === '/' && height === 900) await screenshot('seeker-clean-collapsed');
+      const rail = await evaluate(
+        `(() => { const a = document.querySelector('[data-page-seeker] a'), r = a.getBoundingClientRect(); return {x:r.x+r.width/2,y:r.y+r.height/2,markRight:a.firstElementChild.getBoundingClientRect().right}; })()`
+      );
+      await call('Input.dispatchMouseEvent', { type: 'mouseMoved', x: rail.x, y: rail.y });
       await wait(
         `Array.from(document.querySelectorAll('[data-page-seeker] a > span:last-child')).every(s => getComputedStyle(s).opacity === '1')`
       );
+      assert(
+        await evaluate(`(() => {
+        const nav = document.querySelector('[data-page-seeker]'), r = nav.getBoundingClientRect();
+        return Math.abs(nav.querySelector('a > span').getBoundingClientRect().right - ${rail.markRight}) < 1 &&
+          Array.from(nav.querySelectorAll('a > span:last-child')).every(label => {
+            const box = label.getBoundingClientRect();
+            return box.left >= r.left && box.right <= r.right;
+          });
+      })()`),
+        `${path}: revealing labels must not move markers or leave the shared hover area`
+      );
+      if (path === '/' && height === 900) await screenshot('seeker-clean-expanded');
       for (const hash of hashes) {
         const selector = `[data-page-seeker] a[href="${hash}"]`;
         const label = await evaluate(
@@ -484,7 +549,7 @@ try {
         if (hash !== '#page-content')
           assert(
             await evaluate(
-              `document.getElementById(${JSON.stringify(decodeURIComponent(hash.slice(1)))}).getBoundingClientRect().top >= 78`
+              `document.getElementById(${JSON.stringify(decodeURIComponent(hash.slice(1)))}).getBoundingClientRect().top >= document.querySelector('nav[aria-label="Hauptnavigation"]').getBoundingClientRect().bottom + 16`
             ),
             `${path} ${hash}: target obscured by header`
           );
@@ -519,7 +584,7 @@ try {
   await evaluate(`document.getElementById('late-section').hidden = true`);
   await wait(`!document.querySelector('[data-page-seeker] a[href="#late-section"]')`);
   console.log(
-    'Seeker revision: every label is clickable, every native landing/current state and Back match at 640/900px height; async insertion/replacement/hiding preserves live targets and focus.'
+    'Seeker revision: transparent narrow rail, stable vertical markers, clickable labels, native landing/current state and Back at 640/900px height; async insertion/replacement/hiding preserves live targets and focus.'
   );
 
   await call('Emulation.setDeviceMetricsOverride', {
