@@ -132,7 +132,7 @@ main :is(p, address) a {
 
 .motion-button {
   scale: 1;
-  transition-property: color, background-color, border-color, opacity, scale;
+  transition-property: color, background-color, border-color, opacity;
   transition-duration: 150ms;
   transition-timing-function: var(--ease-out);
 }
@@ -180,6 +180,10 @@ main :is(p, address) a {
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  .motion-button {
+    transition-property: color, background-color, border-color, opacity, scale;
+  }
+
   .hero-stage-image,
   .page-stage-image {
     transform-origin: 75% center;
@@ -372,7 +376,8 @@ main :is(p, address) a {
 }
 
 @media (width < 64rem) {
-  body:has([data-mobile-menu][open]) {
+  /* html's overflow-x: clip prevents body overflow from locking the viewport. */
+  html:has([data-mobile-menu][open]) {
     overflow: hidden;
   }
 
