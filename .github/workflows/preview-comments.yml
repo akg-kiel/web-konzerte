@@ -1,0 +1,40 @@
+name: Cloudflare preview comments
+
+on:
+  check_run:
+    types: [completed]
+  pull_request_target:
+    types: [opened, reopened, synchronize]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  checks: read
+  pull-requests: write
+
+concurrency:
+  group: cloudflare-preview-comments-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  comment:
+    if: >-
+      github.event_name != 'check_run' ||
+      (github.event.check_run.app.slug == 'cloudflare-workers-and-pages' &&
+       github.event.check_run.name == 'Workers Builds: web-konzerte')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # This privileged workflow must never execute code from a PR head.
+      - name: Checkout trusted default branch
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+
+      - name: Update preview comments
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        with:
+          script: |
+            const update = require('./.github/scripts/comment-cloudflare-preview.cjs');
+            await update({ github, context, core });
