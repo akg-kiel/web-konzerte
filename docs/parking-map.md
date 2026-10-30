@@ -4,9 +4,11 @@
 as an inline SVG. It uses the site's midnight, slate, champagne/gold and body-font
 tokens. On small screens the plan precedes the directions and parking times.
 No map library, runtime API, external tile, image or consent step is required.
-Only following an explicit OpenStreetMap link leaves the site. The optional
-Google map on `/kontakt/` is unchanged; its privacy disclosure now names that
-page only.
+Only following an explicit OpenStreetMap link leaves the site. The contact page
+uses a separate, wider Wik overview in `src/components/sections/WikMap.astro`,
+not a duplicate of the close-up parking plan. Both are local SVGs; the former
+Google Maps component and its consent script have been removed. Privacy copy
+now distinguishes local maps from following external OpenStreetMap links.
 
 ## Geographic source and attribution
 
@@ -37,6 +39,33 @@ There is no invented walking route or live navigation, and the public caption
 explicitly describes the highlighted area as schematic. This is an orientation
 plan, not a parcel-accurate statement of parking permission.
 
+## Wik overview on the contact page
+
+The overview places the Petruskirche in Wik, west of the Kieler Förde and south
+of the Nord-Ostsee-Kanal. It shows principal streets (including Prinz-Heinrich-
+Straße and Holtenauer Straße), quieter residential streets and park outlines.
+There is no highlighted driving route, live navigation, pan/zoom dependency,
+third-party tile request or map consent step. Its internal link opens the
+unchanged parking close-up; its optional external OSM link opens a wider view.
+
+The source is the [OSM API extract](https://api.openstreetmap.org/api/0.6/map?bbox=10.114,54.348,10.164,54.375),
+retrieved 2026-10-30. The west-shore coastline is joined in native order from
+ways 144681999, 716993185, 857248329 and 716993186. Open sea is on its eastern
+side. Canal and lock polygons are ways 28070936, 59908447, 73033118, 73033120,
+262658479 and 427799833. Park polygons and road centre-lines are also from the
+same extract. Street and water labels are manually placed, not live labels.
+
+The projection is `x = (lon - 10.116) * cos(54.36°) * 111320 * 0.2` and
+`y = (54.373 - lat) * 111320 * 0.2`. Source lines/polygons are clipped to the
+`640 × 500` view box, with coordinates rounded to one decimal place. The scale
+bar's 100 SVG units represent approximately 500 m. The pin tip at
+`(256.1, 303.9)` uses the same coordinates as the close-up's external OSM link:
+54.35935° N, 10.13574° E. The pin's circle is drawn 30 SVG units north of its
+anchor so the tip does not move the marked location south. It marks the church,
+not an entrance or parking area.
+The map has a named SVG, geographic description and visible OSM attribution;
+it remains visible without JavaScript.
+
 ## Parking permission and maintenance
 
 The [AKG concert/event parking plan](https://akg-kiel.de/wp-content/uploads/2022/03/Parken-bei-Konzerten_Veranstaltungen.pdf)
@@ -51,5 +80,6 @@ place is promised. Actual signage takes precedence.
 Update both the local drawing and the HTML copy when the permitted area or
 hours change. Recheck the above OSM objects if streets, buildings or stops move;
 keep the visible attribution. `scripts/check-cloudflare-build.mjs` checks the
-built plan, markers, attribution, hours and absence of remote map embeds on
-the visit page.
+built maps, markers, attribution, hours, internal parking link and absence of
+remote map embeds. The contact page still loads the separately disclosed
+Turnstile form protection; removing Google Maps does not remove that service.
