@@ -14,6 +14,18 @@ assert.equal(
 );
 
 const home = await readFile('dist/index.html', 'utf8');
+const homeHead = home.split('</head>')[0];
+for (const style of ['normal', 'italic']) {
+  const font = `petrus-display-${style}.woff2`;
+  assert(homeHead.includes(`href="/fonts/${font}"`), 'Preload the small hero subsets.');
+  const data = await readFile(`dist/fonts/${font}`);
+  assert.equal(data.toString('ascii', 0, 4), 'wOF2');
+  assert(data.length < 8_000, `${font}: keep the critical font budget.`);
+}
+assert.doesNotMatch(homeHead, /href="\/fonts\/merriweather-latin-wght-/);
+assert.match(home, /<h1\b[^>]*id="hero-heading"[^>]*class="font-hero /);
+assert.match(home, /<div\b[^>]*class="hero-stage /, 'Preserve the hero stage animation.');
+assert.match(home, /<img\b[^>]*class="hero-stage-image /, 'Animate the image selected by picture.');
 assert.match(home, /<source\b[^>]*type="image\/avif"[^>]*srcset="\/_astro\//);
 assert.match(
   home,

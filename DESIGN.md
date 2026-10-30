@@ -17,6 +17,7 @@ Implementation lives in `src/styles/globals.css` and `tailwind.config.js`.
 - Use Tailwind type scale only; no arbitrary `text-*`, `leading-*`, or `tracking-*` values.
 - Prefer slash line-height: `text-sm/6`, `text-base/7`, `text-4xl/tight`.
 - One page hero title is dominant.
+- The home title uses `Petrus Display`, a glyph-identical Merriweather subset for its two fixed lines. Regenerate it with `scripts/subset-hero-fonts.py` after changing that copy; all other text keeps the full fonts.
 - Content H2s use Hanken Grotesk at `text-xs/4 font-semibold uppercase tracking-widest text-secondary`; do not add a separate label above them.
 
 ## Spacing
