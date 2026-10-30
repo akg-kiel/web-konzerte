@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
+import { baseService } from 'astro/assets';
 
-import { resolveConcertImage } from '../src/data/concert-images.ts';
+import { getRuntimeImage, resolveConcertImage } from '../src/data/concert-images.ts';
 import {
   CONCERTS_PER_PAGE,
   cacheProgramme,
@@ -292,6 +293,57 @@ try {
       throw new Error('Valid intrinsic dimensions must not trigger image inference');
     };
     assert.equal(await resolveConcertImage(concert), concert);
+    globalThis.fetch = calendarFetch;
+  }
+
+  const originalAstroAsset = globalThis.astroAsset;
+  try {
+    globalThis.astroAsset = {
+      imageService: {
+        ...baseService,
+        transform() {
+          throw new Error('Posters must not be compiled');
+        },
+        getURL({ src, width, height }) {
+          return `/_image/?href=${encodeURIComponent(typeof src === 'string' ? src : src.src)}&w=${width}&h=${height}`;
+        }
+      },
+      addStaticImage() {
+        throw new Error('Posters must not register build-time transforms');
+      }
+    };
+    globalThis.fetch = async () => {
+      throw new Error('Rendering a poster must not download it');
+    };
+    for (const src of [
+      'https://akg-kiel.church.tools/images/missing-poster.jpg',
+      { src: '/_astro/fallback.jpg', width: 1600, height: 1200, format: 'jpg' }
+    ]) {
+      const image = await getRuntimeImage(
+        {
+          src,
+          alt: 'Concert poster',
+          width: 960,
+          height: 720,
+          widths: [480, 720, 960],
+          format: 'webp',
+          quality: 80
+        },
+        {}
+      );
+      assert.match(image.src, /^\/_image\//);
+      assert.equal(image.srcset.split(', ').length, 3);
+      for (const width of [480, 720, 960]) {
+        assert(image.srcset.includes(`&w=${width}&h=${(width * 3) / 4} ${width}w`));
+      }
+      assert.equal(image.attributes.alt, 'Concert poster');
+      assert.equal(image.attributes.width, 960);
+      assert.equal(image.attributes.height, 720);
+      assert.equal(image.attributes.loading, 'lazy');
+    }
+  } finally {
+    if (originalAstroAsset === undefined) delete globalThis.astroAsset;
+    else globalThis.astroAsset = originalAstroAsset;
     globalThis.fetch = calendarFetch;
   }
 

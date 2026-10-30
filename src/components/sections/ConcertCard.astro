@@ -1,8 +1,8 @@
 ---
-import { getConfiguredImageService, getImage, imageConfig } from 'astro:assets';
+import { imageConfig } from 'astro:assets';
 
 import fallbackImage from '../../assets/hero/l1130722-hero.jpg';
-import { resolveConcertImage } from '../../data/concert-images';
+import { getRuntimeImage, resolveConcertImage } from '../../data/concert-images';
 import type { Concert, ConcertVariant } from '../../data/concerts';
 import Card from '../ui/Card.astro';
 import { buttonVariants } from '../ui/button';
@@ -22,7 +22,8 @@ const description = concert.shortDescription ?? concert.programme;
 const isHome = variant === 'home';
 const isArchive = variant === 'archive';
 const imageRatio = concert.image ? (concert.imageAspectRatio ?? 4 / 3) : fallbackImage.width / fallbackImage.height;
-const image = await getImage({
+// Prerendered cards and the refreshed server island must use the same runtime URLs.
+const image = await getRuntimeImage({
   src: concert.image ?? fallbackImage,
   alt: concert.image ? concert.imageAlt : '',
   width: 960,
@@ -32,13 +33,7 @@ const image = await getImage({
   quality: concert.image ? 80 : 70,
   loading: 'lazy',
   decoding: 'async'
-});
-// The build-time fallback and refreshed server island must use the same image URLs.
-const imageService = await getConfiguredImageService();
-const imageSrc = await imageService.getURL(image.options, imageConfig);
-const imageSrcSet = (await Promise.all(image.srcSet.values.map(async ({ transform, descriptor }) =>
-  `${await imageService.getURL(transform, imageConfig)} ${descriptor}`
-))).join(', ');
+}, imageConfig);
 const cardId = idPrefix ? `${idPrefix}-${concert.slug}` : concert.slug;
 const titleId = `${cardId}-title`;
 
@@ -65,8 +60,8 @@ const compactTicketClass = buttonVariants({ variant: 'outline', className: `${ac
   <div class="pointer-events-none relative aspect-[4/3] w-full shrink-0 overflow-hidden">
     <img
       {...image.attributes}
-      src={imageSrc}
-      srcset={imageSrcSet}
+      src={image.src}
+      srcset={image.srcset}
       sizes={imageSizes}
       class="absolute inset-0 h-full w-full object-cover"
       style={`object-position: ${concert.imagePosition};`}
