@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { writeFile } from 'node:fs/promises';
-import { Browser } from '/home/zepi/.pi/agent/skills/design-taste-frontend/scripts/lib/cdp.mjs';
+import { Browser } from '../lib/cdp.mjs';
 
 const origin = process.argv[2] ?? 'http://127.0.0.1:4321';
 const browser = await Browser.launch();

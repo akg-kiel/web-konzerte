@@ -1,16 +1,10 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
-import {
-  Browser,
-  sleep
-} from '/home/zepi/.pi/agent/skills/design-taste-frontend/scripts/lib/cdp.mjs';
+import { Browser, sleep } from '../lib/cdp.mjs';
 
 // Read-only browser diagnostics. Run: CHROME_PATH=/path/to/chrome node .taste-skill/before/smoke-check.mjs
 const out = '.taste-skill/before';
-const reference = readFileSync(
-  '/home/zepi/.pi/agent/skills/ui-design-critique/references/broken-ui-detectors.md',
-  'utf8'
-);
+const reference = readFileSync(new URL('../lib/broken-ui-detectors.md', import.meta.url), 'utf8');
 const blocks = [...reference.matchAll(/```js\n([\s\S]*?)```/g)].map((m) => m[1]);
 assert.equal(blocks.length, 8, 'Expected shared helper and seven reference detectors');
 const names = ['overflow', 'overlap', 'clipping', 'edge', 'images', 'zeroGhost', 'unreadable'];
@@ -18,6 +12,7 @@ const names = ['overflow', 'overlap', 'clipping', 'edge', 'images', 'zeroGhost',
 const detectors = blocks.slice(1).map((s, i) => ({
   name: names[i],
   source: s
+    .replace(/;\s*$/, '')
     .replace(/\.slice\(0, (?:20|25)\)/g, '')
     .replace('if (hits.length >= 30) return { truncated: true, hits };', '')
 }));
@@ -390,7 +385,6 @@ async function coverage() {
       await page.eval((s) => {
         const el = document.querySelector(s);
         const h = el.querySelector('h3');
-        const r = h.getBoundingClientRect();
         const walker = document.createTreeWalker(h, NodeFilter.SHOW_TEXT);
         const points = [];
         let n;
