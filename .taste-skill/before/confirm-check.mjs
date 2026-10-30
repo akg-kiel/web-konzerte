@@ -1,24 +1,23 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
-import {
-  Browser,
-  sleep
-} from '/home/zepi/.pi/agent/skills/design-taste-frontend/scripts/lib/cdp.mjs';
+import { Browser, sleep } from '../lib/cdp.mjs';
 
 // Targeted confirmation only: valid native Enter input, rendered lazy image, CSS Color 4 contrast.
 const out = '.taste-skill/before';
 const blocks = [
-  ...readFileSync(
-    '/home/zepi/.pi/agent/skills/ui-design-critique/references/broken-ui-detectors.md',
-    'utf8'
-  ).matchAll(/```js\n([\s\S]*?)```/g)
+  ...readFileSync(new URL('../lib/broken-ui-detectors.md', import.meta.url), 'utf8').matchAll(
+    /```js\n([\s\S]*?)```/g
+  )
 ].map((m) => m[1]);
 const names = ['overflow', 'overlap', 'clipping', 'edge', 'images', 'zeroGhost', 'unreadable'];
 const detectors = `(()=>{${blocks[0]}return {${blocks
   .slice(1)
   .map(
     (s, i) =>
-      `${names[i]}:(${s.replace(/\.slice\(0, (?:20|25)\)/g, '').replace('if (hits.length >= 30) return { truncated: true, hits };', '')})()`
+      `${names[i]}:(${s
+        .replace(/;\s*$/, '')
+        .replace(/\.slice\(0, (?:20|25)\)/g, '')
+        .replace('if (hits.length >= 30) return { truncated: true, hits };', '')})()`
   )
   .join(',')}}})()`;
 const r = {
