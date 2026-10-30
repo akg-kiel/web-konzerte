@@ -1,0 +1,72 @@
+---
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+---
+
+<figure class="overflow-hidden rounded-sm bg-slate-mist/20">
+  <svg
+    viewBox="0 0 520 400"
+    role="img"
+    aria-labelledby={`${id}-title ${id}-description`}
+    class="block h-auto w-full bg-midnight font-body"
+  >
+    <title id={`${id}-title`}>Lageplan: Petruskirche und Bundeswehrplatz</title>
+    <desc id={`${id}-description`}>Norden ist oben. Die Petruskirche liegt zwischen Adalbertstraße und Rostocker Straße, nördlich der Weimarer Straße. Der gold markierte Parkplatz liegt nordöstlich der Kirche, westlich der Rostocker Straße. Die Haltestelle Petruskirche liegt an der Adalbertstraße.</desc>
+    <!-- Building and street geometry: © OpenStreetMap contributors, ODbL 1.0.
+         Extract and projection documented in docs/parking-map.md. -->
+    <g aria-hidden="true">
+      <path class="fill-slate-mist/50 stroke-role-on/10" stroke-width="1" d="M566.7 177.4 L569.8 178.9 L605.5 195.2 L555.3 305.5 L531.2 294.5 L518.5 288.7 L530.1 263.4 L542.7 269.2 L554.3 243.7 L545.4 239.6 L547.5 235.0 L549.6 230.3 L558.9 234.5 L569.8 210.7 L554.6 203.8 L566.7 177.4 Z M184.8 396.3 L188.1 396.5 L187.8 405.6 L195.0 405.9 L194.9 409.5 L220.5 410.5 L220.5 412.5 L228.2 412.8 L228.3 410.6 L254.1 411.6 L254.2 407.6 L262.6 407.9 L262.9 399.7 L265.7 399.8 L266.5 379.9 L251.8 379.3 L251.8 381.4 L233.3 380.7 L233.4 376.2 L226.4 376.0 L219.4 375.7 L219.2 379.2 L201.1 378.5 L201.2 376.3 L185.6 375.7 L184.8 396.3 Z M249.1 122.8 L247.6 175.5 L224.7 174.9 L226.3 122.1 L249.1 122.8 Z M314.5 154.8 L313.6 180.3 L307.0 180.0 L306.9 181.4 L298.9 181.1 L298.9 179.6 L292.6 179.3 L293.5 154.0 L314.5 154.8 Z M90.7 393.5 L116.6 394.6 L115.4 424.4 L114.5 443.8 L94.1 442.9 L88.6 442.7 L90.7 393.5 Z M167.7 310.0 L186.6 310.5 L186.3 320.4 L167.4 319.9 L167.7 310.0 Z M278.1 312.8 L277.8 323.3 L275.0 323.1 L274.7 331.7 L283.0 332.1 L283.0 333.6 L283.0 335.1 L303.0 336.0 L303.7 313.2 L278.1 312.8 Z M414.5 271.3 L439.3 282.3 L433.1 296.1 L491.9 322.2 L498.2 308.0 L520.0 317.6 L502.7 356.5 L452.0 333.9 L397.5 309.7 L414.5 271.3 Z M104.4 321.3 L129.7 322.4 L128.4 350.8 L127.6 368.5 L102.4 367.4 L104.4 321.3 Z M153.1 -168.6 L148.2 -59.0 L131.9 -59.7 L130.9 -37.1 L147.4 -36.4 L146.1 -5.9 L135.1 -6.4 L134.6 5.0 L145.4 5.5 L144.3 30.1 L100.9 28.2 L99.3 65.9 L163.2 68.7 L163.3 65.4 L188.4 66.5 L188.6 63.2 L194.9 63.5 L205.6 64.0 L205.4 66.9 L226.9 67.9 L226.6 74.9 L285.1 77.5 L285.3 74.2 L297.1 74.7 L297.9 56.4 L296.6 56.3 L296.9 49.5 L294.6 49.4 L295.1 37.4 L252.9 35.5 L252.9 34.4 L227.2 33.2 L227.0 35.9 L206.5 35.1 L206.0 47.2 L195.8 46.8 L186.4 46.4 L186.5 45.6 L169.5 44.8 L170.0 31.8 L165.7 31.6 L168.4 -28.5 L170.2 -28.5 L171.7 -64.5 L169.9 -64.6 L174.5 -167.6 L153.1 -168.6 Z M348.5 219.7 L299.1 218.0 L298.0 247.6 L294.0 247.5 L290.4 247.4 L290.7 240.5 L291.5 217.7 L291.9 203.9 L293.8 203.9 L324.6 204.7 L331.7 187.6 L332.3 186.0 L345.5 191.9 L339.2 205.0 L352.5 205.4 L356.4 207.2 L360.4 198.5 L371.2 203.6 L367.3 212.2 L372.0 214.4 L372.3 213.7 L399.6 226.2 L388.0 251.7 L385.0 250.4 L364.7 294.7 L345.1 285.8 L345.1 290.5 L289.1 289.3 L289.4 278.3 L289.5 271.4 L289.9 256.7 L293.5 256.8 L297.1 256.9 L296.7 271.6 L348.1 272.8 L350.3 268.1 L352.8 269.3 L365.5 241.4 L360.6 239.2 L365.7 228.1 L348.5 219.7 Z M21.1 119.1 L40.5 119.9 L41.2 101.4 L21.9 100.6 L21.5 110.1 L21.1 119.1 Z M10.7 324.9 L9.5 359.8 L9.5 361.4 L31.4 362.1 L32.6 325.6 L10.7 324.9 Z M-5.6 109.1 L21.5 110.1 L21.9 100.6 L-5.3 99.4 L-5.6 109.1 Z M6.9 397.2 L5.8 430.5 L9.6 430.6 L29.1 431.2 L30.2 397.9 L6.9 397.2 Z M21.1 119.1 L19.4 150.3 L39.9 151.5 L41.8 120.1 L40.5 119.9 L21.1 119.1 Z M12.5 211.5 L10.3 211.4 L9.3 236.4 L12.5 236.7 L35.6 237.7 L37.0 212.3 L12.5 211.5 Z M19.4 150.3 L13.4 150.2 L11.6 179.7 L13.3 180.0 L38.2 181.6 L39.9 151.5 L19.4 150.3 Z M-7.9 308.8 L5.1 309.3 L10.9 315.0 L10.7 324.9 L32.6 325.6 L33.3 292.1 L31.6 290.3 L29.8 288.5 L-7.0 287.3 L-7.9 308.8 Z M12.5 236.7 L12.3 242.3 L3.9 242.0 L4.1 236.2 L-5.7 235.9 L-6.4 257.1 L34.1 258.4 L35.6 237.7 L12.5 236.7 Z M212.0 231.7 L210.9 272.0 L209.0 272.0 L208.8 279.1 L208.6 286.9 L260.0 288.4 L260.7 266.3 L236.2 265.6 L237.2 232.4 L212.0 231.7 Z M13.3 180.0 L12.9 190.5 L9.4 190.4 L9.1 200.4 L13.0 200.6 L12.5 211.5 L37.0 212.3 L38.2 181.6 L13.3 180.0 Z M122.8 214.9 L93.2 214.1 L93.2 212.8 L93.6 202.4 L93.8 195.3 L94.0 188.1 L96.3 188.2 L123.6 189.0 L122.8 214.9 Z M293.5 154.0 L294.5 126.2 L315.5 127.0 L314.5 154.8 L293.5 154.0 Z M212.0 231.7 L212.7 209.5 L212.9 199.8 L238.1 200.5 L237.2 232.4 L212.0 231.7 Z M391.2 373.6 L430.5 390.9 L416.3 423.4 L411.2 435.0 L394.5 427.6 L371.9 417.7 L376.7 406.6 L391.2 373.6 Z M552.2 11.2 L581.1 23.5 L568.9 52.3 L564.1 50.3 L544.0 97.7 L546.4 98.7 L534.7 126.3 L508.7 115.3 L519.5 89.8 L515.4 88.0 L538.1 34.4 L541.7 35.9 L552.2 11.2 Z M498.6 2.1 L494.0 13.1 L491.8 12.2 L489.1 18.5 L483.7 31.4 L499.8 38.1 L507.5 19.6 L505.5 18.8 L510.5 7.0 L498.6 2.1 Z M513.3 345.4 L536.8 355.9 L532.2 366.2 L528.0 364.7 L519.1 386.1 L501.3 378.5 L510.4 357.2 L508.5 356.1 L513.3 345.4 Z M-13.7 373.4 L-13.2 359.0 L9.5 359.8 L9.5 361.4 L31.4 362.1 L30.2 397.9 L6.9 397.2 L7.0 393.4 L-1.8 393.1 L-1.4 379.8 L-9.0 379.6 L-8.8 373.6 L-13.7 373.4 Z" />
+      <path class="fill-none stroke-role-on/10" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" d="M63.5 267.7 L64.9 208.7 L65.6 178.2 L67.0 123.1 L74.2 86.5 M426.9 -70.6 L364.9 65.4 L355.9 83.7 L349.4 91.8 M74.2 86.5 L193.7 92.2 L323.0 98.3 L349.4 91.8 M287.0 299.8 L267.2 299.5 L196.9 298.1 L190.4 297.8 L163.7 297.1 L142.2 296.3 L76.7 293.5 L62.8 292.9 M57.4 411.0 L62.1 301.4 L62.8 292.9 L63.5 267.7 M379.2 331.6 L332.8 311.4 M432.8 210.9 L413.8 254.6 L379.2 331.6 M503.1 51.4 L474.2 116.7 L432.8 210.9 M332.8 311.4 L311.6 302.4 L287.0 299.8 M553.4 -59.8 L539.9 -30.6 L522.6 6.7 L503.1 51.4" />
+      <path class="fill-none stroke-slate-mist" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" d="M63.5 267.7 L64.9 208.7 L65.6 178.2 L67.0 123.1 L74.2 86.5 M426.9 -70.6 L364.9 65.4 L355.9 83.7 L349.4 91.8 M74.2 86.5 L193.7 92.2 L323.0 98.3 L349.4 91.8 M287.0 299.8 L267.2 299.5 L196.9 298.1 L190.4 297.8 L163.7 297.1 L142.2 296.3 L76.7 293.5 L62.8 292.9 M57.4 411.0 L62.1 301.4 L62.8 292.9 L63.5 267.7 M379.2 331.6 L332.8 311.4 M432.8 210.9 L413.8 254.6 L379.2 331.6 M503.1 51.4 L474.2 116.7 L432.8 210.9 M332.8 311.4 L311.6 302.4 L287.0 299.8 M553.4 -59.8 L539.9 -30.6 L522.6 6.7 L503.1 51.4" />
+      <path data-parking-area class="fill-secondary/20 stroke-secondary" stroke-width="2" stroke-dasharray="6 4" stroke-linejoin="round" d="M420.2 213.6 L337.5 175.5 L371.6 103.5 L413.7 121.3 L441.9 57.1 L452.7 61.3 L461.0 40.8 L468.0 32.8 L477.4 32.3 L482.5 34.5 L501.7 42.6 L420.2 213.6 Z" />
+      <path data-church-building class="fill-secondary/10 stroke-secondary" stroke-width="2" d="M123.6 189.0 L145.4 189.6 L147.0 133.8 L148.7 133.8 L149.1 120.8 L162.5 121.2 L162.4 123.5 L184.5 124.1 L184.5 121.5 L194.1 121.8 L192.0 197.6 L191.9 199.2 L212.9 199.8 L212.7 209.5 L195.6 209.0 L169.5 208.3 L149.2 207.7 L138.1 207.4 L130.8 207.2 L130.7 210.5 L130.6 215.2 L122.8 214.9 L123.6 189.0 Z" />
+
+      <g class="fill-role-on/70" font-size="22">
+        <text x="130" y="80" transform="rotate(3 130 80)">Arkonastraße</text>
+        <text x="112" y="326" transform="rotate(2 112 326)">Weimarer Straße</text>
+        <text x="404" y="368" transform="rotate(-66 404 368)">Rostocker Straße</text>
+        <text x="42" y="280" transform="rotate(-90 42 280)">Adalbertstraße</text>
+      </g>
+
+      <g data-church-marker transform="translate(169 163)">
+        <path d="M0 24 L-8 12 H8 Z" class="fill-secondary" />
+        <circle r="18" class="fill-secondary" />
+        <text y="8" text-anchor="middle" class="fill-midnight" font-size="24" font-weight="700">1</text>
+      </g>
+      <path d="M169 219 V231" class="stroke-secondary" stroke-width="2" />
+      <text x="169" y="256" text-anchor="middle" class="fill-on-surface" font-size="26" font-weight="600">Petruskirche</text>
+
+      <g data-parking-marker transform="translate(417 126)">
+        <rect x="-20" y="-22" width="40" height="44" rx="2" class="fill-secondary" />
+        <text y="10" text-anchor="middle" class="fill-midnight" font-size="30" font-weight="700">P</text>
+      </g>
+      <g data-bus-marker transform="translate(77 211)">
+        <circle r="14" class="fill-midnight stroke-on-surface" stroke-width="2" />
+        <text y="8" text-anchor="middle" class="fill-on-surface" font-size="22" font-weight="600">H</text>
+      </g>
+      <g transform="translate(30 34)" class="fill-role-on/70 stroke-role-on/70">
+        <path d="M0 20 V-4 M-6 4 L0-4 L6 4" fill="none" stroke-width="2" />
+        <text y="-12" text-anchor="middle" stroke="none" font-size="20">N</text>
+      </g>
+    </g>
+  </svg>
+  <figcaption class="space-y-4 p-6 font-body text-sm/6 text-role-on/70">
+    <div class="flex flex-wrap gap-x-6 gap-y-2 font-semibold text-on-surface">
+      <span class="inline-flex items-center gap-2"><span class="inline-flex size-6 items-center justify-center rounded-full bg-secondary text-midnight" aria-hidden="true">1</span> Petruskirche</span>
+      <span class="inline-flex items-center gap-2"><span class="inline-flex size-6 items-center justify-center rounded-sm bg-secondary text-midnight" aria-hidden="true">P</span> Bundeswehrplatz</span>
+    </div>
+    <p>Gold markiert: die Parkfläche an der Rostocker Straße. Bitte die Parkzeiten und die Beschilderung vor Ort beachten. Die Fläche ist schematisch dargestellt.</p>
+    <p>H: Haltestelle „Petruskirche“ an der Adalbertstraße.</p>
+    <a
+      class="inline-flex min-h-11 items-center text-secondary underline underline-offset-4 hover:text-champagne"
+      href="https://www.openstreetmap.org/?mlat=54.35935&amp;mlon=10.13574#map=18/54.35935/10.1368"
+      rel="external noreferrer"
+    >In OpenStreetMap öffnen</a>
+    <p class="text-xs/5">
+      Kartendaten: <a class="text-role-on/70 underline underline-offset-4 hover:text-secondary" href="https://www.openstreetmap.org/copyright" rel="external noreferrer">© OpenStreetMap-Mitwirkende · ODbL</a>
+    </p>
+  </figcaption>
+</figure>
