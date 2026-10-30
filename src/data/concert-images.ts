@@ -1,6 +1,27 @@
+import type { AstroConfig, ImageTransform } from 'astro';
+import { getConfiguredImageService } from 'astro/assets';
 import { inferRemoteSize } from 'astro/assets/utils/inferRemoteSize.js';
 
 import { getConcertImagePosition, getImageAspectRatio, type Concert } from './concerts.ts';
+
+export async function getRuntimeImage(options: ImageTransform, config: AstroConfig['image']) {
+  const service = await getConfiguredImageService();
+  const transform = (await service.validateOptions?.(options, config)) ?? options;
+  const variants = (await service.getSrcSet?.(transform, config)) ?? [];
+  // getImage registers responsive variants for compilation, even if its URLs are discarded.
+  return {
+    src: await service.getURL(transform, config),
+    srcset: (
+      await Promise.all(
+        variants.map(
+          async ({ transform, descriptor }) =>
+            `${await service.getURL(transform, config)} ${descriptor}`
+        )
+      )
+    ).join(', '),
+    attributes: (await service.getHTMLAttributes?.(transform, config)) ?? {}
+  };
+}
 
 export async function resolveConcertImage(concert: Concert): Promise<Concert> {
   if (

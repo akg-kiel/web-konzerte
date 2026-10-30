@@ -33,8 +33,16 @@ for (const source of ['l1130722-hero', 'petruskirche-exterior']) {
 
 for (const [card] of home.matchAll(/<article\b[^>]*>[\s\S]*?<img\b[^>]*>/g)) {
   const image = card.match(/<img\b[^>]*>/)?.[0];
-  assert.match(image, /src="\/_image\//, 'Fallback cards must reuse the server island image URLs.');
-  assert.match(image, /srcset="\/_image\//, 'Responsive card URLs must also stay stable.');
+  assert.match(
+    image,
+    /\ssrc="(?:\/_image\/|https:\/\/)/,
+    'Cards must use runtime URLs or unoptimized external posters.'
+  );
+  assert.match(
+    image,
+    /\ssrcset="(?:\/_image\/|https:\/\/)/,
+    'Responsive card URLs must also stay stable.'
+  );
 }
 
 const enabled = config.vars.CONTACT_FORMS_ENABLED === 'true';
