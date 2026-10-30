@@ -35,7 +35,7 @@ const textClass = 'mt-6 space-y-4 font-body text-base/7 text-role-on/75';
             <li><a class={linkClass} href="#kontakt">Kontaktaufnahme</a></li>
             {contact.enabled && <li><a class={linkClass} href="#turnstile">Spamprüfung</a></li>}
             <li><a class={linkClass} href="#cookies">Cookies &amp; Analyse</a></li>
-            <li><a class={linkClass} href="#drittanbieter">Google Maps</a></li>
+            <li><a class={linkClass} href="#drittanbieter">Karten &amp; externe Links</a></li>
             <li><a class={linkClass} href="#rechte">Ihre Rechte</a></li>
             <li><a class={linkClass} href="#sicherheit">Datensicherheit</a></li>
           </ul>
@@ -161,28 +161,22 @@ const textClass = 'mt-6 space-y-4 font-body text-base/7 text-role-on/75';
           <h2 id="cookies-heading" class={headingClass}>Cookies, Analyse und lokale Inhalte</h2>
           <div class={textClass}>
             <p>
-              Wir setzen keine eigenen Werbe- oder Reichweitenmessungsskripte ein. Der Anwendungscode speichert keine Formularinhalte in Cookies oder im lokalen Browserspeicher. Davon zu unterscheiden sind die beschriebenen Dienste von Cloudflare und Google: Bei deren Nutzung können Cookies, ähnliche Speichertechniken oder andere Zugriffe auf Endgeräteinformationen stattfinden. Für Speicherung und Zugriff auf Endgeräteinformationen ist zusätzlich § 25 TDDDG zu beachten.
+              Wir setzen keine eigenen Werbe- oder Reichweitenmessungsskripte ein. Der Anwendungscode speichert keine Formularinhalte in Cookies oder im lokalen Browserspeicher. Davon zu unterscheiden sind die beschriebenen Dienste von Cloudflare: Bei deren Nutzung können Cookies, ähnliche Speichertechniken oder andere Zugriffe auf Endgeräteinformationen stattfinden. Für Speicherung und Zugriff auf Endgeräteinformationen ist zusätzlich § 25 TDDDG zu beachten.
             </p>
             <p>
-              Schriften und Seitendateien werden über unser Hosting ausgeliefert; Google Fonts und soziale Netzwerke sind nicht eingebunden. Der Lageplan auf der Seite „Besuch planen“ basiert auf OpenStreetMap-Daten und wird ebenfalls lokal ausgeliefert. Beim Anzeigen dieses Plans wird keine Verbindung zu OpenStreetMap oder einem Kartendienst hergestellt. Für Originalplakate aus ChurchTools gelten die Hinweise im Abschnitt Programm und Verfügbarkeit. Google Maps auf der Kontaktseite wird erst nach dem nachfolgend beschriebenen Bestätigungsschritt geladen.
+              Schriften und Seitendateien werden über unser Hosting ausgeliefert; Google Fonts und soziale Netzwerke sind nicht eingebunden. Für Originalplakate aus ChurchTools gelten die Hinweise im Abschnitt Programm und Verfügbarkeit.
             </p>
           </div>
         </section>
 
         <section id="drittanbieter" aria-labelledby="external-heading">
-          <h2 id="external-heading" class={headingClass}>Google Maps und externe Links</h2>
+          <h2 id="external-heading" class={headingClass}>Karten und externe Links</h2>
           <div class={textClass}>
             <p>
-              Auf der Seite „Kontakt“ ist eine Karte von Google Maps eingebunden. Anbieter im Europäischen Wirtschaftsraum ist Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland. Die Karte bleibt zunächst deaktiviert. Erst wenn Sie „Google Maps laden“ wählen, wird eine Verbindung zu Google hergestellt.
+              Die Übersicht der Wik auf der Seite „Kontakt“ und der Parkplatzplan auf der Seite „Besuch planen“ basieren auf OpenStreetMap-Daten. Beide Karten werden als lokale Grafiken über unser Hosting ausgeliefert. Sie laden keine externen Kartenkacheln oder Kartenskripte. Beim Anzeigen der Karten wird keine Verbindung zu OpenStreetMap oder einem anderen Kartendienst hergestellt.
             </p>
             <p>
-              Google erhält dabei insbesondere Ihre IP-Adresse, Browser- und Geräteinformationen, den Abrufzeitpunkt, die Kartenadresse und die Herkunftsadresse unserer Website. Google kann Cookies setzen, Daten mit einem bestehenden Google-Konto verknüpfen und Daten auch durch Google LLC in den USA verarbeiten. Für solche Drittlandübermittlungen sind zusätzlich die Anforderungen des § 10 DSG-EKD maßgeblich. Weitere Informationen zu Googles Verarbeitung finden Sie in der <a class={linkClass} href="https://policies.google.com/privacy?hl=de" target="_blank" rel="noopener noreferrer">Datenschutzerklärung von Google ↗</a>.
-            </p>
-            <p>
-              Rechtsgrundlage für die von uns veranlasste Einbindung ist Ihre Einwilligung nach § 6 Nr. 2 DSG-EKD in Verbindung mit § 11 DSG-EKD sowie für Endgerätezugriffe § 25 Abs. 1 TDDDG. Ihre Auswahl wird nicht seitenübergreifend gespeichert. Sie können die weitere Einbindung beenden, indem Sie die Seite neu laden und die Karte nicht erneut bestätigen. Bei jedem neuen Seitenaufruf bleibt sie zunächst deaktiviert. Dies macht bereits erfolgte Verarbeitungen nicht rückgängig und löscht keine von Google gespeicherten Daten oder Cookies.
-            </p>
-            <p>
-              Wenn Sie externe Links etwa zur Gemeindewebsite oder zu Ticketanbietern öffnen, erhält der jeweilige Anbieter Verbindungsdaten. Für die Verarbeitung auf dessen Seiten gelten seine eigenen Datenschutzhinweise.
+              Wenn Sie Links zu OpenStreetMap, zur Gemeindewebsite oder zu Ticketanbietern öffnen, verlassen Sie unsere Website. Der jeweilige Anbieter erhält dabei Verbindungsdaten. Für die Verarbeitung auf dessen Seiten gelten seine eigenen Datenschutzhinweise.
             </p>
           </div>
         </section>
@@ -199,7 +193,7 @@ const textClass = 'mt-6 space-y-4 font-body text-base/7 text-role-on/75';
               <li>Widerspruch aus Gründen Ihrer besonderen Situation gegen Verarbeitungen nach § 6 Nr. 3 oder 4 DSG-EKD (§ 25 DSG-EKD).</li>
             </ul>
             <p>
-              Eine Einwilligung können Sie jederzeit mit Wirkung für die Zukunft widerrufen (§ 11 Abs. 3 DSG-EKD). Die Rechtmäßigkeit der bis zum Widerruf erfolgten Verarbeitung bleibt unberührt. Für die Beendigung der Karteneinbindung beachten Sie bitte die Hinweise im Abschnitt Google Maps.
+              Eine Einwilligung können Sie jederzeit mit Wirkung für die Zukunft widerrufen (§ 11 Abs. 3 DSG-EKD). Die Rechtmäßigkeit der bis zum Widerruf erfolgten Verarbeitung bleibt unberührt.
             </p>
             <p>
               Zur Ausübung Ihrer Rechte können Sie sich an die verantwortliche Stelle oder den Datenschutzkontakt wenden. Außerdem haben Sie nach § 46 DSG-EKD das Recht, sich beim Beauftragten für den Datenschutz der EKD zu beschweren:
@@ -227,7 +221,7 @@ const textClass = 'mt-6 space-y-4 font-body text-base/7 text-role-on/75';
               Die Transportverschlüsselung zur Website ist keine Ende-zu-Ende-Verschlüsselung Ihrer Nachricht. E-Mail-Inhalte können den beteiligten Maildienstleistern und den zur Bearbeitung berechtigten Personen zugänglich sein. Bitte übermitteln Sie keine besonders sensiblen Angaben, etwa Gesundheitsdaten, über die Formulare oder unverschlüsselte E-Mails.
             </p>
             <p>Wir aktualisieren diese Hinweise, wenn sich Funktionen, Dienstleister oder rechtliche Anforderungen ändern.</p>
-            <p class="text-role-on/60">Stand: 22. Oktober 2026</p>
+            <p class="text-role-on/60">Stand: 30. Oktober 2026</p>
           </div>
         </section>
       </div>

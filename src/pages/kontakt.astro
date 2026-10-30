@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import { env } from 'cloudflare:workers';
 
 import MailForm from '../components/sections/MailForm.astro';
-import MapConsent from '../components/sections/MapConsent.astro';
+import WikMap from '../components/sections/WikMap.astro';
 import PageHero from '../components/sections/PageHero.astro';
 import Card from '../components/ui/Card.astro';
 import { ButtonLink } from '../components/ui/button';
@@ -136,7 +136,7 @@ const labelClass =
         </div>
 
         <div class="lg:col-span-7">
-          <MapConsent id="contact-google-map" class="min-h-80 bg-slate-mist/20" />
+          <WikMap id="contact-wik-map" />
         </div>
       </div>
     </section>

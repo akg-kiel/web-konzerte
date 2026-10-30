@@ -47,6 +47,30 @@ assert.doesNotMatch(
   visit.slice(visit.indexOf('<body')),
   /<(?:script|img|link)\b[^>]*(?:src|href)="https?:\/\//
 );
+const contactPage = await readFile('dist/kontakt/index.html', 'utf8');
+const wikMap = contactPage.match(/<figure\b[^>]*data-wik-map[\s\S]*?<\/figure>/)?.[0];
+assert(wikMap, 'Contact: expected local Wik overview');
+assert.match(
+  wikMap,
+  /<svg\b[^>]*role="img"[^>]*aria-labelledby="contact-wik-map-title contact-wik-map-description"/
+);
+for (const marker of ['wik-water', 'wik-streets', 'location-marker']) {
+  assert(wikMap.includes(`data-${marker}`), `Wik overview: missing ${marker}`);
+}
+const locationMarker = wikMap.match(/<g\b[^>]*data-location-marker[\s\S]*?<\/g>/)?.[0];
+assert.match(locationMarker, /transform="translate\(256\.1 303\.9\)"/);
+assert.match(
+  locationMarker,
+  /d="M0 0 L-10 -14 H10 Z"/,
+  'Wik pin tip must anchor the church coordinate'
+);
+for (const label of ['Petruskirche', 'Wik', 'Kieler', 'Förde', 'Holtenauer Straße']) {
+  assert(wikMap.includes(label), `Wik overview: missing ${label}`);
+}
+assert.match(wikMap, /href="https:\/\/www\.openstreetmap\.org\/copyright"/);
+assert.match(wikMap, /href="\/besuch-planen\/#parken"/);
+assert.doesNotMatch(wikMap, /<(?:iframe|script|img|link)\b/);
+assert.doesNotMatch(contactPage, /maps\.google|google\.com\/maps|data-map-consent/);
 const privacy = await readFile('dist/datenschutz/index.html', 'utf8');
 assert.equal(privacy.includes('an den Cloudflare Worker dieser Website'), enabled);
 assert.equal(privacy.includes('übermitteln keine Formulardaten an diese Website'), !enabled);
@@ -56,7 +80,8 @@ assert.doesNotMatch(
   /spätestens nach zehn Tagen|als statische Website|keine eigenen Anwendungs-/
 );
 assert(privacy.includes('§ 6 Nr. 4 DSG-EKD'));
-assert(privacy.includes('§ 6 Nr. 2 DSG-EKD'));
+assert(privacy.includes('Sie laden keine externen Kartenkacheln oder Kartenskripte.'));
+assert.doesNotMatch(privacy, /Google Maps|Google Ireland|policies\.google\.com/);
 assert(privacy.includes('id="programm"'));
 const imprint = await readFile('dist/impressum/index.html', 'utf8');
 assert(imprint.includes('Körperschaft des öffentlichen Rechts'));
