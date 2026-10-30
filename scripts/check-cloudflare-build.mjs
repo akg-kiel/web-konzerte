@@ -22,6 +22,31 @@ for (const [path, label] of [
   assert(html.includes(`href="mailto:${email}"`), `${path}: public contact must match config`);
   assert.match(html, /<meta\b[^>]*name="robots"[^>]*content="noindex, follow"/);
 }
+const visit = await readFile('dist/besuch-planen/index.html', 'utf8');
+assert.match(
+  visit,
+  /<svg\b[^>]*role="img"[^>]*aria-labelledby="visit-parking-map-title visit-parking-map-description"/
+);
+for (const marker of [
+  'parking-area',
+  'church-building',
+  'church-marker',
+  'parking-marker',
+  'bus-marker'
+]) {
+  assert(visit.includes(`data-${marker}`), `Visit plan: missing ${marker}`);
+}
+assert.match(visit, /href="https:\/\/www\.openstreetmap\.org\/copyright"/);
+assert.match(visit, /© OpenStreetMap-Mitwirkende · ODbL/);
+assert.match(visit, /id="parken"/);
+for (const hours of ['18:00–24:00 Uhr', '15:00–24:00 Uhr', '00:00–24:00 Uhr']) {
+  assert(visit.includes(hours), `Visit plan: missing ${hours}`);
+}
+assert.doesNotMatch(visit, /<iframe\b|data-map-consent|Parken-bei-[^"<>]*\.pdf/);
+assert.doesNotMatch(
+  visit.slice(visit.indexOf('<body')),
+  /<(?:script|img|link)\b[^>]*(?:src|href)="https?:\/\//
+);
 const privacy = await readFile('dist/datenschutz/index.html', 'utf8');
 assert.equal(privacy.includes('an den Cloudflare Worker dieser Website'), enabled);
 assert.equal(privacy.includes('übermitteln keine Formulardaten an diese Website'), !enabled);

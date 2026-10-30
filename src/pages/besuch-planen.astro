@@ -1,5 +1,5 @@
 ---
-import MapConsent from '../components/sections/MapConsent.astro';
+import ParkingMap from '../components/sections/ParkingMap.astro';
 import PageHero from '../components/sections/PageHero.astro';
 import { ButtonLink } from '../components/ui/button';
 import Layout from '../layouts/Layout.astro';
@@ -34,8 +34,11 @@ import churchEntrance from '../assets/venue/petruskirche-entrance.webp';
       <section id="anfahrt" aria-labelledby="arrival-heading">
         <h2 id="arrival-heading" class="mb-8 font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Anfahrt &amp; Parken</h2>
 
-        <div class="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
-          <div class="space-y-8">
+        <div id="parken" class="grid grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-16">
+          <div class="lg:col-start-2 lg:row-start-1">
+            <ParkingMap id="visit-parking-map" />
+          </div>
+          <div class="space-y-8 lg:col-start-1 lg:row-start-1">
             <div>
               <h3 class="font-body text-lg/7 font-semibold text-on-surface">ÖPNV</h3>
               <p class="mt-2 font-body text-base/7 text-role-on/70">
@@ -45,7 +48,24 @@ import churchEntrance from '../assets/venue/petruskirche-entrance.webp';
             <div>
               <h3 class="font-body text-lg/7 font-semibold text-on-surface">Auto &amp; Parken</h3>
               <p class="mt-2 font-body text-base/7 text-role-on/70">
-                In den umliegenden Straßen gibt es begrenzte kostenfreie Parkmöglichkeiten. Planen Sie bei größeren Veranstaltungen zusätzliche Zeit ein.
+                Für Konzerte und Veranstaltungen können Sie den Bundeswehrplatz an der Rostocker Straße nutzen – ausschließlich zu diesen Zeiten:
+              </p>
+              <dl class="mt-4 space-y-4 font-body text-base/7 text-role-on/70">
+                <div class="grid grid-cols-1 gap-x-6 sm:grid-cols-2">
+                  <dt>Montag–Donnerstag</dt>
+                  <dd class="font-semibold tabular-nums text-on-surface sm:text-right">18:00–24:00 Uhr</dd>
+                </div>
+                <div class="grid grid-cols-1 gap-x-6 sm:grid-cols-2">
+                  <dt>Freitag</dt>
+                  <dd class="font-semibold tabular-nums text-on-surface sm:text-right">15:00–24:00 Uhr</dd>
+                </div>
+                <div class="grid grid-cols-1 gap-x-6 sm:grid-cols-2">
+                  <dt>Samstag &amp; Sonntag</dt>
+                  <dd class="font-semibold tabular-nums text-on-surface sm:text-right">00:00–24:00 Uhr</dd>
+                </div>
+              </dl>
+              <p class="mt-4 font-body text-base/7 text-role-on/70">
+                Bitte nutzen Sie nur die im Lageplan gold markierte Parkfläche westlich der Rostocker Straße und beachten Sie die Beschilderung vor Ort. Planen Sie bei größeren Veranstaltungen zusätzliche Zeit ein.
               </p>
             </div>
             <p class="font-body text-base/7 text-role-on/70">
@@ -54,7 +74,6 @@ import churchEntrance from '../assets/venue/petruskirche-entrance.webp';
             </p>
           </div>
 
-          <MapConsent id="google-map" class="min-h-64 bg-slate-mist/30" />
         </div>
       </section>
 
