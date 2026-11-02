@@ -1,0 +1,2 @@
+Temporary fixture for verifying Cloudflare PR preview comment automation after #53.
+This branch is closed without merging; application code and production configuration are unchanged.
