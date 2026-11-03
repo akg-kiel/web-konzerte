@@ -1,7 +1,7 @@
 # Nix provides pnpm; fail instead of downloading another version.
 pmOnFail: error
 # Keep dependency installation explicit, including before the CI lockfile check.
-verifyDepsBeforeRun: false
+verifyDepsBeforeRun: error
 
 allowBuilds:
   esbuild: true
