@@ -1,6 +1,12 @@
 # Dependencies
 node_modules/
 
+# Local development environment
+.devenv/
+.direnv/
+devenv.local.nix
+devenv.local.yaml
+
 # Build output
 dist/
 .output/

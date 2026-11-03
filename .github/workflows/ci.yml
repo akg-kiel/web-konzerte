@@ -4,6 +4,9 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   quality:
     name: Quality
@@ -12,10 +15,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup mise
-        uses: jdx/mise-action@v2
-        with:
-          cache: true
+      - name: Setup Nix
+        uses: cachix/install-nix-action@v31
 
-      - name: Run CI gate
-        run: mise run ci
+      - name: Install devenv from locked Nixpkgs
+        run: nix profile add "github:NixOS/nixpkgs/$(jq -r '.nodes.nixpkgs.locked.rev' devenv.lock)#devenv"
+
+      - name: Run quality checks and build in devenv
+        run: devenv test --clean
+
+      - name: Check lockfiles are unchanged
+        run: git diff --exit-code -- devenv.lock pnpm-lock.yaml
