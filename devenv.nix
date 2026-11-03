@@ -46,7 +46,7 @@ in
         process.stdout.write(miniflare("workerd").default);
       ')"
       exec ${pkgs.stdenv.cc.bintools.dynamicLinker} \
-        --library-path ${lib.makeLibraryPath [ pkgs.stdenv.cc.cc.lib ]} "$binary" "$@"
+        --library-path ${lib.makeLibraryPath [ pkgs.glibc pkgs.stdenv.cc.cc.lib ]} "$binary" "$@"
     ''}";
   };
 
