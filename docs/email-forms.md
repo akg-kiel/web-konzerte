@@ -364,8 +364,8 @@ neue Empfang nicht zuverlässig funktioniert. DNS oder Postfächer nicht lösche
 ## Lokale Prüfungen ohne echten Versand
 
 ```sh
-pnpm test
-pnpm quality
+pnpm exec vp run test
+pnpm exec vp run quality
 node --experimental-strip-types scripts/check-contact-mail.mjs
 ```
 
@@ -377,10 +377,11 @@ Das ist Funktions-/Fehlerprüfung, kein Beleg realer Mailzustellung oder echter
 Turnstile-Validierung. Lokales `remote = false` bleibt erhalten.
 
 Der optionale Browsercheck für eine solche aktive lokale Testkopie blockiert
-alle echten Formular-POSTs und ersetzt Turnstile sowie den Versand:
+alle echten Formular-POSTs und ersetzt Turnstile sowie den Versand. Innerhalb
+von `devenv shell` ist `CHROME_BIN` bereits auf den Nix-Browser gesetzt:
 
 ```sh
-CHROME_BIN=/path/to/chromium node scripts/check-contact-forms.mjs --origin=http://127.0.0.1:4321
+node scripts/check-contact-forms.mjs --origin=http://127.0.0.1:4321
 ```
 
 Er prüft beide Formulare, Daten-/Datumsreset nur nach Annahme, Werteerhalt bei
