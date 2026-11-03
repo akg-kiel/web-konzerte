@@ -87,8 +87,6 @@ Innerhalb der Shell:
 
 - `pnpm exec vp run check`: Offline-Tests, Vite+-Checks und Typprüfung
 - `pnpm exec vp run quality`: Checks und Build
-- `pnpm run ci`: Kompatibilitätseinstieg mit Frozen-Lockfile-Installation, danach
-  `vp run quality` für Checks und Build
 - `pnpm exec vp run od`: `dist/` bauen und in den OpenDesign-Ordner kopieren
 
 Ohne interaktive Shell führt `devenv test --clean` die Aufgaben `project:setup`

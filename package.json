@@ -11,7 +11,6 @@
     "types": "wrangler types --env-file .dev.vars.example",
     "check": "vp run test && vp check . && vp run types && astro check",
     "quality": "vp run check && vp run build",
-    "ci": "pnpm install --frozen-lockfile && vp run quality",
     "prepare": "vp config"
   },
   "dependencies": {
