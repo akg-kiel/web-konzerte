@@ -52,6 +52,7 @@ const calendarFetch = async () => {
             base: {
               id: 42,
               title: 'Testkonzert',
+              isInternal: false,
               description,
               allDay,
               image: {
@@ -85,7 +86,7 @@ try {
   assert.equal(result.concerts[0].performers, 'Testchor');
   assert.equal('price' in result.concerts[0], false);
   assert.equal(result.concerts[0].ticketUrl, undefined);
-  assert.equal(result.concerts[0].location, undefined);
+  assert.equal(result.concerts[0].location, 'Petruskirche Kiel');
   assert.equal(result.concerts[0].durationMinutes, undefined);
   assert.equal(result.concerts[0].endIso, undefined);
   assert.equal(result.concerts[0].imagePosition, '25% 75%');
@@ -492,9 +493,9 @@ try {
   for (const search of ['Abend', 'Zweiter']) {
     assert.equal(filterConcerts([described], { search, from: '', to: '' }).length, 1);
   }
-  for (const heading of ['---Program', '---Programm']) {
+  for (const heading of ['---Program', '---Programm', '--- Programm']) {
     cachedResponse = undefined;
-    description = `Interne Notiz\r\n${heading}\r\nHaydn\r\n\r\nDvořák\r\n---Untertitel\r\nMusik, die Brücken baut\r\n---Intern\r\nNicht veröffentlichen`;
+    description = `Interne Notiz\r\n${heading}\r\n\r\nHaydn\r\n\r\nDvořák\r\n---Untertitel\r\nMusik, die Brücken baut\r\n---Intern\r\nNicht veröffentlichen`;
     const {
       concerts: [concert]
     } = await getConcerts();
@@ -504,7 +505,8 @@ try {
     assert.equal(filterConcerts([concert], { search: 'Brücken', from: '', to: '' }).length, 1);
   }
   cachedResponse = undefined;
-  description = '---Program\n\n---Untertitel\n---Kurzbeschreibung\n---Langbeschreibung\n';
+  description =
+    '---Kurzbeschreibung\n\n---Langbeschreibung\n\n---Programm\n\n---Programmhinweise\n\n---Einlass\n\n---Pause\n\n---Mitwirkende\n\n---Veranstalter\n\n---Barrierefreiheit\n\n---Intern\nInterner Kontakt: nicht veröffentlichen';
   const empty = await getConcerts();
   assert.equal(empty.concerts[0].programme, undefined);
   assert.equal(empty.concerts[0].subtitle, undefined);
@@ -513,6 +515,10 @@ try {
   assert.equal(empty.concerts[0].accessibility, undefined);
   assert.equal(empty.concerts[0].admission, undefined);
   assert.equal(empty.concerts[0].intermission, undefined);
+  assert.equal(empty.concerts[0].performers, undefined);
+  assert.equal(empty.concerts[0].organizer, undefined);
+  assert.equal(empty.concerts[0].location, 'Petruskirche Kiel');
+  assert.equal(JSON.stringify(empty.concerts[0]).includes('nicht veröffentlichen'), false);
 
   description = '---Einlass\n19:00 Uhr\n---Ort\nNikolaikirche\n---Pause\nMit Pause';
   endDate = '2027-08-06T19:00:00Z';

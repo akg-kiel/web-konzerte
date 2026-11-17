@@ -19,6 +19,7 @@ const rows = [
     base: {
       id,
       title,
+      isInternal: false,
       description:
         'Programm: Synthetisches Testprogramm\nMitwirkende: Testensemble\nOrt: Petruskirche Kiel',
       link: id === 90001 ? 'https://tickets.example.invalid/test' : undefined,

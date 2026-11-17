@@ -1,6 +1,11 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { getConcerts, getConcertState, resolveConcertSlug } from '../src/data/concerts.ts';
+import {
+  filterConcerts,
+  getConcerts,
+  getConcertState,
+  resolveConcertSlug
+} from '../src/data/concerts.ts';
 import {
   concertAddressLabel,
   eventDate,
@@ -28,6 +33,7 @@ const row = (
     base: {
       id,
       title: 'MAYBEBOP',
+      isInternal: false,
       description,
       address,
       allDay,
@@ -101,6 +107,59 @@ try {
     offers: { '@type': 'Offer', url: 'https://example.org/tickets' }
   });
   assert.equal(getConcertEvent(concert, site, true).offers, undefined);
+
+  for (const [subtitle, expected] of [
+    ['  Nativer CT-Untertitel  ', 'Nativer CT-Untertitel'],
+    ['', 'Bisheriger Untertitel'],
+    [null, 'Bisheriger Untertitel'],
+    [undefined, 'Bisheriger Untertitel'],
+    ['[Untertitel]', 'Bisheriger Untertitel'],
+    [123, 'Bisheriger Untertitel']
+  ]) {
+    const native = row(11, '---Untertitel\nBisheriger Untertitel', null);
+    native.appointment.base.subtitle = subtitle;
+    rows = [native];
+    const mapped = (await getConcerts()).concerts[0];
+    assert.equal(mapped.subtitle, expected);
+    assert.equal(filterConcerts([mapped], { search: expected, from: '', to: '' }).length, 1);
+  }
+  rows = [row(12, '', null)];
+  const defaultVenue = (await getConcerts()).concerts[0];
+  assert.equal(defaultVenue.subtitle, undefined);
+  assert.equal(defaultVenue.location, 'Petruskirche Kiel');
+  assert.equal(defaultVenue.address, undefined);
+  assert.equal(defaultVenue.accessibility, undefined);
+  assert.equal(defaultVenue.organizer, undefined);
+  assert.equal(getConcertLocationHref(defaultVenue), '/besuch-planen/#anfahrt');
+  assert.equal(getConcertEvent(defaultVenue, site).location.name, 'Petruskirche Kiel');
+  assert.doesNotMatch(getConcertMetadata(defaultVenue).description, /noch nicht angegeben/i);
+
+  rows = [
+    row(12, '', null),
+    ...[true, undefined, null, 'false', 'true', 0, 1].map((isInternal, index) => {
+      const privateRow = row(900 + index, 'Nicht veröffentlichen', null);
+      privateRow.appointment.base.title = 'Interner Bürotermin';
+      privateRow.appointment.base.isInternal = isInternal;
+      return privateRow;
+    })
+  ];
+  const publicOnly = await getConcerts({ CHURCHTOOLS_TOKEN: 'mock-read-token' });
+  assert.equal(publicOnly.error, false);
+  assert.deepEqual(
+    publicOnly.concerts.map(({ slug }) => slug),
+    [defaultVenue.slug]
+  );
+  assert.equal(filterConcerts(publicOnly.concerts, { search: 'Büro', from: '', to: '' }).length, 0);
+  assert.equal(
+    resolveConcertSlug(publicOnly.concerts, 'interner-burotermin-900-2027-08-06'),
+    undefined
+  );
+  for (const name of ['Petruskirche', 'Petruskirche Kiel', 'Konzertkirche Petruskirche Kiel-Wik']) {
+    assert.equal(
+      getConcertLocationHref({ ...defaultVenue, location: name }),
+      '/besuch-planen/#anfahrt'
+    );
+  }
 
   assert.deepEqual(resolveConcertSlug([concert], concert.slug), { concert });
   const renamed = resolveConcertSlug([concert], 'old-name-1-2027-08-06');
@@ -192,10 +251,9 @@ try {
   assert.equal(venues[1].location, 'Petruskirche Kiel');
   assert.deepEqual(venues[1].address, concert.address);
   assert.equal(venues[2].address, undefined);
-  rows = [
-    row(5, '---Ort\nNikolaikirche', { name: 'Nikolaikirche', street: 'Alter Markt', city: 'Kiel' })
-  ];
+  rows = [row(5, '', { name: 'Nikolaikirche', street: 'Alter Markt', city: 'Kiel' })];
   const alternate = (await getConcerts()).concerts[0];
+  assert.equal(alternate.location, 'Nikolaikirche');
   assert.match(
     getConcertLocationHref(alternate),
     /query=Nikolaikirche%2C%20Alter%20Markt%2C%20Kiel$/
@@ -216,16 +274,17 @@ try {
     'performers',
     'admission',
     'organizer',
-    'location',
     'address'
   ])
     assert.equal(template[field], undefined);
   const sparse = getConcertEvent({ ...template, image: undefined, ticketUrl: undefined }, site);
-  for (const field of ['description', 'location', 'performer', 'organizer', 'image', 'offers'])
+  for (const field of ['description', 'performer', 'organizer', 'image', 'offers'])
     assert.equal(sparse[field], undefined);
-  assert.equal(getConcertLocationHref(template), undefined);
-  assert.match(getConcertMetadata(template).description, /Veranstaltungsort noch nicht angegeben/);
-  assert.doesNotMatch(JSON.stringify(sparse), /Petruskirche|HH:MM|Vorschautext/);
+  assert.equal(template.location, 'Petruskirche Kiel');
+  assert.equal(sparse.location.name, 'Petruskirche Kiel');
+  assert.equal(getConcertLocationHref(template), '/besuch-planen/#anfahrt');
+  assert.doesNotMatch(getConcertMetadata(template).description, /noch nicht angegeben/i);
+  assert.doesNotMatch(JSON.stringify(sparse), /HH:MM|Vorschautext/);
   assert.equal(
     getConcertEvent({ ...concert, performers: 'Solistin – Sopran', organizer: 'Unbestätigt' }, site)
       .performer,
@@ -344,7 +403,12 @@ try {
   assert.match(page, /getConcertMetadata\(concert, result\.concerts\)/);
   assert.match(page, /set:html=\{eventSchema\}/);
   assert.match(page, /href=\{locationHref\}/);
-  assert.match(page, /href="\/besuch-planen\/#anfahrt"/);
+  assert.match(page, /locationHref && locationHref !== '\/besuch-planen\/#anfahrt'/);
+  assert.match(page, /\{showLocation && <p/);
+  assert.doesNotMatch(
+    page,
+    /Noch nicht angegeben|Informationen zur Petruskirche|\{metadata\?\.description\}<\/p>/
+  );
   assert.match(page, /isPast \? '\/programm\/archiv\/' : '\/programm\/'/);
   assert.match(page, /href="\/programm\/"/);
   assert.match(page, /result\.error \? 503 : 404/);
