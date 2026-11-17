@@ -120,7 +120,7 @@ const parseMetadata = (description: unknown = '') => {
   const metadata: Record<string, string> = {};
   let section: string | null | undefined;
   for (const line of description.split(/\r?\n/)) {
-    const heading = line.match(/^\s*---\s*(.*?)\s*$/);
+    const heading = line.match(/^\s*\\?---\s*(.*?)\s*$/);
     const field = line.match(/^([^:]+):\s*(.+)$/);
     const label = heading?.[1] ?? field?.[1];
     const key = label

@@ -202,7 +202,7 @@ Die Raumkombinationen und Puffer stammen aus vergangenen Konzerten (CT-IDs `4605
 
 ```
 
-Jede `--- Feldname`-Überschrift steht allein auf ihrer Zeile. Vor dem Inhalt folgt eine Leerzeile als eigener Absatz, damit auch der CT-Editor Überschrift und Text nicht in derselben Zeile zusammenzieht. Der Parser akzeptiert weiterhin die bisherige Schreibweise ohne Leerzeichen nach `---`.
+Jede `--- Feldname`-Überschrift steht allein auf ihrer Zeile. Vor dem Inhalt folgt eine Leerzeile als eigener Absatz, damit auch der CT-Editor Überschrift und Text nicht in derselben Zeile zusammenzieht. Der Parser akzeptiert weiterhin die bisherige Schreibweise ohne Leerzeichen nach `---`. Er erkennt auch `\--- Programm`, wenn der CT-Editor die Überschrift mit einem Markdown-Backslash speichert. Das gilt auch für `\--- Intern`; der folgende Text bleibt von der Website ausgeschlossen.
 
 `---Program` wird als bisherige Schreibweise ebenfalls akzeptiert. Jeder Abschnitt reicht bis zur nächsten `---`-Überschrift; alle Zeilen darin sind öffentlich, auch Kontaktangaben. Unbekannte Abschnitte und Text vor dem ersten Abschnitt (außer den bisherigen `Feld: Wert`-Angaben) werden nicht veröffentlicht. Innerhalb eines Abschnitts ist `Feld: Wert` normaler Text; zum Feldwechsel eine neue `---`-Überschrift verwenden. Der Untertitel erscheint auf Konzertkarten und Detailseiten. `---Kurzbeschreibung` erscheint auf den Konzertkarten und der Detailseite; fehlt sie, nutzen Karten wie bisher das Programm. `---Langbeschreibung` erscheint ausschließlich auf der Detailseite und unterstützt mehrere Absätze. Beide Beschreibungen sind unabhängig von `---Program` und `---Programmhinweise`, werden durchsucht und bei leerem Inhalt ausgeblendet.
 
