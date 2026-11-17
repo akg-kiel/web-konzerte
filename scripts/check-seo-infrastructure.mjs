@@ -69,11 +69,18 @@ let rows = Array.from({ length: 40 }, (_, index) => ({
     base: {
       id: index + 1,
       title: `Konzert ${index}`,
+      isInternal: false,
       image: { imageUrl: 'https://example.org/poster.jpg' }
     },
     calculated: { startDate: index < 20 ? '2027-08-06T17:30:00Z' : '2020-08-06T17:30:00Z' }
   }
 }));
+rows.push({
+  appointment: {
+    base: { id: 99, title: 'Streng interner Termin', isInternal: true },
+    calculated: { startDate: '2027-08-06T17:30:00Z' }
+  }
+});
 let calls = 0;
 Object.defineProperty(globalThis, 'caches', { configurable: true, value: undefined });
 globalThis.fetch = async (url) => {
@@ -93,6 +100,8 @@ try {
     'public, max-age=300, stale-if-error=86400'
   );
   const xml = await response.text();
+  assert.equal(result.concerts.length, 40);
+  assert.doesNotMatch(xml, /streng-interner-termin/);
   const locations = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
   assert.equal(new Set(locations).size, locations.length);
   assert(locations.every((url) => new URL(url).origin === site.origin));
@@ -170,7 +179,7 @@ try {
 
   rows.push({
     appointment: {
-      base: { id: 100, title: 'Neues Konzert' },
+      base: { id: 100, title: 'Neues Konzert', isInternal: false },
       calculated: { startDate: '2028-08-06T17:30:00Z' }
     }
   });

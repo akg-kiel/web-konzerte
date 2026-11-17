@@ -135,7 +135,7 @@ und senden keine echten Nachrichten.
 
 ## ChurchTools
 
-Das Programm kommt zur Laufzeit aus dem in ChurchTools als `#5 – Konzerte` angezeigten Kalender unter `https://akg-kiel.church.tools`. Seine REST-API-ID ist `3`; Basis-URL und API-ID stehen in `wrangler.toml`.
+Das Programm kommt zur Laufzeit aus dem in ChurchTools als `#5 – Konzerte` angezeigten Kalender unter `https://akg-kiel.church.tools`. Seine REST-API-ID ist `3`; Basis-URL und API-ID stehen in `wrangler.toml`. Das gemeinsame Mapping veröffentlicht ausschließlich Termine mit ausdrücklich `isInternal: false`. Interne Termine und fehlende/ungültige Sichtbarkeitsangaben werden auch bei authentifizierten CT-Abrufen ausgeschlossen – für Startseite, Programm, Archiv, Detailseiten und Sitemap.
 
 Den nur lesenden ChurchTools-Login-Token serverseitig setzen. Der zugehörige Benutzer benötigt Leserechte für Kalender sowie die auf der Seite „Raum anfragen“ geprüften Ressourcen und Buchungen:
 
@@ -154,10 +154,11 @@ Die Verfügbarkeitsprüfung verwendet Beginn und Ende derselben berechneten Buch
 
 Native ChurchTools-Felder werden so verwendet:
 
-- Titel, Beginn und Ende → Titel, Termin und Dauer in Minuten (gesamte Zeitspanne inklusive etwaiger Pause). Ohne gültiges Ende nach Beginn sowie bei ganztägigen Terminen entfällt die Dauer.
+- Titel, Untertitel, Beginn und Ende → Titel, Untertitel, Termin und Dauer in Minuten (gesamte Zeitspanne inklusive etwaiger Pause). Ohne gültiges Ende nach Beginn sowie bei ganztägigen Terminen entfällt die Dauer. Der native Untertitel hat Vorrang vor einem bisherigen Beschreibungsabschnitt `---Untertitel`.
 - Link → Ticketlink
 - Bild inklusive Fokuspunkt → Konzertbild
-- Veranstaltungsort → `---Ort`, sonst der Name im nativen Adressfeld. Es gibt keinen geratenen Standardort. Die native Adresse wird nur angezeigt, wenn ihr Name zum gewählten Ort passt; widersprüchliche oder unbenannte Adressen bleiben ausgeblendet.
+- Veranstaltungsort → natives CT-Feld „Ort“. Ohne Ortsangabe gilt die vom Betreiber bestätigte Petruskirche Kiel als Standard. Nur abweichende Orte werden auf der Detailseite mit ihrer passenden Adresse angezeigt. Ein bisheriger Beschreibungsabschnitt `---Ort` bleibt als Überschreibung unterstützt. Die native Adresse wird nur übernommen, wenn ihr Name zum gewählten Ort passt; widersprüchliche oder unbenannte Adressen bleiben ausgeblendet. Es wird keine Standardadresse ergänzt.
+- „Im Auftrag von“ wird nicht automatisch als öffentlicher Veranstalter übernommen; dafür bleibt `---Veranstalter` vorgesehen.
 
 Zusätzliche öffentliche Angaben kommen als einzelne `Feld: Wert`-Zeilen in die ChurchTools-Beschreibung:
 
@@ -168,40 +169,46 @@ Mitwirkende: Chor, Ensemble oder Solist:innen
 Barrierefreiheit: Abweichende Hinweise für diesen Termin
 ```
 
-Alternativ werden mehrzeilige Abschnitte unterstützt:
+Für neue Termine stehen in CT seit dem 13.11.2026 drei echte Konzertvorlagen mit dem folgenden leeren Beschreibungstemplate und Ressourcenbuchungsvorgaben bereit. Alle schlagen 19:00 Uhr / 120 Minuten vor; Zeiten, Puffer und Räume bleiben beim Anlegen änderbar. Das Speichern einer Vorlage erzeugt selbst weder Konzerttermine noch Ressourcenbuchungen. Dienstplanereignisse sind nicht voreingestellt.
+
+| CT-Vorlage                                             | Räume                                                      | Kirchenpuffer vor / nach dem Konzert | Puffer der Wik-Räume vor / nach dem Konzert |
+| ------------------------------------------------------ | ---------------------------------------------------------- | ------------------------------------ | ------------------------------------------- |
+| `90` – Konzert – Kirche + Wik 1. Stock komplett        | Petruskirche; Wik: Räume 18/19, Küche 20 und Flurzimmer 39 | 300 / 90 Minuten                     | 60 / 30 Minuten                             |
+| `93` – Konzert – Kirche + Wik 1. Stock ohne Flurzimmer | Petruskirche; Wik: Räume 18/19 und Küche 20                | 240 / 60 Minuten                     | 60 / 30 Minuten                             |
+| `96` – Konzert – Kirche + Wik 2. Stock                 | Petruskirche; Wik: Open Office 23 und linkes Zimmer 24     | 120 / 30 Minuten                     | 60 / 30 Minuten                             |
+
+Die Raumkombinationen und Puffer stammen aus vergangenen Konzerten (CT-IDs `46056`, `47918`, `40009`); Buchungsstatus `2` wird wie in diesen bestätigten Buchungen vorbelegt. Die alten Konzertvorlagen `17`, `20`, `23`, `30`, `88` wurden auf Nutzerauftrag entfernt. Bürovorlage `28` wurde in den vorhandenen Kalender „Büro“ (API-ID `13`) verschoben und bleibt als intern markiert. Die übrigen Vorlagen anderer Kalender bleiben unverändert. Native CT-Felder werden im Beschreibungstemplate nicht wiederholt; Untertitel und abweichende Orte direkt in CT pflegen:
 
 ```text
----Untertitel
-Musik, die Brücken baut
----Kurzbeschreibung
-Ein Konzertabend mit dem Hile Trio für Menschen mit und ohne Behinderung.
----Langbeschreibung
-Hier steht die ausführliche Beschreibung des Konzerts.
+--- Kurzbeschreibung
 
-Weitere Absätze sind möglich.
----Program
-Joseph Haydn – Klaviertrio D-Dur, Hob. XV:7
+--- Langbeschreibung
 
-Antonín Dvořák – Klaviertrio Nr. 4 e-Moll, op. 90 „Dumky“
----Programmhinweise
-Eintritt frei. Keine Anmeldung erforderlich.
----Einlass
-15:30 Uhr
----Pause
-Ohne Pause
----Ort
-Nikolaikirche Kiel
----Mitwirkende
-Hile Trio
----Barrierefreiheit
-Kostenloser Fahrdienst nach vorheriger Anmeldung.
----Intern
-Dieser Abschnitt wird nicht veröffentlicht.
+--- Programm
+
+--- Programmhinweise
+
+--- Einlass
+
+--- Pause
+
+--- Mitwirkende
+
+--- Veranstalter
+
+--- Barrierefreiheit
+
+--- Intern
+
 ```
 
-`---Programm` wird ebenfalls akzeptiert. Jeder Abschnitt reicht bis zur nächsten `---`-Überschrift; alle Zeilen darin sind öffentlich, auch Kontaktangaben. Unbekannte Abschnitte und Text vor dem ersten Abschnitt (außer den bisherigen `Feld: Wert`-Angaben) werden nicht veröffentlicht. Innerhalb eines Abschnitts ist `Feld: Wert` normaler Text; zum Feldwechsel eine neue `---`-Überschrift verwenden. Der Untertitel erscheint auf Konzertkarten und Detailseiten. `---Kurzbeschreibung` erscheint auf den Konzertkarten und der Detailseite; fehlt sie, nutzen Karten wie bisher das Programm. `---Langbeschreibung` erscheint ausschließlich auf der Detailseite und unterstützt mehrere Absätze. Beide Beschreibungen sind unabhängig von `---Program` und `---Programmhinweise`, werden durchsucht und bei leerem Inhalt ausgeblendet.
+Jede `--- Feldname`-Überschrift steht allein auf ihrer Zeile. Vor dem Inhalt folgt eine Leerzeile als eigener Absatz, damit auch der CT-Editor Überschrift und Text nicht in derselben Zeile zusammenzieht. Der Parser akzeptiert weiterhin die bisherige Schreibweise ohne Leerzeichen nach `---`.
 
-`---Pause` akzeptiert `true` / `false`, `Mit Pause` / `Ohne Pause` oder `ja` / `nein` (Groß-/Kleinschreibung egal). Leer oder unbekannt bedeutet keine Anzeige. Alle optionalen Angaben bleiben bei leerem Inhalt ausgeblendet, ohne Ersatztext oder pauschale Einlass-/Barrierefreiheitsangaben. `---Einlass` ist frei formulierbar, z. B. `15:30 Uhr` oder `30 Minuten vor Beginn`. ChurchTools-Bilder werden mit bis zu 1200 px Breite im ursprünglichen Seitenverhältnis abgerufen. Konzertkarten und Detailseiten zeigen einen kompakten 4:3-Ausschnitt, dessen Mittelpunkt der ChurchTools-Fokuspunkt ist; der Ausschnitt wird an den Bildrändern begrenzt. Die responsiven WebP-Varianten laden auf Karten verzögert, auf der Detailseite vorrangig. Ein sichtbarer Bildlink öffnet das vollständige Plakat. Auf der Detailseite stehen Titel, Wochentag/Datum, Beginn, Einlass, Ort und Ticketaktion rechts neben dem Bild, auf kleinen Bildschirmen direkt darunter und vor längerem Text. Untertitel, Beschreibungen, Programm und Mitwirkende folgen in einem separaten Lesebereich; weitere Besuchsangaben sind davon klar getrennt. Vergangene Konzerte verweisen auf das aktuelle Programm statt auf einen Ticketkauf. Fehlende Angaben bleiben ausgeblendet. Mitwirkende erscheinen nur auf der Detailseite. Abschnitte mit nicht ausgefüllten Template-Anweisungen (`[...]` oder `{{...}}`) werden vollständig ausgeblendet, bis die Quelldaten bereinigt sind.
+`---Program` wird als bisherige Schreibweise ebenfalls akzeptiert. Jeder Abschnitt reicht bis zur nächsten `---`-Überschrift; alle Zeilen darin sind öffentlich, auch Kontaktangaben. Unbekannte Abschnitte und Text vor dem ersten Abschnitt (außer den bisherigen `Feld: Wert`-Angaben) werden nicht veröffentlicht. Innerhalb eines Abschnitts ist `Feld: Wert` normaler Text; zum Feldwechsel eine neue `---`-Überschrift verwenden. Der Untertitel erscheint auf Konzertkarten und Detailseiten. `---Kurzbeschreibung` erscheint auf den Konzertkarten und der Detailseite; fehlt sie, nutzen Karten wie bisher das Programm. `---Langbeschreibung` erscheint ausschließlich auf der Detailseite und unterstützt mehrere Absätze. Beide Beschreibungen sind unabhängig von `---Program` und `---Programmhinweise`, werden durchsucht und bei leerem Inhalt ausgeblendet.
+
+`---Pause` akzeptiert `true` / `false`, `Mit Pause` / `Ohne Pause` oder `ja` / `nein` (Groß-/Kleinschreibung egal). Leer oder unbekannt bedeutet keine Anzeige. Alle optionalen Angaben bleiben bei leerem Inhalt ausgeblendet, ohne Ersatztext oder pauschale Einlass-/Barrierefreiheitsangaben. Für den Standardort Petruskirche entfällt ein zusätzlicher Ortshinweis; nur ein abweichender Ort wird angezeigt. `---Einlass` ist frei formulierbar, z. B. `15:30 Uhr` oder `30 Minuten vor Beginn`. ChurchTools-Bilder werden mit bis zu 1200 px Breite im ursprünglichen Seitenverhältnis abgerufen. Konzertkarten und Detailseiten zeigen einen kompakten 4:3-Ausschnitt, dessen Mittelpunkt der ChurchTools-Fokuspunkt ist; der Ausschnitt wird an den Bildrändern begrenzt. Die responsiven WebP-Varianten laden auf Karten verzögert, auf der Detailseite vorrangig. Ein sichtbarer Bildlink öffnet das vollständige Plakat. Auf der Detailseite stehen Titel, Wochentag/Datum, Beginn, Einlass, Ort und Ticketaktion rechts neben dem Bild, auf kleinen Bildschirmen direkt darunter und vor längerem Text. Untertitel, Beschreibungen, Programm und Mitwirkende folgen in einem separaten Lesebereich; weitere Besuchsangaben sind davon klar getrennt. Vergangene Konzerte verweisen auf das aktuelle Programm statt auf einen Ticketkauf. Fehlende Angaben bleiben ausgeblendet. Mitwirkende erscheinen nur auf der Detailseite. Abschnitte mit nicht ausgefüllten Template-Anweisungen (`[...]` oder `{{...}}`) werden vollständig ausgeblendet, bis die Quelldaten bereinigt sind.
+
+Bildempfehlung: JPG in sRGB, idealerweise 1600 × 1200 Pixel (4:3), mindestens 1200 × 900 Pixel. PNG ist bei Grafiken oder viel Schrift ebenfalls geeignet. Hochformat-Plakate bleiben möglich; für den 4:3-Vorschauausschnitt den CT-Fokuspunkt setzen und wichtige Motive im Ausschnitt halten. Der Bildlink öffnet weiterhin das vollständige Plakat.
 
 ## Cloudflare-Previews in Pull Requests
 

@@ -51,6 +51,8 @@ interface ChurchToolsEnvironment {
 interface ChurchToolsAppointment {
   id: number;
   title: string;
+  isInternal: boolean;
+  subtitle?: string | null;
   description?: string | null;
   address?: { name?: string; street?: string; zip?: string; city?: string } | null;
   image?: {
@@ -210,6 +212,7 @@ const mapAppointment = (row: ChurchToolsRow): Concert | undefined => {
   const endDate = row.appointment?.calculated?.endDate;
   if (
     !appointment ||
+    appointment.isInternal !== false ||
     !Number.isSafeInteger(appointment.id) ||
     appointment.id <= 0 ||
     typeof appointment.title !== 'string' ||
@@ -221,7 +224,7 @@ const mapAppointment = (row: ChurchToolsRow): Concert | undefined => {
 
   const metadata = parseMetadata(appointment.description ?? '');
   const addressName = factualText(appointment.address?.name);
-  const location = metadata.location ?? addressName;
+  const location = metadata.location ?? addressName ?? 'Petruskirche Kiel';
   // A conflicting (or unnamed) CT address cannot establish the chosen venue's address.
   const addressMatches =
     addressName && location?.toLocaleLowerCase('de-DE') === addressName.toLocaleLowerCase('de-DE');
@@ -260,7 +263,7 @@ const mapAppointment = (row: ChurchToolsRow): Concert | undefined => {
   return {
     slug,
     title: appointment.title.trim(),
-    subtitle: metadata.subtitle,
+    subtitle: factualText(appointment.subtitle) ?? metadata.subtitle,
     shortDescription: metadata.shortDescription,
     longDescription: metadata.longDescription,
     programme: metadata.programme,

@@ -28,6 +28,7 @@ const event = concert ? getConcertEvent(concert, Astro.site ?? Astro.url, Boolea
 /* eslint-disable astro/no-set-html-directive -- Event JSON-LD escapes script terminators in serializeEvent */
 const eventSchema = serializeEvent(event);
 const locationHref = concert ? getConcertLocationHref(concert) : undefined;
+const showLocation = locationHref && locationHref !== '/besuch-planen/#anfahrt';
 const addressLabel = concert ? concertAddressLabel(concert) : '';
 const endLabel = event?.endDate ? new Intl.DateTimeFormat('de-DE', {
   timeZone: 'Europe/Berlin', day: 'numeric', month: 'long', year: 'numeric',
@@ -106,12 +107,10 @@ const hasDetails = hasDescription || info.length > 0;
             </time>
             {endLabel && <p class="mt-2 font-body text-base/7 text-role-on/85">Ende: <time datetime={event?.endDate}>{endLabel}{event?.endDate?.includes('T') ? ' Uhr' : ''}</time></p>}
             {concert.admission && <p class="mt-2 whitespace-pre-line font-body text-base/7 text-role-on/85">Einlass: {concert.admission}</p>}
-            <p class="mt-6 whitespace-pre-line font-body text-base/7 text-role-on/85">
-              <span class="font-semibold text-white">Ort:</span> {locationHref ? <a href={locationHref} class="underline underline-offset-4 hover:text-secondary">{concert.location}</a> : 'Noch nicht angegeben.'}
+            {showLocation && <p class="mt-6 whitespace-pre-line font-body text-base/7 text-role-on/85">
+              <span class="font-semibold text-white">Ort:</span> <a href={locationHref} class="underline underline-offset-4 hover:text-secondary">{concert.location}</a>
               {addressLabel && <span class="block">{addressLabel}</span>}
-            </p>
-            {!locationHref && <a class="inline-flex min-h-11 items-center font-body text-sm/6 text-role-on/70 underline underline-offset-4 hover:text-secondary" href="/besuch-planen/#anfahrt">Informationen zur Petruskirche</a>}
-            {!hasDescription && <p class="mt-6 font-body text-lg/8 text-role-on/85">{metadata?.description}</p>}
+            </p>}
             <div class="mt-8 flex flex-wrap items-center gap-4">
               {isPast ? (
                 <ButtonLink variant="outline" className="min-h-12 rounded-sm border-white/20 px-6 font-body text-sm/6 text-role-on hover:border-secondary hover:text-secondary" href="/programm/">Aktuelle Konzerte</ButtonLink>
