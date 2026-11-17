@@ -504,6 +504,32 @@ try {
     assert.equal(JSON.stringify(concert).includes('Nicht veröffentlichen'), false);
     assert.equal(filterConcerts([concert], { search: 'Brücken', from: '', to: '' }).length, 1);
   }
+  for (const marker of ['---', '\\---']) {
+    cachedResponse = undefined;
+    description = [
+      `${marker} Kurzbeschreibung`,
+      'Ein Abend für alle.',
+      `${marker} Langbeschreibung`,
+      'Erster Absatz.\n\nZweiter Absatz.',
+      `${marker} Programm`,
+      `${marker} Einlass\\\n18 Uhr`,
+      `${marker} Mitwirkende`,
+      'Leitung: Testdirigentin',
+      `${marker} Veranstalter`,
+      'Testverein',
+      '\\--- Intern',
+      'Interner Kontakt: nicht veröffentlichen'
+    ].join('\n\n');
+    const concert = (await getConcerts()).concerts[0];
+    assert.equal(concert.shortDescription, 'Ein Abend für alle.');
+    assert.equal(concert.longDescription, 'Erster Absatz.\n\nZweiter Absatz.');
+    assert.equal(concert.programme, undefined);
+    assert.equal(concert.admission, '18 Uhr');
+    assert.equal(concert.performers, 'Leitung: Testdirigentin');
+    assert.equal(concert.organizer, 'Testverein');
+    assert.equal(JSON.stringify(concert).includes('nicht veröffentlichen'), false);
+    assert.equal(filterConcerts([concert], { search: 'Zweiter', from: '', to: '' }).length, 1);
+  }
   cachedResponse = undefined;
   description =
     '---Kurzbeschreibung\n\n---Langbeschreibung\n\n---Programm\n\n---Programmhinweise\n\n---Einlass\n\n---Pause\n\n---Mitwirkende\n\n---Veranstalter\n\n---Barrierefreiheit\n\n---Intern\nInterner Kontakt: nicht veröffentlichen';
