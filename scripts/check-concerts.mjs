@@ -34,6 +34,7 @@ Object.defineProperty(globalThis, 'caches', {
 let startDate = '2027-08-06T17:30:00Z';
 let endDate = 'invalid';
 let allDay = false;
+let isInternal = false;
 let imageUrl = 'https://example.org/concert.jpg';
 let imageAspectRatio;
 let imageWidth;
@@ -52,7 +53,7 @@ const calendarFetch = async () => {
             base: {
               id: 42,
               title: 'Testkonzert',
-              isInternal: false,
+              isInternal,
               description,
               allDay,
               image: {
@@ -110,6 +111,52 @@ try {
   assert.equal((await getConcerts({ CHURCHTOOLS_BASE_URL: 'http://example.org' })).error, true);
   assert.equal((await getConcerts({ CHURCHTOOLS_CALENDAR_IDS: ' ' })).error, true);
   assert.equal(fetchCalls, 2);
+
+  const failedFetch = globalThis.fetch;
+  const cachedBody = await cachedResponse.clone().text();
+  const cacheAt = (timestamp) => {
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    if (timestamp !== undefined) headers.set('x-akg-cached-at', String(timestamp));
+    return new Response(cachedBody, { headers });
+  };
+  const now = Date.now();
+  for (const failure of [
+    async () => new Response(null, { status: 503 }),
+    async () => {
+      throw new Error('CT unavailable');
+    }
+  ]) {
+    globalThis.fetch = failure;
+    for (const [timestamp, error] of [
+      [now - 23 * 60 * 60_000, false],
+      [now - 24 * 60 * 60_000, true],
+      [now + 60_000, true],
+      ['invalid', true],
+      [undefined, true]
+    ]) {
+      cachedResponse = cacheAt(timestamp);
+      const cached = await getConcerts();
+      assert.equal(cached.error, error);
+      assert.equal(cached.concerts.length, error ? 0 : 1);
+    }
+  }
+  isInternal = true;
+  globalThis.fetch = calendarFetch;
+  cachedResponse = cacheAt(Date.now());
+  assert.equal(
+    (await getConcerts()).concerts.length,
+    1,
+    'Visibility uses the five-minute snapshot'
+  );
+  cachedResponse = cacheAt(now - 301_000);
+  assert.equal(
+    (await getConcerts()).concerts.length,
+    0,
+    'A refreshed internal appointment is excluded'
+  );
+  isInternal = false;
+  cachedResponse = cacheAt(now - 301_000);
+  globalThis.fetch = failedFetch;
 
   const response = { headers: new Headers() };
   cacheProgramme(response);
@@ -529,6 +576,14 @@ try {
     assert.equal(concert.organizer, 'Testverein');
     assert.equal(JSON.stringify(concert).includes('nicht veröffentlichen'), false);
     assert.equal(filterConcerts([concert], { search: 'Zweiter', from: '', to: '' }).length, 1);
+  }
+  for (const separator of ['---', '\\---']) {
+    cachedResponse = undefined;
+    description = `--- Langbeschreibung\n\nVorher.\n\n${separator}\n\nNachher.\n\\--- Intern\nNicht veröffentlichen`;
+    const concert = (await getConcerts()).concerts[0];
+    assert.equal(concert.longDescription, `Vorher.\n\n${separator}\n\nNachher.`);
+    assert.equal(filterConcerts([concert], { search: 'Nachher', from: '', to: '' }).length, 1);
+    assert.equal(JSON.stringify(concert).includes('Nicht veröffentlichen'), false);
   }
   cachedResponse = undefined;
   description =

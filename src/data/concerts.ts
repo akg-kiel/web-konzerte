@@ -1,6 +1,6 @@
 import { parseDate, toZoned } from '@internationalized/date';
 
-import { eventDate, factualText, safeUrl } from './concert-seo.ts';
+import { eventDate, factualText, safeUrl, subtitleText } from './concert-seo.ts';
 
 export type ConcertVariant = 'home' | 'programme' | 'archive';
 export type ConcertState = 'past' | 'upcoming-with-ticket' | 'upcoming-without-ticket';
@@ -76,6 +76,7 @@ const defaults = {
   baseUrl: 'https://akg-kiel.church.tools',
   calendarIds: '3'
 };
+const CALENDAR_CACHE_MAX_AGE_MS = 24 * 60 * 60_000;
 
 const dateParts = new Intl.DateTimeFormat('de-DE', {
   timeZone: 'Europe/Berlin',
@@ -120,7 +121,7 @@ const parseMetadata = (description: unknown = '') => {
   const metadata: Record<string, string> = {};
   let section: string | null | undefined;
   for (const line of description.split(/\r?\n/)) {
-    const heading = line.match(/^\s*\\?---\s*(.*?)\s*$/);
+    const heading = line.match(/^\s*\\?---\s*(\S.*?)\s*$/);
     const field = line.match(/^([^:]+):\s*(.+)$/);
     const label = heading?.[1] ?? field?.[1];
     const key = label
@@ -263,7 +264,7 @@ const mapAppointment = (row: ChurchToolsRow): Concert | undefined => {
   return {
     slug,
     title: appointment.title.trim(),
-    subtitle: factualText(appointment.subtitle) ?? metadata.subtitle,
+    subtitle: subtitleText(appointment.subtitle) ?? metadata.subtitle,
     shortDescription: metadata.shortDescription,
     longDescription: metadata.longDescription,
     programme: metadata.programme,
@@ -311,7 +312,11 @@ const fetchCalendar = async (url: string, headers?: Record<string, string>) => {
     console.error('ChurchTools cache read failed:', error);
   }
   const cachedAt = Number(cached?.headers.get('x-akg-cached-at') ?? 0);
-  if (cached && Date.now() - cachedAt < 300_000) return cached;
+  const cacheAge = Date.now() - cachedAt;
+  if (!Number.isFinite(cacheAge) || cacheAge < 0 || cacheAge >= CALENDAR_CACHE_MAX_AGE_MS) {
+    cached = undefined;
+  }
+  if (cached && cacheAge < 300_000) return cached;
 
   try {
     const response = await fetch(url, { headers, signal: AbortSignal.timeout(10_000) });
@@ -320,7 +325,7 @@ const fetchCalendar = async (url: string, headers?: Record<string, string>) => {
     if (edgeCache) {
       const copy = response.clone();
       const cacheHeaders = new Headers(copy.headers);
-      cacheHeaders.set('Cache-Control', 'public, max-age=86400');
+      cacheHeaders.set('Cache-Control', `public, max-age=${CALENDAR_CACHE_MAX_AGE_MS / 1000}`);
       cacheHeaders.set('x-akg-cached-at', String(Date.now()));
       try {
         await edgeCache.put(
