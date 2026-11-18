@@ -1,11 +1,24 @@
 import type { Concert } from './concerts.ts';
 
-// CT templates use bracketed instructions. Keep those out of public facts.
-export const factualText = (value: unknown): string | undefined => {
-  if (typeof value !== 'string' || /\[[\s\S]*?\]|\{\{[\s\S]*?\}\}/.test(value)) return undefined;
+const plainText = (value: unknown): string | undefined => {
+  if (typeof value !== 'string') return undefined;
   // eslint-disable-next-line no-control-regex -- Remove non-printing source controls, preserving line breaks.
   const text = value.replaceAll(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g, '');
   return text.trim() || undefined;
+};
+
+// CT description templates use bracketed instructions. Keep the whole section out of public facts.
+export const factualText = (value: unknown): string | undefined => {
+  const text = plainText(value);
+  if (!text || /\[[\s\S]*?\]|\{\{[\s\S]*?\}\}/.test(text)) return undefined;
+  return text;
+};
+
+// A native subtitle may contain annotations; standalone brackets and mustache fields are prompts.
+export const subtitleText = (value: unknown): string | undefined => {
+  const text = plainText(value);
+  if (!text || /^\[[\s\S]*\]$|\{\{[\s\S]*?\}\}/.test(text)) return undefined;
+  return text;
 };
 
 export const safeUrl = (value: unknown, base?: URL): string | undefined => {
@@ -45,8 +58,12 @@ export function eventDate(value: unknown, timeUnknown = false): string | undefin
 }
 
 const summary = (concert: Concert) =>
-  [concert.shortDescription, concert.subtitle, concert.programme, concert.longDescription]
-    .map(factualText)
+  [
+    factualText(concert.shortDescription),
+    subtitleText(concert.subtitle),
+    factualText(concert.programme),
+    factualText(concert.longDescription)
+  ]
     .find(Boolean)
     ?.replaceAll(/\s+/g, ' ');
 
@@ -77,8 +94,11 @@ export function getConcertLocationHref(concert: Concert) {
   const location = factualText(concert.location);
   if (!location) return undefined;
   const city = factualText(concert.address?.city);
+  const hasUnconfirmedAddress =
+    !city && Boolean(factualText(concert.address?.street) || factualText(concert.address?.zip));
   if (
     /^(?:konzertkirche\s+)?petruskirche(?:\s+kiel(?:-wik)?)?$/i.test(location) &&
+    !hasUnconfirmedAddress &&
     (!city || /^Kiel(?:-Wik)?$/i.test(city))
   )
     return '/besuch-planen/#anfahrt';

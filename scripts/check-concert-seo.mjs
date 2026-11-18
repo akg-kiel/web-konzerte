@@ -110,6 +110,8 @@ try {
 
   for (const [subtitle, expected] of [
     ['  Nativer CT-Untertitel  ', 'Nativer CT-Untertitel'],
+    ['Bach [Leipziger Fassung]', 'Bach [Leipziger Fassung]'],
+    ['{{Untertitel}}', 'Bisheriger Untertitel'],
     ['', 'Bisheriger Untertitel'],
     [null, 'Bisheriger Untertitel'],
     [undefined, 'Bisheriger Untertitel'],
@@ -121,6 +123,7 @@ try {
     rows = [native];
     const mapped = (await getConcerts()).concerts[0];
     assert.equal(mapped.subtitle, expected);
+    assert(getConcertMetadata(mapped).description.includes(expected));
     assert.equal(filterConcerts([mapped], { search: expected, from: '', to: '' }).length, 1);
   }
   rows = [row(12, '', null)];
@@ -259,6 +262,14 @@ try {
     /query=Nikolaikirche%2C%20Alter%20Markt%2C%20Kiel$/
   );
   assert.equal(getConcertEvent(alternate, site).location.address.streetAddress, 'Alter Markt');
+  rows = [row(6, '', { name: 'Petruskirche', street: 'Dorfstraße 42', zip: '12345' })];
+  const ambiguousVenue = (await getConcerts()).concerts[0];
+  assert.equal(ambiguousVenue.location, 'Petruskirche');
+  assert.equal(ambiguousVenue.address.street, 'Dorfstraße 42');
+  assert.match(
+    getConcertLocationHref(ambiguousVenue),
+    /query=Petruskirche%2C%20Dorfstra%C3%9Fe%2042%2C%2012345$/
+  );
 
   rows = [
     row(
