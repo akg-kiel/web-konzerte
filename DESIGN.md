@@ -37,7 +37,7 @@ Implementation lives in `src/styles/globals.css` and `tailwind.config.js`.
 ## Components
 
 - Reuse `Layout`, `Header`, `Footer`, `PageHero`, `Concerts`, `ConcertCard`, `CtaCard`, and `Card`.
-- Concert cards lead with the photograph. Use a shared row grid for the image, date, full title, copy and actions so one long title never moves its neighbour’s image or buttons. The home crop gives the photograph more room; the programme crop brings the date and title into view sooner.
+- Concert cards lead with the photograph, date and full title. On home, the title links to details; omit the teaser. Programme and archive show at most two lines of teaser, with the full copy on the detail page. Multi-column grids equalise the outer card heights across rows, not the internal text lines; mobile cards grow naturally. Keep ticket links independent of the card’s detail link.
 - Visit, contact and room-inquiry pages use `SectionNavigation` for their in-page jumps. Keep native links and a 44px target rather than adding another menu.
 - Interactive primitives in `src/components/ui` wrap React Aria Components; pages import the local wrappers rather than `react-aria-components` directly.
 - Do not create one-off components or global class aliases for normal Tailwind utilities.

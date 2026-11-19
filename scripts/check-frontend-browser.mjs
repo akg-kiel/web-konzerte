@@ -215,24 +215,33 @@ try {
           `${path} ${width}: a named concert must be visible on arrival`
         );
       }
-      if (width === 1280 && (path === '/' || path === '/programm/')) {
+      if ([375, 1280].includes(width) && ['/', '/programm/', '/programm/archiv/'].includes(path)) {
         const scope = path === '/' ? '#naechste-konzerte' : '[data-programme-panel]:not([hidden])';
-        await wait(`document.querySelectorAll('${scope} .concert-card').length >= 2`);
+        await wait(`document.querySelector('${scope} .concert-card')`);
         assert(
           await evaluate(`(() => {
-          const [first, second] = document.querySelectorAll('${scope} .concert-card');
-          const title = second.querySelector('h3'), previous = title.textContent;
-          const top = (card, selector) => card.querySelector(selector).getBoundingClientRect().top - card.getBoundingClientRect().top;
-          try {
-            title.textContent = 'Ein Konzert mit einem sehr langen Namen '.repeat(3);
-            const lines = ['img', 'time', 'h3', 'h3 + div', 'a[aria-label^="Details"]'];
-            const range = document.createRange(); range.selectNodeContents(title);
-            return Math.abs(top(first, 'img') - 1) < 1 &&
-              lines.every(selector => Math.abs(top(first, selector) - top(second, selector)) < 1) &&
-              range.getBoundingClientRect().bottom <= second.querySelector('h3 + div').getBoundingClientRect().top + 1;
-          } finally { title.textContent = previous; }
-        })()`),
-          `${path}: image, text and actions must share row lines without clipping long concert titles`
+            const first = document.querySelector('${scope} .concert-card');
+            const item = first.closest('scroll-reveal') ?? first;
+            const extra = item.cloneNode(true);
+            // A new row even when the fixture has fewer concerts than columns.
+            extra.style.gridColumn = '1';
+            item.parentElement.append(extra);
+            try {
+              const card = extra.querySelector('article') ?? extra;
+              const heading = card.querySelector('h3');
+              const link = heading.querySelector('a[href]');
+              (link ?? heading).textContent = 'Ein Konzert mit einem sehr langen Namen '.repeat(6);
+              const range = document.createRange(); range.selectNodeContents(heading);
+              const titleFits = range.getBoundingClientRect().bottom <= heading.getBoundingClientRect().bottom + 1;
+              const heightsOK = ${width} < 768 ? card.offsetHeight > first.offsetHeight : Math.abs(card.offsetHeight - first.offsetHeight) <= 1;
+              const teaser = card.querySelector('p');
+              if (${path === '/'}) return heightsOK && titleFits && !!link && !teaser && !card.querySelector('a[aria-label^="Details"]');
+              teaser.textContent = 'Ein ausführlicher Einblick in das Konzertprogramm. '.repeat(15);
+              const lines = teaser.clientHeight / parseFloat(getComputedStyle(teaser).lineHeight);
+              return heightsOK && titleFits && Math.abs(lines - 2) < 0.05 && teaser.scrollHeight > teaser.clientHeight;
+            } finally { extra.remove(); }
+          })()`),
+          `${path} ${width}: complete title, variant-specific teaser and correct card heights across rows`
         );
       }
       if ([detail, noPoster, archiveDetail].includes(path)) {

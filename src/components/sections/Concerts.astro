@@ -37,7 +37,7 @@ const titleId = `${id}-heading`;
 const isHome = variant === 'home';
 const hasConcerts = concerts.length > 0;
 
-const gridClass = 'grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3';
+const gridClass = 'grid grid-cols-1 gap-8 md:auto-rows-fr md:grid-cols-2 lg:grid-cols-3';
 const imageSizes = '(min-width: 1536px) 448px, (min-width: 1024px) calc((100vw - 192px) / 3), (min-width: 768px) calc(50vw - 48px), calc(100vw - 48px)';
 
 const headerLinkClass =
@@ -84,7 +84,7 @@ const pageHref = (target: number) => {
       hasConcerts ? (
         <div class:list={gridClass}>
           {concerts.map((concert) => isHome ? (
-            <scroll-reveal data-motion="card" class="row-span-5 grid grid-rows-subgrid">
+            <scroll-reveal data-motion="card" class="grid min-w-0">
               <ConcertCard concert={concert} imageSizes={imageSizes} variant={variant} idPrefix={cardIdPrefix} />
             </scroll-reveal>
           ) : (
