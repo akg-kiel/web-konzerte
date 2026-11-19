@@ -509,7 +509,7 @@ try {
     );
   }
   console.log(
-    'Scroll-off: hash-free scrollIntoView, direct hashes and smooth keyboard anchors clear the navbar at 375/1280px.'
+    'Scroll-off: hash-free scrollIntoView, direct hashes and keyboard anchors clear the navbar at 375/1280px.'
   );
 
   for (const width of [320, 1280]) {

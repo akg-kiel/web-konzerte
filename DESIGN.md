@@ -55,7 +55,7 @@ Implementation lives in `src/styles/globals.css` and `tailwind.config.js`.
 - Never replay already-visible content when server islands refresh. Keyboard focus reveals content immediately.
 - Image-led subpages and concert details share the stage/title entrance; legal pages use a short opacity-only title arrival.
 - Programme/archive use a brief opacity-only result change and animated tab indicator; keyboard changes are immediate.
-- Forms, availability controls and reading content stay immediately usable; no scroll hijacking or decorative loops.
+- Forms, availability controls and reading content stay immediately usable; no scroll hijacking or decorative loops. Keep native anchor jumps instant: a smooth focus scroll can otherwise override the selected section when a keyboard user immediately presses Enter.
 
 ## Tailwind exceptions
 
