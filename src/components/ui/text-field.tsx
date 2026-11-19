@@ -9,7 +9,6 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { cn } from '@/lib/utils';
 
 export interface TextFieldProps extends Omit<
   AriaTextFieldProps,
@@ -64,24 +63,9 @@ const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
         )}
       </Label>
       {multiline ? (
-        <Textarea
-          className={cn(
-            'flex min-h-20 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 md:text-sm',
-            inputClassName
-          )}
-          placeholder={placeholder}
-          rows={rows}
-        />
+        <Textarea className={inputClassName} placeholder={placeholder} rows={rows} />
       ) : (
-        <Input
-          className={cn(
-            'flex h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 md:text-sm',
-            inputClassName
-          )}
-          max={max}
-          min={min}
-          placeholder={placeholder}
-        />
+        <Input className={inputClassName} max={max} min={min} placeholder={placeholder} />
       )}
       {description && (
         <Text className="mt-2 block font-body text-sm/6 text-role-on/60" slot="description">

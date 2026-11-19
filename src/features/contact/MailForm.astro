@@ -1,0 +1,361 @@
+---
+import { env } from 'cloudflare:workers';
+
+import { getContactSettings } from './contact.server.ts';
+import { buttonVariants } from '../../components/ui/button.tsx';
+import { TextField } from '../../components/ui/text-field.tsx';
+import AvailabilityCalendar from '../availability/AvailabilityCalendar.tsx';
+
+interface Props {
+  kind: 'contact' | 'booking';
+  class?: string;
+  describedBy?: string;
+}
+
+const { kind, class: className, describedBy } = Astro.props;
+const { email, enabled, siteKey } = getContactSettings(env);
+const subject = kind === 'contact' ? 'Kontakt Konzertkirche' : 'Raumanfrage Petruskirche';
+const label = kind === 'contact' ? 'Nachricht senden' : 'Anfrage senden';
+const legacyLabel = kind === 'contact' ? 'Nachricht per E-Mail senden' : 'Anfrage per E-Mail senden';
+const mailto = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
+const inputClass =
+  'h-auto rounded-none border-0 border-b border-white/30 bg-transparent px-0 py-4 font-body text-base/6 text-on-surface focus-visible:ring-secondary';
+const labelClass =
+  'mb-2 block font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/70';
+const submitClass = buttonVariants({
+  className: 'min-h-14 w-full rounded-sm bg-secondary px-8 py-4 font-body text-xs/4 font-semibold uppercase tracking-widest text-midnight shadow-glow hover:bg-champagne active:scale-95 sm:w-auto'
+});
+---
+
+<form
+  action={enabled ? '/api/contact/' : mailto}
+  method="post"
+  enctype={enabled ? 'application/x-www-form-urlencoded' : 'text/plain'}
+  aria-label={kind === 'contact' ? 'Kontaktformular' : 'Raumanfrage'}
+  aria-describedby={describedBy}
+  data-mail-form={enabled ? '' : undefined}
+  class={className}
+>
+  <fieldset data-mail-fields class:list={['m-0 min-w-0 border-0 p-0', kind === 'contact' ? 'space-y-8' : 'space-y-10']}>
+    {enabled && <input type="hidden" name="kind" value={kind} />}
+    {kind === 'contact' ? (
+      <>
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+          <TextField inputClassName={inputClass} isRequired label="Name" labelClassName={labelClass} name="Name" autoComplete="name" minLength={2} maxLength={160} />
+          <TextField inputClassName={inputClass} isRequired label="E-Mail" labelClassName={labelClass} name="E-Mail" autoComplete="email" type="email" maxLength={254} />
+        </div>
+        <TextField inputClassName={inputClass} isRequired label="Betreff" labelClassName={labelClass} name="Betreff" minLength={3} maxLength={160} />
+        <TextField inputClassName="min-h-40 resize-y rounded-none border-0 border-b border-white/30 bg-transparent px-0 py-4 font-body text-base/6 text-on-surface focus-visible:ring-secondary" isRequired label="Nachricht" labelClassName={labelClass} name="Nachricht" minLength={10} maxLength={5000} multiline rows={6} />
+      </>
+    ) : (
+      <>
+        <fieldset class="space-y-8 border-0 p-0">
+          <legend class="mb-2 font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Ihre Veranstaltung</legend>
+          <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+            <TextField inputClassName={inputClass} isRequired label="Art der Veranstaltung" labelClassName={labelClass} name="Art der Veranstaltung" maxLength={160} />
+            <TextField inputClassName={inputClass} label="Erwartete Besucherzahl" labelClassName={labelClass} name="Erwartete Besucherzahl" min={1} max={650} inputMode="numeric" type="number" />
+            <div class="md:col-span-2">
+              <AvailabilityCalendar client:load />
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="space-y-8 border-0 border-t border-white/10 p-0 pt-10">
+          <legend class="mb-2 font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Kontakt</legend>
+          <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+            <TextField inputClassName={inputClass} isRequired label="Name / Organisation" labelClassName={labelClass} name="Name / Organisation" autoComplete="organization" maxLength={160} />
+            <TextField inputClassName={inputClass} isRequired label="E-Mail" labelClassName={labelClass} name="E-Mail" autoComplete="email" type="email" maxLength={254} />
+            <TextField inputClassName={inputClass} label="Telefon" labelClassName={labelClass} name="Telefon" autoComplete="tel" type="tel" maxLength={60} />
+          </div>
+        </fieldset>
+
+        <fieldset class="space-y-8 border-0 border-t border-white/10 p-0 pt-10">
+          <legend class="mb-2 font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Planung</legend>
+          <TextField inputClassName="min-h-36 resize-y rounded-none border-0 border-b border-white/30 bg-transparent px-0 py-4 font-body text-base/6 text-on-surface focus-visible:ring-secondary" label="Technische Anforderungen und Bemerkungen" labelClassName={labelClass} name="Technische Anforderungen und Bemerkungen" maxLength={5000} multiline rows={5} />
+        </fieldset>
+      </>
+    )}
+    {enabled && (
+      <div>
+        <div data-mail-verification data-sitekey={siteKey} data-action={kind}></div>
+        <p data-mail-verification-status role="status" class="mt-2 font-body text-sm/6 text-role-on/80">Spam-Schutz wird geladen.</p>
+        <noscript>
+          <p class="font-body text-sm/6 text-role-on/80">Für den direkten Versand ist JavaScript nötig. Schreiben Sie alternativ an <a href={mailto} class="!text-secondary">{email}</a>.</p>
+        </noscript>
+      </div>
+    )}
+    <div>
+      <button type="submit" disabled={enabled} data-mail-submit data-label={label} class={submitClass}>{enabled ? label : legacyLabel}</button>
+      <p class="mt-4 font-body text-sm/6 text-role-on/70">
+        {enabled ? 'Ihre Angaben werden zur Bearbeitung über Cloudflare per E-Mail übermittelt.' : 'Beim Absenden öffnet sich Ihr E-Mail-Programm. Die Website nimmt Ihre Nachricht nicht entgegen.'}
+        {' '}Hinweise finden Sie im <a class="!text-secondary no-underline hover:!text-champagne" href="/datenschutz/#kontakt">Datenschutz</a>.
+        {' '}Alternativ erreichen Sie uns unter <a class="!text-secondary no-underline hover:!text-champagne" href={`mailto:${email}`}>{email}</a>.
+      </p>
+    </div>
+  </fieldset>
+  {enabled && (
+    <>
+      <p data-mail-error role="alert" tabindex="-1" hidden class="mt-6 font-body text-base/7 text-red-300"></p>
+      <dialog
+        data-mail-feedback
+        data-state="pending"
+        aria-labelledby={`mail-pending-title-${kind}`}
+        aria-describedby={`mail-pending-description-${kind}`}
+        class="fixed inset-0 m-0 h-dvh max-h-none w-dvw max-w-none overflow-y-auto overscroll-contain border-0 bg-transparent p-6 text-center text-role-on backdrop:bg-midnight/90 backdrop:backdrop-blur-sm sm:p-12"
+      >
+        <div data-mail-pending-content class="m-auto w-full max-w-lg py-8">
+          <svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2" class="mx-auto h-24 w-24 text-secondary" aria-hidden="true" focusable="false">
+            <circle cx="48" cy="48" r="36" class="text-secondary/15" />
+            <circle cx="48" cy="48" r="36" pathLength="1" stroke-dasharray="0.75 0.25" stroke-linecap="round" class="origin-center" data-mail-pending-ring />
+          </svg>
+          <h2 id={`mail-pending-title-${kind}`} data-mail-pending-title tabindex="-1" class="mt-8 font-display text-3xl/tight text-on-surface outline-none sm:text-4xl/tight">
+            {kind === 'contact' ? 'Ihre Nachricht wird gesendet.' : 'Ihre Anfrage wird gesendet.'}
+          </h2>
+          <p id={`mail-pending-description-${kind}`} data-mail-pending-description class="mt-4 font-body text-base/7 text-role-on/80">Bitte warten Sie einen Moment.</p>
+        </div>
+        <div data-mail-success-content hidden class="m-auto w-full max-w-lg py-8">
+          <svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-width="2" class="mx-auto h-24 w-24 text-secondary" aria-hidden="true" focusable="false">
+            <circle cx="48" cy="48" r="36" class="text-secondary/15" />
+            <circle cx="48" cy="48" r="36" pathLength="1" transform="rotate(-90 48 48)" data-mail-success-ring />
+            <path d="m32 48 11 11 22-24" pathLength="1" stroke-linecap="round" stroke-linejoin="round" data-mail-success-check />
+          </svg>
+          <h2 id={`mail-success-title-${kind}`} data-mail-success-title tabindex="-1" class="mt-8 font-display text-3xl/tight text-on-surface outline-none sm:text-4xl/tight">Vielen Dank!</h2>
+          <p id={`mail-success-description-${kind}`} data-mail-success-description class="mt-4 font-body text-base/7 text-role-on/80">
+            {kind === 'contact' ? 'Ihre Nachricht wurde zum Versand angenommen.' : 'Ihre Raumanfrage wurde zum Versand angenommen.'}
+          </p>
+          <button type="button" data-mail-success-close class:list={[submitClass, 'mt-10']}>Schließen</button>
+        </div>
+      </dialog>
+    </>
+  )}
+</form>
+
+<script>
+  interface TurnstileApi {
+    render(container: HTMLElement, options: {
+      sitekey: string;
+      action: string;
+      theme: 'dark';
+      size: 'compact';
+      language: 'de';
+      callback: (token: string) => void;
+      'expired-callback': () => void;
+      'error-callback': () => void;
+    }): string;
+    reset(id: string): void;
+  }
+
+  const forms = [...document.querySelectorAll<HTMLFormElement>('form[data-mail-form]')];
+  if (forms.length) {
+    const turnstile = new Promise<TurnstileApi>((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      script.async = true;
+      const timeout = window.setTimeout(() => reject(new Error('Turnstile unavailable')), 15000);
+      script.addEventListener('load', () => {
+        window.clearTimeout(timeout);
+        const api = (window as Window & { turnstile?: TurnstileApi }).turnstile;
+        if (api) resolve(api);
+        else reject(new Error('Turnstile unavailable'));
+      }, { once: true });
+      script.addEventListener('error', () => {
+        window.clearTimeout(timeout);
+        reject(new Error('Turnstile unavailable'));
+      }, { once: true });
+      document.head.appendChild(script);
+    });
+
+    for (const form of forms) {
+      const fields = form.querySelector<HTMLFieldSetElement>('[data-mail-fields]')!;
+      const button = form.querySelector<HTMLButtonElement>('[data-mail-submit]')!;
+      const container = form.querySelector<HTMLElement>('[data-mail-verification]')!;
+      const verification = form.querySelector<HTMLElement>('[data-mail-verification-status]')!;
+      const error = form.querySelector<HTMLElement>('[data-mail-error]')!;
+      const feedback = form.querySelector<HTMLDialogElement>('[data-mail-feedback]')!;
+      const pendingContent = feedback.querySelector<HTMLElement>('[data-mail-pending-content]')!;
+      const successContent = feedback.querySelector<HTMLElement>('[data-mail-success-content]')!;
+      let busy = false;
+      const showFeedback = (state: 'pending' | 'success') => {
+        pendingContent.hidden = state !== 'pending';
+        successContent.hidden = state !== 'success';
+        feedback.dataset.state = state;
+        const heading = feedback.querySelector<HTMLElement>(`[data-mail-${state}-title]`)!;
+        const description = feedback.querySelector<HTMLElement>(`[data-mail-${state}-description]`)!;
+        feedback.setAttribute('aria-labelledby', heading.id);
+        feedback.setAttribute('aria-describedby', description.id);
+        feedback.setAttribute('closedby', state === 'pending' ? 'none' : 'closerequest');
+        if (!feedback.open) {
+          const { scrollX, scrollY } = window;
+          feedback.showModal();
+          // Freeze any smooth error-focus scroll still running when a visitor submits again.
+          window.scrollTo({ left: scrollX, top: scrollY, behavior: 'instant' });
+        }
+        feedback.scrollTop = 0;
+        heading.focus({ preventScroll: true });
+      };
+      feedback.querySelector('[data-mail-success-close]')!.addEventListener('click', () => {
+        if (!busy) feedback.close();
+      });
+      feedback.addEventListener('cancel', (event) => {
+        // Closing the overlay cannot cancel a message that might already have been accepted.
+        if (busy) event.preventDefault();
+      });
+      feedback.addEventListener('close', () => {
+        if (feedback.open) return;
+        // Restore pending feedback if a browser forces a non-cancelable close.
+        if (busy) {
+          showFeedback('pending');
+          return;
+        }
+        fields.inert = false;
+        if (feedback.dataset.state === 'success')
+          form.querySelector<HTMLElement>('input:not([type="hidden"]), select, textarea')?.focus();
+      });
+      let verified = false;
+      let widget: string | undefined;
+      let api: TurnstileApi | undefined;
+      const updateButton = () => {
+        button.disabled = busy || !verified;
+        button.textContent = busy ? 'Wird gesendet …' : button.dataset.label!;
+      };
+      const verificationFailed = (message: string) => {
+        verified = false;
+        verification.textContent = message;
+        updateButton();
+      };
+      void turnstile.then((loaded) => {
+        api = loaded;
+        verification.textContent = '';
+        widget = api.render(container, {
+          sitekey: container.dataset.sitekey!,
+          action: container.dataset.action!,
+          theme: 'dark',
+          size: 'compact',
+          language: 'de',
+          callback: (token) => {
+            verified = token.length > 0;
+            verification.textContent = '';
+            updateButton();
+          },
+          'expired-callback': () => verificationFailed('Spam-Schutz abgelaufen. Bitte bestätigen Sie ihn erneut.'),
+          'error-callback': () => verificationFailed('Spam-Schutz nicht verfügbar. Bitte laden Sie die Seite neu oder schreiben Sie uns per E-Mail.')
+        });
+      }).catch(() => verificationFailed('Spam-Schutz nicht verfügbar. Bitte laden Sie die Seite neu oder schreiben Sie uns per E-Mail.'));
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if (busy || feedback.open || !verified || !api || widget === undefined || !form.reportValidity()) return;
+        const body = new URLSearchParams();
+        for (const [name, value] of new FormData(form)) {
+          if (typeof value !== 'string') return;
+          body.append(name, value);
+        }
+        busy = true;
+        fields.disabled = true;
+        fields.inert = true;
+        form.setAttribute('aria-busy', 'true');
+        error.hidden = true;
+        updateButton();
+        try {
+          showFeedback('pending');
+          const response = await fetch(form.action, {
+            method: 'POST',
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+            credentials: 'same-origin',
+            body,
+            signal: AbortSignal.timeout(30000)
+          });
+          const payload = await response.json();
+          const result = typeof payload === 'object' && payload !== null && !Array.isArray(payload)
+            ? payload as Record<string, unknown>
+            : {};
+          if (!response.ok || result.ok !== true) {
+            error.textContent = typeof result?.error === 'string' && result.error.length <= 500
+              ? result.error
+              : 'Der Versand konnte nicht bestätigt werden. Ihre Eingaben bleiben erhalten. Bitte prüfen Sie vor einem erneuten Versuch, ob Ihre Nachricht bereits angekommen ist.';
+            error.hidden = false;
+          } else {
+            form.reset();
+            error.textContent = '';
+            showFeedback('success');
+          }
+        } catch {
+          error.textContent = 'Der Versand konnte nicht bestätigt werden. Ihre Eingaben bleiben erhalten. Bitte prüfen Sie vor einem erneuten Versuch, ob Ihre Nachricht bereits angekommen ist.';
+          error.hidden = false;
+        } finally {
+          busy = false;
+          fields.disabled = false;
+          if (feedback.dataset.state !== 'success') feedback.close();
+          fields.inert = feedback.open;
+          form.removeAttribute('aria-busy');
+          verified = false;
+          try { api.reset(widget); }
+          catch { verificationFailed('Spam-Schutz nicht verfügbar. Bitte laden Sie die Seite neu oder schreiben Sie uns per E-Mail.'); }
+          updateButton();
+          if (!error.hidden) error.focus();
+        }
+      });
+    }
+  }
+</script>
+
+<style>
+  :global(html:has(dialog[data-mail-feedback]:modal)) {
+    overflow: hidden;
+    scrollbar-gutter: stable;
+    scroll-behavior: auto;
+  }
+
+  [data-mail-feedback][open] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  [data-mail-success-ring],
+  [data-mail-success-check] {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    [data-mail-feedback][open],
+    [data-mail-feedback][open]::backdrop {
+      animation: mail-backdrop 180ms ease-out both;
+    }
+
+    [data-mail-feedback][open][data-state='pending'] [data-mail-pending-ring] {
+      animation: mail-pending 1s linear infinite;
+    }
+
+    [data-mail-feedback][open][data-state='success'] [data-mail-success-content] {
+      animation: mail-confirm 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    [data-mail-feedback][open][data-state='success'] [data-mail-success-ring] {
+      animation: mail-seal 420ms cubic-bezier(0.16, 1, 0.3, 1) 80ms both;
+    }
+
+    [data-mail-feedback][open][data-state='success'] [data-mail-success-check] {
+      animation: mail-seal 240ms ease-out 300ms both;
+    }
+  }
+
+  @keyframes mail-pending {
+    to { transform: rotate(1turn); }
+  }
+
+  @keyframes mail-confirm {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes mail-backdrop {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes mail-seal {
+    from { stroke-dashoffset: 1; }
+    to { stroke-dashoffset: 0; }
+  }
+</style>

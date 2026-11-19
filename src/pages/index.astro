@@ -1,29 +1,19 @@
 ---
-import { env } from 'cloudflare:workers';
 import { Image } from 'astro:assets';
 
-import Concerts from '../components/sections/Concerts.astro';
 import CtaCard from '../components/sections/CtaCard.astro';
 import Hero from '../components/sections/Hero.astro';
-import HomeConcerts from '../components/sections/HomeConcerts.astro';
+import HomeConcerts from '../features/concerts/components/HomeConcerts.astro';
 import Card from '../components/ui/Card.astro';
 import Layout from '../layouts/Layout.astro';
-import { getConcerts, splitConcerts } from '../data/concerts';
 import churchExterior from '../assets/venue/petruskirche-exterior.webp';
-
-const result = await getConcerts(env);
-const { programmeConcerts } = splitConcerts(result.concerts);
 ---
 
 <Layout title="Konzerte in Kiel | Petruskirche – Kiels Konzertkirche" description="Konzerte in Kiel: Programm der Petruskirche, Besuchsinformationen und Raum für Kulturveranstaltungen in besonderer Akustik.">
   <main class="min-h-screen bg-role-dominant text-role-on">
     <Hero />
     <HomeConcerts server:defer>
-      <Concerts
-        slot="fallback"
-        concerts={programmeConcerts.slice(0, 3)}
-        emptyMessage={result.error ? 'Das aktuelle Konzertprogramm konnte gerade nicht geladen werden. Bitte versuchen Sie es später erneut.' : undefined}
-      />
+      <HomeConcerts slot="fallback" />
     </HomeConcerts>
 
     <section class="py-16 md:py-44" aria-label="Zitat über Musik">

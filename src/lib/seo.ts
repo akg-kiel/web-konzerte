@@ -1,6 +1,3 @@
-import { CONCERTS_PER_PAGE, cacheProgramme, splitConcerts } from '../data/concerts.ts';
-import type { Concert, ConcertFilters } from '../data/concerts.ts';
-
 // A canonical domain is not launch approval. Enable only after explicit indexing release.
 export const INDEXING_ENABLED = false;
 export const isProductionHost = (requestUrl: URL, site: URL) => requestUrl.host === site.host;
@@ -13,25 +10,6 @@ export function getCanonicalUrl(site: URL, path: string) {
   canonical.search = url.search;
   canonical.hash = '';
   return canonical.href;
-}
-
-export function getProgrammeSeo(site: URL, url: URL, filters: ConcertFilters, page: number) {
-  const params = new URLSearchParams();
-  if (filters.search) params.set('q', filters.search);
-  if (filters.from) params.set('from', filters.from);
-  if (filters.to) params.set('to', filters.to);
-  if (page > 1) params.set('page', String(page));
-  const query = params.toString();
-  // Old season links no longer filter; keep them out of the search index.
-  const filterKeys = ['q', 'season', 'from', 'to'];
-  return {
-    canonicalUrl: getCanonicalUrl(site, url.pathname + (query ? `?${query}` : '')),
-    // Filter results are crawlable, but not a separate search landing page.
-    noindex:
-      filterKeys.some((key) => url.searchParams.has(key)) ||
-      (url.searchParams.has('page') && url.searchParams.get('page') !== String(page)) ||
-      url.searchParams.getAll('page').length > 1
-  };
 }
 
 const technicalPaths = ['/api/', '/_actions/', '/_server-islands/', '/__astro'];
@@ -78,46 +56,4 @@ export function getStaticPagePaths(files: string[]) {
       (path) =>
         path !== '/raum-anfragen/' && !/^\/(404|500)\/$/.test(path) && !isTechnicalPath(path)
     );
-}
-
-const escapeXml = (value: string) =>
-  value
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&apos;');
-
-export function getSitemapResponse(
-  site: URL,
-  result: { concerts: Concert[]; error: boolean },
-  staticPaths: string[],
-  now = new Date()
-) {
-  if (result.error) {
-    return new Response('Konzertprogramm derzeit nicht verfügbar.', {
-      status: 503,
-      headers: {
-        'Cache-Control': 'no-store',
-        'Cloudflare-CDN-Cache-Control': 'no-store',
-        'Retry-After': '300'
-      }
-    });
-  }
-  const paths = [...staticPaths, ...result.concerts.map(({ detailsHref }) => detailsHref)];
-  const { programmeConcerts, archiveConcerts } = splitConcerts(result.concerts, now);
-  for (const [path, concerts] of [
-    ['/programm/', programmeConcerts],
-    ['/programm/archiv/', archiveConcerts]
-  ] as const) {
-    const pageCount = Math.ceil(concerts.length / CONCERTS_PER_PAGE);
-    for (let page = 2; page <= pageCount; page++) paths.push(`${path}?page=${page}`);
-  }
-  const urls = [...new Set(paths.map((path) => getCanonicalUrl(site, path)))];
-  const body = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((url) => `  <url><loc>${escapeXml(url)}</loc></url>`).join('\n')}\n</urlset>\n`;
-  const response = new Response(body, {
-    headers: { 'Content-Type': 'application/xml; charset=utf-8' }
-  });
-  cacheProgramme(response);
-  return response;
 }

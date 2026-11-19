@@ -1,7 +1,7 @@
 import { env } from 'cloudflare:workers';
 import type { APIRoute } from 'astro';
 
-import { handleContactRequest } from '../../lib/contact-mail.ts';
+import { handleContactRequest } from '../../features/contact/contact.server.ts';
 
 export const prerender = false;
 

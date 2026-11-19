@@ -2,18 +2,15 @@
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
-import fallbackImage from '../../assets/hero/l1130722-hero.jpg';
-
 interface Props {
   eyebrow?: string;
   intro?: string;
-  subtitle?: string;
-  image?: ImageMetadata | string;
+  image?: ImageMetadata;
   imageAlt?: string;
   imagePosition?: string;
 }
 
-const { eyebrow, intro, subtitle, image, imageAlt = '', imagePosition = 'center center' } = Astro.props;
+const { eyebrow, intro, image, imageAlt = '', imagePosition = 'center center' } = Astro.props;
 const imageQuality = 80;
 const hasImage = Boolean(image);
 const hasCta = Astro.slots.has('cta');
@@ -30,36 +27,19 @@ const hasCta = Astro.slots.has('cta');
   ]}
 >
   {
-    hasImage && (
+    image && (
       <>
-        {typeof image === 'string' ? (
-          <Image
-            src={image}
-            alt={imageAlt}
-            class="page-stage-image absolute inset-0 h-full w-full object-cover"
-            style={`object-position: ${imagePosition};`}
-            width={1920}
-            height={1080}
-            widths={[640, 960, 1280, 1600, 1920]}
-            sizes="100vw"
-            priority
-            format="webp"
-            quality={imageQuality}
-            onerror={`this.onerror=null;this.srcset='';this.src='${fallbackImage.src}';this.alt=''`}
-          />
-        ) : (
-          <Image
-            src={image!}
-            alt={imageAlt}
-            class="page-stage-image absolute inset-0 !h-full !w-full object-cover"
-            style={`object-position: ${imagePosition};`}
-            widths={[640, 960, 1280, 1600, 1920]}
-            sizes="100vw"
-            priority
-            format="webp"
-            quality={imageQuality}
-          />
-        )}
+        <Image
+          src={image}
+          alt={imageAlt}
+          class="page-stage-image absolute inset-0 !h-full !w-full object-cover"
+          style={`object-position: ${imagePosition};`}
+          widths={[640, 960, 1280, 1600, 1920]}
+          sizes="100vw"
+          priority
+          format="webp"
+          quality={imageQuality}
+        />
         <div
           aria-hidden="true"
           class="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(2,6,23,0.45)_0%,rgba(2,6,23,0.28)_42%,rgba(2,6,23,0.7)_78%,rgb(2,6,23)_100%)]"
@@ -73,7 +53,6 @@ const hasCta = Astro.slots.has('cta');
   }
 
   <div class="relative z-10 mx-auto w-full max-w-screen-2xl px-6 md:px-8 lg:px-16">
-    <slot name="badge" />
     {
       eyebrow && (
         <p class="mb-6 block font-body text-xs/4 font-semibold uppercase tracking-widest text-role-on/80">{eyebrow}</p>
@@ -88,13 +67,6 @@ const hasCta = Astro.slots.has('cta');
     >
       <span class:list={['block', hasImage ? 'stage-title-text' : 'quiet-title']}><slot /></span>
     </h1>
-    {
-      subtitle && (
-        <p class="mt-6 font-display text-2xl/tight font-normal text-secondary/90 md:text-4xl/tight">
-          {subtitle}
-        </p>
-      )
-    }
     {
       intro && (
         <p class="page-hero-intro mt-6 max-w-2xl font-body text-lg/8 text-role-on/85">
