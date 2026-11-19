@@ -372,6 +372,37 @@ try {
     deviceScaleFactor: 1,
     mobile: true
   });
+  // The search disclosure and both recovery paths must also work without hydration.
+  const search = 'form[role="search"]';
+  const results = '[data-programme-panel]:not([hidden])';
+  await load('/programm/archiv/');
+  assert(await evaluate(`!document.querySelector('${search} details').open`));
+  await evaluate(`document.querySelector('${search} summary').focus()`);
+  await key('Enter');
+  await key('Tab');
+  assert.equal(await evaluate('document.activeElement.id'), 'concert-search');
+  await call('Input.insertText', { text: 'Kein solcher Konzerttitel' });
+  await key('Enter');
+  await wait(
+    `location.search.includes('q=Kein') && document.querySelector('${search} details[open]')`
+  );
+  await evaluate(`document.querySelector('${results} a[href="/programm/archiv/#archiv"]').focus()`);
+  await key('Enter');
+  await wait(
+    `location.pathname === '/programm/archiv/' && !location.search && document.querySelector('${results} article')`
+  );
+
+  await load('/programm/?from=2030-01-02&to=2030-01-01#programm');
+  assert(await evaluate(`document.querySelector('[data-programme-count]').hidden`));
+  await evaluate(`document.querySelector('${results} a[href="#concert-to"]').focus()`);
+  await key('Enter');
+  await wait(
+    `document.activeElement.id === 'concert-to' && document.activeElement.getAttribute('aria-invalid') === 'true'`
+  );
+  console.log(
+    'No-JS programme: native filter disclosure, archive search/reset and invalid-date recovery passed.'
+  );
+
   await load(detail);
   await evaluate(`document.querySelector('concert-share summary').focus()`);
   await key('Enter');

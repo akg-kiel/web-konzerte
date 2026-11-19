@@ -5,7 +5,7 @@ const links = [
 ];
 ---
 
-<nav aria-label="Konzertprogramm" class="page-nav programme-nav mb-8 flex flex-wrap gap-x-6 border-b border-white/20">
+<nav aria-label="Konzertprogramm" class="page-nav programme-nav mb-2 flex flex-wrap gap-x-6 border-b border-white/20">
   {links.map(({ href, label }) => (
     <a
       href={href}
@@ -95,7 +95,9 @@ const links = [
     reset.href = form.action;
     reset.hidden = true;
     form.querySelector<HTMLElement>('#concert-date-error')!.hidden = true;
-    form.querySelector<HTMLElement>('[data-programme-count]')!.textContent = target.dataset.programmeSummary!;
+    const count = form.querySelector<HTMLElement>('[data-programme-count]')!;
+    count.hidden = false;
+    count.textContent = target.dataset.programmeSummary!;
     const search = form.querySelector<HTMLInputElement>('[data-concert-search]')!;
     search.dispatchEvent(new Event('input', { bubbles: true }));
     return true;

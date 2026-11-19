@@ -11,6 +11,7 @@ import {
 } from '../../data/concerts';
 import ConcertFilters from './ConcertFilters.astro';
 import Concerts from './Concerts.astro';
+import ProgrammeEmptyState from './ProgrammeEmptyState.astro';
 import ProgrammeHeader from './ProgrammeHeader.astro';
 
 interface Props { archive?: boolean }
@@ -33,27 +34,24 @@ const baseViews = [
 ];
 const active = baseViews[archive ? 1 : 0];
 const filters = getConcertFilters(Astro.url.searchParams);
-const rangeError = hasInvalidConcertDateRange(filters) ? 'Das Startdatum muss vor dem Enddatum liegen.' : undefined;
+const rangeError = hasInvalidConcertDateRange(filters) ? 'Das Enddatum darf nicht vor dem Startdatum liegen.' : undefined;
 const filteredConcerts = rangeError ? [] : filterConcerts(active.concerts, filters);
 const pagination = paginateConcerts(filteredConcerts, Astro.url.searchParams);
 const { page } = pagination;
 const seo = getProgrammeSeo(Astro.site!, Astro.url, filters, page);
-const hasResultView = Boolean(rangeError || Object.values(filters).some(Boolean) || page > 1);
-const emptyMessage = rangeError
-  ? 'Korrigieren Sie den ausgewählten Zeitraum.'
-  : Object.values(filters).some(Boolean)
-    ? 'Für diese Filter wurden keine Konzerte gefunden. Ändern Sie die Suche oder setzen Sie die Filter zurück.'
-    : undefined;
+const hasFilters = Object.values(filters).some(Boolean);
+const hasResultView = hasFilters || page > 1;
 const views = baseViews.map((view) => ({
   ...view, ...paginateConcerts(view.concerts, new URLSearchParams()),
   id: hasResultView && view === active ? `${view.anchor}-base` : view.anchor,
-  url: new URL(view.path, Astro.url), visible: !hasResultView && view === active,
-  emptyMessage: undefined as string | undefined
+  url: new URL(view.path, Astro.url), visible: !hasResultView && view === active
 }));
 if (hasResultView) views.push({
   ...active, ...pagination, key: 'query', id: active.anchor, url: Astro.url,
-  visible: true, emptyMessage
+  eyebrow: hasFilters ? 'Suchergebnisse' : active.eyebrow, visible: true
 });
+const baseEmptyReason = result.error ? 'unavailable' : 'empty';
+const searchEmptyReason = rangeError ? 'invalid-range' : 'filtered';
 if (result.error) Astro.response.status = 503;
 ---
 
@@ -61,16 +59,15 @@ if (result.error) Astro.response.status = 503;
   <ClientRouter slot="head" fallback="swap" />
   <main data-programme-surface data-programme-rendered-at={now.getTime()} data-programme-expires={result.error ? 0 : getProgrammeExpiry(result.concerts, now)} class="min-h-screen bg-midnight text-role-on">
     <ProgrammeHeader>
-      <ConcertFilters action={active.path} anchor={active.anchor} filters={filters} matchCount={filteredConcerts.length} rangeError={rangeError} totalCount={active.concerts.length} />
+      <ConcertFilters action={active.path} anchor={active.anchor} filters={filters} matchCount={result.error || rangeError ? undefined : filteredConcerts.length} rangeError={rangeError} totalCount={active.concerts.length} />
     </ProgrammeHeader>
-    {result.error && (
-      <p class="mx-auto my-12 w-[calc(100%-3rem)] max-w-screen-2xl rounded-sm border border-secondary/40 bg-secondary/10 px-6 py-4 font-body text-base/7 text-role-on" role="alert">
-        {archive ? 'Das Konzertarchiv' : 'Das Konzertprogramm'} kann gerade nicht geladen werden. Bitte versuchen Sie es später erneut.
-      </p>
-    )}
     {views.map((view) => (
       <div data-programme-panel={view.key} data-programme-path={view.path} data-programme-anchor={view.anchor} data-programme-summary={`${view.concerts.length} ${view.concerts.length === 1 ? 'Konzert' : 'Konzerte'} gefunden`} hidden={!view.visible} inert={!view.visible}>
-        <Concerts id={view.id} cardIdPrefix={view.key} anchor={view.anchor} url={view.url} concerts={view.pageConcerts} variant={view.variant} page={view.page} pageCount={view.pageCount} eyebrow={view.eyebrow} intro="" emptyMessage={view.emptyMessage} showHeaderLink={false} />
+        <Concerts id={view.id} cardIdPrefix={view.key} anchor={view.anchor} url={view.url} concerts={view.pageConcerts} variant={view.variant} page={view.page} pageCount={view.pageCount} eyebrow={view.eyebrow} showHeaderLink={false}>
+          <ProgrammeEmptyState slot="empty" archive={view.variant === 'archive'} reason={
+            view.key === 'query' && !result.error ? searchEmptyReason : baseEmptyReason
+          } />
+        </Concerts>
         {view.variant === 'programme' && (
           <section class="border-t border-white/5 bg-surface py-16 md:py-20" aria-labelledby={`venue-heading-${view.key}`}>
             <div class="mx-auto grid w-full max-w-screen-2xl gap-8 px-6 md:grid-cols-2 md:px-8 lg:px-16">

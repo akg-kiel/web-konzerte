@@ -1,0 +1,32 @@
+---
+interface Props {
+  archive: boolean;
+  reason: 'unavailable' | 'invalid-range' | 'filtered' | 'empty';
+}
+const { archive, reason } = Astro.props;
+const states = {
+  unavailable: {
+    message: `${archive ? 'Das Konzertarchiv' : 'Das Konzertprogramm'} kann gerade nicht geladen werden.`,
+    label: 'Erneut versuchen', href: `${Astro.url.pathname}${Astro.url.search}`
+  },
+  'invalid-range': {
+    message: 'Der gewählte Zeitraum endet vor dem Startdatum.',
+    label: 'Zeitraum korrigieren', href: '#concert-to'
+  },
+  filtered: {
+    message: 'Für diese Auswahl wurden keine Konzerte gefunden.',
+    label: 'Filter zurücksetzen', href: archive ? '/programm/archiv/#archiv' : '/programm/#programm'
+  },
+  empty: archive ? {
+    message: 'Im Archiv sind noch keine vergangenen Konzerte eingetragen.',
+    label: 'Aktuelle Konzerte ansehen', href: '/programm/'
+  } : {
+    message: 'Neue Konzerttermine erscheinen hier, sobald sie feststehen.',
+    label: 'Konzertarchiv ansehen', href: '/programm/archiv/'
+  }
+};
+const { message, label, href } = states[reason];
+---
+
+<p role={reason === 'unavailable' ? 'alert' : undefined} class="font-body text-base/7 text-role-on">{message}</p>
+<a href={href} data-astro-prefetch="false" data-astro-reload={reason === 'unavailable' || undefined} class="mt-2 inline-flex min-h-12 items-center font-body text-base/6 font-semibold text-secondary underline underline-offset-4 hover:text-champagne">{label}</a>
