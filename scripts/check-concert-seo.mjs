@@ -427,6 +427,11 @@ try {
   assert.match(page, /Astro\.redirect\(resolved\.redirectTo, 301\)/);
   assert.match(page, /href=\{posterUrl\}/);
   assert.match(page, /<h1 id="concert-title"/);
+  // The source's Einlass field describes doors, not a price or ticket policy.
+  assert.match(page, /Einlass: \{concert\.admission\}/);
+  assert.doesNotMatch(page, /Eintritt: \{concert\.admission\}/);
+  assert.match(page, /kein Online-Ticketverkauf verlinkt/);
+  assert.match(page, /href="\/kontakt\/#nachricht">Frage zum Eintritt stellen</);
   assert.match(page, /canonicalUrl=\{canonicalUrl\}/);
   console.log('Concert SEO regressions passed (offline).');
 } finally {

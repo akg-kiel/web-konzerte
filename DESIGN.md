@@ -18,6 +18,7 @@ Implementation lives in `src/styles/globals.css` and `tailwind.config.js`.
 - Prefer slash line-height: `text-sm/6`, `text-base/7`, `text-4xl/tight`.
 - One page hero title is dominant.
 - The home title uses `Petrus Display`, a glyph-identical Merriweather subset for its two fixed lines. Regenerate it with `scripts/subset-hero-fonts.py` after changing that copy; all other text keeps the full fonts.
+- Legal body copy uses a reading column of at most 65ch; keep contact addresses and inline links wrappable. The legal text itself remains visible without JavaScript.
 - Content H2s use Hanken Grotesk at `text-xs/4 font-semibold uppercase tracking-widest text-secondary`; do not add a separate label above them.
 
 ## Spacing
@@ -36,6 +37,7 @@ Implementation lives in `src/styles/globals.css` and `tailwind.config.js`.
 ## Components
 
 - Reuse `Layout`, `Header`, `Footer`, `PageHero`, `Concerts`, `ConcertCard`, `CtaCard`, and `Card`.
+- Visit, contact and room-inquiry pages use `SectionNavigation` for their in-page jumps. Keep native links and a 44px target rather than adding another menu.
 - Interactive primitives in `src/components/ui` wrap React Aria Components; pages import the local wrappers rather than `react-aria-components` directly.
 - Do not create one-off components or global class aliases for normal Tailwind utilities.
 - Local class constants are OK inside a component when they prevent duplicated button/card strings.

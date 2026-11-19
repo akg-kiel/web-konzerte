@@ -207,6 +207,14 @@ try {
         await evaluate(`!document.querySelector('[data-page-seeker]')`),
         `${path}: page seeker must remain removed`
       );
+      if (['/programm/', '/programm/archiv/'].includes(path)) {
+        assert(
+          await evaluate(
+            `document.querySelector('[data-programme-panel]:not([hidden]) article h3').getBoundingClientRect().bottom <= innerHeight`
+          ),
+          `${path} ${width}: a named concert must be visible on arrival`
+        );
+      }
       if ([detail, noPoster, archiveDetail].includes(path)) {
         assert(
           await evaluate(`(() => {
@@ -428,6 +436,41 @@ try {
     'Sharing without JavaScript at 320px: native disclosure and canonical manual-copy field passed.'
   );
 
+  await load('/programm/archiv/?q=Archivkonzert');
+  await evaluate(
+    `document.querySelector('[data-programme-panel]:not([hidden]) a[aria-label^="Details"]').click()`
+  );
+  await wait(
+    `location.pathname === '${archiveDetail}' && document.querySelector('[data-programme-return]')?.search === '?q=Archivkonzert'`
+  );
+  await evaluate(`document.querySelector('[data-programme-return]').focus()`);
+  await key('Enter');
+  await wait(
+    `location.pathname === '/programm/archiv/' && location.search === '?q=Archivkonzert' && location.hash === '#archiv'`
+  );
+
+  await call('Emulation.setDeviceMetricsOverride', {
+    width: 390,
+    height: 844,
+    deviceScaleFactor: 1,
+    mobile: true
+  });
+  await call('Page.setFontSizes', { fontSizes: { standard: 32 } });
+  try {
+    for (const path of ['/kontakt/', '/impressum/', '/datenschutz/']) {
+      await load(path);
+      assert(
+        await evaluate(`document.body.clientWidth <= innerWidth && [...document.querySelectorAll('main h2, main p, footer a')].every(e => {
+        const r = e.getBoundingClientRect();
+        return !r.width || (r.left >= -1 && r.right <= innerWidth + 1 && e.scrollWidth <= e.clientWidth + 1);
+      })`),
+        `${path}: legal prose and contact addresses must fit at 200% default font size`
+      );
+    }
+  } finally {
+    await call('Page.setFontSizes', { fontSizes: { standard: 16 } });
+  }
+
   // Scroll-off must exist before a hash becomes :target, including scrollIntoView().
   for (const width of [375, 1280]) {
     await call('Emulation.setDeviceMetricsOverride', {
@@ -467,6 +510,38 @@ try {
   }
   console.log(
     'Scroll-off: hash-free scrollIntoView, direct hashes and smooth keyboard anchors clear the navbar at 375/1280px.'
+  );
+
+  for (const width of [320, 1280]) {
+    await call('Emulation.setDeviceMetricsOverride', {
+      width,
+      height: 812,
+      deviceScaleFactor: 1,
+      mobile: width < 768
+    });
+    await load('/datenschutz/');
+    await evaluate("document.querySelector('main aside summary').focus()");
+    await key('Enter');
+    await evaluate('document.querySelector(\'main aside a[href="#rechte"]\').focus()');
+    await key('Enter');
+    await wait(
+      "location.hash === '#rechte' && document.getElementById('rights-heading').getBoundingClientRect().top >= 80 && document.getElementById('rights-heading').getBoundingClientRect().top < 240"
+    );
+    await load('/besuch-planen/#anfahrt');
+    assert(
+      await evaluate(
+        "document.querySelector('#anfahrt address').getBoundingClientRect().bottom <= innerHeight"
+      ),
+      'Arrival address must be visible at the arrival anchor'
+    );
+    assert(
+      await evaluate(
+        "document.querySelector('#barrierefreiheit a[href^=mailto]').textContent.includes('Rollstuhlplatz')"
+      )
+    );
+  }
+  console.log(
+    'Visitor information: address at arrival, wheelchair enquiry and keyboard privacy contents passed.'
   );
 
   // Exercise head-only programme switches, then a full body swap and native section link.

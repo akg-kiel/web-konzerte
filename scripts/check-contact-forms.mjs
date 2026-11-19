@@ -127,6 +127,8 @@ try {
   let sessionId;
   let expectedBody;
   let heldPost;
+  let simulateOutage = false;
+  let heldChallenge;
   let turnstileRequests = 0;
   let availabilityRequests = 0;
   const call = (method, params = {}, session = sessionId) =>
@@ -189,9 +191,17 @@ try {
       url.pathname === '/turnstile/v0/api.js'
     ) {
       turnstileRequests++;
+      if (simulateOutage) {
+        heldChallenge = requestId;
+        return;
+      }
       await fulfill(requestId, 200, turnstileMock, 'application/javascript');
     } else if (url.origin === origin.origin && /^\/api\/availability\/?$/.test(url.pathname)) {
       availabilityRequests++;
+      if (simulateOutage) {
+        await fulfill(requestId, 503, { error: 'Synthetic outage' });
+        return;
+      }
       const from = url.searchParams.get('from');
       const to = url.searchParams.get('to');
       assert(
@@ -729,11 +739,102 @@ try {
     })()`
   });
 
-  for (const [width, height] of [
-    [375, 812],
-    [1280, 900],
-    [375, 320]
+  // Exercise both degraded paths without launching a mail application or contacting a provider.
+  await call('Emulation.setDeviceMetricsOverride', {
+    width: 375,
+    height: 812,
+    deviceScaleFactor: 1,
+    mobile: false
+  });
+  simulateOutage = true;
+  for (const [kind, path] of [
+    ['contact', '/kontakt/'],
+    ['booking', '/f%C3%BCr-veranstalter/']
   ]) {
+    const target = new URL(path, origin);
+    const status = `${form}.querySelector('[data-mail-verification-status]')`;
+    const mailAlternative = `(() => {
+      const status = ${status}, link = ${form}.querySelector('a[href^="mailto:"]');
+      return link?.href === 'mailto:' + link.textContent.trim() && link.getClientRects().length > 0 &&
+        !!(link.compareDocumentPosition(${form}.querySelector('[data-mail-fields]')) & Node.DOCUMENT_POSITION_FOLLOWING) &&
+        status.getClientRects().length > 0;
+    })()`;
+    await call('Emulation.setScriptExecutionDisabled', { value: true });
+    await call('Page.navigate', { url: target.href });
+    await wait(
+      `location.pathname === ${JSON.stringify(target.pathname)} && document.readyState === 'complete' && !!${form}`,
+      'static form'
+    );
+    assert(
+      await evaluate(`${mailAlternative} && ${status}.textContent.includes('JavaScript') &&
+      !${form}.querySelector('[data-mail-submit]').getClientRects().length`),
+      'No JS: offer a native recipient-only mail link before the fields, not a dead send action.'
+    );
+
+    await call('Emulation.setScriptExecutionDisabled', { value: false });
+    await call('Page.reload', { ignoreCache: true });
+    await wait(() => !!heldChallenge, 'delayed challenge script');
+    assert(
+      await evaluate(`${mailAlternative} && ${status}.textContent.includes('geladen') &&
+      ${form}.querySelector('[data-mail-submit]').disabled`),
+      'Pending verification must be explained at the start, with an alternative already available.'
+    );
+    await fillOrdinary(kind);
+    if (kind === 'booking') {
+      await wait(
+        `${form}.querySelector('${calendarSelector}')?.closest('[aria-busy]')?.getAttribute('aria-busy') === 'false'`,
+        'failed availability request settled'
+      );
+      assert(
+        await evaluate(`(() => {
+        const calendar = ${form}.querySelector('${calendarSelector}');
+        const status = [...${form}.querySelectorAll('[role="status"]')].find(e => e.textContent.includes('Wunschdatum trotzdem eingeben'));
+        return status && status.getClientRects().length > 0 && status.getBoundingClientRect().bottom <= calendar.getBoundingClientRect().top &&
+          !${form}.querySelector('ul[aria-label="Kalenderstatus"]');
+      })()`),
+        'Explain unavailable dates above the calendar, without suggesting any day is known to be free.'
+      );
+      await fillDateSegments(nextDates);
+      await assertFormData(nextDates);
+    }
+    const draft = await snapshot();
+    await call('Fetch.failRequest', { requestId: heldChallenge, errorReason: 'BlockedByClient' });
+    heldChallenge = undefined;
+    await wait(
+      `${status}.textContent.includes('nicht verfügbar')`,
+      'unavailable verification announced'
+    );
+    assert(
+      await evaluate(`(() => {
+      const button = ${form}.querySelector('[data-mail-submit]');
+      return ${mailAlternative} && button.disabled && button.textContent.includes('nicht verfügbar') &&
+        getComputedStyle(button).backgroundColor !== getComputedStyle(${dialog}.querySelector('[data-mail-success-close]')).backgroundColor;
+    })()`),
+      'Blocking the challenge must visibly disable sending and leave the mail route available.'
+    );
+    await evaluate(`${form}.requestSubmit()`);
+    assert.deepEqual(
+      await snapshot(),
+      draft,
+      'A blocked verification must retain the draft and both dates.'
+    );
+    assert.equal(posts.length, 0, 'A blocked verification must never attempt a POST.');
+    await wait(`document.readyState === 'complete'`, 'outage fixture loaded');
+    checkErrors();
+  }
+  simulateOutage = false;
+  console.log(
+    'Contact and inquiry: no-JS native mail links, delayed/blocked verification, unavailable calendar, editable dates and retained drafts passed.'
+  );
+
+  const viewports = process.argv.includes('--fallbacks-only')
+    ? []
+    : [
+        [375, 812],
+        [1280, 900],
+        [375, 320]
+      ];
+  for (const [width, height] of viewports) {
     await call('Emulation.setDeviceMetricsOverride', {
       width,
       height,
@@ -880,8 +981,8 @@ try {
   }
   assert.equal(
     posts.length,
-    36,
-    'Each fixture must make four rejected and two accepted synthetic POSTs.'
+    viewports.length * 2 * 6,
+    'Each submission fixture must make four rejected and two accepted synthetic POSTs.'
   );
   assert(!heldPost, 'No synthetic request may remain unresolved.');
   checkErrors();

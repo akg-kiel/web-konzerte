@@ -100,7 +100,7 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
                     )
                   }
                 >
-                  {({ formattedDate }) => (
+                  {({ formattedDate, isSelected }) => (
                     <>
                       <span>{formattedDate}</span>
                       {status && (
@@ -108,8 +108,9 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
                           <span
                             aria-hidden="true"
                             className={cn(
-                              'absolute bottom-1 h-1.5 w-1.5 rounded-full',
-                              status.className
+                              'absolute bottom-1',
+                              status.className,
+                              isSelected && 'ring-1 ring-midnight'
                             )}
                           />
                           <span className="sr-only">, {status.label}</span>

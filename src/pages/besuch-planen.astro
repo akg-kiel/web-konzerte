@@ -1,9 +1,14 @@
 ---
+import { env } from 'cloudflare:workers';
+import { getContactSettings } from '../lib/contact-mail';
 import ParkingMap from '../components/sections/ParkingMap.astro';
+import SectionNavigation from '../components/sections/SectionNavigation.astro';
 import PageHero from '../components/sections/PageHero.astro';
 import { ButtonLink } from '../components/ui/button';
 import Layout from '../layouts/Layout.astro';
 import churchEntrance from '../assets/venue/petruskirche-entrance.webp';
+
+const { email } = getContactSettings(env);
 ---
 
 <Layout
@@ -12,7 +17,6 @@ import churchEntrance from '../assets/venue/petruskirche-entrance.webp';
 >
   <main class="min-h-screen bg-midnight text-role-on">
     <PageHero
-      eyebrow="Für Konzertgäste"
       intro="Anfahrt, Parken, Einlass, Abendkasse und Hinweise zur Barrierefreiheit."
       image={churchEntrance}
       imageAlt="Backsteinportal am Haupteingang der Petruskirche"
@@ -22,17 +26,16 @@ import churchEntrance from '../assets/venue/petruskirche-entrance.webp';
       <ButtonLink slot="cta" className="min-h-12 rounded-sm border-white/30 bg-transparent px-6 py-3 font-body text-xs/4 font-semibold uppercase tracking-widest text-on-surface hover:border-secondary hover:bg-transparent hover:text-secondary" href="#barrierefreiheit" variant="outline">Barrierefreiheit</ButtonLink>
     </PageHero>
 
-    <nav aria-label="Inhalte dieser Seite" class="page-nav border-b border-white/10 bg-surface/60">
-      <div class="mx-auto flex w-full max-w-screen-2xl flex-wrap gap-x-8 gap-y-2 px-6 py-6 font-body text-sm/6 md:px-8 lg:px-16">
-        <a class="min-h-11 content-center !text-role-on/70 no-underline hover:!text-secondary" href="#anfahrt">Anfahrt &amp; Parken</a>
-        <a class="min-h-11 content-center !text-role-on/70 no-underline hover:!text-secondary" href="#einlass">Einlass &amp; Abendkasse</a>
-        <a class="min-h-11 content-center !text-role-on/70 no-underline hover:!text-secondary" href="#barrierefreiheit">Barrierefreiheit</a>
-      </div>
-    </nav>
+    <SectionNavigation links={[
+      { href: '#anfahrt', label: 'Anfahrt & Parken' },
+      { href: '#einlass', label: 'Einlass & Abendkasse' },
+      { href: '#barrierefreiheit', label: 'Barrierefreiheit' }
+    ]} />
 
     <div class="mx-auto w-full max-w-screen-2xl px-6 md:px-8 lg:px-16 space-y-20 py-16 md:space-y-28 md:py-24">
       <section id="anfahrt" aria-labelledby="arrival-heading">
-        <h2 id="arrival-heading" class="mb-8 font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Anfahrt &amp; Parken</h2>
+        <h2 id="arrival-heading" class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Anfahrt &amp; Parken</h2>
+        <address class="mb-8 mt-4 font-body text-lg/7 not-italic text-on-surface">Petruskirche Kiel-Wik · Weimarer Straße 1 · 24106 Kiel</address>
 
         <div id="parken" class="grid grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-16">
           <div class="lg:col-start-2 lg:row-start-1">
@@ -68,10 +71,6 @@ import churchEntrance from '../assets/venue/petruskirche-entrance.webp';
                 Bitte nutzen Sie nur die im Lageplan gold markierte Parkfläche westlich der Rostocker Straße und beachten Sie die Beschilderung vor Ort. Planen Sie bei größeren Veranstaltungen zusätzliche Zeit ein.
               </p>
             </div>
-            <p class="font-body text-base/7 text-role-on/70">
-              <span class="block font-semibold text-on-surface">Petruskirche Kiel-Wik</span>
-              Weimarer Straße 1 · 24106 Kiel
-            </p>
           </div>
 
         </div>
@@ -106,9 +105,10 @@ import churchEntrance from '../assets/venue/petruskirche-entrance.webp';
             <p class="mt-2">Ein rollstuhlgerechtes WC befindet sich im angrenzenden Gemeindehaus und ist während Veranstaltungen ausgeschildert.</p>
           </div>
         </div>
-        <p class="mt-8 max-w-3xl rounded-sm border-l border-secondary bg-secondary/5 py-4 pl-6 text-on-surface">
-          Für Rollstuhlplätze bitten wir um vorherige Kontaktaufnahme.
-        </p>
+        <div class="mt-8 max-w-3xl border-t border-white/10 pt-6">
+          <p class="font-body text-base/7 text-on-surface">Für Rollstuhlplätze bitten wir um vorherige Kontaktaufnahme mit dem Konzertbüro.</p>
+          <a class="mt-2 inline-flex min-h-11 items-center font-semibold text-secondary underline underline-offset-4 hover:text-champagne" href={`mailto:${email}?subject=Rollstuhlplatz%20f%C3%BCr%20ein%20Konzert`}>Rollstuhlplatz per E-Mail anfragen</a>
+        </div>
       </section>
     </div>
   </main>

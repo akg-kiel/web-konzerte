@@ -350,7 +350,24 @@ if (originFlag !== undefined) {
     assert.equal(destination.origin, url.origin);
     assert.equal(destination.pathname, path, `${path}: the current link must point to this route`);
   }
-  console.log('Rendered programme navigation checks passed for both routes.');
+  const legacy = await fetch(new URL('/raum-anfragen/', origin), {
+    redirect: 'manual',
+    signal: AbortSignal.timeout(10_000)
+  });
+  assert.equal(legacy.status, 301, 'The old room-inquiry URL must not require an HTML refresh');
+  assert.equal(
+    new URL(legacy.headers.get('location'), origin).href,
+    new URL('/f%C3%BCr-veranstalter/', origin).href
+  );
+  const missing = await fetch(new URL('/nicht-vorhandene-testseite/', origin));
+  assert.equal(missing.status, 404);
+  const missingPage = await missing.text();
+  assert.match(missingPage, /<html\b[^>]*lang="de"/);
+  const missingMain = missingPage.match(/<main\b[\s\S]*?<\/main>/)?.[0] ?? '';
+  assert.match(missingMain, /Seite nicht gefunden/);
+  assert.match(missingMain, /href="\/programm\/"/);
+  assert.match(missingMain, /href="\/"/);
+  console.log('Rendered programme navigation, legacy redirect and German 404 recovery passed.');
 }
 
 if (process.argv.includes('--built')) {

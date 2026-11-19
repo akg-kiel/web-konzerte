@@ -67,6 +67,11 @@ assert(inputs.every((input) => input.includes('type="date"')));
 assert(inputs[0].includes('name="Wunschdatum"') && inputs[0].includes('required=""'));
 assert(inputs[1].includes('name="Alternativdatum"') && !inputs[1].includes('required=""'));
 assert.equal(fallback.includes('clip-path'), false, 'No-JS date inputs must be visible');
+assert(
+  inputs.every((input) => !/\b(?:disabled|readonly)\b/.test(input)),
+  'Typing a date must not depend on the availability request or hydration.'
+);
+assert.match(fallback, /nach Ihrer unverbindlichen Anfrage geprüft/);
 
 const originalFetch = globalThis.fetch;
 const originalCaches = Object.getOwnPropertyDescriptor(globalThis, 'caches');

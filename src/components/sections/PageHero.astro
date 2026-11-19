@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
-import fallbackImage from '../../assets/hero/l1130722-hero.jpg';
+import fallbackImage from '../../assets/concerts/venue-fallback.webp';
 
 interface Props {
   eyebrow?: string;
@@ -25,8 +25,8 @@ const hasCta = Astro.slots.has('cta');
   class:list={[
     'page-hero relative overflow-hidden bg-role-dominant text-role-on',
     hasImage
-      ? 'flex min-h-[68svh] items-end pt-28 pb-16 md:min-h-[82svh] md:pb-28'
-      : 'pt-32 pb-14 md:pb-20'
+      ? 'flex min-h-[60svh] items-end pb-10 pt-28 md:min-h-[64svh] md:pb-16'
+      : 'pt-32 pb-10 md:pb-14'
   ]}
 >
   {
@@ -62,11 +62,11 @@ const hasCta = Astro.slots.has('cta');
         )}
         <div
           aria-hidden="true"
-          class="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(2,6,23,0.45)_0%,rgba(2,6,23,0.28)_42%,rgba(2,6,23,0.7)_78%,rgb(2,6,23)_100%)]"
+          class="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(2,6,23,0.14)_0%,rgba(2,6,23,0.48)_36%,rgba(2,6,23,0.76)_68%,rgb(2,6,23)_100%)]"
         />
         <div
           aria-hidden="true"
-          class="absolute inset-0 bg-[linear-gradient(90deg,rgba(2,6,23,0.55)_0%,rgba(2,6,23,0.14)_48%,rgba(2,6,23,0.28)_100%)]"
+          class="absolute inset-0 bg-[linear-gradient(90deg,rgba(2,6,23,0.68)_0%,rgba(2,6,23,0.56)_42rem,transparent_70rem)]"
         />
       </>
     )
@@ -82,7 +82,7 @@ const hasCta = Astro.slots.has('cta');
     <h1
       id="page-hero-heading"
       class:list={[
-        'font-display text-4xl/tight font-normal tracking-tighter text-white sm:text-5xl/tight md:text-7xl/none lg:text-8xl/none',
+        'wrap-anywhere font-display text-4xl/tight font-normal tracking-tighter text-white sm:text-5xl/tight md:text-7xl/none lg:text-8xl/none',
         hasImage && 'stage-title'
       ]}
     >

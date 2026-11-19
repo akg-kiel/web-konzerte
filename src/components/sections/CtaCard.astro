@@ -5,29 +5,22 @@ interface Props {
   href: string;
   title: string;
   body: string;
-  cta: string;
-  icon: string;
 }
 
-const { href, title, body, cta, icon } = Astro.props;
+const { href, title, body } = Astro.props;
 ---
 
 <Card
   as="a"
   href={href}
-  class="cta-card group flex min-h-full flex-col p-8 !text-role-on no-underline transition-colors duration-300 hover:border-secondary/40 hover:bg-slate-mist/30 focus-visible:border-secondary/50"
+  aria-label={title}
+  class="cta-card group block p-6 !text-role-on no-underline transition-colors hover:border-secondary/40 focus-visible:border-secondary/50 md:p-8"
 >
-  <span class="mb-8 flex h-12 w-12 items-center justify-center rounded-sm bg-slate-mist text-xl/7 text-secondary transition-colors duration-300 group-hover:bg-secondary group-hover:text-midnight group-focus-visible:bg-secondary group-focus-visible:text-midnight" aria-hidden="true">
-    {icon}
-  </span>
-  <h3 class="font-display text-2xl/8 md:text-3xl/9 font-normal text-white transition-colors duration-300 group-hover:text-champagne group-focus-visible:text-champagne">
+  <h3 class="flex items-center justify-between gap-4 wrap-anywhere font-display text-2xl/8 font-normal text-white group-hover:text-champagne group-focus-visible:text-champagne md:text-3xl/9">
     {title}
+    <svg class="cta-arrow size-6 shrink-0 text-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <path d="M4 12h15m-6-6 6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
   </h3>
-  <p class="!mt-4 font-body text-base/7 text-role-on">
-    {body}
-  </p>
-  <span class="mt-auto inline-flex min-h-10 items-center gap-2 self-start pt-8 font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary transition-colors duration-300 group-hover:!text-champagne group-focus-visible:!text-champagne">
-    {cta}
-    <span class="cta-arrow" aria-hidden="true">→</span>
-  </span>
+  <p class="mt-4 max-w-lg font-body text-base/7 text-role-on/80">{body}</p>
 </Card>

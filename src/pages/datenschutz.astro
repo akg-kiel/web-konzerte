@@ -6,7 +6,7 @@ import PageHero from '../components/sections/PageHero.astro';
 import Layout from '../layouts/Layout.astro';
 
 const contact = getContactSettings(env);
-const linkClass = '!text-secondary no-underline hover:!text-champagne';
+const linkClass = 'wrap-anywhere text-secondary underline underline-offset-4 hover:text-champagne';
 const headingClass = 'font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary';
 const textClass = 'mt-6 space-y-4 font-body text-base/7 text-role-on/75';
 ---
@@ -17,32 +17,33 @@ const textClass = 'mt-6 space-y-4 font-body text-base/7 text-role-on/75';
 >
   <main class="min-h-screen bg-midnight text-role-on">
     <PageHero
-      eyebrow="Rechtliches"
       intro="Informationen über die Verarbeitung personenbezogener Daten beim Besuch dieser Website und bei der Kontaktaufnahme."
     >
       Datenschutz
     </PageHero>
 
-    <article class="mx-auto grid w-full max-w-screen-2xl gap-16 px-6 py-16 md:px-8 md:py-24 lg:grid-cols-12 lg:px-16">
-      <aside class="lg:col-span-3 lg:col-start-10 lg:row-start-1" aria-labelledby="contents-heading">
-        <nav class="border-t border-white/10 pt-8 lg:sticky lg:top-28" aria-labelledby="contents-heading">
-          <h2 id="contents-heading" class="font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">Auf dieser Seite</h2>
-          <ul class="mt-5 space-y-2 font-body text-sm/6" role="list">
-            <li><a class={linkClass} href="#verantwortlicher">Verantwortlicher</a></li>
-            <li><a class={linkClass} href="#datenschutzkontakt">Datenschutzkontakt</a></li>
-            <li><a class={linkClass} href="#website">Hosting</a></li>
-            <li><a class={linkClass} href="#programm">Programm &amp; Verfügbarkeit</a></li>
-            <li><a class={linkClass} href="#kontakt">Kontaktaufnahme</a></li>
-            {contact.enabled && <li><a class={linkClass} href="#turnstile">Spamprüfung</a></li>}
-            <li><a class={linkClass} href="#cookies">Cookies &amp; Analyse</a></li>
-            <li><a class={linkClass} href="#drittanbieter">Karten &amp; externe Links</a></li>
-            <li><a class={linkClass} href="#rechte">Ihre Rechte</a></li>
-            <li><a class={linkClass} href="#sicherheit">Datensicherheit</a></li>
-          </ul>
-        </nav>
+    <article class="mx-auto grid w-full max-w-screen-2xl gap-8 px-6 pb-16 pt-8 md:px-8 md:pb-24 lg:grid-cols-12 lg:gap-16 lg:px-16">
+      <aside class="min-w-0 lg:col-span-3 lg:col-start-10 lg:row-start-1" aria-label="Inhaltsverzeichnis">
+        <details class="border-y border-white/15 lg:sticky lg:top-28 lg:max-h-[calc(100dvh-8rem)] lg:overflow-y-auto">
+          <summary id="contents-heading" class="cursor-pointer py-4 font-body text-base/6 font-semibold text-on-surface marker:text-secondary hover:text-secondary">Inhaltsverzeichnis</summary>
+          <nav aria-label="Abschnitte zum Datenschutz">
+            <ul class="grid gap-x-6 pb-4 font-body text-sm/6 sm:grid-cols-2 lg:grid-cols-1 [&_a]:inline-flex [&_a]:min-h-11 [&_a]:items-center" role="list">
+              <li><a class={linkClass} href="#verantwortlicher">Verantwortlicher</a></li>
+              <li><a class={linkClass} href="#datenschutzkontakt">Datenschutzkontakt</a></li>
+              <li><a class={linkClass} href="#website">Hosting</a></li>
+              <li><a class={linkClass} href="#programm">Programm &amp; Verfügbarkeit</a></li>
+              <li><a class={linkClass} href="#kontakt">Kontaktaufnahme</a></li>
+              {contact.enabled && <li><a class={linkClass} href="#turnstile">Spamprüfung</a></li>}
+              <li><a class={linkClass} href="#cookies">Cookies &amp; Analyse</a></li>
+              <li><a class={linkClass} href="#drittanbieter">Karten &amp; externe Links</a></li>
+              <li><a class={linkClass} href="#rechte">Ihre Rechte</a></li>
+              <li><a class={linkClass} href="#sicherheit">Datensicherheit</a></li>
+            </ul>
+          </nav>
+        </details>
       </aside>
 
-      <div class="space-y-16 lg:col-span-8 lg:col-start-1 lg:row-start-1">
+      <div class="min-w-0 max-w-prose space-y-12 lg:col-span-8 lg:col-start-1 lg:row-start-1">
         <section id="verantwortlicher" aria-labelledby="controller-heading">
           <h2 id="controller-heading" class={headingClass}>Verantwortlicher</h2>
           <div class={textClass}>

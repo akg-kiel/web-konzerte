@@ -41,7 +41,7 @@ const gridClass = 'grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-8
 const imageSizes = '(min-width: 1536px) 448px, (min-width: 1024px) calc((100vw - 192px) / 3), (min-width: 768px) calc(50vw - 48px), calc(100vw - 48px)';
 
 const headerLinkClass =
-  'min-h-12 items-center gap-2 font-body text-xs/4 font-semibold uppercase tracking-widest !text-role-on/70 no-underline transition-colors hover:!text-secondary';
+  'inline-flex min-h-12 items-center gap-2 font-body text-xs/4 font-semibold uppercase tracking-widest !text-role-on/70 no-underline transition-colors hover:!text-secondary';
 const paginationLinkClass =
   'inline-flex min-h-12 items-center font-body text-xs/4 font-semibold uppercase tracking-widest !text-secondary no-underline hover:!text-champagne';
 const pageHref = (target: number) => {
@@ -64,7 +64,7 @@ const pageHref = (target: number) => {
   ]}
 >
   <div class="mx-auto w-full max-w-screen-2xl px-6 md:px-8 lg:px-16">
-    <div class="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end md:mb-10">
+    <div class:list={['flex flex-wrap items-center justify-between gap-x-6', isHome ? 'mb-6' : 'mb-4 md:mb-6']}>
       <div>
         <h2 id={titleId} class="block font-body text-xs/4 font-semibold uppercase tracking-widest text-secondary">
           {eyebrow}
@@ -73,11 +73,8 @@ const pageHref = (target: number) => {
       </div>
 
       {showHeaderLink && (
-        <a
-          href="/programm/"
-          class:list={['hidden sm:inline-flex', headerLinkClass]}
-        >
-          Alle Termine ansehen
+        <a href="/programm/" class={headerLinkClass}>
+          Zum Konzertprogramm
           <span aria-hidden="true">→</span>
         </a>
       )}
@@ -97,7 +94,7 @@ const pageHref = (target: number) => {
       ) : (
         <div class="max-w-2xl">
           <slot name="empty">
-            <p class="font-body text-sm/6 text-role-on/70">{emptyMessage ?? 'Alle aktuellen Termine finden Sie im Konzertprogramm.'}</p>
+            <p class="font-body text-sm/6 text-role-on/70">{emptyMessage ?? 'Zurzeit sind keine kommenden Konzerte angekündigt.'}</p>
           </slot>
         </div>
       )
@@ -113,16 +110,6 @@ const pageHref = (target: number) => {
           {page < pageCount && <a class={paginationLinkClass} href={pageHref(page + 1)} rel="next">Weiter →</a>}
         </span>
       </nav>
-    )}
-
-    {showHeaderLink && (
-      <a
-        href="/programm/"
-        class:list={['mt-8 inline-flex sm:hidden', headerLinkClass]}
-      >
-        Alle Termine ansehen
-        <span aria-hidden="true">→</span>
-      </a>
     )}
   </div>
 </section>
