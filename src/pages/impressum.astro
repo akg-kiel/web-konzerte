@@ -2,6 +2,7 @@
 import { env } from 'cloudflare:workers';
 
 import { getContactSettings } from '../lib/contact-mail';
+import { venue } from '../data/venue';
 import PageHero from '../components/sections/PageHero.astro';
 import Layout from '../layouts/Layout.astro';
 
@@ -67,9 +68,9 @@ const { email } = getContactSettings(env);
             Konzertanfragen
           </h2>
           <address class="mt-6 font-body text-base/7 text-role-on/75 not-italic">
-            <strong class="font-semibold text-on-surface">Konzertkirche Petruskirche</strong><br />
-            Weimarer Straße 1<br />
-            24106 Kiel<br />
+            <strong class="font-semibold text-on-surface">{venue.name}</strong><br />
+            {venue.address.street}<br />
+            {venue.address.postalCode} {venue.address.city}<br />
             <a class="mt-4 inline-block !text-secondary no-underline hover:!text-champagne" href={`mailto:${email}`}>{email}</a>
           </address>
         </div>

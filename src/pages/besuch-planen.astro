@@ -3,6 +3,7 @@ import ParkingMap from '../components/sections/ParkingMap.astro';
 import PageHero from '../components/sections/PageHero.astro';
 import { ButtonLink } from '../components/ui/button';
 import Layout from '../layouts/Layout.astro';
+import { venue, venueAddress } from '../data/venue';
 import churchEntrance from '../assets/venue/petruskirche-entrance.webp';
 ---
 
@@ -70,7 +71,7 @@ import churchEntrance from '../assets/venue/petruskirche-entrance.webp';
             </div>
             <p class="font-body text-base/7 text-role-on/70">
               <span class="block font-semibold text-on-surface">Petruskirche Kiel-Wik</span>
-              Weimarer Straße 1 · 24106 Kiel
+              {venueAddress}
             </p>
           </div>
 
@@ -99,15 +100,15 @@ import churchEntrance from '../assets/venue/petruskirche-entrance.webp';
         <div class="grid max-w-3xl grid-cols-1 gap-8 font-body text-base/7 text-role-on/70 md:grid-cols-2">
           <div>
             <h3 class="font-body text-lg/7 font-semibold text-on-surface">Stufenloser Zugang</h3>
-            <p class="mt-2">Der Haupteingang ist über eine flache Rampe stufenlos erreichbar. Im Kirchenschiff sind nach aktuellem Stand keine Stufen vorhanden.</p>
+            <p class="mt-2">{venue.accessibility.entrance}</p>
           </div>
           <div>
             <h3 class="font-body text-lg/7 font-semibold text-on-surface">Sanitäre Anlagen</h3>
-            <p class="mt-2">Ein rollstuhlgerechtes WC befindet sich im angrenzenden Gemeindehaus und ist während Veranstaltungen ausgeschildert.</p>
+            <p class="mt-2">{venue.accessibility.toilet}</p>
           </div>
         </div>
         <p class="mt-8 max-w-3xl rounded-sm border-l border-secondary bg-secondary/5 py-4 pl-6 text-on-surface">
-          Für Rollstuhlplätze bitten wir um vorherige Kontaktaufnahme.
+          {venue.accessibility.wheelchairPlaces}
         </p>
       </section>
     </div>
