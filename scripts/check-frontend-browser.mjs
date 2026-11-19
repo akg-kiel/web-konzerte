@@ -215,6 +215,26 @@ try {
           `${path} ${width}: a named concert must be visible on arrival`
         );
       }
+      if (width === 1280 && (path === '/' || path === '/programm/')) {
+        const scope = path === '/' ? '#naechste-konzerte' : '[data-programme-panel]:not([hidden])';
+        await wait(`document.querySelectorAll('${scope} .concert-card').length >= 2`);
+        assert(
+          await evaluate(`(() => {
+          const [first, second] = document.querySelectorAll('${scope} .concert-card');
+          const title = second.querySelector('h3'), previous = title.textContent;
+          const top = (card, selector) => card.querySelector(selector).getBoundingClientRect().top - card.getBoundingClientRect().top;
+          try {
+            title.textContent = 'Ein Konzert mit einem sehr langen Namen '.repeat(3);
+            const lines = ['img', 'time', 'h3', 'h3 + div', 'a[aria-label^="Details"]'];
+            const range = document.createRange(); range.selectNodeContents(title);
+            return Math.abs(top(first, 'img') - 1) < 1 &&
+              lines.every(selector => Math.abs(top(first, selector) - top(second, selector)) < 1) &&
+              range.getBoundingClientRect().bottom <= second.querySelector('h3 + div').getBoundingClientRect().top + 1;
+          } finally { title.textContent = previous; }
+        })()`),
+          `${path}: image, text and actions must share row lines without clipping long concert titles`
+        );
+      }
       if ([detail, noPoster, archiveDetail].includes(path)) {
         assert(
           await evaluate(`(() => {
@@ -298,7 +318,7 @@ try {
         assert(
           await evaluate(`(() => {
           const image = document.querySelector('${imageSelector}'), r=image.getBoundingClientRect();
-          return image.hasAttribute('width') && image.hasAttribute('height') && r.left>=0 && r.right<=innerWidth && Math.abs(r.width/r.height - 4/3)<0.02;
+          return image.hasAttribute('width') && image.hasAttribute('height') && r.left>=0 && r.right<=innerWidth && Math.abs(r.width/r.height - ${path === detail ? '4/3' : '2'})<0.02;
         })()`),
           'Poster crop must stay within the mobile viewport with reserved intrinsic dimensions.'
         );

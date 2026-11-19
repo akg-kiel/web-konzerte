@@ -49,7 +49,7 @@ const compactTicketClass = buttonVariants({ variant: 'outline', className: `${ac
   id={cardId}
   aria-labelledby={titleId}
   {...rest}
-  class="concert-card flex h-full flex-col transition-colors duration-300 hover:border-secondary/40 focus-within:border-secondary/40"
+  class="concert-card row-span-5 grid min-w-0 grid-cols-1 grid-rows-subgrid gap-y-0 transition-colors duration-300 hover:border-secondary/40 focus-within:border-secondary/40"
 >
   <a
     href={concert.detailsHref}
@@ -58,16 +58,7 @@ const compactTicketClass = buttonVariants({ variant: 'outline', className: `${ac
     tabindex="-1"
   ></a>
 
-  <header class="pointer-events-none min-w-0 p-6">
-    <time datetime={concert.date.iso} class="block font-body text-sm/6 font-semibold text-secondary">
-      {concert.date.display}
-    </time>
-    <h3 id={titleId} class="mt-2 wrap-anywhere font-display text-2xl/snug font-normal tracking-tight text-white">
-      {concert.title}
-    </h3>
-  </header>
-
-  <div class="pointer-events-none relative aspect-[4/3] w-full shrink-0 overflow-hidden">
+  <div class:list={['pointer-events-none relative w-full overflow-hidden', isHome ? 'aspect-[3/2]' : 'aspect-[2/1]']}>
     <img
       {...image.attributes}
       src={image.src}
@@ -79,32 +70,38 @@ const compactTicketClass = buttonVariants({ variant: 'outline', className: `${ac
     />
   </div>
 
-  <div class="pointer-events-none relative z-20 flex min-w-0 grow flex-col p-6">
-    {concert.subtitle && <p class="mb-4 whitespace-pre-line font-body text-base/relaxed text-role-on">{concert.subtitle}</p>}
+  <time datetime={concert.date.iso} class="px-6 pt-4 font-body text-sm/6 font-semibold text-secondary">
+    {concert.date.display}
+  </time>
+  <h3 id={titleId} class="px-6 pt-2 wrap-anywhere font-display text-2xl/snug font-normal tracking-tight text-white">
+    {concert.title}
+  </h3>
+  <div class:list={['space-y-2 px-6', (concert.subtitle || description) && 'pt-4']}>
+    {concert.subtitle && <p class="whitespace-pre-line font-body text-base/relaxed text-role-on">{concert.subtitle}</p>}
     {description && <p class:list={[
-      '!mb-6 max-w-none whitespace-pre-line font-body text-base/relaxed text-role-on',
+      'whitespace-pre-line font-body text-base/relaxed text-role-on',
       isHome && 'line-clamp-3'
     ]}>
       {description}
     </p>}
-    <div class="mt-auto flex flex-wrap items-center gap-2">
+  </div>
+  <div class="pointer-events-none flex flex-wrap items-end gap-2 self-end p-6">
+    <a
+      href={concert.detailsHref}
+      class={compactDetailClass}
+      aria-label={`Details zu ${concert.title} ansehen`}
+    >
+      Details
+    </a>
+    {!isArchive && concert.ticketUrl && (
       <a
-        href={concert.detailsHref}
-        class={compactDetailClass}
-        aria-label={`Details zu ${concert.title} ansehen`}
+        id={`tickets-${cardId}`}
+        href={concert.ticketUrl}
+        class={compactTicketClass}
+        aria-label={`Tickets für ${concert.title} kaufen`}
       >
-        Details
+        Tickets
       </a>
-      {!isArchive && concert.ticketUrl && (
-        <a
-          id={`tickets-${cardId}`}
-          href={concert.ticketUrl}
-          class={compactTicketClass}
-          aria-label={`Tickets für ${concert.title} kaufen`}
-        >
-          Tickets
-        </a>
-      )}
-    </div>
+    )}
   </div>
 </Card>
