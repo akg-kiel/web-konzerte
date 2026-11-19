@@ -1,4 +1,6 @@
 ---
+import { venueAddress } from '../../data/venue';
+
 interface Props {
   id: string;
 }
@@ -53,7 +55,7 @@ const { id } = Astro.props;
     </g>
   </svg>
   <figcaption class="space-y-4 p-6 font-body text-sm/6 text-role-on/70">
-    <p class="font-semibold text-on-surface">Petruskirche · Kiel-Wik<br /><span class="font-normal text-role-on/70">Weimarer Straße 1 · 24106 Kiel</span></p>
+    <p class="font-semibold text-on-surface">Petruskirche · Kiel-Wik<br /><span class="font-normal text-role-on/70">{venueAddress}</span></p>
     <div class="flex flex-wrap gap-x-6 gap-y-2">
       <a class="inline-flex min-h-11 items-center text-secondary underline underline-offset-4 hover:text-champagne" href="/besuch-planen/#parken">Parkplan &amp; Parkzeiten</a>
       <a

@@ -74,9 +74,10 @@ General ChurchTools guidance: keep event titles, subtitles, programme notes, per
 
 ## Factual confirmations / blockers
 
-These claims were source-reviewed but not externally verified in this implementation pass. Confirm before launch or keep them marked as provisional:
+Accessibility was corrected using the user's on-site information: the church has a wheelchair-accessible side entrance and a wheelchair-accessible WC inside the church by that entrance. The facts are maintained once in `src/data/venue.ts`, alongside the venue address and concert phone. The visit page contains the full details, including the prior-contact request for wheelchair places; contact and programme pages reuse only the access summary and link to the full accessibility section. Unconfirmed ramp, nave-step and WC-signage claims were removed. Bus connections and parking details are maintained only on the visit page; the contact page links there. Venue addresses in the footer, map caption and concert-contact imprint block also use the shared data. Event-specific ChurchTools information remains unchanged.
 
-- Accessibility: ramp, no steps in the nave, wheelchair-accessible WC in the adjacent Gemeindehaus, wheelchair places.
+The remaining claims were source-reviewed but not externally verified in this implementation pass. Confirm before launch or keep them marked as provisional:
+
 - Visitor operations: usual 45-minute admission, Abendkasse opening with admission, recommendation for cashless payment.
 - Transport: bus lines 6, 32, 91. Parking times and the permitted area are now sourced from the AKG concert parking plan below; no claim of free street parking remains.
 - Contact details: `konzerte@akg-kiel.de`, `kontakt@akg-kiel.de`, `website@akg-kiel.de`, phone numbers and named contact person.

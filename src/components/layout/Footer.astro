@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import { env } from 'cloudflare:workers';
 
 import { getContactSettings } from '../../lib/contact-mail';
+import { venueAddress } from '../../data/venue';
 import akgLogo from '../../assets/logos/logo-akg-250px.png';
 
 const currentYear = new Date().getFullYear();
@@ -57,7 +58,7 @@ const legalLinks = [
       <address class="mt-8 space-y-4 font-body text-sm/6 text-role-on/70 not-italic">
         <p>
           <span class="block font-semibold text-role-on/90">Petruskirche Kiel-Wik</span>
-          Weimarer Straße 1 · 24106 Kiel
+          {venueAddress}
         </p>
         <p class="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-x-6">
           <a href={`mailto:${email}`} class="text-role-on/75 no-underline hover:text-secondary">

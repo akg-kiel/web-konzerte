@@ -109,6 +109,20 @@ pnpm darf keine andere Version nachladen. Danach `devenv test --clean` ausführe
 
 Produktion: Cloudflare Worker mit statischen Seiten und serverseitig gerenderten Programmseiten in `dist/`.
 
+## Besucherinformationen
+
+`src/data/venue.ts` ist die gemeinsame Quelle für Veranstaltungsort, Adresse,
+Barrierefreiheitsangaben und Konzerttelefon. Wiederkehrende Angaben werden daraus
+übernommen, nicht in Seiten oder Komponenten kopiert. Die öffentliche Konzert-E-Mail
+bleibt in der bestehenden Konfiguration von `src/lib/contact-mail.ts`.
+
+`/besuch-planen/` enthält die vollständigen Angaben zu Anfahrt, Parken, Einlass
+und Barrierefreiheit. Kontakt- und Programmseite zeigen nur die passende Kurzfassung
+mit gezielten Links zu den Details. Angaben, die nur dort benötigt werden, etwa
+Buslinien und Parkzeiten, bleiben auf der Besuchsseite. Änderungen erfordern einen
+neuen Build; eine CT-Wiki-Anbindung ist derzeit nicht nötig.
+Veranstaltungsspezifische Angaben und Abweichungen kommen weiterhin aus ChurchTools.
+
 ## Kontaktformulare
 
 Die Quellkonfiguration aktiviert den direkten Versand für Kontakt und Raumanfrage
