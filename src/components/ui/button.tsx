@@ -13,42 +13,26 @@ const baseClass =
 
 const variants = {
   default: 'bg-primary text-primary-foreground hover:bg-primary/90',
-  destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
   outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
-  secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-  ghost: 'hover:bg-accent hover:text-accent-foreground',
-  link: 'text-primary underline-offset-4 hover:underline'
-} as const;
-
-const sizes = {
-  default: 'h-11 px-4 py-2',
-  sm: 'h-11 rounded-md px-3',
-  lg: 'h-12 rounded-md px-8',
-  icon: 'size-11'
+  ghost: 'hover:bg-accent hover:text-accent-foreground'
 } as const;
 
 export type ButtonVariant = keyof typeof variants;
-export type ButtonSize = keyof typeof sizes;
 
 interface VariantProps {
   variant?: ButtonVariant;
-  size?: ButtonSize;
   className?: string;
 }
 
-export function buttonVariants({
-  variant = 'default',
-  size = 'default',
-  className
-}: VariantProps = {}) {
-  return cn(baseClass, variants[variant], sizes[size], className);
+export function buttonVariants({ variant = 'default', className }: VariantProps = {}) {
+  return cn(baseClass, variants[variant], 'h-11 px-4 py-2', className);
 }
 
 export interface ButtonProps extends Omit<AriaButtonProps, 'className'>, VariantProps {}
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, ...props }, ref) => (
-    <AriaButton ref={ref} className={buttonVariants({ variant, size, className })} {...props} />
+  ({ className, variant, ...props }, ref) => (
+    <AriaButton ref={ref} className={buttonVariants({ variant, className })} {...props} />
   )
 );
 Button.displayName = 'Button';
@@ -56,8 +40,8 @@ Button.displayName = 'Button';
 export interface ButtonLinkProps extends Omit<AriaLinkProps, 'className'>, VariantProps {}
 
 const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
-  ({ className, variant, size, ...props }, ref) => (
-    <AriaLink ref={ref} className={buttonVariants({ variant, size, className })} {...props} />
+  ({ className, variant, ...props }, ref) => (
+    <AriaLink ref={ref} className={buttonVariants({ variant, className })} {...props} />
   )
 );
 ButtonLink.displayName = 'ButtonLink';

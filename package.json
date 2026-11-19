@@ -4,13 +4,12 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "vp run types && astro dev",
-    "build": "vp run types && astro check && astro build && node scripts/check-cloudflare-build.mjs && node --experimental-strip-types scripts/check-visitor-information.mjs --built && node --experimental-strip-types scripts/check-seo-infrastructure.mjs --built",
-    "od": "vp run types && astro check && astro build && node scripts/deploy-opendesign.mjs",
+    "build": "vp run types && astro check && astro build && vp test run --project build",
     "preview": "vp run types && astro preview",
-    "test": "node scripts/check-preview-comments.mjs && node scripts/check-review-tools.mjs && node scripts/check-header-logo.mjs && node scripts/check-menu-haptics.mjs && node scripts/check-concert-share.mjs && node scripts/check-mobile-calendar.mjs && node --experimental-strip-types scripts/check-visitor-information.mjs && node --experimental-strip-types scripts/check-concerts.mjs && node --experimental-strip-types scripts/check-availability.mjs && node --experimental-strip-types scripts/check-contact-mail.mjs && node --experimental-strip-types scripts/check-concert-seo.mjs && node --experimental-strip-types scripts/check-seo-infrastructure.mjs && node --experimental-strip-types scripts/check-scroll-reveal.mjs",
+    "test": "vp test run --project unit",
     "types": "wrangler types --env-file .dev.vars.example",
     "check": "vp run test && vp check . && vp run types && astro check",
-    "quality": "vp run check && vp run build",
+    "quality": "vp run test && vp check . && vp run build",
     "prepare": "vp config"
   },
   "dependencies": {

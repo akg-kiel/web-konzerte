@@ -34,98 +34,120 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
   (
     { 'aria-label': ariaLabel = 'Kalender', className, getDateStatus, locale = 'de-DE', ...props },
     ref
-  ) => (
-    <I18nProvider locale={locale}>
-      <AriaCalendar
-        ref={ref}
-        aria-label={ariaLabel}
-        className={cn('w-full font-body text-on-surface', className)}
-        {...props}
-      >
-        <header className="relative flex h-11 items-center justify-center px-11">
-          <Button
-            aria-label="Vorheriger Monat"
-            className="absolute left-0 size-11 p-0"
-            slot="previous"
-            variant="ghost"
-          >
-            <ChevronLeft aria-hidden="true" />
-          </Button>
-          <CalendarHeading className="text-center text-sm font-medium" />
-          <Button
-            aria-label="Nächster Monat"
-            className="absolute right-0 size-11 p-0"
-            slot="next"
-            variant="ghost"
-          >
-            <ChevronRight aria-hidden="true" />
-          </Button>
-        </header>
+  ) => {
+    const statusIdPrefix = React.useId();
 
-        <CalendarGrid
-          className="w-full table-fixed border-separate border-spacing-y-1"
-          weekdayStyle="short"
+    return (
+      <I18nProvider locale={locale}>
+        <AriaCalendar
+          ref={ref}
+          aria-label={ariaLabel}
+          className={cn('w-full font-body text-on-surface', className)}
+          {...props}
         >
-          <CalendarGridHeader>
-            {(day) => (
-              <CalendarHeaderCell className="h-10 select-none text-center text-xs font-normal text-muted-foreground">
-                {day}
-              </CalendarHeaderCell>
-            )}
-          </CalendarGridHeader>
-          <CalendarGridBody>
-            {(date) => {
-              const status = getDateStatus?.(date);
+          <header className="relative flex h-11 items-center justify-center px-11">
+            <Button
+              aria-label="Vorheriger Monat"
+              className="absolute left-0 size-11 p-0"
+              slot="previous"
+              variant="ghost"
+            >
+              <ChevronLeft aria-hidden="true" />
+            </Button>
+            <CalendarHeading className="text-center text-sm font-medium" />
+            <Button
+              aria-label="Nächster Monat"
+              className="absolute right-0 size-11 p-0"
+              slot="next"
+              variant="ghost"
+            >
+              <ChevronRight aria-hidden="true" />
+            </Button>
+          </header>
 
-              return (
-                <AriaCalendarCell
-                  date={date}
-                  className={({
-                    isDisabled,
-                    isFocusVisible,
-                    isOutsideMonth,
-                    isOutsideVisibleRange,
-                    isSelected,
-                    isToday
-                  }) =>
-                    cn(
-                      'relative flex h-11 min-w-0 items-center justify-center rounded-md text-sm outline-none transition-colors',
-                      'hover:bg-accent hover:text-accent-foreground',
-                      isToday && !isSelected && 'bg-accent text-accent-foreground',
-                      isSelected && 'bg-primary text-primary-foreground',
-                      isOutsideMonth && 'text-muted-foreground opacity-60',
-                      isDisabled && 'pointer-events-none opacity-40',
-                      isOutsideVisibleRange && 'invisible',
-                      isFocusVisible && 'z-10 ring-2 ring-ring ring-offset-2 ring-offset-background'
-                    )
-                  }
-                >
-                  {({ formattedDate, isSelected }) => (
-                    <>
-                      <span>{formattedDate}</span>
-                      {status && (
-                        <>
-                          <span
-                            aria-hidden="true"
-                            className={cn(
-                              'absolute bottom-1',
-                              status.className,
-                              isSelected && 'ring-1 ring-midnight'
-                            )}
-                          />
-                          <span className="sr-only">, {status.label}</span>
-                        </>
-                      )}
-                    </>
-                  )}
-                </AriaCalendarCell>
-              );
-            }}
-          </CalendarGridBody>
-        </CalendarGrid>
-      </AriaCalendar>
-    </I18nProvider>
-  )
+          <CalendarGrid
+            className="w-full table-fixed border-separate border-spacing-y-1"
+            weekdayStyle="short"
+          >
+            <CalendarGridHeader>
+              {(day) => (
+                <CalendarHeaderCell className="h-10 select-none text-center text-xs font-normal text-muted-foreground">
+                  {day}
+                </CalendarHeaderCell>
+              )}
+            </CalendarGridHeader>
+            <CalendarGridBody>
+              {(date) => {
+                const status = getDateStatus?.(date);
+                const statusId = `${statusIdPrefix}-${date.toString()}`;
+
+                return (
+                  <AriaCalendarCell
+                    date={date}
+                    // The generated date label replaces the contents as the button's accessible name.
+                    // Keep it and add the status to any existing React Aria descriptions.
+                    render={
+                      status
+                        ? (cellProps) => (
+                            <div
+                              {...cellProps}
+                              aria-describedby={[cellProps['aria-describedby'], statusId]
+                                .filter(Boolean)
+                                .join(' ')}
+                            />
+                          )
+                        : undefined
+                    }
+                    className={({
+                      isDisabled,
+                      isFocusVisible,
+                      isOutsideMonth,
+                      isOutsideVisibleRange,
+                      isSelected,
+                      isToday
+                    }) =>
+                      cn(
+                        'relative flex h-11 min-w-0 items-center justify-center rounded-md text-sm outline-none transition-colors',
+                        'hover:bg-accent hover:text-accent-foreground',
+                        isToday && !isSelected && 'bg-accent text-accent-foreground',
+                        isSelected && 'bg-primary text-primary-foreground',
+                        isOutsideMonth && 'text-muted-foreground opacity-60',
+                        isDisabled && 'pointer-events-none opacity-40',
+                        isOutsideVisibleRange && 'invisible',
+                        isFocusVisible &&
+                          'z-10 ring-2 ring-ring ring-offset-2 ring-offset-background'
+                      )
+                    }
+                  >
+                    {({ formattedDate, isSelected }) => (
+                      <>
+                        <span>{formattedDate}</span>
+                        {status && (
+                          <>
+                            <span
+                              aria-hidden="true"
+                              className={cn(
+                                'absolute bottom-1',
+                                status.className,
+                                isSelected && 'ring-1 ring-midnight'
+                              )}
+                            />
+                            <span id={statusId} hidden>
+                              {status.label}
+                            </span>
+                          </>
+                        )}
+                      </>
+                    )}
+                  </AriaCalendarCell>
+                );
+              }}
+            </CalendarGridBody>
+          </CalendarGrid>
+        </AriaCalendar>
+      </I18nProvider>
+    );
+  }
 );
 Calendar.displayName = 'Calendar';
 

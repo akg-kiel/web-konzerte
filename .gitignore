@@ -16,6 +16,7 @@ dist/
 
 # Cloudflare
 .wrangler/
+/worker-configuration.d.ts
 .dev.vars
 
 # Environment variables
@@ -51,6 +52,9 @@ pnpm-debug.log*
 
 # Test coverage
 coverage/
+
+# Local design-review artifacts
+.taste-skill/
 
 # Temporary files
 tmp/

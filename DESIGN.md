@@ -4,7 +4,7 @@ Production design rules for the Konzertkirche site.
 
 ## Tokens
 
-Implementation lives in `src/styles/globals.css` and `tailwind.config.js`.
+Tokens and global styles live in `src/styles/globals.css`; Tailwind is integrated through `postcss.config.mjs`.
 
 - Canvas: `midnight`; supporting surfaces: `surface` / `slate-mist`.
 - Accent: `secondary`, `champagne`, `brass`; use sparingly for primary actions and active states.
@@ -17,7 +17,7 @@ Implementation lives in `src/styles/globals.css` and `tailwind.config.js`.
 - Use Tailwind type scale only; no arbitrary `text-*`, `leading-*`, or `tracking-*` values.
 - Prefer slash line-height: `text-sm/6`, `text-base/7`, `text-4xl/tight`.
 - One page hero title is dominant.
-- The home title uses `Petrus Display`, a glyph-identical Merriweather subset for its two fixed lines. Regenerate it with `scripts/subset-hero-fonts.py` after changing that copy; all other text keeps the full fonts.
+- The home title uses the checked-in `Petrus Display` fonts under `public/fonts/`, a glyph-identical Merriweather subset for its two fixed lines. If that copy changes, check glyph coverage and regenerate the subset if needed, preserving the renamed family required by Merriweather’s OFL. All other text keeps the full fonts.
 - Legal body copy uses a reading column of at most 65ch; keep contact addresses and inline links wrappable. The legal text itself remains visible without JavaScript.
 - Content H2s use Hanken Grotesk at `text-xs/4 font-semibold uppercase tracking-widest text-secondary`; do not add a separate label above them.
 

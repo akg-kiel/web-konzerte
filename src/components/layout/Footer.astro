@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import { env } from 'cloudflare:workers';
 
-import { getContactSettings } from '../../lib/contact-mail';
+import { getContactSettings } from '../../features/contact/contact.server.ts';
 import { venueAddress } from '../../data/venue';
 import akgLogo from '../../assets/logos/logo-akg-250px.png';
 

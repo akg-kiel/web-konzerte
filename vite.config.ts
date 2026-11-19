@@ -1,6 +1,12 @@
 import { defineConfig } from 'vite-plus';
 
 export default defineConfig({
+  test: {
+    projects: [
+      { test: { name: 'unit', include: ['src/**/*.test.mjs', '.github/**/*.test.mjs'] } },
+      { test: { name: 'build', include: ['tests/build.test.mjs'] } }
+    ]
+  },
   lint: {
     ignorePatterns: ['.pi/**', 'worker-configuration.d.ts'],
     jsPlugins: ['eslint-plugin-astro'],
