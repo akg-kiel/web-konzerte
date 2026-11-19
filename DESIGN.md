@@ -4,7 +4,7 @@ Production design rules for the Konzertkirche site.
 
 ## Tokens
 
-Implementation lives in `src/styles/globals.css` and `tailwind.config.js`.
+Tokens and global styles live in `src/styles/globals.css`; Tailwind is integrated through `postcss.config.mjs`.
 
 - Canvas: `midnight`; supporting surfaces: `surface` / `slate-mist`.
 - Accent: `secondary`, `champagne`, `brass`; use sparingly for primary actions and active states.
@@ -17,7 +17,8 @@ Implementation lives in `src/styles/globals.css` and `tailwind.config.js`.
 - Use Tailwind type scale only; no arbitrary `text-*`, `leading-*`, or `tracking-*` values.
 - Prefer slash line-height: `text-sm/6`, `text-base/7`, `text-4xl/tight`.
 - One page hero title is dominant.
-- The home title uses `Petrus Display`, a glyph-identical Merriweather subset for its two fixed lines. Regenerate it with `scripts/subset-hero-fonts.py` after changing that copy; all other text keeps the full fonts.
+- The home title uses the checked-in `Petrus Display` fonts under `public/fonts/`, a glyph-identical Merriweather subset for its two fixed lines. If that copy changes, check glyph coverage and regenerate the subset if needed, preserving the renamed family required by Merriweather’s OFL. All other text keeps the full fonts.
+- Legal body copy uses a reading column of at most 65ch; keep contact addresses and inline links wrappable. The legal text itself remains visible without JavaScript.
 - Content H2s use Hanken Grotesk at `text-xs/4 font-semibold uppercase tracking-widest text-secondary`; do not add a separate label above them.
 
 ## Spacing
@@ -36,6 +37,8 @@ Implementation lives in `src/styles/globals.css` and `tailwind.config.js`.
 ## Components
 
 - Reuse `Layout`, `Header`, `Footer`, `PageHero`, `Concerts`, `ConcertCard`, `CtaCard`, and `Card`.
+- Concert cards lead with the photograph, date and full title. On home, the title links to details; omit the teaser. Programme and archive show at most two lines of teaser, with the full copy on the detail page. Multi-column grids equalise the outer card heights across rows, not the internal text lines; mobile cards grow naturally. Keep ticket links independent of the card’s detail link.
+- Visit, contact and room-inquiry pages use `SectionNavigation` for their in-page jumps. Keep native links and a 44px target rather than adding another menu.
 - Interactive primitives in `src/components/ui` wrap React Aria Components; pages import the local wrappers rather than `react-aria-components` directly.
 - Do not create one-off components or global class aliases for normal Tailwind utilities.
 - Local class constants are OK inside a component when they prevent duplicated button/card strings.
@@ -53,7 +56,7 @@ Implementation lives in `src/styles/globals.css` and `tailwind.config.js`.
 - Never replay already-visible content when server islands refresh. Keyboard focus reveals content immediately.
 - Image-led subpages and concert details share the stage/title entrance; legal pages use a short opacity-only title arrival.
 - Programme/archive use a brief opacity-only result change and animated tab indicator; keyboard changes are immediate.
-- Forms, availability controls and reading content stay immediately usable; no scroll hijacking or decorative loops.
+- Forms, availability controls and reading content stay immediately usable; no scroll hijacking or decorative loops. Keep native anchor jumps instant: a smooth focus scroll can otherwise override the selected section when a keyboard user immediately presses Enter.
 
 ## Tailwind exceptions
 

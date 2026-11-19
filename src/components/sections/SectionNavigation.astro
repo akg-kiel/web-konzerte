@@ -1,0 +1,14 @@
+---
+interface Props {
+  links: { href: string; label: string }[];
+}
+const { links } = Astro.props;
+---
+
+<nav aria-label="Inhalte dieser Seite" class="page-nav border-b border-white/10 bg-surface/60">
+  <div class="mx-auto flex w-full max-w-screen-2xl flex-wrap items-center gap-x-6 px-6 py-2 font-body text-sm/6 md:gap-x-8 md:px-8 lg:px-16">
+    {links.map(({ href, label }) => (
+      <a class="inline-flex min-h-11 items-center text-role-on/80 no-underline hover:text-secondary" href={href}>{label}</a>
+    ))}
+  </div>
+</nav>

@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+
+Astro.response.status = 404;
+---
+
+<Layout title="Seite nicht gefunden · Konzertkirche Petruskirche" description="Diese Seite ist nicht verfügbar. Hier geht es zum Konzertprogramm oder zur Startseite." noindex>
+  <main class="min-h-svh bg-midnight text-on-surface">
+    <PageHero intro="Unter dieser Adresse gibt es keine Seite. Im Programm finden Sie die aktuellen Konzerte in der Petruskirche.">
+      Seite nicht gefunden
+      <a slot="cta" href="/programm/" class="inline-flex min-h-12 items-center justify-center rounded-sm bg-secondary px-6 py-3 font-body text-sm/6 font-semibold text-midnight hover:bg-champagne">Zum Konzertprogramm</a>
+      <a slot="cta" href="/" class="inline-flex min-h-12 items-center justify-center px-4 font-body text-base/6 text-role-on underline underline-offset-4 hover:text-champagne">Zur Startseite</a>
+    </PageHero>
+  </main>
+</Layout>

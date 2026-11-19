@@ -1,8 +1,9 @@
 import type { APIRoute } from 'astro';
 import { env } from 'cloudflare:workers';
 
-import { getConcerts } from '../data/concerts';
-import { getSitemapResponse, getStaticPagePaths } from '../lib/seo';
+import { getConcerts } from '../features/concerts/churchtools.server.ts';
+import { getSitemapResponse } from '../features/concerts/seo.ts';
+import { getStaticPagePaths } from '../lib/seo.ts';
 
 export const prerender = false;
 

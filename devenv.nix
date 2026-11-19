@@ -1,15 +1,5 @@
 { config, lib, pkgs, ... }:
 
-let
-  # The existing CDP checks use Chromium directly, without a Playwright npm dependency.
-  chromium = pkgs.playwright-driver.components.chromium;
-  chromiumExecutable = {
-    aarch64-linux = "chrome-linux/chrome";
-    x86_64-linux = "chrome-linux64/chrome";
-    aarch64-darwin = "chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing";
-    x86_64-darwin = "chrome-mac-x64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing";
-  }.${pkgs.stdenv.hostPlatform.system};
-in
 {
   packages = [
     pkgs.bash
@@ -29,12 +19,7 @@ in
     };
   };
 
-  env = {
-    CHROME_BIN = "${chromium}/${chromiumExecutable}";
-    FONTCONFIG_FILE = pkgs.makeFontsConf {
-      fontDirectories = [ pkgs.dejavu_fonts ];
-    };
-  } // lib.optionalAttrs pkgs.stdenv.isLinux {
+  env = lib.optionalAttrs pkgs.stdenv.isLinux {
     # Keep workerd from the pnpm lockfile; use Nix's loader without patching pnpm's store.
     MINIFLARE_WORKERD_PATH = "${pkgs.writeShellScript "workerd-nix" ''
       set -euo pipefail
@@ -81,8 +66,4 @@ in
       exec = "pnpm exec vp run dev --host 127.0.0.1 --port ${toString config.processes.web.ports.http.value}";
     };
   };
-
-  enterTest = ''
-    "$CHROME_BIN" --version
-  '';
 }

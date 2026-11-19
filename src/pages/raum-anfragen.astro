@@ -1,3 +1,5 @@
 ---
+// Serve an HTTP redirect, not a prerendered English meta-refresh page.
+export const prerender = false;
 return Astro.redirect('/f%C3%BCr-veranstalter/', 301);
 ---

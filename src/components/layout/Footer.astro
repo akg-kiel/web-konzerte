@@ -2,7 +2,8 @@
 import { Image } from 'astro:assets';
 import { env } from 'cloudflare:workers';
 
-import { getContactSettings } from '../../lib/contact-mail';
+import { getContactSettings } from '../../features/contact/contact.server.ts';
+import { venueAddress } from '../../data/venue';
 import akgLogo from '../../assets/logos/logo-akg-250px.png';
 
 const currentYear = new Date().getFullYear();
@@ -10,7 +11,7 @@ const { email } = getContactSettings(env);
 const { preparedProgramme = false } = Astro.props;
 
 const footerLinks = [
-  { label: 'Home', href: '/' },
+  { label: 'Startseite', href: '/' },
   { label: 'Programm', href: '/programm/' },
   { label: 'Besuch planen', href: '/besuch-planen/' },
   { label: 'Raum anfragen', href: '/f%C3%BCr-veranstalter/' },
@@ -34,7 +35,7 @@ const legalLinks = [
     <section aria-labelledby="footer-heading" class="max-w-lg">
       <h2 id="footer-heading" class="mb-6">
         <a
-          href="/"
+          href="https://akg-kiel.de/"
           class="inline-flex no-underline transition-opacity hover:opacity-85"
           aria-label="Ev.-Luth. Apostel-Kirchengemeinde Kiel Startseite"
         >
@@ -57,7 +58,7 @@ const legalLinks = [
       <address class="mt-8 space-y-4 font-body text-sm/6 text-role-on/70 not-italic">
         <p>
           <span class="block font-semibold text-role-on/90">Petruskirche Kiel-Wik</span>
-          Weimarer Straße 1 · 24106 Kiel
+          {venueAddress}
         </p>
         <p class="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-x-6">
           <a href={`mailto:${email}`} class="text-role-on/75 no-underline hover:text-secondary">

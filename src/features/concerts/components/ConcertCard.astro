@@ -1,0 +1,101 @@
+---
+import { imageConfig } from 'astro:assets';
+
+import posterErrorImage from '../../../assets/concerts/venue-fallback.webp';
+import fallbackImage from '../../../assets/hero/l1130722-hero.jpg';
+import Card from '../../../components/ui/Card.astro';
+import { buttonVariants } from '../../../components/ui/button.tsx';
+import { getConcertImagePosition, type Concert, type ConcertVariant } from '../concerts.ts';
+import { getRuntimeImage, resolveConcertImage } from '../images.server.ts';
+
+interface Props {
+  concert: Concert;
+  imageSizes: string;
+  variant?: ConcertVariant;
+  idPrefix?: string;
+  [key: string]: unknown;
+}
+
+const { concert: sourceConcert, imageSizes, variant = 'home', idPrefix = '', ...rest } = Astro.props;
+const concert = await resolveConcertImage(sourceConcert);
+
+const teaser = concert.shortDescription ?? concert.programme ?? concert.subtitle;
+const isHome = variant === 'home';
+const isArchive = variant === 'archive';
+const cropRatio = isHome ? 3 / 2 : 2;
+const imagePosition = concert.image
+  ? getConcertImagePosition(concert.imageFocus, concert.imageAspectRatio, cropRatio)
+  : '50% 50%';
+const imageRatio = concert.image ? (concert.imageAspectRatio ?? 4 / 3) : fallbackImage.width / fallbackImage.height;
+// Prerendered cards and the refreshed server island must use the same runtime URLs.
+const image = await getRuntimeImage({
+  src: concert.image ?? fallbackImage,
+  alt: concert.image ? concert.imageAlt : '',
+  width: 960,
+  height: Math.max(1, Math.round(960 / imageRatio)),
+  widths: [480, 720, 960],
+  format: 'webp',
+  quality: concert.image ? 80 : 70,
+  loading: 'lazy',
+  decoding: 'async'
+}, imageConfig);
+const cardId = idPrefix ? `${idPrefix}-${concert.slug}` : concert.slug;
+const titleId = `${cardId}-title`;
+
+const detailLinkClass = 'after:absolute after:inset-0 after:z-10';
+const actionBase = 'pointer-events-auto relative z-30 inline-flex items-center justify-center rounded-sm border font-body text-xs/4 font-semibold uppercase tracking-widest no-underline transition-colors focus-visible:outline-offset-2';
+const compactDetailClass = buttonVariants({ variant: 'outline', className: `${actionBase} min-h-11 border-white/20 bg-transparent px-4 py-2 !text-role-on/70 hover:border-white/40 hover:bg-white/5 hover:!text-white` });
+const compactTicketClass = buttonVariants({ variant: 'outline', className: `${actionBase} min-h-11 border-secondary/50 bg-transparent px-4 py-2 !text-secondary hover:border-secondary hover:bg-secondary/10 hover:!text-champagne` });
+---
+
+<Card
+  as="article"
+  id={cardId}
+  aria-labelledby={titleId}
+  {...rest}
+  class="concert-card flex min-w-0 flex-col transition-colors duration-300 hover:border-secondary/40 focus-within:border-secondary/40"
+>
+  <div class="relative w-full shrink-0 overflow-hidden" style={{ aspectRatio: String(cropRatio) }}>
+    <img
+      {...image.attributes}
+      src={image.src}
+      srcset={image.srcset}
+      sizes={imageSizes}
+      class="absolute inset-0 h-full w-full object-cover"
+      style={`object-position: ${imagePosition};`}
+      onerror={concert.image ? `this.onerror=null;this.srcset='';this.src='${posterErrorImage.src}';this.alt='';this.style.objectPosition='50% 50%'` : undefined}
+    />
+  </div>
+
+  <div class="flex grow flex-col px-6 pb-6 pt-4">
+    <time datetime={concert.date.iso} class="font-body text-sm/6 font-semibold text-secondary">
+      {concert.date.display}
+    </time>
+    <h3 id={titleId} class="mt-2 text-balance wrap-anywhere font-display text-2xl/snug font-normal tracking-tight text-white">
+      {isHome
+        ? <a href={concert.detailsHref} class:list={[detailLinkClass, 'no-underline hover:underline focus-visible:underline underline-offset-4']}>{concert.title}</a>
+        : concert.title}
+    </h3>
+    {!isHome && teaser && <p class="mt-2 line-clamp-2 font-body text-base/relaxed text-role-on">{teaser}</p>}
+
+    {(!isHome || concert.ticketUrl) && (
+      <div class="mt-auto flex flex-wrap items-center gap-2 pt-6">
+        {!isHome && (
+          <a href={concert.detailsHref} class={detailLinkClass} aria-label={`Details zu ${concert.title} ansehen`}>
+            <span class={compactDetailClass}>Details</span>
+          </a>
+        )}
+        {!isArchive && concert.ticketUrl && (
+          <a
+            id={`tickets-${cardId}`}
+            href={concert.ticketUrl}
+            class={compactTicketClass}
+            aria-label={`Tickets für ${concert.title} kaufen`}
+          >
+            Tickets
+          </a>
+        )}
+      </div>
+    )}
+  </div>
+</Card>
