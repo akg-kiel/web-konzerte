@@ -7,6 +7,7 @@ import {
   cacheProgramme,
   filterConcerts,
   getConcertFilters,
+  getConcertImagePosition,
   getConcertState,
   getConcerts,
   getProgrammeExpiry,
@@ -91,6 +92,14 @@ try {
   assert.equal(result.concerts[0].durationMinutes, undefined);
   assert.equal(result.concerts[0].endIso, undefined);
   assert.equal(result.concerts[0].imagePosition, '25% 75%');
+  // The same square poster and focal point use different offsets for each card crop.
+  for (const [cropRatio, expectedY] of [
+    [3 / 2, 87.5],
+    [2, 75]
+  ]) {
+    const position = getConcertImagePosition({ x: 0.5, y: 0.625 }, 1, cropRatio);
+    assert(Math.abs(parseFloat(position.split(' ')[1]) - expectedY) < 0.001);
+  }
   assert.equal(result.concerts[0].image, imageUrl);
   assert.equal(result.concerts[0].imageAspectRatio, undefined);
   assert.match(result.concerts[0].slug, /-42-2027-08-06$/);

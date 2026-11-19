@@ -191,18 +191,21 @@ export const getImageAspectRatio = (width?: number, height?: number) => {
 const positionInCardCrop = (focus: number, visible: number) =>
   Math.min(100, Math.max(0, ((focus - visible / 2) / (1 - visible)) * 100));
 
-export function getConcertImagePosition(focus: Concert['imageFocus'], imageRatio?: number) {
+export function getConcertImagePosition(
+  focus: Concert['imageFocus'],
+  imageRatio?: number,
+  cropRatio = 4 / 3
+) {
   const focusX = normalizeFocus(focus?.x);
   const focusY = normalizeFocus(focus?.y);
-  // Center the CT focal point within the 4:3 crop, clamped to the image edges.
-  const cardRatio = 4 / 3;
+  // Center the ChurchTools focal point in the rendered crop, clamped to the image edges.
   const positionX =
-    imageRatio && imageRatio > cardRatio
-      ? positionInCardCrop(focusX, cardRatio / imageRatio)
+    imageRatio && imageRatio > cropRatio
+      ? positionInCardCrop(focusX, cropRatio / imageRatio)
       : focusX * 100;
   const positionY =
-    imageRatio && imageRatio < cardRatio
-      ? positionInCardCrop(focusY, imageRatio / cardRatio)
+    imageRatio && imageRatio < cropRatio
+      ? positionInCardCrop(focusY, imageRatio / cropRatio)
       : focusY * 100;
   return `${positionX}% ${positionY}%`;
 }
